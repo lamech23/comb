@@ -1,0 +1,52 @@
+.userSplit{
+    display: grid;
+    grid-template-columns: .1fr .7fr;
+    gap: 100px;
+}
+.head{
+    margin-top: 20px;
+}
+#usernav{
+  
+    margin-left: 10px;
+}
+#one{
+ gap: 40px;
+}
+.diffrence{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 10px;
+    
+}
+#card-two{
+    width: 40px;
+}
+
+
+#userEmail{
+    margin-top: 40px;
+    border: 2px solid whitesmoke;
+    padding: 20px 20px;
+    width: 40%;
+    justify-content: center;
+}
+#btn-password{
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 40%;
+}
+
+
+@media screen and (max-width: 600px) {
+    #userEmail{
+    width: auto; 
+    }
+    #btn-password{
+    width: 100px; 
+    margin: auto;
+
+    }
+
+  }

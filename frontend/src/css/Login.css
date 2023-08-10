@@ -1,0 +1,45 @@
+.log{
+    background-image: url('../componets/images/kitchen.jpg');
+    background-size: cover;
+	background-repeat: no-repeat;
+    background-position: center;
+	height: 850px;
+	position: relative;
+    padding: 40px; 
+
+            
+}
+.login_page{
+    border: 1px solid whitesmoke;
+     padding: 20px 20px 20px ; 
+    margin: auto;
+    background: #fff;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    margin-top:15%;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .login_page { 
+        width: 100%; 
+        /* margin: auto; */
+        /* background-color: pink; */
+        justify-content: center;
+
+        /* margin-right: 400px; */
+        /* width: 20px; */
+        /* height: 400px; */
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;        
+    }
+   
+    .log{
+        padding: 10px; 
+        margin: auto;
+    
+    }
+  }

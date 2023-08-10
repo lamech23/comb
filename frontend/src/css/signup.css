@@ -1,0 +1,40 @@
+.app {
+  border: 1px solid whitesmoke;
+  padding: 20px 30px;
+  max-width: 580px;
+  margin: auto;
+  background: #fff;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin-top: 17%;
+}
+
+.bodys {
+  background: url("../componets/images/living.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 850px;
+  position: relative;
+}
+
+@media only screen and (max-width: 768px) {
+  .app {
+    width: 100%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+  }
+  .bodys {
+    padding: 10px;
+    margin: auto;
+  }
+}

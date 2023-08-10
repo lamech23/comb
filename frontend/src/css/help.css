@@ -1,0 +1,37 @@
+#FormControlInput1{
+    max-width: 700px;
+    margin: 0 auto;
+}
+#FormControlInput1 input[type="email"]{
+    height: 70px;
+    border-radius: 4px;
+}
+#textArea{
+    max-width: 700px;
+    margin: 0 auto;
+    width: 700px;
+}
+#textfield{
+    height: 200px;
+
+}
+#helpcard{
+    width: 58rem;
+    margin: 0 auto;
+    height: 600px;
+    border-radius: 20px;
+    background-color: #F5F5F5;
+
+}
+@media only screen and (max-width: 768px) {
+    #helpcard{
+        width: 100%;
+        padding: 15px ;
+        
+    }
+
+    #textArea{
+    width: 100%;
+
+}
+}

@@ -1,0 +1,93 @@
+
+const {DataTypes }=require('sequelize')
+const db =require('../../config/Database')
+const HouseRegistration = require("../RentingModels/HouseRegisteringModel")
+
+
+
+    
+const tenantRegistration = db.define('tenant_info',{
+
+    tenantsName:{
+        type:DataTypes.STRING,
+    },
+    houseNumber:{
+        type:DataTypes.STRING,
+    },
+    rent:{
+        type:DataTypes.STRING,
+
+    },
+    rentDeposit:{
+        type:DataTypes.STRING,
+
+    },
+    waterReading:{
+        type:DataTypes.STRING,
+
+    },
+    waterBill:{
+        type:DataTypes.INTEGER,
+
+    },
+    garbage:{
+        type:DataTypes.STRING,
+
+    },
+
+    userName:{
+        type:DataTypes.STRING,
+
+    },
+    email:{
+        type:DataTypes.STRING,
+
+    },
+    previousBalance:{
+        type:DataTypes.BIGINT,
+
+    },
+    houseName:{
+        type:DataTypes.STRING,
+
+    },
+    phoneNumber:{
+        type:DataTypes.STRING,
+
+    },
+    nextOfKingNumber:{
+        type:DataTypes.STRING,
+
+    },
+    role:{
+        type:DataTypes.STRING,
+        // defaultValue: 'tenant'
+    
+      },
+     password:{
+        type:DataTypes.STRING,
+
+    },
+    landowner_id:{
+        type:DataTypes.INTEGER,
+
+    }
+  
+},{
+    freezeTablesName:true,
+    timestamps: true
+
+})
+
+tenantRegistration.belongsTo(HouseRegistration, { foreignKey:"landowner_id"  });
+
+db.sync()
+.then(() => {
+    console.log('tenant_info table created successfully!');
+ })
+ .catch((error) => {
+    console.log('Unable to create tenant_info table' ,error);
+ });
+ 
+
+module.exports = tenantRegistration;

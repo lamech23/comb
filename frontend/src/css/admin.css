@@ -1,0 +1,51 @@
+#adminForm{
+    border: 1px solid whitesmoke;
+    padding: 20px 20px 20px ;
+  
+    max-width: 500px;
+    margin: auto;
+    
+    padding: 20px;
+    background: #fff;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background:#3457;
+    margin-top: 50px;
+
+}
+#updateUser{
+    padding: 20px 20px;
+    border: 2px solid whitesmoke;
+    width: 600px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+.registerHouse{
+    border: 4px solid whitesmoke;
+    margin-top: 70px;
+    padding: 50px ;
+    max-width: 500px;
+    background-color:#F0F8FF;
+    color: black;
+}
+.house_top{
+    text-align: center;
+    margin-bottom: 30px;
+    color:#B8860B ;
+}
+#card-two{
+    left: 15%;
+    width: 30%;
+    height: 200px;
+
+
+}
+#btn_input{
+    /* width: 30px; */
+    height: 50px;
+    text-align: center;
+    border-radius: 20px;
+}

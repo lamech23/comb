@@ -1,0 +1,53 @@
+:root {
+    --main-bg-color: #009d63;
+    --main-text-color: #009d63;
+    --second-text-color: #bbbec5;
+    --second-bg-color: #c1efde;
+  }
+  
+ #sidebar-wrapper {
+  border-right: 1px solid lightgoldenrodyellow;
+  } 
+#to_nav{
+  height: 90px;
+}
+#next_bar{
+  justify-content: end;
+}
+
+#wrapper{
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 100px;
+}
+.top{
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  /* text-align: center; */
+  font-size: x-large;
+}
+.middle{
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  font-weight: 400px;
+}
+.bottom{
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+}
+
+#modalPopup{
+  background: rgba(0,0,0,0.4);
+  height: 10vh;
+  width: 100%;
+  position: fixed;
+  visibility: visible;
+}

@@ -1,0 +1,9 @@
+.buyHouse{
+    background-image: url('../componets/images/kitchen.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+height: 200px;
+position: relative;
+padding: 150px;
+}

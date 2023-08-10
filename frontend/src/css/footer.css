@@ -1,0 +1,16 @@
+.bg{
+    background-color: #F0F8FF;
+}
+
+@media only screen and (max-width: 768px) {
+    #footer_social{
+        display: inline-flex;
+    }
+    #fb{
+        border-radius: 320px;
+    }
+}
+
+#footer_social{
+display: inline-flex;
+}

@@ -1,0 +1,12 @@
+.errors{
+    color: red;
+    text-align: center;
+    font-size: large;
+
+    border: 3px solid  ;
+    width:450px ;
+    height: 50px;
+    justify-content:center;
+    align-items: center;
+    margin-top: 30px;
+}

@@ -63,7 +63,7 @@ function MainNav() {
             id="#main-navbar"
           >
             <div
-              className="collapse navbar-collapse"
+              className=" navbar-collapse visible"
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -77,7 +77,7 @@ function MainNav() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i className="fas fa-user me-2 -end"> {isAdmin.email}</i>
+                      <i className="fas fa-user me-2 -end"> {isAdmin?.email}</i>
                     </a>
                     <ul
                       className="dropdown-menu"
@@ -85,7 +85,7 @@ function MainNav() {
                     >
                       <li>
                         <a
-                          className="dropdown-item"
+                          className="dropdown-item text-red-200"
                           href="#"
                           onClick={handelClick}
                         >

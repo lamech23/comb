@@ -10,17 +10,28 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 function User() {
   const { user } = useAuthContext();
-  const { id } = useParams();
+  const {id} = useParams()
+  // const location = useLocation()
+  // const searchParams = new URLSearchParams(location.pathname);
+  // const id = searchParams.get('id');
+
   console.log(id);
   
   const [users, setUsers] = useState([]);
 
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:4000/Users/all");
+    setUsers(response.data);
+  };
+  
+
   const updateStatus = async (state) => {
     const response = await axios.patch(
-      `http://localhost:4000/Users/userStatus/${id}?Active=`+ state,
+      `http://localhost:4000/Users/userStatus/${id}/?Active=`+ state,
     );
-    console.log(response);
   };
+
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -37,11 +48,9 @@ function User() {
     updateStatus(state, id)
   };
 
-  const fetchUsers = async () => {
-    const response = await axios.get("http://localhost:4000/Users/all");
-    setUsers(response.data);
-  };
-  const handelDelete = async (id) => {
+
+
+  const handelDelete = async () => {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
   };
@@ -84,7 +93,7 @@ function User() {
 
                 <td>
                   <span
-                    onClick={() => handelDelete(allUsers.id)}
+                    onClick={ handelDelete}
                     type="button"
                     className="material-symbols-outlined"
                     style={{ color: "red" }}
@@ -102,7 +111,7 @@ function User() {
                         className="btn btn-success"
                         onClick={deactivate}
                       >
-                        Activated
+                        active
                       </button>
                     ) : allUsers.Active === "inActive" ? (
                       <button
@@ -110,9 +119,10 @@ function User() {
                         onClick={activate}
                         className="btn btn-danger"
                       >
-                        Deactivated
+                        inActive
                       </button>
                     ) : null}
+
                   </span>
                 </td>
               </tbody>
@@ -121,7 +131,7 @@ function User() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default User;

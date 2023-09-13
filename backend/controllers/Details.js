@@ -83,10 +83,8 @@ const getSingelDetails = async (req, res) => {
   res.status(200).json(details); //if it doesn't fire the if statment that means if fond the details so i get a response
 };
 //CREATE an upload
-//CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
-  // const  images =[]
 
   const info = {
     title: req.body.title,
@@ -97,15 +95,14 @@ const createDetails = async (req, res) => {
     price: req.body.price,
     user_id: req.body.user_id,
   };
+
   if (req.file) {
     info.image = req.file.path;
   }
    await Details.create(info);
-
-
   try {
 
-     await users.findOne({ where: { id: id } });
+    const currentUser = await users.findOne({ where: { id: id } });
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -121,7 +118,7 @@ const createDetails = async (req, res) => {
       subject: "Post Alert ",
       html:
         " Hello Admin\n\n" +
-        `<p>You are reciving this email because  a ${users?.email} has posted a house at kausi.</p> :\n\n`,
+        `<p>You are reciving this email because   ${currentUser?.email}  who is ${currentUser.role}  has posted a house at kausi property.</p> :\n`,
     };
     // end of else
 
@@ -134,9 +131,12 @@ const createDetails = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(400).json({ mssg: error.message });
+    res.status(400).json({  mssg: error.message });
+    console.log("something went wrong", error);
   }
 };
+
+
 
 const RequstingAtour = async (req, res) => {
   const id = req.params;
@@ -149,7 +149,7 @@ const RequstingAtour = async (req, res) => {
   try {
     const response = await Tours.create(info);
 
-    const user = await users.findOne({
+     await users.findOne({
       where: {
         id: id,
       },
@@ -227,14 +227,12 @@ const deleteDetails = async (req, res) => {
 //UPDATE a upload
 const updateDetails = async (req, res) => {
   const  id = req.params.id;
-  console.log(id ,"update");
   const info = {
     title: req.body.title,
     location: req.body.location,
     description: req.body.description,
     contact: req.body.contact,
     category: req.body.category,
-
     price: req.body.price,
   };
 

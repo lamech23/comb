@@ -9,10 +9,12 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [status, setStatus] = useState(false)
+  const [isLoading, setIsLodaing]=useState(false)
 
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("submiting");
+    setIsLodaing(true)
     const data = {
       email: email,
     };
@@ -34,16 +36,25 @@ function ForgotPassword() {
       if (error.response?.status === 404) {
         return toast.error("Email doe's not exist please use a valid email ");
       }
+    }finally{
+      setIsLodaing(false)
+      status("submit")
     }
   };
 
   return (
     <>
       <div className="log">
-        <div className="container-fluid ">
-          <div className=" login_page align-center justify-content center">
+        <div className=" ">
+        {isLoading && (
+            <div className="flex justify-center ">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-teal-500 border-opacity-50"></div>
+            </div>
+          )}
+          <div className=" login_page  lg:w-96 align-center justify-content center">
+          
             <h5 className="text-center text-info">Forgot Password </h5>
-            <form onSubmit={handelSubmit} className="col">
+            <form onSubmit={handelSubmit} className="col ">
               <label htmlFor="Email" className="form-Label fw-bold mt-4">
                 {" "}
                 Email{" "}

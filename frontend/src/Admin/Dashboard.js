@@ -21,24 +21,7 @@ function Dashboard() {
   const [counts, setCounts] = useState(0);
   let navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   const users = JSON.parse(localStorage.getItem("credentials"));
-  // let token =users?.token
-  // console.log(users ,'nigger')
-  // ;
-
-  // const decodedToken = jwt_decode(token); // Decode the token
-  // const currentTime = Date.now() / 1000;
-  // if (decodedToken.exp < currentTime) {
-
-  // {localStorage.removeItem('credentials')
-
-  // }
-  // dispatch({type:'LOGOUT'})
-
-  // }
-
-  // },[])
+  
   try {
     useEffect(() => {
       fetchAllDEtails();

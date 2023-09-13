@@ -48,10 +48,9 @@ try{
 }
     // routes
 
-    
+ //middleware    
 app.use((req ,res ,next)=>{
-
-  console.log(req.path ,req.body,req.method)
+  console.log(req.path ,req.body, req.method)
   next()
 })
 

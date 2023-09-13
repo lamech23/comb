@@ -1,12 +1,11 @@
 // const { json } = require('sequelize/types/sequelize.js')
 const users = require("../models/UserModels.js");
 const Details = require("../models/UploadModals.js");
-const sequelize =require("sequelize")
+const sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const database = require("../config/Database.js")
-
+const database = require("../config/Database.js");
 
 const createToken = ([id, email, role, isAdmin, Active]) => {
   return jwt.sign(
@@ -18,7 +17,7 @@ const createToken = ([id, email, role, isAdmin, Active]) => {
       Active: Active,
     },
     process.env.SECRET,
-    { expiresIn: 300 }
+    { expiresIn: 1000 }
   );
 };
 
@@ -38,7 +37,7 @@ const loginUser = async (req, res) => {
     // trying to compare the password N/B :user.password is the hased password
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      res.status(400)
+      res.status(400);
     }
     const token = createToken([
       user.id,
@@ -48,8 +47,8 @@ const loginUser = async (req, res) => {
       user.Active,
     ]);
 
-    res.cookie("acces_token", token)
-    
+    res.cookie("acces_token", token);
+
     res.status(201).json({
       id: user.id,
       email: user.email,
@@ -59,7 +58,6 @@ const loginUser = async (req, res) => {
 
       token,
     });
-
   } catch (error) {
     //  json({ error: error.message });
   }
@@ -114,29 +112,25 @@ const signupUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const user = await users.findAll({
-  });
+  const user = await users.findAll({});
   res.status(200).json(user);
 };
 //activating and deactivating auser
 const deactivate = async (req, res) => {
-try {
-  const id = req.params.id
+  try {
+    const id = req.params.id;
 
+    console.log(id, "sten");
+    const userStatus = { Active: req.query.Active };
 
-  console.log(id ,'sten');
-  const userStatus =  {Active: req.query.Active}
-
-  const  userEmail = await users.update(userStatus, { where: { id:id } });
-  if (userEmail === 0) {
-    return res.status(400).json({ msg: "nop" });
+    const userEmail = await users.update(userStatus, { where: { id: id } });
+    if (userEmail === 0) {
+      return res.status(400).json({ msg: "nop" });
+    }
+    res.status(200).json(userEmail);
+  } catch (error) {
+    res.status(500).json(error.message);
   }
-  res.status(200).json(userEmail);
-  
-} catch (error) {
-  res.status(500).json(error.message)
-  
-}
 };
 
 //deleting a user
@@ -144,11 +138,7 @@ const deleteUser = async (req, res) => {
   // const user_id = req.query.user_id
   const { id } = req.params;
   console.log(id, "ID");
-  await Details.destroy({
-    where: {
-      id: id,
-    },
-  });
+
   const user = await users.destroy({
     where: {
       id: id,

@@ -23,6 +23,9 @@ const createToken = ([id, email, role, isAdmin, Active]) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  const { token } = req.headers;
+  console.log(token);
+
 
   try {
     if (!email || !password) {
@@ -47,7 +50,9 @@ const loginUser = async (req, res) => {
       user.Active,
     ]);
 
-    res.cookie("acces_token", token);
+    res.cookie("acces_token", token,{
+      httpOnly: true
+    });
 
     res.status(201).json({
       id: user.id,

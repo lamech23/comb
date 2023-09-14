@@ -55,7 +55,7 @@ function RegisterTenant() {
         <SideNavigation />
 
         <div className="row">
-          <div className="registerHouse col-6 col-md-4 mt-5">
+          <div className="w-fit">
             <h3 className="house_top"> Tenant Details</h3>
 
             <form onSubmit={handleSubmit}>

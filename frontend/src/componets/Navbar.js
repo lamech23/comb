@@ -18,10 +18,12 @@ function Navbar({ filterHouses, setSearch }) {
   const role = useIsAdmin();
   const status = useIsStatus();
   const [Status, setStatus] = useState("");
+  const [open, setOpen]=useState(false)
   let navigate = useNavigate();
 
   useEffect(() => {
     fetchUserById();
+    document.addEventListener("DOMContentLoaded", function(){
 
     window.addEventListener("scroll", function () {
       if (window.scrollY > 50) {
@@ -32,7 +34,21 @@ function Navbar({ filterHouses, setSearch }) {
         document.body.style.paddingTop = "0";
       }
     });
+  });
   }, []);
+
+  const handleOpen = () =>{
+    setOpen(true)
+    const content = document.querySelector("#main_navigation")
+    content?.classList.add('visible')
+  }
+
+  const handleClose = () =>{
+    setOpen(false)
+    const content = document.querySelector("#main_navigation")
+    content?.classList.add('hidden')
+  }
+
   const fetchUserById = async () => {
     const response = await axios.get(
       `http://localhost:4000/Users/specificUser/+id`
@@ -41,7 +57,6 @@ function Navbar({ filterHouses, setSearch }) {
     console.log(response);
   };
 
-  console.log(user);
 
   //   console.log(user.Active);
 
@@ -77,7 +92,7 @@ function Navbar({ filterHouses, setSearch }) {
           <Link className="navbar-brand" to="/">
             Kausi property
           </Link>
-
+            { open?
           <button
             className="navbar-toggler "
             type="button"
@@ -86,9 +101,26 @@ function Navbar({ filterHouses, setSearch }) {
             aria-controls="main_navigation"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={handleClose}
+          >
+            <span class="material-symbols-outlined"> close</span>
+
+          </button>: 
+            <button
+            className="navbar-toggler "
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#main_navigation"
+            aria-controls="main_navigation"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            onClick={handleOpen}
+            
           >
             <span class="navbar-toggler-icon"></span>
+
           </button>
+          }
           {/* <Search/> */}
 
           <div

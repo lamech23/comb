@@ -6,7 +6,6 @@ import moment from "moment";
 
 function Tours() {
   const [getTours, setGetTours] = useState([]);
-  const [date, setDate] = useState("");
 
   useEffect(() => {
     fetchAllRequestedTours();

@@ -69,7 +69,7 @@ console.log(allUser);
    <label for="" className="form-label">House Name</label>
    <select type="text" name="house_name" id="house_name" className="form-control" placeholder="" 
    value={house_name} onChange={ (e) => setHouse_name(e.target.value)}>
-   <option value="" selected>Select a house</option>
+   <option value="" sele>Select a house</option>
 
     {
       allUser.map((users)=>(

@@ -54,6 +54,7 @@ import LandownerDashbard from "./Renting/LandownerDashbard";
 import LandOwnerNav from "./Renting/LandOwnerNav";
 import House from "./Renting/House";
 import RegisterTenant from "./Renting/RegisterTenant";
+import CreateHouse from "./Renting/CreateHouse";
 
 function App() {
   const { user } = useAuthContext();
@@ -122,6 +123,7 @@ function App() {
           <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
           <Route path="/House" element={<House />} />
           <Route path="/RegisterTenant" element={<RegisterTenant />} />
+          <Route path="/createHouse" element={<CreateHouse />} />
 
           <Route path="*" element={<PageNotFound />}  />
         </Routes>

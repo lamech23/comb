@@ -142,6 +142,7 @@ const getAll = async (req, res) => {
 
   
 };
+
 // const loginginlandowner = async (req, res) => {
 //   const { email, password } = req.body;
 

@@ -39,10 +39,7 @@ const tenantRegistration = db.define('tenant_info',{
         type:DataTypes.STRING,
 
     },
-    email:{
-        type:DataTypes.STRING,
-
-    },
+  
     previousBalance:{
         type:DataTypes.BIGINT,
 
@@ -59,16 +56,8 @@ const tenantRegistration = db.define('tenant_info',{
         type:DataTypes.STRING,
 
     },
-    role:{
-        type:DataTypes.STRING,
-        // defaultValue: 'tenant'
-    
-      },
-     password:{
-        type:DataTypes.STRING,
-
-    },
-    landowner_id:{
+   
+    house_id:{
         type:DataTypes.INTEGER,
 
     }
@@ -79,7 +68,13 @@ const tenantRegistration = db.define('tenant_info',{
 
 })
 
-tenantRegistration.belongsTo(HouseRegistration, { foreignKey:"landowner_id"  });
+tenantRegistration.belongsTo(
+HouseRegistration, { 
+foreignKey:"house_id",
+// as: "house_id",
+onDelete: "cascade",
+onUpdate: "cascade",
+  });
 
 db.sync()
 .then(() => {

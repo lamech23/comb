@@ -3,6 +3,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const users = require("../../models/UserModels");
+const houseName = require("../../models/RentingModels/houseNameModel");
 
 // const users = require("../../models/UserModels.js");
 
@@ -20,11 +21,12 @@ const createToken = ([id, email, house_name, user_name]) => {
 };
 
 const getAllHouses = async (req, res) => {
-  const details = await tenantRegistration.findAll({});
+  const details = await tenantRegistration.findAll();
   res.status(200).json(details);
 
   
 };
+
 
 const subtotal = async(req, res) =>{
   const  id  = req.params.id;
@@ -72,94 +74,110 @@ const RegisteringHouse = async (req, res) => {
     house_name,
     full_name,
     user_name,
-    email,
     contact,
     location,
-    password,
   } = req.body;
 
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-  const checkEmail = await HouseRegistration.findOne({
-    where: { email: email },
-  });
+  // const salt = await bcrypt.genSalt(10);
+  // const hash = await bcrypt.hash(password, salt);
+  // const checkEmail = await HouseRegistration.findOne({
+  //   where: { email: email },
+  // });
   try {
-    if (checkEmail) {
-      res.status(400);
-    }
-    const User = await users.create({
-      email,
-      password: hash,
-    });
+    // if (checkEmail) {
+    //   res.status(400);
+    // }
+    // const User = await users.create({
+    //   email,
+    //   password: hash,
+    // });
     const HouseEntry = await HouseRegistration.create({
       house_name,
       full_name,
       user_name,
-      email,
       contact,
       location,
-      password: hash,
-      role: "user",
     });
 
-    //create a token,
-    const token = createToken([
-      HouseEntry.id,
-      HouseEntry.house_name,
-      HouseEntry.email,
-      HouseEntry.role,
-      HouseEntry.user_name,
-    ]);
+ 
     // res.status(200).json(User)
 
     // pass the token as a response instead of the user
-    res.status(200).json({
-      id: HouseEntry.id,
-      email: HouseEntry.email,
-      role: HouseEntry.role,
-      use_name: HouseEntry.use_name,
-      token,
-    });
+    res.status(200).json(HouseEntry);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const loginginlandowner = async (req, res) => {
-  const { email, password } = req.body;
 
+const creatHouseCategory = async(req, res)=>{
   try {
-    if (!email || !password) {
-      res.status(404);
+    // const {houseName, user_id} = req.body
+    const details ={
+      house_name: req.body.house_name,
+      user_id: req.body.user_id
+      
     }
-    const user = await HouseRegistration.findOne({ where: { email: email } });
 
-    if (!user) {
-      // the reason why throw is being used is because we dont have acces to the json
-      res.status(400).json({ error: "invalid  email" });
-    }
-    // trying to compare the password N/B :user.password is the hased password
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      res.status(400).json({ error: "invalid  password" });
-    }
-    const token = createToken([user.id, user.email, user.role, user.user_name]);
-    res.status(201).json({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-      user_name: user.user_name,
-      token,
-    });
+    const houseNameDetails = await houseName.create(details)
+    res.status(200).json(houseNameDetails)
+    
   } catch (error) {
     res.status(400).json({ error: error.message });
+    
+
+    
   }
+}
+
+const getAll = async (req, res) => {
+  const details = await houseName.findAll(
+    {include: {
+      model: users,
+      as: "houseName"
+       
+
+  }});
+  res.status(200).json(details);
+
+  
 };
+// const loginginlandowner = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     if (!email || !password) {
+//       res.status(404);
+//     }
+//     const user = await HouseRegistration.findOne({ where: { email: email } });
+
+//     if (!user) {
+//       // the reason why throw is being used is because we dont have acces to the json
+//       res.status(400).json({ error: "invalid  email" });
+//     }
+//     // trying to compare the password N/B :user.password is the hased password
+//     const match = await bcrypt.compare(password, user.password);
+//     if (!match) {
+//       res.status(400).json({ error: "invalid  password" });
+//     }
+//     const token = createToken([user.id, user.email, user.role, user.user_name]);
+//     res.status(201).json({
+//       id: user.id,
+//       email: user.email,
+//       role: user.role,
+//       user_name: user.user_name,
+//       token,
+//     });
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 module.exports = {
   RegisteringHouse,
-  loginginlandowner,
   getTenants,
   getAllHouses,
-  subtotal
+  subtotal,
+  creatHouseCategory,
+  getAll
 };

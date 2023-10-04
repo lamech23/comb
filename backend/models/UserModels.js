@@ -2,7 +2,6 @@
 const {DataTypes }=require('sequelize')
 const db =require('../config/Database')
 
-const HouseRegistration = require('../models/RentingModels/HouseRegisteringModel')
 
     
 const users = db.define('User',{
@@ -35,7 +34,6 @@ const users = db.define('User',{
 },{
     freezeTablesName:true
 })
-HouseRegistration.belongsTo(users, { foreignKey: "houser_id" });
 
 
 db.sync()

@@ -17,31 +17,30 @@ const HouseRegistration = db.define(
     user_name: {
       type: DataTypes.STRING,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
+   
     contact: {
       type: DataTypes.INTEGER,
     },
     location: {
       type: DataTypes.STRING,
     },
-    password: {
-      type: DataTypes.STRING,
-    },
-    
-    role: {
-      type: DataTypes.STRING,
-      defaultValue: "landowner",
-    },
+   
+    user_id:{
+      type: DataTypes.INTEGER,
+
+    }
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
+  HouseRegistration.belongsTo(users,
+     { foreignKey: "user_id" ,
+     onDelete: "cascade",
+     onUpdate: "cascade",
+  });
+
 
 db.sync()
   .then(() => {

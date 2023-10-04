@@ -120,6 +120,8 @@ const getAllUsers = async (req, res) => {
   const user = await users.findAll({});
   res.status(200).json(user);
 };
+
+
 //activating and deactivating auser
 const deactivate = async (req, res) => {
   try {

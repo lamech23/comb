@@ -118,7 +118,7 @@ function App() {
           <Route path="/Tours/:id" element={<Tours />} />
           <Route path="/HelpReply" element={<HelpReply />} />
           <Route path="/HouseRegistration" element={<HouseRegistration />} />
-          <Route path="/LandownerDashbard/:houseName" element={<LandownerDashbard />}/>
+          <Route path="/LandownerDashbard/" element={<LandownerDashbard />}/>
           <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
           <Route path="/House" element={<House />} />
           <Route path="/RegisterTenant" element={<RegisterTenant />} />

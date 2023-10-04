@@ -13,12 +13,10 @@ const {
 
 }=require('../controllers/UserControllers')
 // const isAdmin = require("../middlleware/requireAuth")
-// CREATE users
 
 router.post('/login', loginUser)
-//GET all users
-router.post('/signup', signupUser)
 router.get('/all', getAllUsers)
+router.post('/signup', signupUser)
 router.post('/forgotPassword', forgotPassword)
 router.put('/reset/:id', reset)
 router.put('/userUpdate/:id', updateUserEmail)

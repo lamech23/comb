@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MainNav from '../Admin/MainNav'
 import SideNavigation from '../Admin/SideNavigation'
 import'../css/admin.css'
@@ -15,7 +15,18 @@ function HouseRegistration() {
   const [contact, setContact]=useState('')
   const [location, setLocation]=useState('')
   const [password, setPassword]=useState('')
+  const [allUser, setAllusers]=useState([])
+console.log(allUser);
 
+
+  useEffect(()=>{
+    const getAlluser = async()=>{
+      const response =  await axios.get("http://localhost:4000/houseRegister/allHouses")
+      setAllusers(response.data)
+      console.log(response);
+    } 
+    getAlluser()
+  },[])
 
   const handleSubmit= async(e)=>{
     e.preventDefault()
@@ -29,7 +40,7 @@ function HouseRegistration() {
       location:location,
       password:password
 
-    })
+    }) 
 
     if(response){
       setHouse_name("")
@@ -56,10 +67,18 @@ function HouseRegistration() {
 
   <form onSubmit={handleSubmit}>
    <label for="" className="form-label">House Name</label>
-   <input type="text" name="house_name" id="house_name" className="form-control" placeholder=""
-   value={house_name} onChange={ (e) => setHouse_name(e.target.value)}
+   <select type="text" name="house_name" id="house_name" className="form-control" placeholder="" 
+   value={house_name} onChange={ (e) => setHouse_name(e.target.value)}>
+   <option value="" selected>Select a house</option>
+
+    {
+      allUser.map((users)=>(
+    <option className='text-black' key={users.id} value={users.id}> {users.house_name}</option>
+
+      ))
+    }
+   </select>
    
-   />
    <label for="" className="form-label">Fullnames</label>
    <input type="text" name="full_name" id="" className="form-control" placeholder=""
    value={full_name} onChange={ (e) => setFull_name(e.target.value)}
@@ -71,11 +90,7 @@ function HouseRegistration() {
    value={user_name} onChange={ (e) => setUser_name(e.target.value)}
 
 />
-   <label for="" className="form-label">Email</label>
-   <input type="text" name="email" id="" className="form-control" placeholder="" 
-   value={email} onChange={ (e) => setEmail(e.target.value)}
-
-   />
+ 
    <label for="" className="form-label">Contact</label>
 
    <input type="text" name="Contact" id="" className="form-control" placeholder="" 
@@ -88,10 +103,7 @@ function HouseRegistration() {
    value={location} onChange={ (e) => setLocation(e.target.value)}
    
    />
-   <label for="" className="form-label">password</label>
-   <input type="password" name="password" id="" className="form-control" placeholder=""
-   value={password} onChange={ (e) => setPassword(e.target.value)}
-    />
+
 
    <button className='btn btn-outline-success mt-3 justifiy-content-center ' type='submit' style={{width:"100%"}}>submit</button>
    </form>

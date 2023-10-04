@@ -18,16 +18,18 @@ function Login() {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
-  //   const{user}=useAuthContext()
+    const{user}=useAuthContext() 
+   
 
-  const handelLog = async (e) => {
-    e.preventDefault();
+  // const handelLog = async (e) => {
+  //   e.preventDefault();
 
-    const response = await axios.post("http://localhost:4000/landowner/log", {
-      email: email,
-      password: password,
-    });
-  };
+  //   const response = await axios.post("http://localhost:4000/landowner/log", {
+  //     email: email,
+  //     password: password,
+  //   }, 
+   
+  // };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -115,7 +117,7 @@ function Login() {
       <div className="container-fluid ">
         <div className=" login_page   justify-content-center items-center lg:w-fit ">
           <h5 className="text-center text-info">Login </h5>
-          <form onSubmit={handelSubmit || handelLog} className="col lg:w-fit ">
+          <form onSubmit={handelSubmit} className="col lg:w-fit ">
             <label htmlFor="Email" className="form-Label fw-bold">
               {" "}
               Email{" "}

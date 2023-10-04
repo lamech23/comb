@@ -90,7 +90,6 @@ const RegisteringHouse = async (req, res) => {
     const User = await users.create({
       email,
       password: hash,
-      role: "landowner",
     });
     const HouseEntry = await HouseRegistration.create({
       house_name,
@@ -100,7 +99,7 @@ const RegisteringHouse = async (req, res) => {
       contact,
       location,
       password: hash,
-      role: "landowner",
+      role: "user",
     });
 
     //create a token,

@@ -10,12 +10,12 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 function User() {
   const { user } = useAuthContext();
-  const {id} = useParams()
+  const  id = user?.id
+  console.log(id);
   // const location = useLocation()
   // const searchParams = new URLSearchParams(location.pathname);
   // const id = searchParams.get('id');
 
-  console.log(id);
   
   const [users, setUsers] = useState([]);
 

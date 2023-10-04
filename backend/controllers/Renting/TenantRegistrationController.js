@@ -52,7 +52,7 @@ const tenatRegistration = async (req, res) => {
       const User = await users.create({
         email,
         password: hash,
-        role:'tenant'
+        role:'user'
 
       });
       const tenant = await tenantRegistration.create({
@@ -70,7 +70,7 @@ const tenatRegistration = async (req, res) => {
         phoneNumber,
         nextOfKingNumber,
         password:hash,
-        role:"tenant",
+        role:"user",
         landowner_id
     });
       //create a token,

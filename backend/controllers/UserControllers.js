@@ -142,7 +142,6 @@ const deactivate = async (req, res) => {
 const deleteUser = async (req, res) => {
   // const user_id = req.query.user_id
   const { id } = req.params;
-  console.log(id, "ID");
 
   const user = await users.destroy({
     where: {

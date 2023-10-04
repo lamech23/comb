@@ -23,12 +23,15 @@ function Navbar({ filterHouses, setSearch }) {
 
   useEffect(() => {
     fetchUserById();
-    document.addEventListener("DOMContentLoaded", function(){
 
+
+    document.addEventListener("DOMContentLoaded", function(){
     window.addEventListener("scroll", function () {
       if (window.scrollY > 50) {
         document.querySelector("#mainNavbar").classList.add("fixed-top");
-        const navbar_height = document.querySelector(".navbar");
+        const navbar_height = document.querySelector(".navbar").offSetHeight;
+        document.body.style.paddingTop = navbar_height + 'px';
+
       } else {
         document.querySelector("#mainNavbar").classList.remove("fixed-top");
         document.body.style.paddingTop = "0";
@@ -38,9 +41,8 @@ function Navbar({ filterHouses, setSearch }) {
   }, []);
 
   const handleOpen = () =>{
-    setOpen(true)
-    const content = document.querySelector("#main_navigation")
-    content?.classList.add('visible')
+    setOpen(false)
+    const content = document.querySelector("#main_navigation").style.visibility = "visible"
   }
 
   const handleClose = () =>{
@@ -77,6 +79,7 @@ function Navbar({ filterHouses, setSearch }) {
   // }
 
   // }
+
 
   return (
     <div>

@@ -25,7 +25,7 @@ function SideNavigation() {
           </a>
 
           <Link
-            to={`/User/${id}`}
+            to={`/User`}
             className="list-group-item list-group-item-action bg-transparent second-text fw-bold "
           >
             <i className="fas fa-project-diagram me-2"></i>Users

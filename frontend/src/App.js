@@ -91,7 +91,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Cards" element={<Cards />} />
           <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/User/" element={<User />} />
+          <Route path="/User" element={<User />} />
           <Route path="/GetAllDetails" element={<GetAllDetails />} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/AddHouse" element={<AddHouse />} />

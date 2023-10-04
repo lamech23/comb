@@ -8,10 +8,12 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+
 function User() {
   const { user } = useAuthContext();
-  const  id = user?.id
-  console.log(id);
+ 
+  // const  id = user?.id
+  // console.log(id);
   // const location = useLocation()
   // const searchParams = new URLSearchParams(location.pathname);
   // const id = searchParams.get('id');
@@ -23,29 +25,42 @@ function User() {
     const response = await axios.get("http://localhost:4000/Users/all");
     setUsers(response.data);
   };
+
+  
   
 
-  const updateStatus = async (state) => {
+  const updateStatus = async (id, state) => {
+    console.log(id);
     const response = await axios.patch(
-      `http://localhost:4000/Users/userStatus/${id}/?Active=`+ state,
+      `http://localhost:4000/Users/userStatus/${id}?Active=`+state
     );
   };
+  // const deactivate = async ( id) => {
+  //   console.log(id);
+  //   const response = await axios.patch(
+  //     `http://localhost:4000/Users/userStatus/${id}`,{
+  //       Active:"active",
+  //     }
+  //   );
+  // };
 
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
+ 
 
-  const deactivate = () => {
+
+  const deactivate = (id) => {
     let state = "inActive";
-    updateStatus(state, id);
+    updateStatus(id, state);
   };
 
   
-  const activate = () => {
+  const activate = (id) => {
     let state = "active";
-    updateStatus(state, id)
+    updateStatus(id, state)
   };
 
 
@@ -68,7 +83,6 @@ function User() {
                 <th>id</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>House</th>
                 <th>Edit</th>
                 <th>Delete</th>
                 <th>status</th>
@@ -79,7 +93,6 @@ function User() {
                 <td>{allUsers.id}</td>
                 <td>{allUsers.email}</td>
                 <td>{allUsers.role}</td>
-                <td>{allUsers.house_name}</td>
                 <td>
                   <Link
                     to={`/UpdateUser/${allUsers.id}`}
@@ -109,14 +122,14 @@ function User() {
                       <button
                         type="button"
                         className="btn btn-success"
-                        onClick={deactivate}
+                        onClick={()=> deactivate(allUsers.id)}
                       >
                         active
                       </button>
                     ) : allUsers.Active === "inActive" ? (
                       <button
                         type="button"
-                        onClick={activate}
+                        onClick={() => activate(allUsers.id)}
                         className="btn btn-danger"
                       >
                         inActive

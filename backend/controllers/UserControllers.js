@@ -125,7 +125,7 @@ const getAllUsers = async (req, res) => {
 //activating and deactivating auser
 const deactivate = async (req, res) => {
   try {
-    const id = req.params.id;
+    const  id = req.params.id 
 
     console.log(id, "sten");
     const userStatus = { Active: req.query.Active };

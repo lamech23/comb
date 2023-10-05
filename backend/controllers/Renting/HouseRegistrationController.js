@@ -54,7 +54,7 @@ res.status(200).json( totalSum )
 const getTenants = async (req, res) => {
   try {
 
-    const getHouses = await HouseRegistration.findAll({})
+    const getHouses = await houseName.findAll({})
 
 
     const details = await tenantRegistration.findAll({
@@ -82,19 +82,9 @@ const RegisteringHouse = async (req, res) => {
     user_id
   } = req.body;
 
-  // const salt = await bcrypt.genSalt(10);
-  // const hash = await bcrypt.hash(password, salt);
-  // const checkEmail = await HouseRegistration.findOne({
-  //   where: { email: email },
-  // });
+
   try {
-    // if (checkEmail) {
-    //   res.status(400);
-    // }
-    // const User = await users.create({
-    //   email,
-    //   password: hash,
-    // });
+   
     const HouseEntry = await HouseRegistration.create({
       house_name,
       full_name,
@@ -147,36 +137,6 @@ const getAll = async (req, res) => {
   
 };
 
-// const loginginlandowner = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     if (!email || !password) {
-//       res.status(404);
-//     }
-//     const user = await HouseRegistration.findOne({ where: { email: email } });
-
-//     if (!user) {
-//       // the reason why throw is being used is because we dont have acces to the json
-//       res.status(400).json({ error: "invalid  email" });
-//     }
-//     // trying to compare the password N/B :user.password is the hased password
-//     const match = await bcrypt.compare(password, user.password);
-//     if (!match) {
-//       res.status(400).json({ error: "invalid  password" });
-//     }
-//     const token = createToken([user.id, user.email, user.role, user.user_name]);
-//     res.status(201).json({
-//       id: user.id,
-//       email: user.email,
-//       role: user.role,
-//       user_name: user.user_name,
-//       token,
-//     });
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
 
 module.exports = {
   RegisteringHouse,

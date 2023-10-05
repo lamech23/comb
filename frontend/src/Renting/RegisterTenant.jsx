@@ -204,18 +204,7 @@ function RegisterTenant() {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
-              <label for="" className="form-label">
-                email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id=""
-                className="form-control"
-                placeholder=""
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+             
 
               <label for="" className="form-label">
                 Phone Number
@@ -241,18 +230,7 @@ function RegisterTenant() {
                 value={nextOfKingNumber}
                 onChange={(e) => setNextOfKingNumber(e.target.value)}
               />
-              <label for="" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id=""
-                className="form-control"
-                placeholder=""
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              
 
               <button
                 className="btn btn-outline-success mt-3 justifiy-content-center "

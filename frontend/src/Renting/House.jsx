@@ -5,10 +5,11 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
 
-function House({id}) {
+function House() {
 
     const [tenant, setTenant]= useState([])
-    const [count, setCount]= useState(null)
+    const [count, setCount]= useState(0)
+    console.log(count);
     
     
 // console.log(id);
@@ -23,7 +24,7 @@ function House({id}) {
           }
         };
     
-        const subTotal = async () => {
+        const subTotal = async (id) => {
         const res = await axios.get(`http://localhost:4000/houseRegister/total/${id}`)
         setCount(res.data)
         console.log(setCount(res.data));
@@ -48,6 +49,7 @@ function House({id}) {
                         <th className='border border-slate-600'>Tenant Name </th>
                         <th className='border border-slate-600'>id </th>
                         <th className='border border-slate-600'>email </th>
+                        <th className='border border-slate-600'>House Name</th>
                         <th className='border border-slate-600'>House Number</th>
                         <th className='border border-slate-600'>Rent</th>
                         <th className='border border-slate-600'>Rent Deposit</th>
@@ -66,6 +68,7 @@ function House({id}) {
                         <td className='border border-slate-700'>{tenants.id}</td>
                         <td className='border border-slate-700'>{tenants.tenantsName}</td>
                         <td className='border border-slate-700'>{tenants.email}</td>
+                        <td className='border border-slate-700'>{tenants.houseName}</td>
                         <td className='border border-slate-700'>{tenants.houseNumber}</td>
                         <td className='border border-slate-700'>{tenants.rent}</td>
                         <td className='border border-slate-700'>{tenants.rentDeposit}</td>
@@ -75,7 +78,7 @@ function House({id}) {
                         <td className='border border-slate-700'>{tenants.garbage}</td>
                         <td className='border border-slate-700'>{tenants.phoneNumber}</td>
                         <td className='border border-slate-700'>{tenants.nextOfKingNumber}</td>
-                        <td className='border border-slate-700'>{count}</td>
+                        <td className='border border-slate-700'>{()=> count(tenants.id)}</td>
 
                     </tr>
                    ))}

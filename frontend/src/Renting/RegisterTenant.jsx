@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
@@ -22,10 +22,22 @@ function RegisterTenant() {
   const [password, setPassword] = useState("");
   const [houseName, setHouseName] = useState("");
   const [previousBalance, setPreviousBalance] = useState("");
+  const [house, setHouse]=useState([])
+  console.log(house);
+
+  useEffect(()=>{
+  const getHouse =async ()=>{
+   const response = await axios.get( `http://localhost:4000/houseRegister/specific/`)
+   setHouse(response.data)
+   console.log(response);
+
+  }
+  getHouse()
+
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const response = await axios.post(
       "http://localhost:4000/Tenant/registerTenant",
       {
@@ -87,7 +99,7 @@ function RegisterTenant() {
               <label for="" className="form-label">
                 House Name
               </label>
-              <input
+              <select
                 type="text"
                 name="houseName"
                 id=""
@@ -95,7 +107,15 @@ function RegisterTenant() {
                 placeholder=""
                 value={houseName}
                 onChange={(e) => setHouseName(e.target.value)}
-              />
+              >
+                <option value=""> select house</option>
+                {
+                  house.map((houses)=>(
+                    <option className="text-red visible" key={houses.id} value={houses.id}>{houses.house_name} </option>
+                  ))
+                }
+
+                </select>
 
               <label for="" className="form-label">
                 Rent

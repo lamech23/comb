@@ -5,6 +5,7 @@ import'../css/admin.css'
 import axios from 'axios'
 import {  ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuthContext } from '../hooks/useAuthContext'
 
 
 function HouseRegistration() {
@@ -16,7 +17,9 @@ function HouseRegistration() {
   const [location, setLocation]=useState('')
   const [password, setPassword]=useState('')
   const [allUser, setAllusers]=useState([])
+  const [user_id, setUser_id] = useState([])
 console.log(allUser);
+const {user}=useAuthContext()
 
 
   useEffect(()=>{
@@ -30,15 +33,16 @@ console.log(allUser);
 
   const handleSubmit= async(e)=>{
     e.preventDefault()
+    if(user ) {setUser_id(user.id)}
 
     const response = await axios.post('http://localhost:4000/houseRegister/',{
       house_name:house_name,
       full_name:full_name,
       user_name:user_name,
-      email:email,
       contact:contact,
       location:location,
-      password:password
+      user_id: user_id
+
 
     }) 
 

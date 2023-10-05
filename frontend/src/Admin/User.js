@@ -32,7 +32,7 @@ function User() {
   const updateStatus = async (id, state) => {
     console.log(id);
     const response = await axios.patch(
-      `http://localhost:4000/Users/userStatus/${id}?Active=`+state
+      `http://localhost:4000/Users/userStatus/${id}?Active=`+ state
     );
   };
   // const deactivate = async ( id) => {

@@ -53,16 +53,19 @@ res.status(200).json( totalSum )
 
 const getTenants = async (req, res) => {
   try {
-    const {houseName} = req.params
 
-    console.log(houseName, "Params");
+    const getHouses = await HouseRegistration.findAll({})
+
 
     const details = await tenantRegistration.findAll({
-      where: {
-       houseName
-      }
-    });
-    res.status(200).json(details);
+      include:{
+      model: HouseRegistration,
+      as: "tenentHouse"
+    } });
+    if(Array.isArray(getHouses, details)){
+
+      res.status(200).json(getHouses );
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -76,6 +79,7 @@ const RegisteringHouse = async (req, res) => {
     user_name,
     contact,
     location,
+    user_id
   } = req.body;
 
   // const salt = await bcrypt.genSalt(10);
@@ -97,6 +101,7 @@ const RegisteringHouse = async (req, res) => {
       user_name,
       contact,
       location,
+      user_id
     });
 
  
@@ -135,8 +140,7 @@ const getAll = async (req, res) => {
     {include: {
       model: users,
       as: "houseName"
-       
-
+    
   }});
   res.status(200).json(details);
 

@@ -71,7 +71,7 @@ const tenantRegistration = db.define('tenant_info',{
 tenantRegistration.belongsTo(
 HouseRegistration, { 
 foreignKey:"house_id",
-// as: "house_id",
+as: "tenentHouse",
 onDelete: "cascade",
 onUpdate: "cascade",
   });

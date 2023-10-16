@@ -21,10 +21,9 @@ const createToken = ([id, email, role, isAdmin, Active]) => {
   );
 };
 
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const { token } = req.headers;
-  console.log(token);
 
 
   try {
@@ -68,6 +67,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
@@ -79,7 +79,7 @@ const signupUser = async (req, res) => {
 
   try {
     if (emailFormart.test(email)) {
-      res.status(401);
+      res.status(400);
     }
 
     if (checkEmail) {

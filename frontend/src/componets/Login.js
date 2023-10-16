@@ -48,7 +48,7 @@ function Login() {
             setHeaders()
           )
           //   setLoggedIn(true)
-
+console.log(response)
           .then((res) => {
             setEmail("");
             setPassword("");
@@ -91,12 +91,9 @@ function Login() {
         }
       }
     } catch (error) {
-      if (error.response?.status === 400) {
-        return toast.error("invalid  password");
-      } else if (error.response?.status === 400) {
-        return toast.error("invalid  email");
-      } else if (error.response?.status === 400) {
-        return toast.error("Email and password does not exist ");
+      if (error.response?.message) {
+        return toast.error(error.response.message);
+   
 
         //  setTimeout(()=>{
         //  {navigate('/SignUp')}

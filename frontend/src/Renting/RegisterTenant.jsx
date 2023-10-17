@@ -25,14 +25,11 @@ function RegisterTenant() {
   const [house, setHouse]=useState([])
 
   const [users, setUsers] = useState([]);
-  console.log(users);
-  const fetchUsers = async () => {
-    const response = await axios.get("http://localhost:4000/Users/all");
-    setUsers(response.data);
-  };
+  const tenantInfo = [...users]
+  console.log(tenantInfo);
+ 
 
-  const tenants = users?.filter((tenant)=> tenant.role === "tenant")
-  console.log(tenants);
+ 
 
 
 
@@ -43,10 +40,16 @@ function RegisterTenant() {
 
   }
   getHouse()
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:4000/Users/all");
+    setUsers(response.data);
+  };
 
   fetchUsers()
-
-  },[])
+  
+},[])
+const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
+console.log(tenants);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,7 +124,7 @@ function RegisterTenant() {
                 onChange={(e) => setUsers(e.target.value)}
               >
                 <option value=""> select tenant</option>
-                {
+                {tenants&&
                   tenants?.map((tenant)=>(
                     <option className="text-red visible" key={tenant.id} value={tenant.id}>{tenant.email} </option>
                   ))

@@ -7,18 +7,7 @@ const houseName = require("../../models/RentingModels/houseNameModel");
 
 // const users = require("../../models/UserModels.js");
 
-const createToken = ([id, email, house_name, user_name]) => {
-  return jwt.sign(
-    {
-      id: id,
-      email: email,
-      house_name: house_name,
-      user_name: user_name,
-    },
-    process.env.SECRET,
-    { expiresIn: "1000" }
-  );
-};
+
 
 const getAllHouses = async (req, res) => {
   const details = await tenantRegistration.findAll();
@@ -53,19 +42,17 @@ res.status(200).json( totalSum )
 
 const getTenants = async (req, res) => {
   try {
+    const {houseName} = req.params
+    console.log(houseName);
 
-    const getHouses = await houseName.findAll({})
-
-
+    // const getHouses = await houseName.findAll({})
     const details = await tenantRegistration.findAll({
-      include:{
-      model: HouseRegistration,
-      as: "tenentHouse"
-    } });
-    if(Array.isArray(getHouses, details)){
+   where:{
+    houseName : houseName
+   }
+     });
 
-      res.status(200).json(getHouses );
-    }
+      res.status(200).json([details] );
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

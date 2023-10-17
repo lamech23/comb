@@ -13,7 +13,7 @@ const{
 
 
 router.post('/', RegisteringHouse)
-router.get('/specific/', getTenants)
+router.get('/specific/:houseName', getTenants)
 router.get('/total/:id',  subtotal)
 router.get('/', getAllHouses)
 router.get('/allHouses', getAll)

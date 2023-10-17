@@ -8,17 +8,9 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-
 function User() {
   const { user } = useAuthContext();
- 
-  // const  id = user?.id
-  // console.log(id);
-  // const location = useLocation()
-  // const searchParams = new URLSearchParams(location.pathname);
-  // const id = searchParams.get('id');
 
-  
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
@@ -26,36 +18,26 @@ function User() {
     setUsers(response.data);
   };
 
-  
-  
-
   const updateStatus = async (id, state) => {
     console.log(id);
     const response = await axios.patch(
-      `http://localhost:4000/Users/userStatus/${id}?Active=`+ state
+      `http://localhost:4000/Users/userStatus/${id}?Active=` + state
     );
   };
- 
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
- 
-
 
   const deactivate = (id) => {
     let state = "inActive";
     updateStatus(id, state);
   };
 
-  
   const activate = (id) => {
     let state = "active";
-    updateStatus(id, state)
+    updateStatus(id, state);
   };
-
-
 
   const handelDelete = async () => {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
@@ -98,7 +80,7 @@ function User() {
 
                 <td>
                   <span
-                    onClick={ handelDelete}
+                    onClick={handelDelete}
                     type="button"
                     className="material-symbols-outlined"
                     style={{ color: "red" }}
@@ -114,7 +96,7 @@ function User() {
                       <button
                         type="button"
                         className="btn btn-success"
-                        onClick={()=> deactivate(allUsers.id)}
+                        onClick={() => deactivate(allUsers.id)}
                       >
                         active
                       </button>
@@ -127,7 +109,6 @@ function User() {
                         inActive
                       </button>
                     ) : null}
-
                   </span>
                 </td>
               </tbody>
@@ -136,7 +117,7 @@ function User() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default User;

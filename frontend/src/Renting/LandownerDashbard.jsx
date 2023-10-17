@@ -5,27 +5,26 @@ import axios from "axios";
 
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
-  const houseName = useLocation().pathname.split("/")[2];
+  const {houseName} = useParams();
+  console.log(tenant);
   console.log(houseName);
 
   try {
     useEffect(() => {
-      getTenantinfo();
+      getTenantInfo();
     }, []);
 
-    const getTenantinfo = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/houseRegister/specific/`
-      );
-      setTenant(response.data);
-      console.log(response);
-
-      console.log(response);
-    };
-  } catch (error) {
-    console.log(error);
-  }
-
+    const getTenantInfo = async () => {
+        const response = await axios.get(
+          `http://localhost:4000/houseRegister/specific/${houseName}`
+        );
+        setTenant(response.data[0]);
+        
+        console.log(response.data);}
+      } catch (error) {
+        console.log(error);
+      }
+  
   return (
     <>
       <div className="split">
@@ -48,7 +47,7 @@ function LandownerDashbard() {
                 </tr>
               </thead>
               <tbody>
-                {tenant.map((tenants) => (
+                {tenant && tenant.map((tenants) => (
                   <tr key={tenants.id}>
                     <td>{tenants.tenantsName}</td>
                     <td>{tenants.houseNumber}</td>

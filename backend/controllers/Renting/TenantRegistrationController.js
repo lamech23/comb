@@ -37,10 +37,7 @@ const tenatRegistration = async (req, res) => {
       nextOfKingNumber,
       house_id,
     });
-    //create a token,
-    // res.status(200).json(User)
-
-    // pass the token as a response instead of the user
+    console.log(tenant);
     res.status(200).json(tenant);
   } catch (error) {
     res.status(400).json({ error: error.message });

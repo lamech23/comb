@@ -47,12 +47,32 @@ const getTenants = async (req, res) => {
 
     // const getHouses = await houseName.findAll({})
     const details = await tenantRegistration.findAll({
-   where:{
-    houseName : houseName
-   }
+        include:{
+         model: HouseRegistration,
+         as:'tenentHouse'
+        }
      });
+  
 
       res.status(200).json([details] );
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getTenantForTenantRegistration = async (req, res) => {
+  try {
+ 
+
+    const getHouses = await houseName.findAll({})
+  //   const details = await tenantRegistration.findAll({
+  //  include:{
+  //   model: HouseRegistration,
+  //   as:'tenentHouse'
+  //  }
+    //  });
+
+      res.status(200).json(getHouses );
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -131,5 +151,6 @@ module.exports = {
   getAllHouses,
   subtotal,
   creatHouseCategory,
-  getAll
+  getAll,
+  getTenantForTenantRegistration
 };

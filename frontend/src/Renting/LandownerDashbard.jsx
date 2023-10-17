@@ -16,7 +16,7 @@ function LandownerDashbard() {
 
     const getTenantInfo = async () => {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/${houseName}`
+          `http://localhost:4000/houseRegister/specific/`
         );
         setTenant(response.data[0]);
         

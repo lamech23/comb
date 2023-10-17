@@ -7,13 +7,15 @@ const{
     getAllHouses,
     subtotal, 
     creatHouseCategory,
-    getAll
+    getAll,
+    getTenantForTenantRegistration
 
 } =require('../../controllers/Renting/HouseRegistrationController')
 
 
 router.post('/', RegisteringHouse)
-router.get('/specific/:houseName', getTenants)
+router.get('/specific/', getTenants)
+router.get('/houseNames/', getTenantForTenantRegistration)
 router.get('/total/:id',  subtotal)
 router.get('/', getAllHouses)
 router.get('/allHouses', getAll)

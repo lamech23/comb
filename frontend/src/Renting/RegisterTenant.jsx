@@ -26,7 +26,6 @@ function RegisterTenant() {
 
   const [users, setUsers] = useState([]);
   const tenantInfo = [...users]
-  console.log(tenantInfo);
  
 
  
@@ -35,8 +34,9 @@ function RegisterTenant() {
 
   useEffect(()=>{
   const getHouse =async ()=>{
-   const response = await axios.get( `http://localhost:4000/houseRegister/specific/`)
+   const response = await axios.get( `http://localhost:4000/houseRegister/houseNames/`)
    setHouse(response.data)
+
 
   }
   getHouse()
@@ -72,6 +72,7 @@ console.log(tenants);
         previousBalance: previousBalance,
       }
     );
+    console.log(response.data);
 
     toast.success("Succesfully registerd tenant");
   };
@@ -120,8 +121,8 @@ console.log(tenants);
                 id=""
                 className="form-control"
                 placeholder=""
-                value={users}
-                onChange={(e) => setUsers(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               >
                 <option value=""> select tenant</option>
                 {tenants&&

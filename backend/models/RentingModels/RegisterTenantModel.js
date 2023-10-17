@@ -18,6 +18,11 @@ const tenantRegistration = db.define('tenant_info',{
         type:DataTypes.STRING,
 
     },
+    email:{
+        type:DataTypes.STRING,
+        unique: true
+
+    },
     rentDeposit:{
         type:DataTypes.STRING,
 

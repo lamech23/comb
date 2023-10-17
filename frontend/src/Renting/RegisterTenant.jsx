@@ -23,16 +23,28 @@ function RegisterTenant() {
   const [houseName, setHouseName] = useState("");
   const [previousBalance, setPreviousBalance] = useState("");
   const [house, setHouse]=useState([])
-  console.log(house);
+
+  const [users, setUsers] = useState([]);
+  console.log(users);
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:4000/Users/all");
+    setUsers(response.data);
+  };
+
+  const tenants = users?.filter((tenant)=> tenant.role === "tenant")
+  console.log(tenants);
+
+
 
   useEffect(()=>{
   const getHouse =async ()=>{
    const response = await axios.get( `http://localhost:4000/houseRegister/specific/`)
    setHouse(response.data)
-   console.log(response);
 
   }
   getHouse()
+
+  fetchUsers()
 
   },[])
 
@@ -96,6 +108,26 @@ function RegisterTenant() {
                 value={houseNumber}
                 onChange={(e) => setHouseNumber(e.target.value)}
               />
+              <label for="" className="form-label">
+                Registerd tenants
+              </label>
+              <select
+                type="text"
+                name="houseName"
+                id=""
+                className="form-control"
+                placeholder=""
+                value={users}
+                onChange={(e) => setUsers(e.target.value)}
+              >
+                <option value=""> select tenant</option>
+                {
+                  tenants?.map((tenant)=>(
+                    <option className="text-red visible" key={tenant.id} value={tenant.id}>{tenant.email} </option>
+                  ))
+                }
+
+                </select>
               <label for="" className="form-label">
                 House Name
               </label>

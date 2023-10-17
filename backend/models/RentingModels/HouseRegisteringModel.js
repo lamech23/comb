@@ -37,6 +37,8 @@ const HouseRegistration = db.define(
 );
   HouseRegistration.belongsTo(users,
      { foreignKey: "user_id" ,
+     as: "users",
+     
      onDelete: "cascade",
      onUpdate: "cascade",
   });

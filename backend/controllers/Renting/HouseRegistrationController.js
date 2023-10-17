@@ -10,7 +10,7 @@ const houseName = require("../../models/RentingModels/houseNameModel");
 
 
 const getAllHouses = async (req, res) => {
-  const details = await tenantRegistration.findAll();
+  const details = await tenantRegistration.findAll({});
   res.status(200).json(details);
 
   
@@ -18,19 +18,18 @@ const getAllHouses = async (req, res) => {
 
 
 const subtotal = async(req, res) =>{
-  const  id  = req.params.id;
+  const  {id}  = req.params
   console.log(id, "Identification");
 try {
   const details = await tenantRegistration.findOne({ 
     where:{ id:id}
   })
-  const  detail = [details.waterBill,  details.rent, details.rentDeposit, details.garbage]
+const  detail = [details.waterBill,  details.rent, details.rentDeposit, details.garbage]
 let totalSum = 0;
 for (let i = 0; i < detail.length; i++) {
   totalSum += Number(detail[i]);
 }
-
-res.status(200).json( totalSum )
+  res.status(200).json( totalSum )
   
 } catch (error) {
   res.status(500).json(error.message)
@@ -42,11 +41,16 @@ res.status(200).json( totalSum )
 
 const getTenants = async (req, res) => {
   try {
-    const {houseName} = req.params
-    console.log(houseName);
-
-    // const getHouses = await houseName.findAll({})
+   const {id} = req.params
+    const getHouses = await houseName.findAll({})
+    const user_id = getHouses.map((userId)=>{
+      return userId.user_id == "5"
+    })
+    console.log(user_id);
     const details = await tenantRegistration.findAll({
+      where:{
+        id:user_id
+      },
         include:{
          model: HouseRegistration,
          as:'tenentHouse'

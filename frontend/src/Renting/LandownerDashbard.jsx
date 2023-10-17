@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import LandOwnerNav from "./LandOwnerNav";
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
-  const {houseName} = useParams();
-  console.log(tenant);
-  console.log(houseName);
+  const {user} =useAuthContext()
+  const id =user?.id
 
   try {
     useEffect(() => {
@@ -16,11 +16,11 @@ function LandownerDashbard() {
 
     const getTenantInfo = async () => {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/`
+          `http://localhost:4000/houseRegister/specific/${id}`
         );
         setTenant(response.data[0]);
         
-        console.log(response.data);}
+      }
       } catch (error) {
         console.log(error);
       }

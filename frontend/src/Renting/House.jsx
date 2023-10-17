@@ -9,12 +9,16 @@ function House() {
 
     const [tenant, setTenant]= useState([])
     const [count, setCount]= useState(0)
-    console.log(count);
-    
-    
-// console.log(id);
+    // console.log(count);
+  
   
     useEffect(() => {
+      const tenantId = tenant 
+      const id = tenantId.map((getId)=> {
+        return getId.id
+      })
+      console.log(id);
+   
         const getTenantinfo = async () => {
           try {
             const response = await axios.get(`http://localhost:4000/houseRegister/`);
@@ -24,11 +28,10 @@ function House() {
           }
         };
     
-        const subTotal = async (id) => {
+        const subTotal = async () => {
         const res = await axios.get(`http://localhost:4000/houseRegister/total/${id}`)
+        console.log(id);
         setCount(res.data)
-        console.log(setCount(res.data));
-        console.log(res);
 
         }
         getTenantinfo();
@@ -46,8 +49,8 @@ function House() {
             <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
                 <thead className=''>
                     <tr>
-                        <th className='border border-slate-600'>Tenant Name </th>
                         <th className='border border-slate-600'>id </th>
+                        <th className='border border-slate-600'>Tenant Name </th>
                         <th className='border border-slate-600'>email </th>
                         <th className='border border-slate-600'>House Name</th>
                         <th className='border border-slate-600'>House Number</th>
@@ -78,7 +81,7 @@ function House() {
                         <td className='border border-slate-700'>{tenants.garbage}</td>
                         <td className='border border-slate-700'>{tenants.phoneNumber}</td>
                         <td className='border border-slate-700'>{tenants.nextOfKingNumber}</td>
-                        <td className='border border-slate-700'>{()=> count(tenants.id)}</td>
+                        <td className='border border-slate-700'>{count}</td>
 
                     </tr>
                    ))}

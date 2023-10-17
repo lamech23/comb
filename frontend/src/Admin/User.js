@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 function User() {
-  const { user } = useAuthContext();
 
   const [users, setUsers] = useState([]);
 
@@ -39,7 +38,7 @@ function User() {
     updateStatus(id, state);
   };
 
-  const handelDelete = async () => {
+  const handelDelete = async (id) => {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
   };

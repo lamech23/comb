@@ -21,15 +21,7 @@ function Login() {
     const{user}=useAuthContext() 
    
 
-  // const handelLog = async (e) => {
-  //   e.preventDefault();
-
-  //   const response = await axios.post("http://localhost:4000/landowner/log", {
-  //     email: email,
-  //     password: password,
-  //   }, 
-   
-  // };
+  
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +40,6 @@ function Login() {
             setHeaders()
           )
           //   setLoggedIn(true)
-console.log(response)
           .then((res) => {
             setEmail("");
             setPassword("");
@@ -91,15 +82,7 @@ console.log(response)
         }
       }
     } catch (error) {
-      if (error.response?.message) {
-        return toast.error(error.response.message);
-   
-
-        //  setTimeout(()=>{
-        //  {navigate('/SignUp')}
-
-        //  },3000)
-      }
+      if(error.response) toast.error(error.response.message);
     }
   };
 

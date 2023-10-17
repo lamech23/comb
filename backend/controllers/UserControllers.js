@@ -27,20 +27,20 @@ const loginUser = async (req, res) => {
 
 
   try {
-    if (!email || !password) {
-      res.status(404);
-    }
+   
     const user = await users.findOne({ where: { email: email } });
 
     if (!user) {
       // the reason why throw is being used is because we dont have acces to the json
-      res.status(400).json({ error: "invalid  email" });
+      res.status(400).json({error: "invalid email"})
     }
     // trying to compare the password N/B :user.password is the hased password
     const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      res.status(400);
+    if (match === false) {
+      res.status(400).json({error: "invalid password"})
     }
+
+   
     const token = createToken([
       user.id,
       user.email,

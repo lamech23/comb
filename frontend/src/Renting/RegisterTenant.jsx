@@ -23,21 +23,26 @@ function RegisterTenant() {
   const [houseName, setHouseName] = useState("");
   const [previousBalance, setPreviousBalance] = useState("");
   const [house, setHouse]=useState([])
+  const [house_id, setHouse_id] = useState("")
 
   const [users, setUsers] = useState([]);
   const tenantInfo = [...users]
- 
-
- 
-
-
-
   useEffect(()=>{
+    
+    const housesNames = JSON.parse(localStorage.getItem("houses"));
+    console.log(houseName);
+  
+    if (housesNames) setHouse_id(housesNames)
+    
   const getHouse =async ()=>{
    const response = await axios.get( `http://localhost:4000/houseRegister/houseNames/`)
    setHouse(response.data)
 
-
+   localStorage.setItem(
+    "houses",
+    JSON.stringify(response.data),
+    
+  );
   }
   getHouse()
   const fetchUsers = async () => {
@@ -49,10 +54,10 @@ function RegisterTenant() {
   
 },[])
 const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
-console.log(tenants);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const response = await axios.post(
       "http://localhost:4000/Tenant/registerTenant",
       {
@@ -70,6 +75,7 @@ console.log(tenants);
         nextOfKingNumber: nextOfKingNumber,
         houseName: houseName,
         previousBalance: previousBalance,
+        house_id: house_id
       }
     );
     console.log(response.data);

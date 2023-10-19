@@ -18,7 +18,6 @@ function Login() {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
-
    
 
   
@@ -70,7 +69,7 @@ function Login() {
             } else if (isAdmin === "user") {
               navigate(`/Profile/${id}`);
             } else if (isAdmin === "landowner") {
-              navigate("/LandownerDashbard");
+              navigate(`/LandownerDashbard`);
             } else if (isAdmin === "tenant") {
               navigate("/LandownerDashbard");
             } else {

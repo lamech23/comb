@@ -98,9 +98,9 @@ const createDetails = async (req, res) => {
     user_id: req.body.user_id,
   };
 
+
   if (req.files) {
-    info.image = req.files;
-    console.log(req.files);
+    info.image = req.files
   }
    await Details.create(info);
   try {

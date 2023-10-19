@@ -113,7 +113,7 @@ const signupUser = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
-  }    console.log(response);
+  }   
 
 };
 

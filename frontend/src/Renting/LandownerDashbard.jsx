@@ -8,22 +8,23 @@ function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
   const {user} =useAuthContext()
   // const {houseName} = useParams()
-  // console.log(houseName);
-  const id =user?.id
-  console.log(id);
+
+
+
   try {
     useEffect(() => {
       getTenantInfo();
     }, []);
 
     const getTenantInfo = async (houseName) => {
-      // console.log(houseName);
+      console.log(houseName, "houseName");
+      
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/`
+          `http://localhost:4000/houseRegister/specific/?houseName=`+ 1
         );
         setTenant(response.data[0]);
         
-        console.log(response);
+        console.log(response.data[0])
       }
       } catch (error) {
         console.log(error);
@@ -64,6 +65,7 @@ function LandownerDashbard() {
                     <td>{tenants.garbage}</td>
                     <td>{tenants.phoneNumber}</td>
                     <td>{tenants.nextOfKingNumber}</td>
+                    <td>{tenants.houseName}</td>
                   </tr>
                 ))}
               </tbody>

@@ -43,6 +43,8 @@ function DetailsForm() {
         formData.append("image", image[i]);
       }
 
+      
+
       if (
         (description === "",
         contact === "",

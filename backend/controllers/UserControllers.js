@@ -113,7 +113,8 @@ const signupUser = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
-  }
+  }    console.log(response);
+
 };
 
 const getAllUsers = async (req, res) => {
@@ -127,7 +128,6 @@ const deactivate = async (req, res) => {
   try {
     const  id = req.params.id 
 
-    console.log(id, "sten");
     const userStatus = { Active: req.query.Active };
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
@@ -142,7 +142,6 @@ const deactivate = async (req, res) => {
 
 //deleting a user
 const deleteUser = async (req, res) => {
-  // const user_id = req.query.user_id
   const { id } = req.params;
 
   const user = await users.destroy({
@@ -243,10 +242,12 @@ const reset = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const { id } = req.params;
+
+  
   if (password === confirmPassword) {
     // res.status(200).json({mssg:'okay'})
   } else {
-    res.status(400).json({ mssg: "Password Dont match" });
+    res.status(400).json({ error: "Password don't match" });
   }
   try {
     const updatedPassword = await users.update(

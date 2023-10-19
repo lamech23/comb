@@ -3,7 +3,7 @@ import UserNav from "./UserNav";
 import "../css/userPage.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function ChangeProfile() {
   const { id } = useParams();
@@ -22,8 +22,11 @@ function ChangeProfile() {
     e.preventDefault();
 
     try {
+      if (password.length === 0 || confirmPassword.length === 0) {
+        return toast.error("please add a password ");
+      }
       const response = await axios.put(
-        `http://localhost:4000/users/reset/${id}`,
+        `http://localhost:4000/users/reset/${user.id}`,
         {
           password: password,
           confirmPassword: confirmPassword,
@@ -31,8 +34,8 @@ function ChangeProfile() {
       );
       return toast.success("Password succesfully updated");
     } catch (error) {
-      if (error.response?.status === 400) {
-        return toast.error("Password Does Not Much");
+      if (error.response.message) {
+        return toast.error("Password Does Not match" );
       }
     }
   };
@@ -129,6 +132,18 @@ function ChangeProfile() {
           </form>
         </section>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

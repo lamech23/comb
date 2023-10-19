@@ -7,19 +7,23 @@ import { useAuthContext } from "../hooks/useAuthContext";
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
   const {user} =useAuthContext()
+  // const {houseName} = useParams()
+  // console.log(houseName);
   const id =user?.id
-
+  console.log(id);
   try {
     useEffect(() => {
       getTenantInfo();
     }, []);
 
-    const getTenantInfo = async () => {
+    const getTenantInfo = async (houseName) => {
+      // console.log(houseName);
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/${id}`
+          `http://localhost:4000/houseRegister/specific/`
         );
         setTenant(response.data[0]);
         
+        console.log(response);
       }
       } catch (error) {
         console.log(error);
@@ -44,6 +48,7 @@ function LandownerDashbard() {
                   <th scope="col">Garbage</th>
                   <th scope="col">Phone Number</th>
                   <th scope="col">Next_of_king_number </th>
+                  <th scope="col">Total  </th>
                 </tr>
               </thead>
               <tbody>

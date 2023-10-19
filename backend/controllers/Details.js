@@ -85,6 +85,7 @@ const getSingelDetails = async (req, res) => {
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
+  const files  =req.files 
 
   const info = {
     title: req.body.title,
@@ -93,11 +94,13 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
+
     user_id: req.body.user_id,
   };
 
-  if (req.file) {
-    info.image = req.file.path;
+  if (req.files) {
+    info.image = req.files;
+    console.log(req.files);
   }
    await Details.create(info);
   try {
@@ -118,7 +121,7 @@ const createDetails = async (req, res) => {
       subject: "Post Alert ",
       html:
         " Hello Admin\n\n" +
-        `<p>You are reciving this email because   ${currentUser?.email}  who is ${currentUser.role}  has posted a house at kausi property.</p> :\n`,
+        `<p>You are reciving this email because   ${currentUser?.email}  who is ${currentUser?.role}  has posted a house at kausi property.</p> :\n`,
     };
     // end of else
 

@@ -147,7 +147,7 @@ function Navbar({ filterHouses, setSearch }) {
                 </Link>
               </li>
 
-              {user?.Active === "Active" ? (
+              {user?.Active === "active" ? (
                 <li className="nav-item">
                   <Link className="nav-link" to="/DetailsForm">
                     Post

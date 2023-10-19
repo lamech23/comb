@@ -20,23 +20,22 @@ const requireAuth = async (req, res, next) => {
     //here we are finding the user by id . The select method only picks the id instead of getting the hashed password and email
     // const isExpiredToken = false
 
-    const currentTime = Date.now();
-    time;
-    const time = Math.floor(currentTime);
-    console.log(time);
+    // const currentTime = Date.now();
+    // const time = Math.floor(currentTime);
+    // console.log(time);
 
-    const id = user?.id;
+    // const id = user?.id;
 
-    isExpiredToken = false;
+    // isExpiredToken = false;
 
-    if (user.exp) {
-      console.log("your logged out");
-      isExpiredToken = true;
-      res.redirect("/");
-      res.end();
-    } else {
-      await User.findOne({ where: { id: id } });
-    }
+    // if (user.exp) {
+    //   console.log("your logged out");
+    //   isExpiredToken = true;
+    //   res.redirect("/");
+    //   res.end();
+    // } else {
+    //   await User.findOne({ where: { id: id } });
+    // }
 
     next();
   } catch (error) {

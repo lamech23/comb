@@ -41,16 +41,9 @@ for (let i = 0; i < detail.length; i++) {
 
 const getTenants = async (req, res) => {
   try {
-   const {id} = req.params
-    const getHouses = await houseName.findAll({})
-    const user_id = getHouses.map((userId)=>{
-      return userId.user_id == "5"
-    })
-    console.log(user_id);
+   
     const details = await tenantRegistration.findAll({
-      where:{
-        id:user_id
-      },
+  
         include:{
          model: HouseRegistration,
          as:'tenentHouse'

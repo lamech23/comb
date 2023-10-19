@@ -32,8 +32,7 @@ function Appointment() {
         <UserNav />
 
         <div className=" container-fluid  mt-5">
-          {appointment.map((appointments) => (
-            <div className="mt-5 row" key={appointment.id}>
+            <div className="mt-5 row" >
               <div
                 className="card  mb-3 shadow-lg"
                 style={{ maxWidth: "20rem" }}
@@ -45,14 +44,20 @@ function Appointment() {
                 <div className="display-6  text-center text-mute">
                   scheduled date
                 </div>
+                {appointment.map((appointments) => (
 
                 <div className="card-body text-center">
                   {/* <h5 className="card-title">Primary card title</h5> */}
-                  <p className="card-text text-danger fs-6">
+                  <p className="card-text text-danger fs-6" key={appointment.id}>
                     {moment(appointments?.createdAt).format("YYYY/MM/DD   ")}{" "}
+
+                    {appointments?.time}{" "}
+
                   </p>
                 </div>
+                ))}
               </div>
+
 
               {/* card two */}
               <div
@@ -70,12 +75,11 @@ function Appointment() {
                 <div className="card-body text-center">
                   {/* <h5 className="card-title">Primary card title</h5> */}
                   <p className="card-text text-danger fs-6">
-                    {appointments?.time}{" "}
+                    {/* {appointments?.time}{" "} */}
                   </p>
                 </div>
               </div>
             </div>
-          ))}
         </div>
       </div>
     </>

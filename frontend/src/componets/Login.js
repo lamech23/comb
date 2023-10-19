@@ -18,7 +18,7 @@ function Login() {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
-    const{user}=useAuthContext() 
+
    
 
   

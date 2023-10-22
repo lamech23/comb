@@ -75,7 +75,7 @@ const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
         nextOfKingNumber: nextOfKingNumber,
         houseName: houseName,
         previousBalance: previousBalance,
-        house_id: house_id
+        // house_id: house_id
       }
     );
     console.log(response.data);

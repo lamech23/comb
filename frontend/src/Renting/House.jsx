@@ -15,9 +15,9 @@ function House() {
     useEffect(() => {
       const tenantId = tenant 
       const id = tenantId.map((getId)=> {
-        return getId.id
+        return getId.id 
       })
-      console.log(id);
+     
    
         const getTenantinfo = async () => {
           try {
@@ -30,9 +30,8 @@ function House() {
     
         const subTotal = async () => {
         const res = await axios.get(`http://localhost:4000/houseRegister/total/${id}`)
-        console.log(id);
-        setCount(res.data)
 
+        setCount(res.data)
         }
         getTenantinfo();
         subTotal()

@@ -4,11 +4,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
+const sequelize = require("sequelize")
 
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
+
   const details = await tenantRegistration.findAll({});
+
+  
   res.status(200).json(details);
 };
 
@@ -17,7 +21,7 @@ const subtotal = async (req, res) => {
   console.log(id, "Identification");
   try {
     const details = await tenantRegistration.findOne({
-      where: { id: id },
+    where: { id }
     });
     const detail = [
       details.waterBill,
@@ -26,6 +30,7 @@ const subtotal = async (req, res) => {
       details.garbage,
     ];
     let totalSum = 0;
+    
     for (let i = 0; i < detail.length; i++) {
       totalSum += Number(detail[i]);
     }

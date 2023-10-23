@@ -18,7 +18,7 @@ function Login() {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
-   
+   const {user}=useAuthContext()
 
   
 
@@ -36,7 +36,7 @@ function Login() {
           .post(
             "http://localhost:4000/users/login",
             { email: email, password: password },
-            setHeaders()
+         
           )
           //   setLoggedIn(true)
           .then((res) => {

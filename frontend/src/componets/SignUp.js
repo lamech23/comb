@@ -21,14 +21,24 @@ function SignUp() {
     const strongRegExp = /(?=.*?[#?!@$%^&£*-])/;
     const poorPassword = strongRegExp.test(password);
 
+
+      let emailFormart =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    const validEmail =emailFormart.test(email)
+
     try {
+     
       if (email.length === 0 || password.length === 0) {
         return toast.error("Fileds cannot be empty");
       } else if (password.length < 8) {
         return toast.error("password must be  8 or more characters");
       } else if (!poorPassword) {
         return toast.error(" Weak password special Character required ");
-      } else {
+      } else if(!validEmail){
+        return toast.error("invalid email please check your format");
+      }
+      else {
        
         const response = await axios.post(
           "http://localhost:4000/users/signup",
@@ -59,9 +69,7 @@ function SignUp() {
         }
       }
     } catch (error) {
-      if (error.response?.status === 401) {
-        return toast.error("invalid email format");
-      }
+   
 
       if (error.response?.status === 400) {
         return toast.error("Email already exists");
@@ -127,6 +135,18 @@ function SignUp() {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

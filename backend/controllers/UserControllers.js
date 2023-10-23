@@ -38,7 +38,8 @@ const loginUser = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (match === false) {
       res.status(400).json({error: "invalid password"})
-    }
+    } 
+   
 
    
     const token = createToken([
@@ -74,16 +75,17 @@ const signupUser = async (req, res) => {
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });
 
-  let emailFormart =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // let emailFormart =
+  //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   try {
-    if (emailFormart.test(email)) {
-      res.status(400);
-    }
+    // emailFormart.test(email)
+    // if (!emailFormart) {
+    //   res.status(401);
+    // }
 
     if (checkEmail) {
-      res.status(400);
+      res.status(400).json({error: "email already exists " })
     }
 
     const User = await users.create({
@@ -112,7 +114,7 @@ const signupUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // res.status(400).json({ error: error.message });
   }   
 
 };

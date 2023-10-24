@@ -17,11 +17,12 @@ function LandownerDashbard() {
     }, []);
 
     const getTenantInfo = async (houseName) => {
-      
+      console.log(houseName);
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/?houseName=`+ 9
+          `http://localhost:4000/houseRegister/specific/${houseName}`
         );
         setTenant(response.data[0]);
+        console.log(response);
         
       }
       } catch (error) {

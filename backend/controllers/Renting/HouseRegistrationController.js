@@ -44,17 +44,15 @@ const subtotal = async (req, res) => {
 // eg house k-50 under a landowner
 
 const getTenants = async (req, res) => {
-   const houseName = req.query.houseName
+   const houseName = req.params.houseName
 
   try {
+    
     const details = await tenantRegistration.findAll({
       where: {
          houseName: houseName
-      },
-      include: {
-        model: HouseRegistration,
-        as: "tenentHouse",
-      },
+      }
+   
     });
     console.log(details);
 

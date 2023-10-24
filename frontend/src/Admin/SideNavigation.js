@@ -7,7 +7,7 @@ function SideNavigation() {
   const Active = useParams();
 
   const user = JSON.parse(localStorage.getItem("credentials"));
-  let id = user.id;
+  let id = user?.id;
 
   return (
     <div className="d-flex " id="wrapper">

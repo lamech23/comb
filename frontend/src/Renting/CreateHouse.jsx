@@ -14,6 +14,7 @@ function CreateHouse() {
     e.preventDefault()
     try {
       if(user){setUser_id_(user.id)}
+      
       if(house_name.length === 0){
         setErrors("Please fill all the fields")
       }else{

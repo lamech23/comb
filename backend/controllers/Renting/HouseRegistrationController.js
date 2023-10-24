@@ -12,6 +12,7 @@ const getAllHouses = async (req, res) => {
 
   const details = await tenantRegistration.findAll({});
 
+
   
   res.status(200).json(details);
 };

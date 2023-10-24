@@ -19,11 +19,10 @@ function LandownerDashbard() {
     const getTenantInfo = async (houseName) => {
       
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/?houseName=`+ 1
+          `http://localhost:4000/houseRegister/specific/?houseName=`+ 9
         );
         setTenant(response.data[0]);
         
-        console.log(response.data[0])
       }
       } catch (error) {
         console.log(error);
@@ -48,7 +47,7 @@ function LandownerDashbard() {
                   <th scope="col">Garbage</th>
                   <th scope="col">Phone Number</th>
                   <th scope="col">Next_of_king_number </th>
-                  <th scope="col">Total  </th>
+                  <th scope="col">houseName  </th>
                 </tr>
               </thead>
               <tbody>

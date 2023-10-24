@@ -23,16 +23,13 @@ function RegisterTenant() {
   const [houseName, setHouseName] = useState("");
   const [previousBalance, setPreviousBalance] = useState("");
   const [house, setHouse]=useState([])
-  const [house_id, setHouse_id] = useState("")
+  // const [house_id, setHouse_id] = useState("")
 
   const [users, setUsers] = useState([]);
   const tenantInfo = [...users]
   useEffect(()=>{
     
-    const housesNames = JSON.parse(localStorage.getItem("houses"));
-    console.log(houseName);
-  
-    if (housesNames) setHouse_id(housesNames)
+    
     
   const getHouse =async ()=>{
    const response = await axios.get( `http://localhost:4000/houseRegister/houseNames/`)
@@ -54,6 +51,7 @@ function RegisterTenant() {
   
 },[])
 const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
+console.log(tenants);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +76,6 @@ const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
         // house_id: house_id
       }
     );
-    console.log(response.data);
 
     toast.success("Succesfully registerd tenant");
   };
@@ -131,9 +128,9 @@ const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
                 onChange={(e) => setEmail(e.target.value)}
               >
                 <option value=""> select tenant</option>
-                {tenants&&
-                  tenants?.map((tenant)=>(
-                    <option className="text-red visible" key={tenant.id} value={tenant.id}>{tenant.email} </option>
+                {
+                  tenants.map((tenant)=>(
+                    <option className="text-red visible" key={tenant.id} value={tenant.email}>{tenant.email} </option>
                   ))
                 }
 
@@ -153,7 +150,7 @@ const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
                 <option value=""> select house</option>
                 {
                   house.map((houses)=>(
-                    <option className="text-red visible" key={houses.id} value={houses.id}>{houses.house_name} </option>
+                    <option className="text-red visible" key={houses.id} value={houses.email} >{houses.house_name} </option>
                   ))
                 }
 

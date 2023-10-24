@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import "../css/admin.css";
 import MainNav from "./MainNav";
 import SideNavigation from "./SideNavigation";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function UpadetUser() {
   const { id } = useParams();
@@ -90,6 +91,18 @@ function UpadetUser() {
           </button>
         </form>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

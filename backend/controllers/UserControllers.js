@@ -75,14 +75,9 @@ const signupUser = async (req, res) => {
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });
 
-  // let emailFormart =
-  //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+ 
   try {
-    // emailFormart.test(email)
-    // if (!emailFormart) {
-    //   res.status(401);
-    // }
+   
 
     if (checkEmail) {
       res.status(400).json({error: "email already exists " })

@@ -190,7 +190,7 @@ function Navbar({ filterHouses, setSearch }) {
 
                             <span className="fs-5  text-teal-400 ">
                               {" "}
-                              Welcome {user?.email}
+                              Welcome {user? user?.email: null}
                             </span>
                           </a>
                           <ul

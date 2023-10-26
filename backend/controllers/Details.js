@@ -13,10 +13,27 @@ const getAllHouses = async (req, res) => {
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
 
     });
+// Create an array to store image data for all records
+const images = [];
 
-    //  .json(details)
+// Iterate through the details and convert each image to Base64
+for (const detail of details) {
+  const imageBuffer = detail.image;
+  const imageBase64 = imageBuffer.toString();
+  detail.image = imageBase64; // Update the image property in the record
+  images.push(imageBase64);
+}
+console.log(images );
+// Combine image data with the details
+const dataWithImages = details.map((detail, index) => ({
+  ...detail.toJSON(),
+  image: images[index],
+}));
 
-    res.status(200).json(details);
+// console.log(dataWithImages);
+
+res.status(200).json(dataWithImages);
+
   } catch (error) {
     res.status(500);
   }
@@ -24,6 +41,7 @@ const getAllHouses = async (req, res) => {
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
+
   try {
     const user_id = req.query.user_id;
     
@@ -98,9 +116,18 @@ const createDetails = async (req, res) => {
     user_id: req.body.user_id,
   };
 
+  const imageBlobs = []; // Create an array to store BLOB data
+
 
   if (req.files) {
-    info.image = req.files
+  // Loop through the uploaded files
+  for (const file of files) {
+    const imageBuffer = file.data; // Access the file data as a Buffer
+    imageBlobs.push(imageBuffer); // Store the Buffer in the array
+  }
+
+  // Set the 'image' property to the array of BLOBs
+  info.image = imageBlobs;
   }
    await Details.create(info);
   try {

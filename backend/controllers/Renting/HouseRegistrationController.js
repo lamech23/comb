@@ -44,10 +44,9 @@ const subtotal = async (req, res) => {
 // eg house k-50 under a landowner
 
 const getTenants = async (req, res) => {
-   const houseName = req.params.houseName
+   const houseName = req.query.houseName
 
   try {
-    
     const details = await tenantRegistration.findAll({
       where: {
          houseName: houseName

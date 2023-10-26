@@ -14,19 +14,19 @@ function LandownerDashbard() {
   try {
     useEffect(() => {
       getTenantInfo();
+      
     }, []);
-
     const getTenantInfo = async (houseName) => {
-      console.log(houseName);
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/${houseName}`
+          `http://localhost:4000/houseRegister/specific/?houseName=${houseName}` 
         );
         setTenant(response.data[0]);
         console.log(response);
         
       }
       } catch (error) {
-        console.log(error);
+
+        console.log("Error", error);
       }
   
   return (

@@ -36,6 +36,13 @@ function Login() {
           .post(
             "http://localhost:4000/users/login",
             { email: email, password: password },
+            // {
+            //   headers: {
+            //     authorization: ` Bearer ${user?.token}`,
+            //     Accept: "application/json",
+            //     "Content-Type": "multipart/form-data",
+            //   },
+            // }
          
           )
           //   setLoggedIn(true)
@@ -81,6 +88,9 @@ function Login() {
         }
       }
     } catch (error) {
+      if(error.response?.status === 403){
+        return toast.error("your account is inactive " );
+      }
       if(error.response?.status === 400){
         return toast.error("incorrect email or password please try again " );
       }

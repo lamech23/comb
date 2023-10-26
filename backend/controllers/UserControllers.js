@@ -34,6 +34,11 @@ const loginUser = async (req, res) => {
       // the reason why throw is being used is because we dont have acces to the json
       res.status(400).json({error: "invalid email"})
     }
+
+    if (user.Active == "inActive") {
+      // check the status of the user if he or she is inActive he is consider a forbiden user
+      return res.status(403).json({ error: "your account is not activated" });
+    }
     // trying to compare the password N/B :user.password is the hased password
     const match = await bcrypt.compare(password, user.password);
     if (match === false) {

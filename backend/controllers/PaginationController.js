@@ -15,7 +15,7 @@ const getHouses = async (req, res) => {
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]]
     });
     const binaryBlob = fs.readFileSync(
-      `http://localhost:4000/${Details.image}`
+      `http://localhost:5000/${Details.image}`
     );
 
     const buffer = Buffer.from(binaryBlob, "binary");

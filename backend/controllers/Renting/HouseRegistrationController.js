@@ -19,7 +19,6 @@ const getAllHouses = async (req, res) => {
 
 const subtotal = async (req, res) => {
   const { id } = req.params;
-  console.log(id, "Identification");
   try {
     const details = await tenantRegistration.findOne({
     where: { id }
@@ -44,18 +43,29 @@ const subtotal = async (req, res) => {
 // eg house k-50 under a landowner
 
 const getTenants = async (req, res) => {
-   const houseName = req.query.houseName
+  const houseName = req.query.houseName
+   const token = req.cookies.access_token;
+   console.log(token, "is this the token you wanted");
+
 
   try {
-    const details = await tenantRegistration.findAll({
+    const tenats = await tenantRegistration.findAll({
       where: {
          houseName: houseName
       }
    
     });
-    console.log(details);
+     const tenantDetals =Array.isArray(tenats)
 
-    res.status(200).json([details]);
+     if(tenantDetals === true && tenats.length === 0 ){
+     return res.status(404).json({
+      succese: false,
+      message: "house does not exist "
+     }).end()
+      
+     }
+
+    res.status(200).json(tenats);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

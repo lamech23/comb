@@ -12,44 +12,43 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 function Navbar() {
-  //   const {user}=useAuthContext()
   const { dispatch } = useAuthContext();
-  const { user} = useAuthContext();
+  const { user } = useAuthContext();
   const role = useIsAdmin();
   const status = useIsStatus();
   const [Status, setStatus] = useState("");
-  const [open, setOpen]=useState(false)
+  const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
   useEffect(() => {
     fetchUserById();
 
-
-    document.addEventListener("DOMContentLoaded", function(){
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 50) {
-        document.querySelector("#mainNavbar").classList.add("fixed-top");
-        const navbar_height = document.querySelector(".navbar").offSetHeight;
-        document.body.style.paddingTop = navbar_height + 'px';
-
-      } else {
-        document.querySelector("#mainNavbar").classList.remove("fixed-top");
-        document.body.style.paddingTop = "0";
-      }
+    document.addEventListener("DOMContentLoaded", function () {
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 50) {
+          document.querySelector("#mainNavbar").classList.add("fixed-top");
+          const navbar_height = document.querySelector(".navbar").offSetHeight;
+          document.body.style.paddingTop = navbar_height + "px";
+        } else {
+          document.querySelector("#mainNavbar").classList.remove("fixed-top");
+          document.body.style.paddingTop = "0";
+        }
+      });
     });
-  });
   }, []);
 
-  const handleOpen = () =>{
-    setOpen(false)
-    const content = document.querySelector("#main_navigation").style.visibility = "visible"
-  }
+  const handleOpen = () => {
+    setOpen(false);
+    const content = (document.querySelector(
+      "#main_navigation"
+    ).style.visibility = "visible");
+  };
 
-  const handleClose = () =>{
-    setOpen(false)
-    const content = document.querySelector("#main_navigation")
-    content?.classList.add('hidden')
-  }
+  const handleClose = () => {
+    setOpen(false);
+    const content = document.querySelector("#main_navigation");
+    content?.classList.add("hidden");
+  };
 
   const fetchUserById = async () => {
     const response = await axios.get(
@@ -59,27 +58,18 @@ function Navbar() {
     console.log(response);
   };
 
-
-  //   console.log(user.Active);
-
-  const handelClick = () => {
+  const handleLogout = async () => {
+    await axios.post(`http://localhost:4000/users/logout`);
     {
       localStorage.removeItem("credentials");
     }
-
     dispatch({ type: "LOGOUT" });
+
 
     navigate("/");
 
-    return toast.success(`Successfully logged out ${user.email}`);
+    return toast.success(`Successfully logged out ${user?.email}`);
   };
-  //    const handelprevent=()=>{
-  // if(Active==='inActive'){
-  //     return toast.error('Sorry you are not permited to perform the action')
-  // }
-
-  // }
-
 
   return (
     <div>
@@ -95,35 +85,33 @@ function Navbar() {
           <Link className="navbar-brand" to="/">
             Kausi property
           </Link>
-            { open?
-          <button
-            className="navbar-toggler "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#main_navigation"
-            aria-controls="main_navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={handleClose}
-          >
-            <span class="material-symbols-outlined"> close</span>
-
-          </button>: 
+          {open ? (
             <button
-            className="navbar-toggler "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#main_navigation"
-            aria-controls="main_navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={handleOpen}
-            
-          >
-            <span class="navbar-toggler-icon"></span>
-
-          </button>
-          }
+              className="navbar-toggler "
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#main_navigation"
+              aria-controls="main_navigation"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={handleClose}
+            >
+              <span class="material-symbols-outlined"> close</span>
+            </button>
+          ) : (
+            <button
+              className="navbar-toggler "
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#main_navigation"
+              aria-controls="main_navigation"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={handleOpen}
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          )}
           {/* <Search/> */}
 
           <div
@@ -190,7 +178,7 @@ function Navbar() {
 
                             <span className="fs-5  text-teal-400 ">
                               {" "}
-                              Welcome {user? user?.email: null}
+                              Welcome {user ? user?.email : null}
                             </span>
                           </a>
                           <ul
@@ -213,7 +201,7 @@ function Navbar() {
                             <li>
                               <button
                                 className=" dropdown-item  text-decoration-none text-danger fs-5"
-                                onClick={handelClick}
+                                onClick={handleLogout}
                               >
                                 {" "}
                                 logout{" "}
@@ -244,6 +232,19 @@ function Navbar() {
       </nav>
 
       {/* <Search/> */}
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+  
     </div>
   );
 }

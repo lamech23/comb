@@ -5,7 +5,6 @@ const sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const database = require("../config/Database.js");
 
 const createToken = ([id, email, role, isAdmin, Active]) => {
   return jwt.sign(
@@ -21,18 +20,14 @@ const createToken = ([id, email, role, isAdmin, Active]) => {
   );
 };
 
-
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
-
   try {
-   
     const user = await users.findOne({ where: { email: email } });
 
     if (!user) {
       // the reason why throw is being used is because we dont have acces to the json
-      res.status(400).json({error: "invalid email"})
+      res.status(400).json({ succes: false, error: "invalid email" });
     }
 
     if (user.Active == "inActive") {
@@ -41,12 +36,10 @@ const loginUser = async (req, res) => {
     }
     // trying to compare the password N/B :user.password is the hased password
     const match = await bcrypt.compare(password, user.password);
-    if (match === false) {
-      res.status(400).json({error: "invalid password"})
-    } 
-   
+    if (match === false) 
+      return res.status(400).json({ error: "invalid password" })
+    
 
-   
     const token = createToken([
       user.id,
       user.email,
@@ -55,17 +48,17 @@ const loginUser = async (req, res) => {
       user.Active,
     ]);
 
-    res.cookie("acces_token", token,{
-      httpOnly: true
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none"
     });
-
-    res.status(201).json({
+    res.status(201).send({
       id: user.id,
       email: user.email,
       role: user.role,
       isAdmin: user.isAdmin,
       Active: user.Active,
-
       token,
     });
   } catch (error) {
@@ -73,19 +66,15 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });
 
- 
   try {
-   
-
     if (checkEmail) {
-      res.status(400).json({error: "email already exists " })
+      res.status(400).json({ error: "email already exists " });
     }
 
     const User = await users.create({
@@ -115,8 +104,7 @@ const signupUser = async (req, res) => {
     });
   } catch (error) {
     // res.status(400).json({ error: error.message });
-  }   
-
+  }
 };
 
 const getAllUsers = async (req, res) => {
@@ -124,11 +112,10 @@ const getAllUsers = async (req, res) => {
   res.status(200).json(user);
 };
 
-
 //activating and deactivating auser
 const deactivate = async (req, res) => {
   try {
-    const  id = req.params.id 
+    const id = req.params.id;
 
     const userStatus = { Active: req.query.Active };
 
@@ -245,7 +232,6 @@ const reset = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
   const { id } = req.params;
 
-  
   if (password === confirmPassword) {
     // res.status(200).json({mssg:'okay'})
   } else {
@@ -274,6 +260,18 @@ const updateUserEmail = async (req, res) => {
   res.status(200).json(userEmail);
 };
 
+const logout = async (req, res) => {
+  
+  res
+    .clearCookie("access_token", {
+      secure: true,
+      sameSite: "none",
+    })
+    .status(200)
+    .json({ error: "successfully  logged out" });
+
+};
+
 module.exports = {
   loginUser,
   signupUser,
@@ -285,4 +283,5 @@ module.exports = {
   getUserById,
   getUserInfo,
   deactivate,
+  logout,
 };

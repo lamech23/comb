@@ -20,8 +20,8 @@ const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js
 // const logingInLandOwner=require('./Routes/RentingRoutes/LogingLandownerRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
 const bodyParser = require('body-parser');
-const cookieParser =require("cookie-parser")
-const app =express()
+const cookieParser = require("cookie-parser")
+const app = express()
 
 app.use(cors())
 

@@ -10,7 +10,6 @@ const Details = db.define(
       allowNull: false,
       require: true,
     },
-
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -45,14 +44,14 @@ const Details = db.define(
   }
 );
 
-Details.belongsTo(users, { foreignKey: "user_id" , as:'user' });
- 
+Details.belongsTo(users, { foreignKey: "user_id", as: "user" });
+
 db.sync()
   .then(() => {
     console.log("Details table created successfully!");
   })
   .catch((error) => {
     console.log("Unable to create Details table", error);
-  });
+});
 
 module.exports = Details;

@@ -8,14 +8,13 @@ const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {
     const details = await Details.findAll({
+      
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
 
     });
-
     //  .json(details)
-
     res.status(200).json(details);
   } catch (error) {
     res.status(500);
@@ -27,12 +26,12 @@ const getAllDetails = async (req, res) => {
   try {
     const user_id = req.query.user_id;
     
-
     const details = await Details.findAll({
       where: {
         user_id: user_id,
       },
     });
+    
     res.status(200).json(details);
   } catch (error) {
     res.status(400).json("nop");
@@ -49,6 +48,8 @@ const ownCompound = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 const RentalHouse = async (req, res) => {
   try {
     let Maisonette = await Details.findAll({
@@ -59,6 +60,8 @@ const RentalHouse = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 const BnBHouse = async (req, res) => {
   try {
     let Apartments = await Details.findAll({

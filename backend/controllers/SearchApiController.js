@@ -1,6 +1,5 @@
 const Details = require("../models/UploadModals.js");
 
-
 const getSearch = async (req, res) => {
 
   try {

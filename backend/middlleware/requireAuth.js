@@ -19,6 +19,8 @@ const requireAuth = async (req, res, next) => {
     const user = jwt.verify(token, process.env.SECRET);
     //here we are finding the user by id . The select method only picks the id instead of getting the hashed password and email
     // const isExpiredToken = false
+   // Attach the decoded user data to the req object
+   req.user = user;
 
     // const currentTime = Date.now();
     // const time = Math.floor(currentTime);
@@ -31,7 +33,7 @@ const requireAuth = async (req, res, next) => {
     // if (user.exp) {
     //   console.log("your logged out");
     //   isExpiredToken = true;
-    //   res.redirect("/");
+    //   res.redirect("http://localhost:3000/");
     //   res.end();
     // } else {
     //   await User.findOne({ where: { id: id } });
@@ -47,7 +49,6 @@ const requireAuth = async (req, res, next) => {
 const isAdmin = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    console.log(authorization);
     if (!authorization) {
       return res.status(401).json({ error: "Authorization token required" });
     }

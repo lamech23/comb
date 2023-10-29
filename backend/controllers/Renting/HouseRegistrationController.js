@@ -44,9 +44,8 @@ const subtotal = async (req, res) => {
 
 const getTenants = async (req, res) => {
   const houseName = req.query.houseName
-   const token = req.cookies.access_token;
-   console.log(token, "is this the token you wanted");
-
+  const token  =req.user
+   console.log(req.user, "is this the token you wanted");
 
   try {
     const tenats = await tenantRegistration.findAll({
@@ -67,7 +66,7 @@ const getTenants = async (req, res) => {
 
     res.status(200).json(tenats);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // res.status(400).json({ error: error.message });
   }
 };
 

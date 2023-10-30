@@ -43,28 +43,38 @@ const subtotal = async (req, res) => {
 // eg house k-50 under a landowner
 
 const getTenants = async (req, res) => {
-  const houseName = req.query.houseName
+  // const houseName = req.query.houseName
   const token  =req.user
-   console.log(req.user, "is this the token you wanted");
+  const user_id =token.id
 
   try {
-    const tenats = await tenantRegistration.findAll({
+    const tenats = await houseName.findAll({
       where: {
-         houseName: houseName
+         user_id: user_id
       }
    
     });
-     const tenantDetals =Array.isArray(tenats)
+    const landownerHousename = tenats.map((landOwnerHouse)=>{
 
-     if(tenantDetals === true && tenats.length === 0 ){
+      return landOwnerHouse.house_name
+    } )
+    const tenatsHouse = await tenantRegistration.findAll({
+      where: {
+         houseName: landownerHousename
+      }
+   
+    });
+     const tenantDetals =Array.isArray({tenats, tenatsHouse})
+
+     if(tenantDetals === true && tenats.length === 0  ){
      return res.status(404).json({
       succese: false,
       message: "house does not exist "
-     }).end()
+     })
       
      }
 
-    res.status(200).json(tenats);
+    res.status(200).json(tenatsHouse);
   } catch (error) {
     // res.status(400).json({ error: error.message });
   }

@@ -39,6 +39,8 @@ function GetAllDetails() {
     console.log(response.data);
   };
 
+  
+
   const handelDelete = async (id) => {
     await axios.delete(`http://localhost:4000/Details/${id} `);
     fetchAllDEtails();
@@ -76,7 +78,6 @@ function GetAllDetails() {
                 <th>Description</th>
                 <th>contact</th>
                 <th>price</th>
-                <th>user_id</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -119,7 +120,6 @@ function GetAllDetails() {
                     <strong>{details.price}</strong>
                   </td>
                   <td>
-                    <strong>{details.user_id}</strong>
                   </td>
                   <td>
                     <Link

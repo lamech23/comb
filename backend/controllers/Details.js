@@ -3,6 +3,7 @@ const Tours = require("../models/TourRequestModel.js");
 const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
+const { log } = require("console");
 
 const getAllHouses = async (req, res) => {
   const page_size = 100;
@@ -12,14 +13,14 @@ const getAllHouses = async (req, res) => {
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
 
-    });
+    })
 // Create an array to store image data for all records
 const images = [];
 
 // Iterate through the details and convert each image to Base64
 for (const detail of details) {
   const imageBuffer = detail.image;
-  const imageBase64 = imageBuffer.toString();
+  const imageBase64 = imageBuffer.join(",");
   detail.image = imageBase64; // Update the image property in the record
   images.push(imageBase64);
 }
@@ -30,7 +31,7 @@ const dataWithImages = details.map((detail, index) => ({
   image: images[index],
 }));
 
-// console.log(dataWithImages);
+console.log(dataWithImages);
 
 res.status(200).json(dataWithImages);
 
@@ -116,19 +117,30 @@ const createDetails = async (req, res) => {
     user_id: req.body.user_id,
   };
 
-  const imageBlobs = []; // Create an array to store BLOB data
+  // const imageBlobs = []; // Create an array to store BLOB data
 
 
-  if (req.files) {
-  // Loop through the uploaded files
-  for (const file of files) {
-    const imageBuffer = file.data; // Access the file data as a Buffer
-    imageBlobs.push(imageBuffer); // Store the Buffer in the array
-  }
+  // if (req.files) {
+  // // Loop through the uploaded files
+  // for (const file of files) {
+  //   const imageBuffer = file.data; // Access the file data as a Buffer
+  //   imageBlobs.push(imageBuffer); // Store the Buffer in the array
+  // }
 
-  // Set the 'image' property to the array of BLOBs
-  info.image = imageBlobs;
-  }
+  // // Set the 'image' property to the array of BLOBs
+  // info.image = imageBlobs;
+  // }
+
+  console.log(req.files);
+
+  const images = [];
+
+  req.files.forEach((image) => {
+      images.push(image.path)
+    })
+  info.image = images.join(".")
+
+
    await Details.create(info);
   try {
 

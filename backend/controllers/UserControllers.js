@@ -6,17 +6,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
-const createToken = ([id, email, role, isAdmin, Active]) => {
+const createToken = ([id, role  ]) => {
   return jwt.sign(
     {
       id: id,
-      email: email,
       role: role,
-      isAdmin: isAdmin,
-      Active: Active,
+    
     },
     process.env.SECRET,
-    { expiresIn: 1000 }
+    { expiresIn: 10000 }
   );
 };
 

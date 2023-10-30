@@ -3,11 +3,11 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import LandOwnerNav from "./LandOwnerNav";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import setHeader from "../componets/Api"
 
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
   const {user} =useAuthContext()
-  // const {houseName} = useParams()
 
 
 
@@ -16,12 +16,19 @@ function LandownerDashbard() {
       getTenantInfo();
       
     }, []);
-    const getTenantInfo = async (houseName) => {
+    const getTenantInfo = async () => {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/?houseName=${houseName}` 
+          `http://localhost:4000/houseRegister/specific/` ,
+          {
+            headers: {
+              authorization: ` Bearer ${user?.token}`,
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
-        setTenant(response.data[0])
-        console.log(response);
+        setTenant(response.data)
+        console.log(response.data);
         
       }
       } catch (error) {
@@ -52,7 +59,7 @@ function LandownerDashbard() {
                 </tr>
               </thead>
               <tbody>
-                {tenant && tenant.map((tenants) => (
+                {tenant?.map((tenants) => (
                   <tr key={tenants.id}>
                     <td>{tenants.tenantsName}</td>
                     <td>{tenants.houseNumber}</td>

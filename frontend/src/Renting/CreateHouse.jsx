@@ -53,15 +53,15 @@ function CreateHouse() {
    placeholder="eg: K-10 , K-11"
    onChange={e => setHouse_name(e.target.value)}
    />
-    {(successMessage || errors) && (
+    {/* {(successMessage || errors)  && (
       <div
       className={`p-3 rounded-lg mt-4 ${
         errors ? "text-red-500 bg-red-100" : "text-green-500 bg-green-100"
       }`}
     >
-      {errors || successMessage}
+      {successMessage || errors }
     </div>
-    )}
+    )} */}
   
    <button className=' border p-2 justify-center items-center rounded-full  text-teal-600 hover:bg-teal-900 mt-3' type='submit'> submit</button>
   </form>

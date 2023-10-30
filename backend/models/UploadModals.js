@@ -6,7 +6,7 @@ const Details = db.define(
   "Details",
   {
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       require: true,
     },
@@ -45,8 +45,13 @@ const Details = db.define(
   }
 );
 
-Details.belongsTo(users, { foreignKey: "user_id" , as:'user' });
- 
+Details.belongsTo(users, {
+  foreignKey: "user_id",
+  as: "user",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
+
 db.sync()
   .then(() => {
     console.log("Details table created successfully!");

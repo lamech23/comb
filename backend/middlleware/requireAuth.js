@@ -23,14 +23,12 @@ const requireAuth = async (req, res, next) => {
    req.user = user;
 
     // const currentTime = Date.now();
-    // const time = Math.floor(currentTime);
-    // console.log(time);
-
+    // // const time = Math.floor(currentTime);
     // const id = user?.id;
 
     // isExpiredToken = false;
 
-    // if (user.exp) {
+    // if (req.user.exp == true) {
     //   console.log("your logged out");
     //   isExpiredToken = true;
     //   res.redirect("http://localhost:3000/");

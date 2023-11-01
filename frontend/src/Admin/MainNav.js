@@ -34,7 +34,6 @@ function MainNav() {
                 className="fas fa-align-left primary-text fs-4 me-3"
                 id="menu-toggle"
               ></i>
-              <h2 className="fs-2 ">Dashboard</h2>
               <Link
                 className="text-decoration-none text-danger ms-5 fs-2"
                 to="/"

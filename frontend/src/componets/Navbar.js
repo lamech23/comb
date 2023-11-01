@@ -20,34 +20,32 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
+  document.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener("scroll", function () {
+      if (window.scrollY) {
+        document.querySelector("#mainNavbar").classList.add("fixed-top");
+        const navbar_height = document.querySelector(".navbar").offSetHeight;
+        document.body.style.paddingTop = navbar_height + "px";
+      } else {
+        document.querySelector("#mainNavbar").classList.remove("fixed-top");
+        document.body.style.paddingTop = "0";
+      }
+    });
+  });
   useEffect(() => {
     fetchUserById();
-
-    document.addEventListener("DOMContentLoaded", function () {
-      window.addEventListener("scroll", function () {
-        if (window.scrollY > 50) {
-          document.querySelector("#mainNavbar").classList.add("fixed-top");
-          const navbar_height = document.querySelector(".navbar").offSetHeight;
-          document.body.style.paddingTop = navbar_height + "px";
-        } else {
-          document.querySelector("#mainNavbar").classList.remove("fixed-top");
-          document.body.style.paddingTop = "0";
-        }
-      });
-    });
   }, []);
 
   const handleOpen = () => {
     setOpen(false);
-    const content = (document.querySelector(
-      "#main_navigation"
-    ).style.visibility = "visible");
+    const content = (document.querySelector("#main_navigation").style.display =
+      "visible");
   };
 
   const handleClose = () => {
     setOpen(false);
     const content = document.querySelector("#main_navigation");
-    content?.classList.add("hidden");
+    content.style.display = "none";
   };
 
   const fetchUserById = async () => {
@@ -64,7 +62,6 @@ function Navbar() {
       localStorage.removeItem("credentials");
     }
     dispatch({ type: "LOGOUT" });
-
 
     navigate("/");
 
@@ -244,7 +241,6 @@ function Navbar() {
         pauseOnHover
         theme="colored"
       />
-  
     </div>
   );
 }

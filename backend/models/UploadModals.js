@@ -6,7 +6,7 @@ const Details = db.define(
   "Details",
   {
     image: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
       require: true,
     },

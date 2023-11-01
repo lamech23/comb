@@ -22,6 +22,8 @@ const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
 const app = express()
+const fs = require('fs');
+
 
 app.use(cors())
 
@@ -53,6 +55,7 @@ app.use((req ,res ,next)=>{
   console.log(req.path ,req.body, req.method)
   next()
 })
+
 
 app.use('/Details',uploadRoute);
 app.use('/Users',userRoute);

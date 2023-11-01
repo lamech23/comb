@@ -14,26 +14,41 @@ const getAllHouses = async (req, res) => {
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
 
     })
+    const combinedData = details.image.map((image)=>({
+       ...details.toJSON(),
+       image: image.image
+    }))
+      // Fetch the image from the database
+    //   const buffer = Buffer.from(details.image, 'base64');
+    //   res.writeHead(200, {
+    //      'Content-Type': 'image/jpeg/jpg/png',
+    //      'Content-Length': buffer.length,
+    //   });
+    //   // console.log(buffer, "is this the buffer ");
+    //  const me = buffer +=details
+    //  console.log(me, "meeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    //   // res.end(buffer);
+    
 // Create an array to store image data for all records
-const images = [];
+// const images = [];
 
-// Iterate through the details and convert each image to Base64
-for (const detail of details) {
-  const imageBuffer = detail.image;
-  const imageBase64 = imageBuffer.join(",");
-  detail.image = imageBase64; // Update the image property in the record
-  images.push(imageBase64);
-}
-console.log(images );
-// Combine image data with the details
-const dataWithImages = details.map((detail, index) => ({
-  ...detail.toJSON(),
-  image: images[index],
-}));
+// // Iterate through the details and convert each image to Base64
+// for (const detail of details) {
+//   const imageBuffer = detail.image;
+//   const imageBase64 = imageBuffer.toString();
+//   detail.image = imageBase64; // Update the image property in the record
+//   images.push(imageBase64);
+// }
+// console.log(images );
+// // Combine image data with the details
+// const dataWithImages = details.map((detail, index) => ({
+//   ...detail.toJSON(),
+//   image: images[index],
+// }));
 
-console.log(dataWithImages);
+// console.log(dataWithImages);
 
-res.status(200).json(dataWithImages);
+res.status(200).send({combinedData});
 
   } catch (error) {
     res.status(500);
@@ -131,20 +146,19 @@ const createDetails = async (req, res) => {
   // info.image = imageBlobs;
   // }
 
-  console.log(req.files);
 
   const images = [];
 
   req.files.forEach((image) => {
       images.push(image.path)
     })
-  info.image = images.join(".")
+  info.image = images
 
 
    await Details.create(info);
   try {
 
-    const currentUser = await users.findOne({ where: { id: id } });
+     await users.findOne({ where: { id: id } });
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -160,7 +174,7 @@ const createDetails = async (req, res) => {
       subject: "Post Alert ",
       html:
         " Hello Admin\n\n" +
-        `<p>You are reciving this email because   ${currentUser?.email}  who is ${currentUser?.role}  has posted a house at kausi property.</p> :\n`,
+        `<p>You are reciving this email because   ${users?.email}  who is ${users?.role}  has posted a house at kausi property.</p> :\n`,
     };
     // end of else
 

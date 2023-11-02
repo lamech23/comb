@@ -71,10 +71,10 @@ function Navbar() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  "
+        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  lg:w-full"
         id="mainNavbar"
       >
-        <div className="container-xxl">
+        <div className="container-xxl ">
           <Link to="/">
             {" "}
             <img className="logo" src={logo} alt="" />

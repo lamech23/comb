@@ -64,7 +64,6 @@ function Dashboard() {
   return (
     <>
       <MainNav />
-      <div className="split">
         <SideNavigation />
 
         <div class="container-fluid px-4 mt-5">
@@ -131,7 +130,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
 
 
       

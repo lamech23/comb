@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
       user.Active,
     ]);
 
-    res.cookie("access_token", token, {
+    res.cookie("access_token", JSON.stringify(token), {
       httpOnly: true,
       secure: true,
       sameSite: "none"

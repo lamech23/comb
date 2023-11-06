@@ -24,11 +24,18 @@ function Login() {
   const showPassword = async () => {
     const input = document.querySelector("#inputPassword");
 
-    if (input.type == "password") {
-      return (input.type = "text");
-    } else {
-      return input.type == "password";
+    const button = document.querySelector(".material-symbols-outlined")
+    
+
+    if(input.getAttribute('type')=="password"){
+      input.setAttribute('type','text');
+      button.innerHTML ="visibility"
+
+    }else{
+      input.setAttribute('type',"password");
+      button.innerHTML ="visibility_off"
     }
+  
   };
 
   const handelSubmit = async (e) => {
@@ -147,18 +154,22 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <span
-                  className=" showPasscode material-symbols-outlined text-3xl cursor-pointer text-teal-500"
-                  onClick={showPassword}
-                >
-                  visibility
-                </span>
+               
                 {/* 
 
                 <input className="showPasscode" type="checkbox" onClick={showPassword}>
 
                   </input>  */}
               </div>
+              <span className="input-group-text w-fit">
+
+              <span
+                  className=" showPasscode material-symbols-outlined text-3xl cursor-pointer text-teal-500"
+                  onClick={showPassword}
+                >
+                  visibility_off
+                </span>
+                </span>
             </div>
 
             <div className="form-text text-info">
@@ -174,7 +185,7 @@ function Login() {
             </button>
 
             <div>
-              <p className="text-end mt-3 ">
+              <p className="text-end mt-3  ">
                 Don't have an account please click here to
                 <Link
                   className="text-decoration-none fs-5 text-info"

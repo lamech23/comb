@@ -64,9 +64,10 @@ function Dashboard() {
   return (
     <>
       <MainNav />
-      <div className="split">
+    <div className="flex flex-row lg:flex-row pt-5 ">
+      
 
-        <SideNavigation />
+        <SideNavigation  />
 
         <div class="container-fluid px-4 mt-5">
           <div class="row g-3 my-2">

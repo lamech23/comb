@@ -19,6 +19,10 @@ function Dashboard() {
   const [newsLetter, setNewsLetter] = useState([]);
   const [count, setCount] = useState();
   const [counts, setCounts] = useState(0);
+  const [users, setUsers]=useState(0)
+  const [activeUser, setActiveUser]=useState(0)
+  const [tenant, setTenant]=useState(0)
+  const [landowner, setLandOwner]=useState(0)
   let navigate = useNavigate();
 
   
@@ -45,7 +49,11 @@ function Dashboard() {
       const response = await axios.get(
         "http://localhost:4000/Total/newsLetters"
       );
-      setCounts(response.data);
+      setCounts(response.data.count);
+      setUsers(response.data.count2);
+      setActiveUser(response.data.activeUser);
+      setTenant(response.data.Tenant);
+      setLandOwner(response.data.Landlord);
     };
   } catch (error) {}
 
@@ -64,7 +72,7 @@ function Dashboard() {
   return (
     <>
       <MainNav />
-    <div className="flex flex-row lg:flex-row pt-5 ">
+    <div className="flex flex-row lg:flex-row md:flex-grow pt-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
       
 
         <SideNavigation  />
@@ -90,14 +98,14 @@ function Dashboard() {
             <div class="col-md-3">
               <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
                 <div>
-                  <h3 class="fs-2">4920</h3>
-                  <p class="fs-5">Sales</p>
+                  <h3 class="fs-2">{users}</h3>
+                  <p class="fs-5">users</p>
                 </div>
 
                 <span
-                  className="material-symbols-outlined display-2  text-green-500"
+                  className="material-symbols-outlined display-2 text-red-500"
                 >
-                  attach_money
+                  person
                 </span>
               </div>
             </div>
@@ -120,14 +128,44 @@ function Dashboard() {
             <div class="col-md-3">
               <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
                 <div>
-                  <h3 class="fs-2">%25</h3>
-                  <p class="fs-5">Increase</p>
+                  <h3 class="fs-2">{activeUser}</h3>
+                  <p class="fs-5">Active Users</p>
                 </div>
                 <span
                   class="material-symbols-outlined display-2 "
                   style={{ color: "red" }}
                 >
-                  percent
+                  groups
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
+                <div>
+                  <h3 class="fs-2">{tenant}</h3>
+                  <p class="fs-5">Tenants</p>
+                </div>
+                <span
+                  class="material-symbols-outlined display-2 "
+                  style={{ color: "red" }}
+                >
+                  groups
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
+                <div>
+                  <h3 class="fs-2">{landowner}</h3>
+                  <p class="fs-5">Landlords</p>
+                </div>
+                <span
+                  class="material-symbols-outlined display-2 "
+                  style={{ color: "red" }}
+                >
+                  location_city
                 </span>
               </div>
             </div>

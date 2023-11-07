@@ -7,8 +7,12 @@ import { Link, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
+import io from "socket.io-client";
+import { ServerUrl } from "../utils/ServerUrl";
 
 function User() {
+  const socket = io(ServerUrl);
+
 
   const [users, setUsers] = useState([]);
 
@@ -17,15 +21,23 @@ function User() {
     setUsers(response.data);
   };
 
+  useEffect(() => {
+    // fetchUsers();
+  
+    socket.on("allUsers", fetchUsers());
+
+    return () => {
+    socket.off("allUsers", fetchUsers());
+
+    }
+
+  }, []);
+
   const updateStatus = async (id, state) => {
     const response = await axios.patch(
       `http://localhost:4000/Users/userStatus/${id}?Active=` + state
     );
   };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const deactivate = (id) => {
     let state = "inActive";
@@ -35,7 +47,9 @@ function User() {
   const activate = (id) => {
     let state = "active";
     updateStatus(id, state);
+
   };
+
 
   const handelDelete = async (id) => {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);

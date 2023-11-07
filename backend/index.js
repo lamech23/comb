@@ -8,7 +8,7 @@ const userRoute =require('./Routes/user')
 const uploadRoute =require('./Routes/Upload')
 const contact =require('./Routes/GetInTouch')
 const moreAboutClient =require('./Routes/ClientMore')
-// const NewsLetters=require('./Routes/NewsletterRoute')
+const NewsLetters=require('./Routes/NewsLetterRoute.js')
 const TotalHouses=require('./Routes/TotalDetailsRoute')
 const relatedHouses=require('./Routes/RelatedHousesRoute')
 const Houses=require('./Routes/PaginationRoute')
@@ -23,7 +23,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
 const app = express()
 const fs = require('fs');
-
+const http = require("http");
+const CLIENT_URL = process.env.CLIENT_URL;
+const socketConfiguration = require("./configs/socketConfiig.js")
 
 app.use(cors())
 
@@ -37,12 +39,15 @@ app.use(bodyParser.json());
 app.use(cookieParser())
 app.use('/Images', express.static('./Images'))
 
+
+const server = http.createServer(app);
+
 //connection to database
 
 try{
     db.authenticate()
     console.log('database connected');
-  app.listen(process.env.PORT, () => 
+  server.listen(process.env.PORT, () => 
   console.log('Server running on port',process.env.PORT))
  
 }catch(err){
@@ -56,12 +61,15 @@ app.use((req ,res ,next)=>{
   next()
 })
 
+//socket connection 
+socketConfiguration(server, CLIENT_URL);
+
 
 app.use('/Details',uploadRoute);
 app.use('/Users',userRoute);
 app.use('/contacts',contact)
 app.use('/client',moreAboutClient)
-// app.use('/news',NewsLetters)
+app.use('/news',NewsLetters)
 app.use('/Total',TotalHouses)
 app.use('/RelatedHouses',relatedHouses)
 app.use('/paginatedHouses',Houses)

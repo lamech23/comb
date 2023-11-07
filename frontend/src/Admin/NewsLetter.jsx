@@ -13,7 +13,7 @@ function NewsLetter() {
   }, []);
 
   const getNewssletter = async () => {
-    const response = await axios.get("http://localHost:4000/news/NewsLetter");
+    const response = await axios.get("http://localHost:4000/news/newsLetter");
     setNewsLetter(response.data);
   };
 

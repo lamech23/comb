@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Graph from "../utils/Graph";
 
 function Dashboard() {
   const { user } = useAuthContext();
@@ -19,13 +20,12 @@ function Dashboard() {
   const [newsLetter, setNewsLetter] = useState([]);
   const [count, setCount] = useState();
   const [counts, setCounts] = useState(0);
-  const [users, setUsers]=useState(0)
-  const [activeUser, setActiveUser]=useState(0)
-  const [tenant, setTenant]=useState(0)
-  const [landowner, setLandOwner]=useState(0)
+  const [users, setUsers] = useState(0);
+  const [activeUser, setActiveUser] = useState(0);
+  const [tenant, setTenant] = useState(0);
+  const [landowner, setLandOwner] = useState(0);
   let navigate = useNavigate();
 
-  
   try {
     useEffect(() => {
       fetchAllDEtails();
@@ -72,10 +72,8 @@ function Dashboard() {
   return (
     <>
       <MainNav />
-    <div className="flex flex-row lg:flex-row md:flex-grow pt-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
-      
-
-        <SideNavigation  />
+      <div className="flex flex-row lg:flex-row md:flex-grow pt-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
+        <SideNavigation />
 
         <div class="container-fluid px-4 mt-5">
           <div class="row g-3 my-2">
@@ -102,9 +100,7 @@ function Dashboard() {
                   <p class="fs-5">users</p>
                 </div>
 
-                <span
-                  className="material-symbols-outlined display-2 text-red-500"
-                >
+                <span className="material-symbols-outlined display-2 text-red-500">
                   person
                 </span>
               </div>
@@ -170,24 +166,22 @@ function Dashboard() {
               </div>
             </div>
           </div>
+          <Graph users={users} />
         </div>
 
-
-      
-      <ToastContainer
-        position="top-left"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+        <ToastContainer
+          position="top-left"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
-
     </>
   );
 }

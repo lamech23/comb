@@ -15,7 +15,7 @@ function SideNavigation() {
   return (
     <div className=" ">
       {/* <!-- Sidebar --> */}
-      <div className=" flex flex-col  bg-green-600 w-60 h-full gap-10  self-start">
+      <div className=" flex flex-col flex-grow  bg-green-600 w-60 h-fit gap-10  self-start">
         <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom mt-4">
           <i className="fas fa-user-secret me-2"></i>Kausi Admin
         </div>

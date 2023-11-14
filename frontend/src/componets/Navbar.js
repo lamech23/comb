@@ -53,7 +53,7 @@ function Navbar() {
       `http://localhost:4000/Users/specificUser/+id`
     );
     setStatus(response.data.Status);
-    console.log(response);
+    console.log(response);user
   };
 
   const handleLogout = async () => {
@@ -62,6 +62,8 @@ function Navbar() {
       localStorage.removeItem("credentials");
     }
     dispatch({ type: "LOGOUT" });
+
+    document.cookie = 'user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/';
 
     navigate("/");
 

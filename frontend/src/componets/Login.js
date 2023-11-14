@@ -66,6 +66,11 @@ function Login() {
               JSON.stringify(res.data),
               "token"
             );
+
+            // get the user data from the response
+            const userData = res.data
+          document.cookie = `user=${JSON.stringify(userData)}`;
+
             // update the Auth context
             dispatch({ type: "LOGIN", payload: res.data });
             setIsLoading(false);

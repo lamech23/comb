@@ -11,8 +11,8 @@ const UserGraph = ({users}) => {
   
     for (let i = 0; i < monthCount; i++) {
       const date = new Date(currentDate);
-      date.setMonth(currentDate.getMonth() -[i]); // Subtract months to go back in time
-      const monthLabel = date.toLocaleDateString('default', { month: 'short' });
+      date.setMonth(currentDate.getMonth() -[i]) ; // Subtract months to go back in time
+      const monthLabel = date.toLocaleDateString("default", { month: 'short' });
       labels.unshift(monthLabel); // Add the month label to the beginning of the array
     }
   
@@ -63,8 +63,8 @@ const UserGraph = ({users}) => {
 
 const Graph = ({users }) => {
   return (
-    <div className="p-3">
-      <div className="m-2 p-5">
+    <div className="p-5 m-3">
+      <div className="">
         <UserGraph users={users}/>
       </div>
     </div>

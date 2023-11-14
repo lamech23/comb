@@ -11,27 +11,14 @@ import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 
 function User() {
-  const socket = io(ServerUrl);
-
-
+  const [socket, setSocket] = useState(null);
+  const newSocket = io(ServerUrl);
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     const response = await axios.get("http://localhost:4000/Users/all");
     setUsers(response.data);
   };
-
-  useEffect(() => {
-    // fetchUsers();
-  
-    socket.on("allUsers", fetchUsers());
-
-    return () => {
-    socket.off("allUsers", fetchUsers());
-
-    }
-
-  }, []);
 
   const updateStatus = async (id, state) => {
     const response = await axios.patch(
@@ -46,15 +33,36 @@ function User() {
 
   const activate = (id) => {
     let state = "active";
-    updateStatus(id, state);
+    socket.emit("updating", users, state)
+    socket.on("updatingUser", ()=>{
+      updateStatus(id, state);
+    })
+
+ 
+
+
 
   };
-
 
   const handelDelete = async (id) => {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
   };
+
+  useEffect(() => {
+    fetchUsers();
+
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+
+    if(socket === null ) return 
+    // socket.emit("updating", users, state)
+  }, [socket]);
 
   return (
     <>

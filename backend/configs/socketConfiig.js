@@ -18,20 +18,50 @@ function socketConfiguration(server, clientURL) {
     socket.broadcast.emit("user connected");
   });
 
+    const allUsers = []
+  io.on("connection",(socket)=>{
+    console.log("updating part ", socket.id);
+    socket.on("updating", (user, state)=>{
+      !allUsers.find((u)=> u.user === user) &&
+        allUsers.push({
+          user,
+          state,
+          socketId: socket.id
+        });
+
+         foundUser = allUsers.find((u) => u.user === user) 
+        if (foundUser) {
+          foundUser.state = state // Change the status to "inactive"
+          
+          io.emit("updatingUser", allUsers);
+          console.log(foundUser, "found one");
+        }
+      
+      // socket.on("activate", (user) => {
+      //   const foundUser = allUsers.find((u) => u.user === user);
+      //   if (foundUser) {
+      //     foundUser.status = user.status // Change the status to "inactive"
+      //     console.log(foundUser, "found one");
+      //     // io.emit("updatingUser", allUsers);
+      //   }
+      // });
 
 
-const connectedUsers ={}
-  io.on("connection", function(socket) {
-    console.log("websocket connection initiated by a user", socket.id);
 
-    socket.on("allUsers", ()=>{
-
-      // Emit the message back to the sender
-      io.emit('allUsers', Object.values(connectedUsers));
-
-      console.log(connectedUsers);
+      socket.on("disconnect", () => {
+        const disconnectedUser = allUsers.find((u) => u.socketId === socket.id);
+        if (disconnectedUser) {
+          allUsers.splice(allUsers.indexOf(disconnectedUser), 1);
+          // io.emit("updatingUser", allUsers);
+        }
+      });
+  
     })
-  });
+    })
+
+
+
+
 
 
   return io;

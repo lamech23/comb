@@ -28,20 +28,17 @@ function User() {
 
   const deactivate = (id) => {
     let state = "inActive";
-    updateStatus(id, state);
+    socket.emit("updating", id)
+    socket.on("updatingUser", (res)=>{
+      updateStatus(res?.userId, res?.state);
+      console.log(res);
+    })
   };
 
   const activate = (id) => {
     let state = "active";
-    socket.emit("updating", users, state)
-    socket.on("updatingUser", ()=>{
-      updateStatus(id, state);
-    })
 
- 
-
-
-
+    updateStatus(id, state);
   };
 
   const handelDelete = async (id) => {
@@ -59,9 +56,8 @@ function User() {
   }, []);
 
   useEffect(() => {
-
-    if(socket === null ) return 
-    // socket.emit("updating", users, state)
+    if (socket === null) return;
+    // socket.emit("updating", users?.id)
   }, [socket]);
 
   return (

@@ -29,19 +29,18 @@ function MainNav() {
             className="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4"
             id="next_bar"
           >
-            <div className="d-flex align-items-center">
-              <i
-                className="fas fa-align-left primary-text fs-4 me-3"
-                id="menu-toggle"
-              ></i>
-              <Link
-                className="text-decoration-none text-danger ms-5 fs-2"
-                to="/"
-              >
-                Home
-              </Link>
+              <div className=" lg:justify-items-end">
+                <i
+                  className="fas fa-align-left primary-text fs-4 me-3"
+                  id="menu-toggle"
+                ></i>
+                <Link
+                  className="text-decoration-none text-danger ms-5 fs-2"
+                  to="/"
+                >
+                  Home
+                </Link>
             </div>
-
             <button
               className="navbar-toggler"
               type="button"
@@ -53,19 +52,20 @@ function MainNav() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+
+
           </nav>
         </div>
-
         <div className="container-xxl">
           <div
             className=" collapse navbar-collapse justify-content-end align-center me-5  "
             id="#main-navbar"
           >
             <div
-              className=" navbar-collapse visible"
+              className=" flex justify-end  visible"
               id="navbarSupportedContent"
             >
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0 justify-end">
                 {isAdmin && user ? (
                   <li className="nav-item dropdown">
                     <a
@@ -96,6 +96,7 @@ function MainNav() {
                 ) : null}
               </ul>
             </div>
+            
           </div>
         </div>
       </nav>

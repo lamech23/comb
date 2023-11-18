@@ -72,7 +72,7 @@ function Dashboard() {
   return (
     <>
       <MainNav />
-      <div className="flex flex-row lg:flex-row md:flex-grow pt-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
+      <div className="flex flex-row lg:flex-row md:flex-grow pt-5 w-full  overflow-y-scroll hide-scrollbar ">
         <SideNavigation />
 
         <div class="container-fluid px-4 mt-5">

@@ -53,7 +53,6 @@ function Navbar() {
       `http://localhost:4000/Users/specificUser/+id`
     );
     setStatus(response.data.Status);
-    console.log(response);user
   };
 
   const handleLogout = async () => {

@@ -11,12 +11,12 @@ const UserGraph = ({users}) => {
   
     for (let i = 0; i < monthCount; i++) {
       const date = new Date(currentDate);
-      date.setMonth(currentDate.getMonth() -[i]) ; // Subtract months to go back in time
+      date.setMonth(currentDate.getMonth()  -i  ) ; // Subtract months to go back in time
       const monthLabel = date.toLocaleDateString("default", { month: 'short' });
-      labels.unshift(monthLabel); // Add the month label to the beginning of the array
+      labels.push(monthLabel); // Add the month label to the beginning of the array
     }
   
-    return labels;
+    return labels.toSorted((a, b) => a - b);
   }
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const UserGraph = ({users}) => {
           datasets: [
             {
               label: "user Data ",
+            
               data: data,
               borderColor: "rgba(75, 192, 192, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -49,6 +50,8 @@ const UserGraph = ({users}) => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          
+       
         },
       });
     }

@@ -18,25 +18,24 @@ function socketConfiguration(server, clientURL) {
     socket.broadcast.emit("user connected");
   });
 
-    const allUsers = []
-  io.on("connection",(socket)=>{
+  const allUsers = [];
+  io.on("connection", (socket) => {
     console.log("updating part ", socket.id);
-    socket.on("updating", (userId, state)=>{
-      const existingUser = allUsers.find((user) => user.userId === userId);
+    socket.on("updating", (userId, state) => {
+      existingUser = allUsers.find((user) => user.userId === userId);
 
       if (!existingUser) {
         allUsers.push({
           userId,
-          state: "inActive", // Set initial status to "active"
+          state: state, // Set initial status to "active"
           socketId: socket.id,
         });
       } else {
         existingUser.socketId = socket.id; // Update the socketId if the user already exists
       }
-        io.emit("updatingUser", allUsers);
-    console.log(allUsers, "this is the id ");
+      io.emit("updatingUser", allUsers);
+      console.log(allUsers, "this is the id ");
 
-      
       // socket.on("activate", (user) => {
       //   const foundUser = allUsers.find((u) => u.user === user);
       //   if (foundUser) {
@@ -46,24 +45,17 @@ function socketConfiguration(server, clientURL) {
       //   }
       // });
 
-
-
-      // socket.on("disconnect", () => {
-      //   const disconnectedUser = allUsers.find((u) => u.socketId === socket.id);
-      //   if (disconnectedUser) {
-      //     allUsers.splice(allUsers.indexOf(disconnectedUser), 1);
-      //     // io.emit("updatingUser", allUsers);
-      //   }
-      // });
-  
-    })
-
-    })
-
-
-
-
-
+      socket.on("disconnect", () => {
+        const disconnectedUser = allUsers.filter(
+          (u) => u.socketId !== socket.id
+        );
+        if (disconnectedUser) {
+          allUsers.splice(allUsers.indexOf(disconnectedUser), 1);
+          io.emit("updatingUser", allUsers);
+        }
+      });
+    });
+  });
 
   return io;
 }

@@ -14,6 +14,8 @@ function User() {
   const [socket, setSocket] = useState(null);
   const newSocket = io(ServerUrl);
   const [users, setUsers] = useState([]);
+  const [active, setActive] = useState([])
+  console.log(active, "the active state");
 
   const fetchUsers = async () => {
     const response = await axios.get("http://localhost:4000/Users/all");
@@ -28,11 +30,22 @@ function User() {
 
   const deactivate = (id) => {
     let state = "inActive";
-    socket.emit("updating", id)
-    socket.on("updatingUser", (res)=>{
-      updateStatus(res?.userId, res?.state);
+    if (socket === null) return;
+    socket.emit("updating", id, state);
+    socket.on("updatingUser", (res) => {
+      res.forEach((user) => {
+        const { userId, state } = user;
+        updateStatus(userId, state);
+        // setActive(res)
+      });
+
+      // Promise.all(res.map((user) => updateStatus(user.userId, user.state)))
+      // .then(()=>{
+      //   console.log('updated')
+      // })
       console.log(res);
-    })
+    });
+    // socket.off("disconnect");
   };
 
   const activate = (id) => {
@@ -108,10 +121,15 @@ function User() {
                 <td>
                   {" "}
                   <span>
-                    {allUsers.Active === "active" ? (
+                    
+                    { 
+                    allUsers.Active === "active" ? (
                       <button
                         type="button"
-                        className="btn btn-success"
+                        className={
+                          "btn btn-success"
+
+                      }
                         onClick={() => deactivate(allUsers.id)}
                       >
                         active
@@ -124,7 +142,8 @@ function User() {
                       >
                         inActive
                       </button>
-                    ) : null}
+                    ) : null
+                  }
                   </span>
                 </td>
               </tbody>

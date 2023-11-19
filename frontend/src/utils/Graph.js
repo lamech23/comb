@@ -35,6 +35,7 @@ const UserGraph = ({users}) => {
         type: "bar",
         data: {
           labels: labels,
+   
           datasets: [
             {
               label: "user Data ",
@@ -50,6 +51,22 @@ const UserGraph = ({users}) => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          scales:{
+            x: {
+              display: true,
+              title: {
+                display: true,
+                text: "Months",
+              },
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: "users",
+              },
+            },
+          },
           
        
         },

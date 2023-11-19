@@ -28,6 +28,6 @@ const imageUpload = multer({
         cb('Give proper files formate to upload')
     }
     
-}).array('image', 4)
+}).single('image', 4)
 
 module.exports = {imageUpload}

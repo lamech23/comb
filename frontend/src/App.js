@@ -65,17 +65,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <div className="bg-teal-900">
+
         <Navbar />
-        {/* <ModuleLoginContext.Provider value={{setOpenModal}}>
-
-      { openModal &&<Login/> }
-
-     </ModuleLoginContext.Provider>
-
-     <ModalSignUpContext.Provider value={{setOpenModalSignUp}}>
-      { openModalSignUp && <SignUp/>}
-     </ModalSignUpContext.Provider> */}
-
         <Routes>
           {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
           <Route path="/DetailsForm" element={<DetailsForm />} />
@@ -127,6 +119,8 @@ function App() {
 
           <Route path="*" element={<PageNotFound />}  />
         </Routes>
+      </div>
+
       </BrowserRouter>
     </>
   );

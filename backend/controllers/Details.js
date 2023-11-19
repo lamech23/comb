@@ -12,55 +12,24 @@ const getAllHouses = async (req, res) => {
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
+    });
+    console.log(details, " this is the data am looking for");
 
-    })
-    const combinedData = details.image.map((image)=>({
-       ...details.toJSON(),
-       image: image.image
-    }))
-      // Fetch the image from the database
-    //   const buffer = Buffer.from(details.image, 'base64');
-    //   res.writeHead(200, {
-    //      'Content-Type': 'image/jpeg/jpg/png',
-    //      'Content-Length': buffer.length,
-    //   });
-    //   // console.log(buffer, "is this the buffer ");
-    //  const me = buffer +=details
-    //  console.log(me, "meeeeeeeeeeeeeeeeeeeeeeeeeeee");
-    //   // res.end(buffer);
-    
-// Create an array to store image data for all records
-// const images = [];
+    const GetImage = details.map((img)=> img.image)
+    console.log("IMAGE ONLY ", GetImage);
 
-// // Iterate through the details and convert each image to Base64
-// for (const detail of details) {
-//   const imageBuffer = detail.image;
-//   const imageBase64 = imageBuffer.toString();
-//   detail.image = imageBase64; // Update the image property in the record
-//   images.push(imageBase64);
-// }
-// console.log(images );
-// // Combine image data with the details
-// const dataWithImages = details.map((detail, index) => ({
-//   ...detail.toJSON(),
-//   image: images[index],
-// }));
-
-// console.log(dataWithImages);
-
-res.status(200).send({combinedData});
-
+    res.status(200).json( details);
   } catch (error) {
     res.status(500);
   }
 };
 
+
+
 // GET all uploads
 const getAllDetails = async (req, res) => {
-
   try {
     const user_id = req.query.user_id;
-    
 
     const details = await Details.findAll({
       where: {
@@ -106,7 +75,7 @@ const BnBHouse = async (req, res) => {
 
 //Get a single upload
 const getSingelDetails = async (req, res) => {
-  const id = req.params.id; 
+  const id = req.params.id;
   const details = await Details.findOne({
     where: { id: id },
   });
@@ -119,7 +88,6 @@ const getSingelDetails = async (req, res) => {
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
-  const files  =req.files 
 
   const info = {
     title: req.body.title,
@@ -131,34 +99,20 @@ const createDetails = async (req, res) => {
 
     user_id: req.body.user_id,
   };
+  if (req.file) {
+    info.image = req.file.path;
+  }
 
-  // const imageBlobs = []; // Create an array to store BLOB data
+//   const images = [];
 
+// req.files.map((image) => {
+//     images.push(image.path);
+//   });
 
-  // if (req.files) {
-  // // Loop through the uploaded files
-  // for (const file of files) {
-  //   const imageBuffer = file.data; // Access the file data as a Buffer
-  //   imageBlobs.push(imageBuffer); // Store the Buffer in the array
-  // }
-
-  // // Set the 'image' property to the array of BLOBs
-  // info.image = imageBlobs;
-  // }
-
-
-  const images = [];
-
-  req.files.forEach((image) => {
-      images.push(image.path)
-    })
-  info.image = images
-
-
-   await Details.create(info);
+//   info.image = images.join(";");
+  await Details.create(info);
   try {
-
-     await users.findOne({ where: { id: id } });
+    await users.findOne({ where: { id: id } });
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -187,12 +141,10 @@ const createDetails = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(400).json({  mssg: error.message });
+    res.status(400).json({ mssg: error.message });
     console.log("something went wrong", error);
   }
 };
-
-
 
 const RequstingAtour = async (req, res) => {
   const id = req.params;
@@ -205,7 +157,7 @@ const RequstingAtour = async (req, res) => {
   try {
     const response = await Tours.create(info);
 
-     await users.findOne({
+    await users.findOne({
       where: {
         id: id,
       },
@@ -247,7 +199,6 @@ const getAllTours = async (req, res) => {
   const id = req.params;
   const tour = await Tours.findAll({});
 
-
   res.status(200).json(tour);
 };
 
@@ -282,7 +233,7 @@ const deleteDetails = async (req, res) => {
 };
 //UPDATE a upload
 const updateDetails = async (req, res) => {
-  const  id = req.params.id;
+  const id = req.params.id;
   const info = {
     title: req.body.title,
     location: req.body.location,
@@ -306,8 +257,6 @@ const updateDetails = async (req, res) => {
   }
   res.status(200).json(details);
 };
-
-
 
 module.exports = {
   createDetails,

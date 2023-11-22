@@ -1,28 +1,28 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const UserGraph = ({users}) => {
+const UserGraph = ({ users }) => {
   // Create a ref to hold the chart element.
   const chartRef = useRef(null);
 
   function generateMonthLabels(monthCount) {
     const labels = [];
     const currentDate = new Date(); // Get the current date
-  
+
     for (let i = 0; i < monthCount; i++) {
       const date = new Date(currentDate);
-      date.setMonth(currentDate.getMonth()  -i  ) ; // Subtract months to go back in time
-      const monthLabel = date.toLocaleDateString("default", { month: 'short' });
+      date.setMonth(currentDate.getMonth() - i); // Subtract months to go back in time
+      const monthLabel = date.toLocaleDateString("default", { month: "short" });
       labels.push(monthLabel); // Add the month label to the beginning of the array
     }
-  
+
     return labels.toSorted((a, b) => a - b);
   }
 
   useEffect(() => {
     // Define data for the chart.
-    const labels = generateMonthLabels(12)
-    const data = [users]
+    const labels = generateMonthLabels(12);
+    const data = [users];
 
     if (chartRef.current) {
       // If a chart instance exists, destroy it to prevent duplicates.
@@ -35,11 +35,9 @@ const UserGraph = ({users}) => {
         type: "bar",
         data: {
           labels: labels,
-   
           datasets: [
             {
               label: "user Data ",
-            
               data: data,
               borderColor: "rgba(75, 192, 192, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -51,7 +49,7 @@ const UserGraph = ({users}) => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales:{
+          scales: {
             x: {
               display: true,
               title: {
@@ -67,8 +65,6 @@ const UserGraph = ({users}) => {
               },
             },
           },
-          
-       
         },
       });
     }
@@ -81,11 +77,11 @@ const UserGraph = ({users}) => {
   );
 };
 
-const Graph = ({users }) => {
+const Graph = ({ users }) => {
   return (
     <div className="p-5 m-3">
       <div className="">
-        <UserGraph users={users}/>
+        <UserGraph users={users} />
       </div>
     </div>
   );

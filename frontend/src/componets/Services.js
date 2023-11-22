@@ -8,11 +8,11 @@ function Services() {
         <h2 className=" uppercase mt-5 text-center hover:text-teal-500 display-6 fw-bold" id="heading">
           Our Services
         </h2>
-        <div className="row d-flex justify-content-center p-4">
+        <div className="flex flex-row flex-wrap justify-center align-center  gap-5   ">
           <div
             className="card  mb-3 shadow-lg"
             style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-list-task"></i>
@@ -29,10 +29,11 @@ function Services() {
             </div>
           </div>
 
+
           <div
             className="card  mb-3 shadow-lg"
             style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-send"></i>
@@ -53,7 +54,7 @@ function Services() {
           <div
             className="card  mb-3 shadow-lg"
             style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-search"></i>

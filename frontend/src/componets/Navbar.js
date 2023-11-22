@@ -36,10 +36,11 @@ function Navbar() {
     fetchUserById();
   }, []);
 
+  console.log(open);
+
   const handleOpen = () => {
-    setOpen(false);
-    const content = (document.querySelector("#main_navigation").style.display =
-      "visible");
+    setOpen(true);
+    (document.querySelector("#main_navigation").style.display = "");
   };
 
   const handleClose = () => {

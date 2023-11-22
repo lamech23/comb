@@ -10,6 +10,7 @@ import { useIsStatus } from "../hooks/UseStatus";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Search from "./Search";
 
 function Navbar() {
   const { dispatch } = useAuthContext();
@@ -36,11 +37,9 @@ function Navbar() {
     fetchUserById();
   }, []);
 
-  console.log(open);
-
   const handleOpen = () => {
     setOpen(true);
-    (document.querySelector("#main_navigation").style.display = "");
+    document.querySelector("#main_navigation").style.display = "";
   };
 
   const handleClose = () => {
@@ -63,7 +62,7 @@ function Navbar() {
     }
     dispatch({ type: "LOGOUT" });
 
-    document.cookie = 'user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/';
+    document.cookie = "user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/";
 
     navigate("/");
 
@@ -84,9 +83,12 @@ function Navbar() {
           <Link className="navbar-brand" to="/">
             Kausi property
           </Link>
+          
+
+
           {open ? (
             <button
-              className="navbar-toggler "
+              className="navbar-toggler hover:bg-teal-800"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#main_navigation"
@@ -95,7 +97,10 @@ function Navbar() {
               aria-label="Toggle navigation"
               onClick={handleClose}
             >
-              <span class="material-symbols-outlined"> close</span>
+              <span class="material-symbols-outlined text-red-500 text-2xl">
+                {" "}
+                close
+              </span>
             </button>
           ) : (
             <button
@@ -112,6 +117,7 @@ function Navbar() {
             </button>
           )}
           {/* <Search/> */}
+          <Search/>
 
           <div
             className="   navbar-collapse justify-content-end align-center me-5 visible  "

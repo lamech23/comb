@@ -1,28 +1,44 @@
+
+const { Op } = require("sequelize");
 const Details = require("../models/UploadModals.js");
 
-
 const getSearch = async (req, res) => {
+  const { keyword } = req.params;
+
+  if (!keyword) {
+    return res
+      .status(400)
+      .json({ message: "Keyword is required for user search." });
+  }
 
   try {
-    const { q } = req.query;
+    const keys = ["id","title", "price", "category"];
+    const limit = 4;
 
-    const keys = ["title", "price", "category"];
+    const products = await Details.findAll({
+      where: {
+        category: { [Op.like]: `%${keyword}%` },
+      },
+      limit: limit,
+      attributes: keys,
+    });
 
-    const search = (data) => {
-      return data.filter((item) =>
-        keys.some((key) => item[key].toLowerCase().includes(q))
-      );
-    };
+    // Filter by keyword manually (if needed)
+    // const filteredProducts = products.filter((item) =>
+    //   keys.some((key) => {
+    //     const value = item[key];
+    //     return value && typeof value === "string" && value.toLowerCase().includes(keyword);
+    //   })
+    // );
 
-    const products = await Details.findAll({});
-
-    res.status(200).json(search(products));
+    res.status(200).json(products);
   } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 module.exports = {
   getSearch,
 };
+

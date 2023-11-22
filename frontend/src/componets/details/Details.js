@@ -37,7 +37,6 @@ const Details = () => {
           }
         });
       }
-
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     }, 3000);
@@ -48,7 +47,8 @@ const Details = () => {
       const res = await axios.get(`http://localhost:4000/search?q=${query}`);
       setDetails(res.data);
     };
-    if (query.length === 0 || query.length > 2) fetchData();
+    if (query.length === 0 || query.length > 2)
+     fetchData();
   }, [query]);
 
   const fetchDetails = async () => {
@@ -57,7 +57,6 @@ const Details = () => {
     );
     setDetails(response.data);
     setIsLoading(false);
-    console.log(response.data, "RESPONSE");
   };
 
   // Get current posts
@@ -73,16 +72,9 @@ const Details = () => {
   return (
     <>
       <div className="container-fixed mb-5">
-        <input
-          className="search align-items-center justify-content-center"
-          placeholder="Search..."
-          onChange={(e) => setQuery(e.target.value.toLowerCase())}
-        />
-
         <div className="row d-flex align-items-center justify-content-center ">
-          {error && <div className="alert alert-danger">{error}</div>}
           {isLoading && (
-            <div class="czv xlds-spinner">
+            <div class="czv xlds-spinner bg-red-700">
               <div></div>
               <div></div>
               <div></div>

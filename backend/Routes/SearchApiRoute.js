@@ -9,6 +9,6 @@ const {
 
 const router =express.Router()
 
-router.get('/',getSearch)
+router.get('/search/:keyword',getSearch)
 
 module.exports = router

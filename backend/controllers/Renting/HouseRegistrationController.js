@@ -4,24 +4,38 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
-const sequelize = require("sequelize")
+const sequelize = require("sequelize");
 
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
-
   const details = await tenantRegistration.findAll({});
+  try {
+    // Calculating the total expenses for each user
+    const detailsWithTotal = details.map((detail) => {
+      const totalExpenses = [
+        Number(detail.waterBill) || 0,
+        Number(detail.rent) || 0,
+        Number(detail.rentDeposit) || 0,
+        Number(detail.garbage) || 0,
+      ].reduce((acc, currentValue) => acc + currentValue, 0);
 
-
-  
-  res.status(200).json(details);
+      return {
+        ...detail.dataValues,
+        totalExpenses, // Adding the total expenses to the user details
+      };
+    });
+    res.status(200).json(detailsWithTotal);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
 };
 
 const subtotal = async (req, res) => {
   const { id } = req.params;
   try {
     const details = await tenantRegistration.findOne({
-    where: { id }
+      where: { id },
     });
     const detail = [
       details.waterBill,
@@ -30,7 +44,7 @@ const subtotal = async (req, res) => {
       details.garbage,
     ];
     let totalSum = 0;
-    
+
     for (let i = 0; i < detail.length; i++) {
       totalSum += Number(detail[i]);
     }
@@ -44,35 +58,31 @@ const subtotal = async (req, res) => {
 
 const getTenants = async (req, res) => {
   // const houseName = req.query.houseName
-  const token  =req.user
-  const user_id =token.id
+  const token = req.user;
+  const user_id = token.id;
 
   try {
     const tenats = await houseName.findAll({
       where: {
-         user_id: user_id
-      }
-   
+        user_id: user_id,
+      },
     });
-    const landownerHousename = tenats.map((landOwnerHouse)=>{
-
-      return landOwnerHouse.house_name
-    } )
+    const landownerHousename = tenats.map((landOwnerHouse) => {
+      return landOwnerHouse.house_name;
+    });
     const tenatsHouse = await tenantRegistration.findAll({
       where: {
-         houseName: landownerHousename
-      }
-   
+        houseName: landownerHousename,
+      },
     });
-     const tenantDetals =Array.isArray({tenats, tenatsHouse})
+    const tenantDetals = Array.isArray({ tenats, tenatsHouse });
 
-     if(tenantDetals === true && tenats.length === 0  ){
-     return res.status(404).json({
-      succese: false,
-      message: "house does not exist "
-     })
-      
-     }
+    if (tenantDetals === true && tenats.length === 0) {
+      return res.status(404).json({
+        succese: false,
+        message: "house does not exist ",
+      });
+    }
 
     res.status(200).json(tenatsHouse);
   } catch (error) {

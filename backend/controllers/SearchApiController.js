@@ -24,12 +24,12 @@ const getSearch = async (req, res) => {
     });
 
     // Filter by keyword manually (if needed)
-    // const filteredProducts = products.filter((item) =>
-    //   keys.some((key) => {
-    //     const value = item[key];
-    //     return value && typeof value === "string" && value.toLowerCase().includes(keyword);
-    //   })
-    // );
+    const filteredProducts = products.filter((item) =>
+      keys.some((key) => {
+        const value = item[key];
+        return value && typeof value === "string" && value.toLowerCase().includes(keyword);
+      })
+    );
 
     res.status(200).json(products);
   } catch (error) {

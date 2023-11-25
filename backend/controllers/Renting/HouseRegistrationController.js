@@ -93,12 +93,6 @@ const getTenants = async (req, res) => {
 const getTenantForTenantRegistration = async (req, res) => {
   try {
     const getHouses = await houseName.findAll({});
-    //   const details = await tenantRegistration.findAll({
-    //  include:{
-    //   model: HouseRegistration,
-    //   as:'tenentHouse'
-    //  }
-    //  });
 
     res.status(200).json(getHouses);
   } catch (error) {
@@ -130,12 +124,15 @@ const RegisteringHouse = async (req, res) => {
 };
 
 const creatHouseCategory = async (req, res) => {
+
   try {
     // const {houseName, user_id} = req.body
     const details = {
       house_name: req.body.house_name,
       user_id: req.body.user_id,
     };
+
+
 
     const houseNameDetails = await houseName.create(details);
     res.status(200).json(houseNameDetails);

@@ -75,9 +75,7 @@ function User() {
 
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+    
 
         <div className="mt-4">
           <table className="table">
@@ -150,7 +148,6 @@ function User() {
             ))}
           </table>
         </div>
-      </div>
     </>
   );
 }

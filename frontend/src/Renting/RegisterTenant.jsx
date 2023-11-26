@@ -51,7 +51,6 @@ function RegisterTenant() {
   
 },[])
 const tenants = tenantInfo.filter((tenant)=>tenant.role === "tenant")
-console.log(tenants);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,9 +80,7 @@ console.log(tenants);
   };
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+    
 
         <div className="row">
           <div className="w-fit">
@@ -281,7 +278,6 @@ console.log(tenants);
             </form>
           </div>
         </div>
-      </div>
       <ToastContainer
         position="top-left"
         autoClose={3000}

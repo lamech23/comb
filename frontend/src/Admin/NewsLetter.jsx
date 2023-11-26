@@ -23,9 +23,7 @@ function NewsLetter() {
   };
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+ 
         <div className="mt-4">
           <table className="table">
             <thead>
@@ -63,7 +61,6 @@ function NewsLetter() {
             ))}
           </table>
         </div>
-      </div>
     </>
   );
 }

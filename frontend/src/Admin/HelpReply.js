@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import "../css/DetailsAdmin.css";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,13 +26,12 @@ function HelpReply() {
         setMessage("");
         toast.success("succesfuly sent");
       }
-    } catch (err) {}
+    } catch (err) {
+
+    }
   };
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
         <form onSubmit={handleSubmit} className="client card shadow-lg mt-5">
           <input
             className="form-control mt-4"
@@ -55,7 +53,6 @@ function HelpReply() {
             submit
           </button>
         </form>
-      </div>
     </>
   );
 }

@@ -83,7 +83,7 @@ function GetAllDetails() {
               </tr>
             </thead>
 
-            {filterHouses.map((details) => (
+            {getDEtails.map((details) => (
               <tbody key={details.id}>
                 <tr>
                   <td>

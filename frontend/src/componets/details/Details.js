@@ -63,7 +63,6 @@ const Details = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
-
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

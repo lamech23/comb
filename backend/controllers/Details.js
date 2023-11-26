@@ -13,18 +13,12 @@ const getAllHouses = async (req, res) => {
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
     });
-    console.log(details, " this is the data am looking for");
 
-    const GetImage = details.map((img)=> img.image)
-    console.log("IMAGE ONLY ", GetImage);
-
-    res.status(200).json( details);
+    res.status(200).json(details);
   } catch (error) {
     res.status(500);
   }
 };
-
-
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
@@ -103,13 +97,13 @@ const createDetails = async (req, res) => {
     info.image = req.file.path;
   }
 
-//   const images = [];
+  //   const images = [];
 
-// req.files.map((image) => {
-//     images.push(image.path);
-//   });
+  // req.files.map((image) => {
+  //     images.push(image.path);
+  //   });
 
-//   info.image = images.join(";");
+  //   info.image = images.join(";");
   await Details.create(info);
   try {
     await users.findOne({ where: { id: id } });

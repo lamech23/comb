@@ -57,7 +57,7 @@ function HouseRegistration() {
   };
   return (
     <>
-      <div className="registerHouse">
+      <div className="">
         <h3 className="house_top">House Details</h3>
 
         <form onSubmit={handleSubmit}>

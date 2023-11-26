@@ -36,7 +36,6 @@ function GetAllDetails() {
   const fetchAllDEtails = async () => {
     const response = await axios.get("http://localhost:4000/Details/allHouses");
     setGetDetails(response.data);
-    console.log(response.data);
   };
 
   
@@ -56,9 +55,7 @@ function GetAllDetails() {
 
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+    
 
         <div className="mt-4">
           <div>
@@ -153,8 +150,6 @@ function GetAllDetails() {
             report
           </button>
         </div>
-      </div>
-      :<div></div>
     </>
   );
 }

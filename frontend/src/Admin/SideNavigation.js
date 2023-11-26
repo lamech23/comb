@@ -23,7 +23,7 @@ function SideNavigation() {
   return (
     <div className="relative flex  ">
       {/* <!-- Sidebar --> */}
-      <div className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10   ">
+      <div className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10  scroll-auto  ">
         <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom mt-4">
           <i className="fas fa-user-secret me-2"></i>Kausi Admin
         </div>
@@ -48,23 +48,23 @@ function SideNavigation() {
           </button>
         </div>
 
-        <div className="flex ">
+        <div className="flex gap-0 ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            add_circle
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("AddHouse")}
           >
-            Create
+            Add House
           </button>
         </div>
 
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            person
+            other_houses
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -76,7 +76,7 @@ function SideNavigation() {
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            apartment
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -88,7 +88,7 @@ function SideNavigation() {
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            person_add
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -101,7 +101,7 @@ function SideNavigation() {
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            mail
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -114,7 +114,7 @@ function SideNavigation() {
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            inbox
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -126,7 +126,7 @@ function SideNavigation() {
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
-            house
+            question_mark
           </i>
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
@@ -154,7 +154,7 @@ function SideNavigation() {
 
       <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar">
         <div className="p-5 w-full">
-          <div className=" bg-gray-900 p-4  rounded-lg max-w-full">
+          <div className=" bg-gray-400 p-4  rounded-lg max-w-full">
             {activeSection === "User" && <User />}
             {activeSection === "AddHouse" && <AddHouse />}
             {activeSection === "GetAllDetails" && <GetAllDetails />}

@@ -78,7 +78,7 @@ function HouseRegistration() {
             </option>
 
             {allUser.map((users) => (
-              <option className="text-black" key={users.id} value={users.id}>
+              <option className="text-black" key={users.id} value={users.house_name}>
                 {" "}
                 {users.house_name}
               </option>

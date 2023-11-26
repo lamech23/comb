@@ -6,9 +6,15 @@ import { useParams } from "react-router-dom";
 
 function House() {
   const [tenant, setTenant] = useState([]);
-  const [count, setCount] = useState(0);
+  const [house, setHouse] = useState([]);
   // console.log(count);
 
+  const getHouse =async ()=>{
+    const response = await axios.get( `http://localhost:4000/houseRegister/houseNames/`)
+    setHouse(response.data)
+ 
+
+   }
   useEffect(() => {
     const tenantId = tenant;
     const id = tenantId.map((getId) => {
@@ -27,14 +33,22 @@ function House() {
     };
 
     getTenantinfo();
+    getHouse()
   }, []);
 
   return (
     <>
-      <MainNav />
-      <div className=" lg:flex flex-row block gap-20  ">
-        <SideNavigation />
+      <div className=" flex flex-row justify-center gap-20  ">
         <div className=" text-sm mt-14 ">
+
+          <select>
+            <option className="p-10" value={""}>Select House</option>
+            {
+              house.map((item, index) => {
+                return (<option key={index} value={item}>{item.house_name}</option>)
+              })
+            }
+          </select>
           <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
             <thead className="">
               <tr>

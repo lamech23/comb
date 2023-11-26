@@ -39,8 +39,8 @@ const UserGraph = ({ users }) => {
             {
               label: "user Data ",
               data: data,
-              borderColor: "rgba(75, 192, 192, 1)",
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(355, 192, 192, 1)",
+              backgroundColor: "rgba(255, 252, 192, 0.2)",
               borderWidth: 1,
               fill: true,
             },

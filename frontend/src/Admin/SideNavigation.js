@@ -52,7 +52,7 @@ function SideNavigation() {
         </div>
 
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             analytics
           </i>
@@ -74,13 +74,13 @@ function SideNavigation() {
           </button>
         </div>
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             person
           </i>
           <button
             type="button"
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
           ${
             activeSection === "User"
               ? "bg-teal-500 w-fit justify-center items-center"
@@ -95,7 +95,7 @@ function SideNavigation() {
         </div>
 
         <div className="flex gap-0 ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             add_circle
           </i>
@@ -109,7 +109,7 @@ function SideNavigation() {
         </div>
 
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             other_houses
           </i>
@@ -122,7 +122,7 @@ function SideNavigation() {
           </button>
         </div>
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             apartment
           </i>
@@ -135,7 +135,7 @@ function SideNavigation() {
           </button>
         </div>
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             person_add
           </i>
@@ -147,9 +147,23 @@ function SideNavigation() {
             Register Tenant
           </button>
         </div>
+        
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            house
+          </i>
+          <button
+            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+            onClick={() => setActiveSection("House")}
+            id="link"
+          >
+            house
+          </button>
+        </div>
 
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             mail
           </i>
@@ -163,7 +177,7 @@ function SideNavigation() {
         </div>
 
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             inbox
           </i>
@@ -176,7 +190,7 @@ function SideNavigation() {
           </button>
         </div>
         <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-red-600">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             question_mark
           </i>
@@ -217,6 +231,7 @@ function SideNavigation() {
             {activeSection === "stats" && <Stats />}
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
+            {activeSection === "House" && <House />}
           </div>
         </div>
       </div>

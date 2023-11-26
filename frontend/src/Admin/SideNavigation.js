@@ -11,24 +11,69 @@ import House from "../Renting/House";
 import NewsLetter from "./NewsLetter";
 import ClientContactUs from "./ClientContactUs";
 import HelpCenterAdmin from "./HelpCenterAdmin";
+import Stats from "./Stats";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [activeSection, setActiveSection] = useState("Stats");
 
-  const user = JSON.parse(localStorage.getItem("credentials"));
+  const defaultPage = {
+    default: activeSection,
+  };
 
-  let id = user?.id;
+  const handleToggle = () => {
+    const button = document.querySelector("#toggle");
+    const links = document.querySelectorAll("#link");
+
+    button.style.width = "50px";
+    // Iterate through each link and hide it
+    links.forEach((link) => {
+      link.style.display = "none";
+    });
+  };
 
   return (
-    <div className="relative flex  ">
+    <div className=" flex  ">
       {/* <!-- Sidebar --> */}
-      <div className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10  scroll-auto  ">
+      <div
+        className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10  max-h-screen overflow-y-scroll  "
+        id="toggle"
+      >
         <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom mt-4">
+          <div
+            className="flex flex-col  justify-center gap-3 w-14 bg-grey-400 p-2"
+            onClick={handleToggle}
+          >
+            <div className="border-b-2 border-white w-full"></div>
+            <div className="border-b-2 border-white w-full"></div>
+            <div className="border-b-2 border-white w-full"></div>
+          </div>
           <i className="fas fa-user-secret me-2"></i>Kausi Admin
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-red-600">
+            {" "}
+            analytics
+          </i>
+          <button
+            type="button"
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            
+          ${
+            activeSection === "stats"
+              ? "bg-teal-500 w-fit justify-center items-center"
+              : ""
+          }
+          
+          `}
+            id="link"
+            onClick={() => setActiveSection("stats")}
+          >
+            Analytic
+          </button>
+        </div>
+        <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-red-600">
             {" "}
             person
@@ -42,6 +87,7 @@ function SideNavigation() {
               : ""
           }
           `}
+            id="link"
             onClick={() => setActiveSection("User")}
           >
             Users
@@ -56,6 +102,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("AddHouse")}
+            id="link"
           >
             Add House
           </button>
@@ -69,6 +116,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("GetAllDetails")}
+            id="link"
           >
             Houses
           </button>
@@ -81,6 +129,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("HouseRegistration")}
+            id="link"
           >
             Register House
           </button>
@@ -93,6 +142,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("RegisterTenant")}
+            id="link"
           >
             Register Tenant
           </button>
@@ -106,6 +156,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("NewsLetter")}
+            id="link"
           >
             NewsLetter
           </button>
@@ -119,6 +170,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("ClientContactUs")}
+            id="link"
           >
             Questions
           </button>
@@ -131,6 +183,7 @@ function SideNavigation() {
           <button
             className="py-2 px-4 my-2 rounded-lg  text-white w-full"
             onClick={() => setActiveSection("HelpCenterAdmin")}
+            id="link"
           >
             Issues
           </button>
@@ -161,6 +214,7 @@ function SideNavigation() {
             {activeSection === "HouseRegistration" && <HouseRegistration />}
             {activeSection === "RegisterTenant" && <RegisterTenant />}
             {activeSection === "NewsLetter" && <NewsLetter />}
+            {activeSection === "stats" && <Stats />}
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
           </div>

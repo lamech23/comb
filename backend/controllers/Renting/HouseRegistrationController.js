@@ -31,7 +31,21 @@ const getAllHouses = async (req, res) => {
         totalExpenses, // Adding the total expenses to the user details
       };
     });
-    res.status(200).json(detailsWithTotal);
+
+
+
+    const landownerName = await houseName.findOne({
+      include: {
+        model: users,
+        as: "houseName",
+      }
+      
+      
+    })
+    const landownerEmail = landownerName ? landownerName.houseName.email : 'Not Found';
+
+  
+    res.status(200).send({detailsWithTotal, landownerEmail});
   } catch (error) {
     res.status(400).json(error.message);
   }

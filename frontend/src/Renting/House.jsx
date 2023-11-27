@@ -7,8 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 function House() {
   const [tenant, setTenant] = useState([]);
   const [house, setHouse] = useState([]);
-  // console.log(count);
-  const houseName =useLocation().pathname.split("/")[2]
+  const houseName = useLocation().pathname.split("/")[2];
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -17,10 +16,7 @@ function House() {
     setHouse(response.data);
   };
   useEffect(() => {
-    const tenantId = tenant;
-    const id = tenantId.map((getId) => {
-      return getId.id;
-    });
+
 
     const getTenantinfo = async () => {
       try {
@@ -41,7 +37,15 @@ function House() {
     <>
       <div className=" flex flex-row justify-center gap-20  ">
         <div className=" text-sm mt-14 ">
-          <p className="text-white text-3xl ">HOUSE {houseName}</p>
+          <div className= " flex gap-4 text-white text-3xl ">
+            {" "}
+            HOUSE:  <p className="text-red-400">{houseName}</p>
+          </div>
+          <div className= " flex gap-4 text-white text-3xl ">
+            {" "}
+            LANDOWNER:  <p className="text-red-400">{tenant?.landownerEmail}</p>
+          </div>
+
           <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
             <thead className="">
               <tr>
@@ -64,20 +68,26 @@ function House() {
               </tr>
             </thead>
             <tbody>
-              {tenant.map((tenants) => (
+              {tenant?.detailsWithTotal?.map((tenants) => (
                 <tr key={tenants.id}>
-                  <td className="border text-white border-slate-700">{tenants.id}</td>
+                  <td className="border text-white border-slate-700">
+                    {tenants.id}
+                  </td>
                   <td className="border text-white border-slate-700">
                     {tenants.tenantsName}
                   </td>
-                  <td className="border text-white border-slate-700">{tenants.email}</td>
+                  <td className="border text-white border-slate-700">
+                    {tenants.email}
+                  </td>
                   <td className="border text-white border-slate-700">
                     {tenants.houseName}
                   </td>
                   <td className="border text-white border-slate-700">
                     {tenants.houseNumber}
                   </td>
-                  <td className="border text-white border-slate-700">{tenants.rent}</td>
+                  <td className="border text-white border-slate-700">
+                    {tenants.rent}
+                  </td>
                   <td className="border text-white border-slate-700">
                     {tenants.rentDeposit}
                   </td>
@@ -90,7 +100,9 @@ function House() {
                   <td className="border text-white border-slate-700">
                     {tenants.previousBalance}
                   </td>
-                  <td className="border text-white border-slate-700">{tenants.garbage}</td>
+                  <td className="border text-white border-slate-700">
+                    {tenants.garbage}
+                  </td>
                   <td className="border text-white border-slate-700">
                     {tenants.phoneNumber}
                   </td>

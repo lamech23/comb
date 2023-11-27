@@ -5,16 +5,15 @@ const jwt = require("jsonwebtoken");
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
-const { Op } = require('sequelize');
-
+const { Op } = require("sequelize");
 
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
   const details = await tenantRegistration.findAll({
-    where:{
-      houseName: req.params.houseName
-    }
+    where: {
+      houseName: req.params.houseName,
+    },
   });
   try {
     // Calculating the total expenses for each user
@@ -32,20 +31,18 @@ const getAllHouses = async (req, res) => {
       };
     });
 
-
-
     const landownerName = await houseName.findOne({
       include: {
         model: users,
         as: "houseName",
-      }
-      
-      
-    })
-    const landownerEmail = landownerName ? landownerName.houseName.email : 'Not Found';
+      },
+    });
+    
+    const landownerEmail = landownerName
+      ? landownerName.houseName.email
+      : "Not Found";
 
-  
-    res.status(200).send({detailsWithTotal, landownerEmail});
+    res.status(200).send({ detailsWithTotal, landownerEmail });
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -170,19 +167,17 @@ const getAll = async (req, res) => {
 
 const getHouseByHouseName = async (req, res) => {
   try {
-    
-    const{houseName}=req.query // accecing the houseName from the req 
-   
+    const { houseName } = req.query; // accecing the houseName from the req
+
     const specificHouses = await tenantRegistration.findAll({
       where: {
-        houseName:houseName
+        houseName: houseName,
       },
     });
 
-    res.status(200).json({specificHouses});
+    res.status(200).json({ specificHouses });
   } catch (error) {
     res.status(400).json({ error: error.message });
-    
   }
 };
 

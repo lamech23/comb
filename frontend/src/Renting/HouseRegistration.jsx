@@ -18,6 +18,7 @@ function HouseRegistration() {
   const [allUser, setAllusers] = useState([]);
   const [user_id, setUser_id] = useState([]);
   const { user } = useAuthContext();
+  console.log(allUser);
 
   useEffect(() => {
     const getAlluser = async () => {
@@ -73,12 +74,16 @@ function HouseRegistration() {
             value={house_name}
             onChange={(e) => setHouse_name(e.target.value)}
           >
-            <option value="" sele>
+            <option value="" selected>
               Select a house
             </option>
 
-            {allUser.map((users) => (
-              <option className="text-black" key={users.id} value={users.house_name}>
+            {allUser?.detilsWithTotal?.map((users) => (
+              <option
+                className="text-black"
+                key={users.id}
+                value={users.house_name}
+              >
                 {" "}
                 {users.house_name}
               </option>

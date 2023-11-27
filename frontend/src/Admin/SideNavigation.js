@@ -27,6 +27,7 @@ function SideNavigation() {
     const links = document.querySelectorAll("#link");
 
     button.style.width = "50px";
+
     // Iterate through each link and hide it
     links.forEach((link) => {
       link.style.display = "none";
@@ -101,7 +102,13 @@ function SideNavigation() {
             add_circle
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            ${
+              activeSection === "AddHouse"
+                ? "bg-teal-500 w-fit justify-center items-center"
+                : ""
+            }
+            `}
             onClick={() => setActiveSection("AddHouse")}
             id="link"
           >
@@ -115,7 +122,13 @@ function SideNavigation() {
             other_houses
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+              className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+              ${
+                activeSection === "GetAllDetails"
+                  ? "bg-teal-500 w-fit justify-center items-center"
+                  : ""
+              }
+              `}
             onClick={() => setActiveSection("GetAllDetails")}
             id="link"
           >
@@ -128,7 +141,13 @@ function SideNavigation() {
             apartment
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+         className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+         ${
+           activeSection === "HouseRegistration"
+             ? "bg-teal-500 w-fit justify-center items-center"
+             : ""
+         }
+         `}
             onClick={() => setActiveSection("HouseRegistration")}
             id="link"
           >
@@ -141,21 +160,33 @@ function SideNavigation() {
             person_add
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+             className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+             ${
+               activeSection === "RegisterTenant"
+                 ? "bg-teal-500 w-fit justify-center items-center"
+                 : ""
+             }
+             `}
             onClick={() => setActiveSection("RegisterTenant")}
             id="link"
           >
             Register Tenant
           </button>
         </div>
-        
+
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             house
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+               className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+               ${
+                 activeSection === "House"
+                   ? "bg-teal-500 w-fit justify-center items-center"
+                   : ""
+               }
+               `}
             onClick={() => setActiveSection("House")}
             id="link"
           >
@@ -163,14 +194,19 @@ function SideNavigation() {
           </button>
         </div>
 
-           
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
             list
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+                className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+                ${
+                  activeSection === "allHouses"
+                    ? "bg-teal-500 w-fit justify-center items-center"
+                    : ""
+                }
+                `}
             onClick={() => setActiveSection("allHouses")}
             id="link"
           >
@@ -184,7 +220,13 @@ function SideNavigation() {
             mail
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+        className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+        ${
+          activeSection === "NewsLetter"
+            ? "bg-teal-500 w-fit justify-center items-center"
+            : ""
+        }
+        `}
             onClick={() => setActiveSection("NewsLetter")}
             id="link"
           >
@@ -198,7 +240,13 @@ function SideNavigation() {
             inbox
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            ${
+              activeSection === "ClientContactUs"
+                ? "bg-teal-500 w-fit justify-center items-center"
+                : ""
+            }
+            `}
             onClick={() => setActiveSection("ClientContactUs")}
             id="link"
           >
@@ -211,7 +259,13 @@ function SideNavigation() {
             question_mark
           </i>
           <button
-            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+              className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+              ${
+                activeSection === "HelpCenterAdmin"
+                  ? "bg-teal-500 w-fit justify-center items-center"
+                  : ""
+              }
+              `}
             onClick={() => setActiveSection("HelpCenterAdmin")}
             id="link"
           >

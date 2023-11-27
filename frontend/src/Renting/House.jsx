@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function House() {
   const [tenant, setTenant] = useState([]);
   const [house, setHouse] = useState([]);
   // console.log(count);
+  const houseName =useLocation().pathname.split("/")[2]
 
-  const getHouse =async ()=>{
-    const response = await axios.get( `http://localhost:4000/houseRegister/houseNames/`)
-    setHouse(response.data)
- 
-
-   }
+  const getHouse = async () => {
+    const response = await axios.get(
+      `http://localhost:4000/houseRegister/houseNames/`
+    );
+    setHouse(response.data);
+  };
   useEffect(() => {
     const tenantId = tenant;
     const id = tenantId.map((getId) => {
@@ -24,7 +25,7 @@ function House() {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/houseRegister/"
+          `http://localhost:4000/houseRegister/${houseName}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -33,22 +34,14 @@ function House() {
     };
 
     getTenantinfo();
-    getHouse()
+    getHouse();
   }, []);
 
   return (
     <>
       <div className=" flex flex-row justify-center gap-20  ">
         <div className=" text-sm mt-14 ">
-
-          <select>
-            <option className="p-10" value={""}>Select House</option>
-            {
-              house.map((item, index) => {
-                return (<option key={index} value={item}>{item.house_name}</option>)
-              })
-            }
-          </select>
+          <p className="text-white text-3xl ">HOUSE {houseName}</p>
           <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
             <thead className="">
               <tr>
@@ -73,38 +66,38 @@ function House() {
             <tbody>
               {tenant.map((tenants) => (
                 <tr key={tenants.id}>
-                  <td className="border border-slate-700">{tenants.id}</td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">{tenants.id}</td>
+                  <td className="border text-white border-slate-700">
                     {tenants.tenantsName}
                   </td>
-                  <td className="border border-slate-700">{tenants.email}</td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">{tenants.email}</td>
+                  <td className="border text-white border-slate-700">
                     {tenants.houseName}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.houseNumber}
                   </td>
-                  <td className="border border-slate-700">{tenants.rent}</td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">{tenants.rent}</td>
+                  <td className="border text-white border-slate-700">
                     {tenants.rentDeposit}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.waterReading}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.waterBill}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.previousBalance}
                   </td>
-                  <td className="border border-slate-700">{tenants.garbage}</td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">{tenants.garbage}</td>
+                  <td className="border text-white border-slate-700">
                     {tenants.phoneNumber}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.nextOfKingNumber}
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border text-white border-slate-700">
                     {tenants.totalExpenses}
                   </td>
                 </tr>

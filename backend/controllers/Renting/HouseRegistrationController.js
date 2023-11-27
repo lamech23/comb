@@ -5,11 +5,17 @@ const jwt = require("jsonwebtoken");
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
+const { Op } = require('sequelize');
+
 
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
-  const details = await tenantRegistration.findAll({});
+  const details = await tenantRegistration.findAll({
+    where:{
+      houseName: req.params.houseName
+    }
+  });
   try {
     // Calculating the total expenses for each user
     const detailsWithTotal = details.map((detail) => {
@@ -114,9 +120,6 @@ const RegisteringHouse = async (req, res) => {
       user_id,
     });
 
-    // res.status(200).json(User)
-
-    // pass the token as a response instead of the user
     res.status(200).json(HouseEntry);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -124,15 +127,11 @@ const RegisteringHouse = async (req, res) => {
 };
 
 const creatHouseCategory = async (req, res) => {
-
   try {
-    // const {houseName, user_id} = req.body
     const details = {
       house_name: req.body.house_name,
       user_id: req.body.user_id,
     };
-
-
 
     const houseNameDetails = await houseName.create(details);
     res.status(200).json(houseNameDetails);
@@ -142,13 +141,35 @@ const creatHouseCategory = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  const details = await houseName.findAll({
-    include: {
-      model: users,
-      as: "houseName",
-    },
-  });
-  res.status(200).json(details);
+  try {
+    const details = await houseName.findAll({
+      include: {
+        model: users,
+        as: "houseName",
+      },
+    });
+    res.status(200).json(details);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getHouseByHouseName = async (req, res) => {
+  try {
+    
+    const{houseName}=req.query // accecing the houseName from the req 
+   
+    const specificHouses = await tenantRegistration.findAll({
+      where: {
+        houseName:houseName
+      },
+    });
+
+    res.status(200).json({specificHouses});
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    
+  }
 };
 
 module.exports = {
@@ -159,4 +180,5 @@ module.exports = {
   creatHouseCategory,
   getAll,
   getTenantForTenantRegistration,
+  getHouseByHouseName,
 };

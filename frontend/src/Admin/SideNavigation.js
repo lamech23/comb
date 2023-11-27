@@ -12,6 +12,7 @@ import NewsLetter from "./NewsLetter";
 import ClientContactUs from "./ClientContactUs";
 import HelpCenterAdmin from "./HelpCenterAdmin";
 import Stats from "./Stats";
+import AllHouses from "../Renting/AllHouses";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
@@ -162,6 +163,21 @@ function SideNavigation() {
           </button>
         </div>
 
+           
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            list
+          </i>
+          <button
+            className="py-2 px-4 my-2 rounded-lg  text-white w-full"
+            onClick={() => setActiveSection("allHouses")}
+            id="link"
+          >
+            AllHouses
+          </button>
+        </div>
+
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
@@ -232,6 +248,7 @@ function SideNavigation() {
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
             {activeSection === "House" && <House />}
+            {activeSection === "allHouses" && <AllHouses />}
           </div>
         </div>
       </div>

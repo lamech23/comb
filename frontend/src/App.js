@@ -56,6 +56,7 @@ import House from "./Renting/House";
 import RegisterTenant from "./Renting/RegisterTenant";
 import CreateHouse from "./Renting/CreateHouse";
 import Stats from "./Admin/Stats";
+import AllHouses from "./Renting/AllHouses";
 
 function App() {
   const { user } = useAuthContext();
@@ -114,10 +115,11 @@ function App() {
           <Route path="/HouseRegistration" element={<HouseRegistration />} />
           <Route path="/LandownerDashbard/" element={<LandownerDashbard />}/>
           <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
-          <Route path="/House" element={<House />} />
+          <Route path="/House/:houseName" element={<House />} />
           <Route path="/RegisterTenant" element={<RegisterTenant />} />
           <Route path="/createHouse" element={<CreateHouse />} />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/allHouses" element={<AllHouses />} />
 
           <Route path="*" element={<PageNotFound />}  />
         </Routes>

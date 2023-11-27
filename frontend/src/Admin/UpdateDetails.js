@@ -17,7 +17,7 @@ function UpdateDetails() {
   const { user } = useAuthContext();
   console.log(user);
   // const { id } = useParams();
-  const id = useLocation().pathname.split('/')[2]
+  const id = useLocation().pathname.split("/")[2];
   console.log(id);
   // const [getDetails, setGetDetails] = useState();
 
@@ -35,10 +35,11 @@ function UpdateDetails() {
 
     const response = await axios.patch(
       `http://localhost:4000/Details/${id}`,
-      formData,  {
-        headers:{
-          'Authorization':`Bearer ${user.token}`
-        }
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       }
     );
     if (response) {
@@ -47,10 +48,10 @@ function UpdateDetails() {
   };
 
   const fetchAllDEtailsById = async () => {
-    const response = await axios.get(`http://localhost:4000/Details/${id}`,  {
-      headers:{
-        'Authorization':`Bearer ${user.token}`
-      }
+    const response = await axios.get(`http://localhost:4000/Details/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
     setContact(response.data.contact);
     setTitle(response.data.title);

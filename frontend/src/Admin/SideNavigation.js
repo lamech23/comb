@@ -18,8 +18,6 @@ function SideNavigation() {
   // const{user}=useAuthContext()
   const [activeSection, setActiveSection] = useState("stats");
 
-
-
   const handleToggle = () => {
     const button = document.querySelector("#toggle");
     const links = document.querySelectorAll("#link");
@@ -120,7 +118,7 @@ function SideNavigation() {
             other_houses
           </i>
           <button
-              className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
               ${
                 activeSection === "GetAllDetails"
                   ? "bg-teal-500 w-fit justify-center items-center"
@@ -139,7 +137,7 @@ function SideNavigation() {
             apartment
           </i>
           <button
-         className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
          ${
            activeSection === "HouseRegistration"
              ? "bg-teal-500 w-fit justify-center items-center"
@@ -158,7 +156,7 @@ function SideNavigation() {
             person_add
           </i>
           <button
-             className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
              ${
                activeSection === "RegisterTenant"
                  ? "bg-teal-500 w-fit justify-center items-center"
@@ -178,7 +176,7 @@ function SideNavigation() {
             house
           </i>
           <button
-               className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
                ${
                  activeSection === "House"
                    ? "bg-teal-500 w-fit justify-center items-center"
@@ -198,7 +196,7 @@ function SideNavigation() {
             list
           </i>
           <button
-                className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
                 ${
                   activeSection === "allHouses"
                     ? "bg-teal-500 w-fit justify-center items-center"
@@ -218,7 +216,7 @@ function SideNavigation() {
             mail
           </i>
           <button
-        className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
         ${
           activeSection === "NewsLetter"
             ? "bg-teal-500 w-fit justify-center items-center"
@@ -257,7 +255,7 @@ function SideNavigation() {
             question_mark
           </i>
           <button
-              className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
               ${
                 activeSection === "HelpCenterAdmin"
                   ? "bg-teal-500 w-fit justify-center items-center"

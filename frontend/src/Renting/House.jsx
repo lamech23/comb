@@ -35,7 +35,7 @@ function House() {
 
   return (
     <>
-      <div className=" flex flex-row justify-center gap-20  ">
+      <div className=" flex flex-col gap-20  ">
         <div className=" text-sm mt-14 ">
           <div className= " flex gap-4 text-white text-3xl ">
             {" "}
@@ -118,6 +118,16 @@ function House() {
             </tbody>
           </table>
         </div>
+        {/* water section  */}
+        <section className="m-2">
+          <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
+            <label className="  text-white text-2xl gap-4 mb-4">Water reading  </label>
+            <input type="text" className="p-2 rounded-lg w-96"  placeholder="Enter units"/>
+
+            <button type="button" className="material-symbols-outlined text-red-500 mt-4" > Add</button>
+          </div>
+
+        </section>
       </div>
     </>
   );

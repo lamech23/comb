@@ -16,11 +16,9 @@ import AllHouses from "../Renting/AllHouses";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
-  const [activeSection, setActiveSection] = useState("Stats");
+  const [activeSection, setActiveSection] = useState("stats");
 
-  const defaultPage = {
-    default: activeSection,
-  };
+
 
   const handleToggle = () => {
     const button = document.querySelector("#toggle");
@@ -292,13 +290,13 @@ function SideNavigation() {
       <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar">
         <div className="p-5 w-full">
           <div className=" bg-gray-400 p-4  rounded-lg max-w-full">
+            {activeSection === "stats" && <Stats />}
             {activeSection === "User" && <User />}
             {activeSection === "AddHouse" && <AddHouse />}
             {activeSection === "GetAllDetails" && <GetAllDetails />}
             {activeSection === "HouseRegistration" && <HouseRegistration />}
             {activeSection === "RegisterTenant" && <RegisterTenant />}
             {activeSection === "NewsLetter" && <NewsLetter />}
-            {activeSection === "stats" && <Stats />}
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
             {activeSection === "House" && <House />}

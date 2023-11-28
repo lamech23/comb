@@ -17,7 +17,7 @@ const search=require('./Routes/SearchApiRoute')
 const tours=require('./Routes/TourRequestRoute')
 const helpCenter=require('./Routes/HelpCenterRoute')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
-// const logingInLandOwner=require('./Routes/RentingRoutes/LogingLandownerRoute.js')
+const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
@@ -78,7 +78,7 @@ app.use('/searching',search)
 app.use('/ClientTour',tours)
 app.use('/help',helpCenter)
 app.use('/houseRegister',houseRegisration)
-// app.use('/landowner',logingInLandOwner)
+app.use('/water',waters)
 app.use('/Tenant',TenantRegistering)
 
 

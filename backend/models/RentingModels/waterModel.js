@@ -34,3 +34,11 @@ water.belongsTo(houseName, {
     onDelete: "cascade",
     onUpdate: "cascade",
   });
+
+  db.sync()
+  .then(() => {
+    console.log("waters table created successfully!");
+  })
+  .catch((error) => {
+    console.log("Unable to create waters table", error);
+  });

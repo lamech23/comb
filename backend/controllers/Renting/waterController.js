@@ -24,6 +24,27 @@ const createWater = async (req, res) => {
   }
 };
 
+const getWater =async(req, res)=>{
+  try {
+    const getWater = await water.findAll({
+      where:{}
+
+    })
+  } catch (error) {
+    
+  }
+}
+
+
+const deleteWater =async(req, res)=>{
+  try {
+    const getWater = await water.destroy({
+
+    })
+  } catch (error) {
+    
+  }
+}
 module.exports = {
   createWater,
 };

@@ -42,3 +42,4 @@ water.belongsTo(houseName, {
   .catch((error) => {
     console.log("Unable to create waters table", error);
   });
+  module.exports = water;

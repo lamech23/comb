@@ -51,16 +51,21 @@ function Search() {
     }
   }, [search]);
 
+  const handleCancle = () => {
+    document.querySelector("#search").style.display = "none";
+    setSearch("")
+  };
+
   return (
     <>
       <div className="search-bar hidden lg:flex absolute right-1/3 left-1/3 items-center">
         <form className="w-full max-w-lg">
-          <div class="relative">
+          <div>
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
             <input
               type="search"
               id="default-search"
-              class="block w-full p-4 pl-10 text-sm  border border-gray-300 rounded-lg bg-teal-100 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="block w-full p-4 pl-10 text-sm  border border-gray-300 rounded-lg bg-teal-100 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="  Search for house category, price location"
               value={search}
               onChange={handleChange}
@@ -69,7 +74,7 @@ function Search() {
           </div>
           {search && (
             <div className="absolute mt-2 bg-white w-full rounded-md border border-gray-300 shadow-lg">
-              <div className="">
+              <div className="" id="search">
                 {isLoading ? (
                   <div className="p-2">
                     <i className=""></i> Loading...
@@ -87,7 +92,7 @@ function Search() {
                             >
                               {" "}
                               <svg
-                                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                class="w-4 h-4 text-gray-500 dark:text-gray-400 mr-4"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -116,6 +121,12 @@ function Search() {
                               </div>
                             </div>
                           ))}
+                          <div
+                            className="material-symbols-outlined text-red-700 cursor-pointer"
+                            onClick={handleCancle}
+                          >
+                            close
+                          </div>
                         </div>
                       )}
                     </div>

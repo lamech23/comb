@@ -17,7 +17,12 @@ const getSearch = async (req, res) => {
 
     const products = await Details.findAll({
       where: {
+        [Op.or]: {
+
         category: { [Op.like]: `%${keyword}%` },
+        price: { [Op.like]: `%${keyword}%` },
+        location: { [Op.like]: `%${keyword}%` },
+        }
       },
       limit: limit,
       attributes: keys,

@@ -3,21 +3,23 @@ import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { toast, ToastContainer } from "react-toastify";
 
 function House() {
   const [tenant, setTenant] = useState([]);
   const [house, setHouse] = useState([]);
-  const houseName = useLocation().pathname.split("/")[2];
-
+  let houseName = useLocation().pathname.split("/")[2];
+  const [units, setUnits] = useState("");
+  const { user } = useAuthContext();
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
     setHouse(response.data);
   };
+
   useEffect(() => {
-
-
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
@@ -33,17 +35,51 @@ function House() {
     getHouse();
   }, []);
 
+  // guard clause
+  if (isNaN(units) || units < 0) {
+    toast.error("Number must be a positive value");
+    return;
+  }
+
+  // creating water reading
+  const createWater = async (e, id) => {
+    e.preventDefault();
+    // const waterDetails = {
+    //   units: units,
+    //   house_id: id,
+    // };
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/water/",
+        { units: units, house_id: id },
+        {
+          headers: {
+            authorization: ` Bearer ${user?.token}`,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (res) {
+        setUnits("");
+        toast.success("added succesfuly");
+      }
+    } catch (error) {
+      toast.error(JSON.stringify(error.message) || "field cannot be empty");
+    }
+  };
+
   return (
     <>
       <div className=" flex flex-col gap-20  ">
         <div className=" text-sm mt-14 ">
-          <div className= " flex gap-4 text-white text-3xl ">
+          <div className=" flex gap-4 text-white text-3xl ">
             {" "}
-            HOUSE:  <p className="text-red-400">{houseName}</p>
+            HOUSE: <p className="text-red-400">{houseName}</p>
           </div>
-          <div className= " flex gap-4 text-white text-3xl ">
+          <div className=" flex gap-4 text-white text-3xl ">
             {" "}
-            LANDOWNER:  <p className="text-red-400">{tenant?.landownerEmail}</p>
+            LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
           </div>
 
           <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
@@ -120,15 +156,42 @@ function House() {
         </div>
         {/* water section  */}
         <section className="m-2">
-          <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
-            <label className="  text-white text-2xl gap-4 mb-4">Water reading  </label>
-            <input type="text" className="p-2 rounded-lg w-96"  placeholder="Enter units"/>
+          <form onSubmit={createWater}>
+            <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
+              <label className="  text-white text-2xl gap-4 mb-4">
+                Water reading{" "}
+              </label>
+              <input
+                type="number"
+                className="p-2 rounded-lg w-96"
+                placeholder="Enter water rates"
+                onChange={(e) => setUnits(e.target.value)}
+                value={units}
+              />
 
-            <button type="button" className="material-symbols-outlined text-red-500 mt-4" > Add</button>
-          </div>
-
+              <button
+                type="submit"
+                className="material-symbols-outlined text-red-500 mt-4"
+              >
+                {" "}
+                Add
+              </button>
+            </div>
+          </form>
         </section>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

@@ -1,10 +1,9 @@
+const houseName = require("../../models/RentingModels/houseNameModel");
 const water = require("../../models/RentingModels/waterModel");
-
 
 const createWater = async (req, res) => {
   const token = req.user;
   const user_id = token.id;
-  
 
   const waterDetails = {
     price: req.body.price,
@@ -20,35 +19,45 @@ const createWater = async (req, res) => {
       message: " water readings created successfuly ",
     });
   } catch (error) {
-
     res.status(500).json({
-      success:false,
-      message: "please provide data "
+      success: false,
+      message: "please provide data ",
+    });
+  }
+};
+
+const getWater = async (req, res) => {
+  const house_id = req.params.id;
+  try {
+    const getWater = await water.findAll({
+      where: {
+        house_id: house_id,
+      },
+      include:{
+        model: houseName,
+        as: "house"
+      }
+
+    });
+    res.status(200).json({
+    getWater, 
+    success: true
+    })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message:" water rates not found"
+
     })
   }
 };
 
-const getWater =async(req, res)=>{
+const deleteWater = async (req, res) => {
   try {
-    const getWater = await water.findAll({
-      where:{}
-
-    })
-  } catch (error) {
-    
-  }
-}
-
-
-const deleteWater =async(req, res)=>{
-  try {
-    const getWater = await water.destroy({
-
-    })
-  } catch (error) {
-    
-  }
-}
+    const getWater = await water.destroy({});
+  } catch (error) {}
+};
 module.exports = {
   createWater,
+  getWater
 };

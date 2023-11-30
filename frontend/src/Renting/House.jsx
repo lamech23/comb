@@ -12,6 +12,7 @@ function House() {
   let houseName = useLocation().pathname.split("/")[2];
   const [price, setPrice] = useState("");
   const { user } = useAuthContext();
+  let [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
   const getHouse = async () => {
     const response = await axios.get(
@@ -19,7 +20,6 @@ function House() {
     );
     setHouse(response.data);
   };
-  console.log(house);
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -45,14 +45,14 @@ function House() {
 
   // creating water reading
 
-  const mapedHouse = house?.find((house)=>{
-    return house
-  })
-  const createWater = async (e, id) => {
+  const visitedHouseId = house?.find(house => house.house_name === houseName)?.id;
+
+
+  const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
       price: price,
-      house_id: mapedHouse?.id,
+      house_id: visitedHouseId,
     };
     try {
       const res = await axios.post(
@@ -84,6 +84,26 @@ function House() {
     }
   };
 
+  // getting water retes
+  const getWaterRates = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+      );
+      setGetWater(res.data?.getWater);
+      
+    } catch (error) {
+      // toast.error("water rates not found "|| error.massage)/
+    }
+  };
+  const waterPrice =getWater.map((house)=>{
+    return house.price ? house.price : 0;
+  })
+
+  useEffect(() => {
+    getWaterRates();
+  }, [house]);
+
   return (
     <>
       <div className=" flex flex-col gap-20  ">
@@ -108,6 +128,7 @@ function House() {
                 <th className="border border-slate-600">Rent</th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">Water Reading</th>
+                <th className="border border-slate-600">Water per unit</th>
                 <th className="border border-slate-600">Water Bill</th>
                 <th className="border border-slate-600">Previous Balance</th>
                 <th className="border border-slate-600">Garbage</th>
@@ -144,6 +165,10 @@ function House() {
                   </td>
                   <td className="border text-white border-slate-700">
                     {tenants.waterReading}
+                  </td>
+
+                  <td className="border text-white border-slate-700">
+                      {waterPrice }
                   </td>
                   <td className="border text-white border-slate-700">
                     {tenants.waterBill}

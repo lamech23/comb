@@ -1,14 +1,17 @@
 const water = require("../../models/RentingModels/waterModel");
 
+
 const createWater = async (req, res) => {
   const token = req.user;
   const user_id = token.id;
+  
 
   const waterDetails = {
-    units: req.body.units,
+    price: req.body.price,
     user_id: user_id,
     house_id: req.body.house_id,
   };
+  console.log(waterDetails);
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({
@@ -17,6 +20,7 @@ const createWater = async (req, res) => {
       message: " water readings created successfuly ",
     });
   } catch (error) {
+
     res.status(500).json({
       success:false,
       message: "please provide data "

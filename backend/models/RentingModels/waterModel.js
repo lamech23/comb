@@ -4,9 +4,9 @@ const users = require("../UserModels");
 const houseName = require("./houseNameModel");
 
 const water = db.define(
-  "water",
+  "waters",
   {
-    units: {
+    price: {
       type: DataTypes.STRING,
       allowNull: false,
     },

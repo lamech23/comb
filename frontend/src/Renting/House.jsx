@@ -10,15 +10,16 @@ function House() {
   const [tenant, setTenant] = useState([]);
   const [house, setHouse] = useState([]);
   let houseName = useLocation().pathname.split("/")[2];
-  const [units, setUnits] = useState("");
+  const [price, setPrice] = useState("");
   const { user } = useAuthContext();
-  const [display, setDisplay]=useState(false)
+  const [display, setDisplay] = useState(false);
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
     setHouse(response.data);
   };
+  console.log(house);
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -37,32 +38,35 @@ function House() {
   }, []);
 
   // guard clause
-  if (isNaN(units) || units < 0) {
+  if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");
     return;
   }
 
   // creating water reading
+
+  const mapedHouse = house?.find((house)=>{
+    return house
+  })
   const createWater = async (e, id) => {
     e.preventDefault();
-    // const waterDetails = {
-    //   units: units,
-    //   house_id: id,
-    // };
+    const waterDetails = {
+      price: price,
+      house_id: mapedHouse?.id,
+    };
     try {
       const res = await axios.post(
         "http://localhost:4000/water/",
-        { units: units, house_id: id },
+        waterDetails,
         {
           headers: {
             authorization: ` Bearer ${user?.token}`,
             Accept: "application/json",
-            "Content-Type": "multipart/form-data",
           },
         }
       );
       if (res) {
-        setUnits("");
+        setPrice("");
         toast.success("added succesfuly");
       }
     } catch (error) {
@@ -71,17 +75,13 @@ function House() {
   };
 
   //
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelector("#content").style.display = "none";
-  });
   const handleWaterButton = () => {
-    if(display){
+    if (display) {
       document.querySelector("#content").style.display = "none";
-    }else{
-      setDisplay(true)
+    } else {
+      setDisplay(true);
       document.querySelector("#content").style.display = "block";
     }
-    console.log(display);
   };
 
   return (
@@ -173,23 +173,23 @@ function House() {
         <div className="flex  gap-2 ">
           <button
             type="button "
-            className="text-3xl text-red-400 m-3 font-bold  border rounded-lg p-2 bg-orange-300 shadow-lg w-fit h-fit"
+            className="text-3xl text-red-400 m-3 font-bold  border rounded-lg p-2 bg-orange-300 shadow-lg w-fit h-fit "
             onClick={handleWaterButton}
           >
             Add Water Rates{" "}
           </button>
-          <section className="mb-4" id="content">
+          <section className="mb-4" id="content" style={{ display: "none" }}>
             <form onSubmit={createWater}>
               <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
                 <label className="  text-white text-2xl gap-4 mb-4">
                   Water Rates{" "}
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="p-2 rounded-lg w-96"
                   placeholder="Enter water rates"
-                  onChange={(e) => setUnits(e.target.value)}
-                  value={units}
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
 
                 <button
@@ -203,6 +203,7 @@ function House() {
             </form>
           </section>
         </div>
+        {/* garbage section */}
       </div>
       <ToastContainer
         position="top-left"

@@ -54,10 +54,21 @@ const getWater = async (req, res) => {
 
 const deleteWater = async (req, res) => {
   try {
-    const getWater = await water.destroy({});
-  } catch (error) {}
+    const id = req.params.id
+    const getWater = await water.destroy({
+      where:{
+        id:id
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message: "water not found "
+    })
+  }
 };
 module.exports = {
   createWater,
-  getWater
+  getWater,
+  deleteWater
 };

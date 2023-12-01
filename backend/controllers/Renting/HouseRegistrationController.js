@@ -37,10 +37,9 @@ const getAllHouses = async (req, res) => {
         as: "houseName",
       },
     });
-    
-    const landownerEmail = landownerName
-      ? landownerName.houseName.email
-      : "Not Found";
+    console.log(landownerName);
+
+    const landownerEmail = landownerName? landownerName.houseName.email: "Not Found";
 
     res.status(200).send({ detailsWithTotal, landownerEmail });
   } catch (error) {
@@ -74,7 +73,6 @@ const subtotal = async (req, res) => {
 // eg house k-50 under a landowner
 
 const getTenants = async (req, res) => {
-  // const houseName = req.query.houseName
   const token = req.user;
   const user_id = token.id;
 

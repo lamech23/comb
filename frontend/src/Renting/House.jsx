@@ -20,7 +20,7 @@ function House() {
     );
     setHouse(response.data);
   };
-
+console.log(house);
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -32,7 +32,6 @@ function House() {
         console.log(error);
       }
     };
-
     getTenantinfo();
     getHouse();
   }, []);

@@ -4,6 +4,7 @@ const {
   getCategoryById,
   updateCategory,
   deleteCategory,
+  
 } = require("../controller/HouseCategory");
 
 const CategoryRouter = require("express").Router();

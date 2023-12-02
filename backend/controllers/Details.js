@@ -4,6 +4,12 @@ const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
 
+
+const getImageUrl = (req) => {
+  const baseUrl = process.env.BASE_URL; // Replace with your base URL for serving images
+  return `${baseUrl}/${req.file.path}`;
+};
+
 const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {

@@ -33,8 +33,8 @@ const Details = db.define(
     user_id: {
       type: DataTypes.INTEGER,
     },
-    category: {
-      type: DataTypes.STRING,
+    category_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

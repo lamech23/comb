@@ -13,6 +13,7 @@ function Search() {
   const handleSearch = () => {
     if (results?.length > 0) {
       const house = results;
+
       navigate(`/MoreDetails/${house.id}`);
     }
   };
@@ -53,7 +54,7 @@ function Search() {
 
   const handleCancle = () => {
     document.querySelector("#search").style.display = "none";
-    setSearch("")
+    setSearch("");
   };
 
   return (
@@ -77,13 +78,14 @@ function Search() {
               <div className="" id="search">
                 {isLoading ? (
                   <div className="p-2">
-                    <i className=""></i> Loading...
+                    <i className="">
+                      </i> Loading...
                   </div>
                 ) : (
                   search.length >= 2 && (
                     <div>
                       {Array.isArray(results) && results.length > 0 && (
-                        <div>
+                        <div className="index-40">
                           <span className="block p-2 bg-gray-200">houses</span>
                           {results?.map((result, index) => (
                             <div

@@ -25,7 +25,7 @@ const createWater = async (req, res) => {
     });
   }
 };
-
+// fetching water based on the house_id and the the associated house 
 const getWater = async (req, res) => {
   const house_id = req.params.id;
   try {
@@ -54,8 +54,8 @@ const getWater = async (req, res) => {
 
 const deleteWater = async (req, res) => {
   try {
-    const id = req.params.id
-    const getWater = await water.destroy({
+    const id = req.params.id // getting the id from the params
+     await water.destroy({
       where:{
         id:id
       }

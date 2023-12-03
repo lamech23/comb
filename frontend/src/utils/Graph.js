@@ -16,7 +16,7 @@ const UserGraph = ({ users }) => {
       labels.push(monthLabel); // Add the month label to the beginning of the array
     }
 
-    return labels.toSorted((a, b) => a - b);
+    return labels.toSorted((a, b) => a - b).reverse();
   }
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const UserGraph = ({ users }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "bar",
+        type: "line",
         data: {
           labels: labels,
           datasets: [

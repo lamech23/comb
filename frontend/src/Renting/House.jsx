@@ -34,7 +34,8 @@ console.log(house);
     };
     getTenantinfo();
     getHouse();
-  }, []);
+    getWaterRates()
+  }, [house]);
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -99,9 +100,9 @@ console.log(house);
     return house.price ? house.price : 0;
   })
 
-  useEffect(() => {
-    getWaterRates();
-  }, [house]);
+  // useEffect(() => {
+  //   getWaterRates();
+  // }, [house]);
 
   return (
     <>

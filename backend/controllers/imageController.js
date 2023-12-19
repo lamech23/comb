@@ -1,34 +1,36 @@
 const imageUrl = require("../models/imageModel");
 
 
-const getImageUrl = (req) => {
-    const baseUrl = process.env.BASE_URL; // Replace with your base URL for serving images
-    return `${baseUrl}/${req.file.path}`;
-  };
+// const getImageUrl = (req) => {
+//     // console.log(req.files.path);
+//     const image= []
+//     const baseUrl = process.env.BASE_URL;
+//     for (let i = 0; i < req.files.length; i++) {
+//         image.push(`${baseUrl}/${req.files[i].path}`);
+//     }
+    
+//      // Replace with your base URL for serving images
+//     return image
+//   };
 const createImages = async (req, res)=>{
-    const images = getImageUrl(req)
+
+    const baseUrl = process.env.BASE_URL;
     const token =req.user
     const user_id = token.id
-    try {
-        const addImage = await imageUrl.create(
-            {
-                image:images,
-                user_id: user_id
-            }
+    const imageUrls = [];
 
-        )
-        if (addImage) {
-            res.status(200).json({
-                addImage,
-                success: true,
-                message: "successfull added "
-                
-            })
-        }
-    } catch (error) {
-        console.log(error);
-        
+    for (let i = 0; i < req.files.length; i++) {
+        const imagePath = await imageUrl.create({
+            image: `${baseUrl}/${req.files[i].path}`,
+            user_id: user_id
+        });
+        imageUrls.push(imagePath);
     }
+
+    res.status(201).json({
+        success: true,
+        data: imageUrls
+    });
 }
 
 module.exports={createImages}

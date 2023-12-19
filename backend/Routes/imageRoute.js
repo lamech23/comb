@@ -3,10 +3,11 @@ const router =express.Router()
 const {
     createImages
 }=require('../controllers/imageController')
-const {requireAuth} =require('../middlleware/requireAuth')
+const {requireAuth } =require('../middlleware/requireAuth')
+const {imageUpload } =require('../middlleware/upload')
 
 
-router.post('/', requireAuth, createImages)
+router.post('/', requireAuth, imageUpload, createImages)
 
 
 

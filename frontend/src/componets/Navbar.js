@@ -20,7 +20,7 @@ function Navbar() {
   const [Status, setStatus] = useState("");
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-
+  const [activeNavLink, setActiveNavLink] = useState("/");
   document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", function () {
       if (window.scrollY) {
@@ -83,8 +83,6 @@ function Navbar() {
           <Link className="navbar-brand" to="/">
             Kausi property
           </Link>
-          
-
 
           {open ? (
             <button
@@ -117,7 +115,7 @@ function Navbar() {
             </button>
           )}
           {/* <Search/> */}
-          <Search/>
+          <Search />
 
           <div
             className="   navbar-collapse justify-content-end align-center me-5 visible  "
@@ -125,24 +123,59 @@ function Navbar() {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" to="/">
+                <Link
+                  className={`nav-link active cursor-pointer
+                 ${
+                   activeNavLink === "/"
+                     ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                     : ""
+                 }`}
+                  to="/"
+                >
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link " to="/About">
+                <Link
+                  className={`nav-link active cursor-pointer
+                    ${
+                      activeNavLink === "About"
+                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                        : ""
+                    }`}
+                  to="/About"
+                >
                   About
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Contacts">
+                <Link
+                  className={`nav-link active cursor-pointer
+               ${
+                 activeNavLink === "Contacts"
+                   ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                   : ""
+               }`}
+                  to="/Contacts"
+                >
                   Contacts
                 </Link>
               </li>
 
               {user?.Active === "active" ? (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/DetailsForm">
+                <li 
+                
+                className={`nav-item active cursor-pointer
+                ${
+                  activeNavLink === "Contacts"
+                    ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                    : ""
+                }`}>
+                  <Link
+                    className="nav-link active cursor-pointer"
+                
+                    to="/DetailsForm"
+                  >
                     Post
                   </Link>
                 </li>

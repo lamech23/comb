@@ -6,7 +6,7 @@ const users = require('./UserModels');
 const imageUrl = db.define('imageUrl',{
 
     image:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull:false,
     },
     user_id:{

@@ -33,18 +33,10 @@ function socketConfiguration(server, clientURL) {
       } else {
         existingUser.socketId = socket.id; // Update the socketId if the user already exists
       }
-      io.emit("updatingUser", allUsers);
+      socket.broadcast.emit("updatingUser", allUsers);
       console.log(allUsers, "this is the id ");
 
-      // socket.on("activate", (user) => {
-      //   const foundUser = allUsers.find((u) => u.user === user);
-      //   if (foundUser) {
-      //     foundUser.status = user.status // Change the status to "inactive"
-      //     console.log(foundUser, "found one");
-      //     // io.emit("updatingUser", allUsers);
-      //   }
-      // });
-
+      
       socket.on("disconnect", () => {
         const disconnectedUser = allUsers.filter(
           (u) => u.socketId !== socket.id
@@ -56,6 +48,16 @@ function socketConfiguration(server, clientURL) {
       });
     });
   });
+
+  io.on("connection",(socket)=>{
+    console.log("getting all users", socket.id);
+    socket.on("allUsers",(allUsers)=>{
+
+      socket.broadcast.emit("getAllUsers",allUsers);
+      console.log("this users ....", allUsers);
+    })
+
+  })
 
   return io;
 }

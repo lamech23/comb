@@ -7,12 +7,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useIsStatus } from "../hooks/UseStatus";
 import axios from "axios";
+import UserProfile from "../user/UserProfile";
+import ChangeProfile from "../user/ChangeProfile";
+import Appointment from "../user/Appointment";
+import UserHouse from "../user/UserHouse";
+
+
+
+
 
 function UserNav() {
   let navigate = useNavigate();
   // const {user}=useAuthContext()
   const { dispatch } = useAuthContext();
   const status = useIsStatus();
+  const [activeSection, setActiveSection] = useState("stats");
 
   const [active, setActive] = useState("");
   //  const {id} = useParams();
@@ -44,7 +53,10 @@ function UserNav() {
 
   return (
     <>
-      <div className="d-flex " id="wrapper">
+    <div className="flex">
+
+      <div className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10  max-h-screen overflow-y-scroll  ">
+        {" "}
         <div className="sideNav p-2">
           <div className="list-group list-group-flush my-3" id="one">
             <a
@@ -54,35 +66,106 @@ function UserNav() {
               <i className="fas fa-tachometer-alt me-2 fs-3 "></i>Dashboard
             </a>
 
-            <Link
-              to="/UserProfile"
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold  fs-5"
-            >
-              <i className="fas fa-project-diagram me-2 "></i>Account{" "}
-            </Link>
 
-            <Link
-              to={`/ChangeProfile/${id}`}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-5"
-            >
-              <i className="fas fa-chart-line me-2"></i> Profile
-            </Link>
-
-            {user?.Active === "Active" ? (
-              <a
-                href="/UserHouse"
-                className="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-5"
+            <div className="flex ">
+              <i className="material-symbols-outlined text-5xl text-gray-900">
+                {" "}
+                analytics
+              </i>
+              <button
+                type="button"
+                className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            
+          ${
+            activeSection === "UserProfile"
+              ? "bg-teal-500 w-fit justify-center items-center"
+              : ""
+          }
+          
+          `}
+                id="link"
+                onClick={() => setActiveSection("UserProfile")}
               >
-                <i className="fas fa-paperclip me-2"></i>Houses
-              </a>
+                Account
+              </button>
+            </div>
+
+            <div className="flex ">
+              <i className="material-symbols-outlined text-5xl text-gray-900">
+                {" "}
+                analytics
+              </i>
+              <button
+                type="button"
+                className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            
+          ${
+            activeSection === `ChangeProfile/${id}`
+              ? "bg-teal-500 w-fit justify-center items-center"
+              : ""
+          }
+          
+          `}
+                id="link"
+                onClick={() => setActiveSection(`/ChangeProfile/${id}`)}
+              >
+                Profile
+              </button>
+            </div>
+
+
+            <div className="flex ">
+              <i className="material-symbols-outlined text-5xl text-gray-900">
+                {" "}
+                analytics
+              </i>
+              <button
+                type="button"
+                className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            
+          ${
+            activeSection === `Appointment/${id}`
+              ? "bg-teal-500 w-fit justify-center items-center"
+              : ""
+          }
+          
+          `}
+                id="link"
+                onClick={() => setActiveSection(`Appointment/${id}`)}
+              >
+                Appointment
+              </button>
+            </div>
+
+            
+
+            {user?.Active === "active" ? (
+                <div className="flex ">
+                <i className="material-symbols-outlined text-5xl text-gray-900">
+                  {" "}
+                  analytics
+                </i>
+                <button
+                  type="button"
+                  className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+              
+            ${
+              activeSection === "userHouse"
+                ? "bg-teal-500 w-fit justify-center items-center"
+                : ""
+            }
+            
+            `}
+                  id="link"
+                  onClick={() => setActiveSection("userHouse")}
+                >
+                 houses
+                </button>
+              </div>
+  
             ) : null}
 
-            <Link
-              to={`/Appointment/${id}`}
-              className="list-group-item list-group-item-action bg-transparent second-text fw-bold fs-5"
-            >
-              <i className="fas fa-shopping-cart me-2"></i>Appointments
-            </Link>
+        
 
             <button className="list-group-item list-group-item-action bg-transparent text-danger fw-bold fs-5">
               <i className="fas fa-power-off me-2" onClick={handelClick}>
@@ -93,6 +176,19 @@ function UserNav() {
           </div>
         </div>
       </div>
+      <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar">
+        <div className="p-5 w-full">
+          <div className=" bg-gray-400 p-4  rounded-lg max-w-full">
+            {activeSection === "UserProfile" && <UserProfile />}
+            {activeSection === `/ChangeProfile/${id}` && <ChangeProfile />}
+            {activeSection === `/Appointment/${id}` && <Appointment />}
+            {activeSection === "userHouse" && <UserHouse />}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
     </>
   );
 }

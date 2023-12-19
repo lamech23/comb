@@ -193,7 +193,7 @@ function Navbar() {
                             <li>
                               <Link
                                 className="dropdown-item"
-                                to={`/Profile/${user.id}`}
+                                to={`/userNav/${user.id}`}
                               >
                                 Profile
                               </Link>

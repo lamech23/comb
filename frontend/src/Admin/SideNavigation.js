@@ -269,20 +269,6 @@ function SideNavigation() {
           </button>
         </div>
 
-        {/* <a
-          href="AddAdmin"
-          className="flex items-center justify-center gap-3 no-underline  text-black "
-        >
-          <i className="fas fa-chart-line me-2"></i>Add Admin
-        </a> */}
-
-        {/*      
-        <Link
-          to={`/Tours/${id}`}
-          className="flex items-center justify-center gap-3 no-underline text-black  "
-        >
-          <i className="fas fa-comment-dots me-2"></i>Tours
-        </Link> */}
       </div>
 
       <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar">

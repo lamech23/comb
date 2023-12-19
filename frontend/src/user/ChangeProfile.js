@@ -70,8 +70,7 @@ function ChangeProfile() {
 
   return (
     <>
-      <div className="userSplit">
-        <UserNav />
+      <div className="">
 
         {/* email */}
 

@@ -9,8 +9,7 @@ function UserProfile() {
   let email = user?.email;
   return (
     <>
-      <div className="diffrence">
-        <UserNav />
+      <div className=" flex flex-col justify-center p-4 ">
         <div className="card mt-3">
           <div className="card-header fw-bold fs-4">Account Overview</div>
 

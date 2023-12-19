@@ -44,7 +44,7 @@ import Details from "./componets/details/Details";
 import Appointment from "./user/Appointment";
 import { Calendar } from "react-calendar";
 import axios from "axios";
-import Cards from "./componets/Cards";
+import Cards from "./componets/Cards"
 import HelpCenter from "./componets/HelpCenter";
 import Tours from "./Admin/Tours";
 import HelpCenterAdmin from "./Admin/HelpCenterAdmin";
@@ -95,7 +95,7 @@ function App() {
           <Route path="/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/Reset/:id" element={<Reset />} />
           <Route path="/Pagination" element={<Pagination />} />
-          <Route path="/UserNav" element={<UserNav />} />
+          <Route path="/UserNav/:id" element={<UserNav />} />
           <Route path="/Profile/:id" element={<Profile />} />
           <Route path="/AddAdmin" element={<AddAdmin />} />
           <Route path="/Search" element={<Search />} />
@@ -103,7 +103,7 @@ function App() {
           <Route path="/NewsLetter" element={<NewsLetter />} />
           <Route path="/ClientMessageForm" element={<ClientMessageForm />} />
           <Route path="/ClientContactUs" element={<ClientContactUs />} />
-          <Route path="/ChangeProfile/:id" element={<ChangeProfile />} />
+          <Route path="/ChangeProfile/" element={<ChangeProfile />} />
           <Route path="/UpdateUser/:id" element={<UpadetUser />} />
           <Route path="/UserHouse" element={<UserHouse />} />
           <Route path="/Services" element={<Services />} />

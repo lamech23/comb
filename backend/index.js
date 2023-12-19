@@ -16,6 +16,7 @@ const Mail=require('./Routes/SendEmailRoute')
 const search=require('./Routes/SearchApiRoute')
 const tours=require('./Routes/TourRequestRoute')
 const helpCenter=require('./Routes/HelpCenterRoute')
+const image=require('./Routes/imageRoute.js')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
 const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
@@ -80,6 +81,7 @@ app.use('/help',helpCenter)
 app.use('/houseRegister',houseRegisration)
 app.use('/water',waters)
 app.use('/Tenant',TenantRegistering)
+app.use('/images',image)
 
 
 

@@ -55,7 +55,7 @@ function UserNav() {
     <>
     <div className="flex">
 
-      <div className=" flex flex-col justify-start  bg-green-600 w-60 h-fit gap-10  max-h-screen overflow-y-scroll  ">
+      <div className=" flex flex-col justify-start  bg-gray-500 w-60 h-fit gap-10  max-h-screen overflow-y-scroll  ">
         {" "}
         <div className="sideNav p-2">
           <div className="list-group list-group-flush my-3" id="one">

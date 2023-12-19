@@ -67,7 +67,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <div className="bg-teal-900">
+      <div >
 
         <Navbar />
         <Routes>

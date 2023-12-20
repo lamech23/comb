@@ -155,7 +155,7 @@ function DetailsForm() {
             />
             <label className="label-control">Description</label>
             <textarea
-              className="form-control"
+              className="form-control "
               type="text"
               onChange={(e) => setDescription(e.target.value)}
               value={description}

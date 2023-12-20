@@ -20,7 +20,6 @@ function House() {
     );
     setHouse(response.data);
   };
-console.log(house);
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -35,7 +34,7 @@ console.log(house);
     getTenantinfo();
     getHouse();
     getWaterRates()
-  }, [house]);
+  }, [houseName]);
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -106,13 +105,13 @@ console.log(house);
 
   return (
     <>
-      <div className=" flex flex-col gap-20  ">
+      <div className=" flex flex-col justify-center items-center gap-20  ">
         <div className=" text-sm mt-14 ">
-          <div className=" flex gap-4 text-white text-3xl ">
+          <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
             HOUSE: <p className="text-red-400">{houseName}</p>
           </div>
-          <div className=" flex gap-4 text-white text-3xl ">
+          <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
             LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
           </div>
@@ -142,50 +141,50 @@ console.log(house);
             <tbody>
               {tenant?.detailsWithTotal?.map((tenants) => (
                 <tr key={tenants.id}>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.id}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.tenantsName}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.email}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.houseName}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.rent}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.waterReading}
                   </td>
 
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                       {waterPrice }
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.waterBill}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.previousBalance}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.garbage}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.phoneNumber}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.nextOfKingNumber}
                   </td>
-                  <td className="border text-white border-slate-700">
+                  <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
                 </tr>

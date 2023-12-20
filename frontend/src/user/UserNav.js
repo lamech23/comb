@@ -70,7 +70,7 @@ function UserNav() {
             <div className="flex ">
               <i className="material-symbols-outlined text-5xl text-gray-900">
                 {" "}
-                analytics
+                account_circle
               </i>
               <button
                 type="button"
@@ -93,7 +93,7 @@ function UserNav() {
             <div className="flex ">
               <i className="material-symbols-outlined text-5xl text-gray-900">
                 {" "}
-                analytics
+                person
               </i>
               <button
                 type="button"
@@ -117,7 +117,7 @@ function UserNav() {
             <div className="flex ">
               <i className="material-symbols-outlined text-5xl text-gray-900">
                 {" "}
-                analytics
+                schedule
               </i>
               <button
                 type="button"
@@ -143,7 +143,7 @@ function UserNav() {
                 <div className="flex ">
                 <i className="material-symbols-outlined text-5xl text-gray-900">
                   {" "}
-                  analytics
+                  house
                 </i>
                 <button
                   type="button"

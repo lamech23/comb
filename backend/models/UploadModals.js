@@ -5,11 +5,11 @@ const users = require("./UserModels");
 const Details = db.define(
   "Details",
   {
-    image: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      require: true,
-    },
+    // image: {
+    //   type: DataTypes.TEXT,
+    //   // allowNull: false,
+    //   // require: true,
+    // },
 
     title: {
       type: DataTypes.STRING,

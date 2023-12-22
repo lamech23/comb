@@ -27,12 +27,12 @@ const getImages = async (req, res) => {
 
         const images = await imageUrl.findAll({
             // where: {
-            //     user_id: user_id // Ensure the field name matches your database schema
+            //     user_id: user_id
             // }
         });
 
         res.status(200).json({
-            images: images, // Ensure you're sending 'images', not 'image' as the key
+            images: images,
             success: true,
             message: "Fetched images",
         });
@@ -41,7 +41,7 @@ const getImages = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Failed to fetch images",
-            error: error.message // Send the error message for debugging
+            error: error.message 
         });
     }
 };

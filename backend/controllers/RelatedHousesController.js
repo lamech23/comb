@@ -17,7 +17,9 @@ const relatedHouses = async (req, res) => {
     } else {
       res
         .status(404)
-        .json({  message: "No details found for the specified category" });
+        .json({  
+          success:false,
+          message: "No details found for the specified category" });
     }
   } catch (error) {
     res.status(500);

@@ -7,7 +7,7 @@ const UserGraph = ({ users }) => {
 
   function generateMonthLabels(monthCount) {
     const labels = [];
-    const currentDate = new Date(); // Get the current date
+    const currentDate = new Date();
 
     for (let i = 0; i < monthCount; i++) {
       const date = new Date(currentDate);
@@ -32,7 +32,7 @@ const UserGraph = ({ users }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "line",
+        type: "bar",
         data: {
           labels: labels,
           datasets: [

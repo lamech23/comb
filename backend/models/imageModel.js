@@ -1,6 +1,7 @@
 const {DataTypes }=require('sequelize')
 const db =require('../config/Database');
 const users = require('./UserModels');
+const Details = require('./UploadModals');
 
     
 const imageUrl = db.define('imageUrl',{
@@ -22,7 +23,6 @@ imageUrl.belongsTo(users,
     onDelete: "cascade",
     onUpdate: "cascade",
  });
-
 
 db.sync()
 .then(() => {

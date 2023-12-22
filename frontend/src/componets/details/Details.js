@@ -42,18 +42,18 @@ const Details = () => {
     }, 3000);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(`http://localhost:4000/search?q=${query}`);
-      setDetails(res.data);
-    };
-    if (query.length === 0 || query.length > 2)
-     fetchData();
-  }, [query]);
+  // useEffect(() => {
+  //   const fetchData = asy?nc () => {
+  //     const res = await axios.get(`http://localhost:4000/search?q=${query}`);
+  //     setDetails(res.data);
+  //   };
+  //   if (query.length === 0 || query.length > 2)
+  //    fetchData();
+  // }, [query]);
 
   const fetchDetails = async () => {
     const response = await axios.get(
-      "http://localhost:4000/paginatedHouses/houses"
+      "http://localhost:4000/Details/allHouses"
     );
     setDetails(response.data);
     setIsLoading(false);
@@ -63,6 +63,7 @@ const Details = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
+  // console.log(currentPosts);
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

@@ -17,13 +17,8 @@ function DetailsForm() {
   let navigate = useNavigate();
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
-  const [user_id, setUser_id] = useState("");
   const { id } = useParams();
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("credentials"));
-    if (user) setUser_id(user.id);
-  }, []);
 
   const handelImage = async (e) => {
     e.preventDefault();
@@ -61,7 +56,6 @@ function DetailsForm() {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("title", title);
-      formData.append("user_id", user_id);
 
       // for (let i = 0; i < image.length; i++) {
       //   formData.append("image", image[i]);

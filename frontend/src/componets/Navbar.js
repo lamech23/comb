@@ -16,8 +16,6 @@ function Navbar() {
   const { dispatch } = useAuthContext();
   const { user } = useAuthContext();
   const role = useIsAdmin();
-  const status = useIsStatus();
-  const [Status, setStatus] = useState("");
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
   const [activeNavLink, setActiveNavLink] = useState("/");
@@ -33,9 +31,7 @@ function Navbar() {
       }
     });
   });
-  useEffect(() => {
-    fetchUserById();
-  }, []);
+  
 
   const handleOpen = () => {
     setOpen(true);
@@ -48,12 +44,6 @@ function Navbar() {
     content.style.display = "none";
   };
 
-  const fetchUserById = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Users/specificUser/+id`
-    );
-    setStatus(response.data.Status);
-  };
 
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);

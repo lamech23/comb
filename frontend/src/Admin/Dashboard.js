@@ -18,7 +18,6 @@ function Dashboard() {
   const { dispatch } = useAuthContext();
   const role = useIsAdmin();
   const [newsLetter, setNewsLetter] = useState([]);
-  const [count, setCount] = useState();
   const [counts, setCounts] = useState(0);
   const [users, setUsers] = useState(0);
   const [activeUser, setActiveUser] = useState(0);
@@ -28,15 +27,10 @@ function Dashboard() {
 
   try {
     useEffect(() => {
-      fetchAllDEtails();
       fetchNewsLetters();
       fetchTotalNews();
-    }, [setCount, setCounts]);
-    //house
-    const fetchAllDEtails = async () => {
-      const response = await axios.get("http://localhost:4000/Total");
-      setCount(response.data);
-    };
+    }, [ setCounts]);
+
 
     //newsLetter
     const fetchNewsLetters = async () => {
@@ -57,17 +51,7 @@ function Dashboard() {
     };
   } catch (error) {}
 
-  if (!role) {
-    return (
-      <div>
-        <p className="top display-2 ">Oops!</p>
-        <p className="middle">You are not authenticated</p>
-        <a className="bottom" href="/">
-          Return to homepage
-        </a>
-      </div>
-    );
-  }
+ 
 
   return (
     <>

@@ -98,7 +98,6 @@ const createDetails = async (req, res) => {
   };
 
   await Details.create(info);
-
   try {
     await users.findOne({ where: { id: id } });
     const transporter = nodemailer.createTransport({

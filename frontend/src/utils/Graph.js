@@ -10,19 +10,21 @@ const UserGraph = ({ users }) => {
     const currentDate = new Date();
 
     for (let i = 0; i < monthCount; i++) {
-      const date = new Date(currentDate);
+      const date = new Date();
+      
       date.setMonth(currentDate.getMonth() - i); // Subtract months to go back in time
       const monthLabel = date.toLocaleDateString("default", { month: "short" });
       labels.push(monthLabel); // Add the month label to the beginning of the array
     }
 
-    return labels.toSorted((a, b) => a - b).reverse();
+    return labels;
   }
 
   useEffect(() => {
     // Define data for the chart.
     const labels = generateMonthLabels(12);
     const data = [users];
+    
 
     if (chartRef.current) {
       // If a chart instance exists, destroy it to prevent duplicates.

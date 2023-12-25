@@ -17,7 +17,7 @@ const UserGraph = ({ users }) => {
       labels.push(monthLabel); // Add the month label to the beginning of the array
     }
 
-    return labels;
+    return labels
   }
 
   useEffect(() => {

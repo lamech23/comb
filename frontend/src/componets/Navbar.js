@@ -116,6 +116,8 @@ function Navbar() {
                      : ""
                  }`}
                   to="/"
+                  onClick={() => setActiveNavLink("/")}
+
                 >
                   Home
                 </Link>
@@ -125,10 +127,12 @@ function Navbar() {
                   className={`nav-link active cursor-pointer
                     ${
                       activeNavLink === "About"
-                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center "
                         : ""
                     }`}
                   to="/About"
+                  onClick={() => setActiveNavLink("About")}
+
                 >
                   About
                 </Link>
@@ -142,6 +146,8 @@ function Navbar() {
                    : ""
                }`}
                   to="/Contacts"
+                  onClick={() => setActiveNavLink("Contacts")}
+
                 >
                   Contacts
                 </Link>

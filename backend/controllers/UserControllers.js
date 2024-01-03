@@ -6,12 +6,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
-const createToken = ([id, role  ]) => {
+const createToken = ([id, role]) => {
   return jwt.sign(
     {
       id: id,
       role: role,
-    
     },
     process.env.SECRET,
     { expiresIn: 10000 }
@@ -34,9 +33,11 @@ const loginUser = async (req, res) => {
     }
     // trying to compare the password N/B :user.password is the hased password
     const match = await bcrypt.compare(password, user.password);
-    if (match === false) 
-      return res.status(400).json({ error: "invalid password" })
-    
+    if (!match)
+      return res.status(400).json({
+        succes: false,
+        error: "invalid password",
+      });
 
     const token = createToken([
       user.id,
@@ -49,7 +50,7 @@ const loginUser = async (req, res) => {
     res.cookie("access_token", JSON.stringify(token), {
       httpOnly: true,
       secure: true,
-      sameSite: "none"
+      sameSite: "none",
     });
     res.status(201).send({
       id: user.id,
@@ -259,7 +260,6 @@ const updateUserEmail = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  
   res
     .clearCookie("access_token", {
       secure: true,
@@ -267,7 +267,6 @@ const logout = async (req, res) => {
     })
     .status(200)
     .json({ error: "successfully  logged out" });
-
 };
 
 module.exports = {

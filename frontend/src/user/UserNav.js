@@ -11,6 +11,7 @@ import UserProfile from "../user/UserProfile";
 import ChangeProfile from "../user/ChangeProfile";
 import Appointment from "../user/Appointment";
 import UserHouse from "../user/UserHouse";
+import AddingHouse from "./AddingHouse";
 
 
 
@@ -137,6 +138,30 @@ function UserNav() {
               </button>
             </div>
 
+            <div className="flex ">
+              <i className="material-symbols-outlined text-5xl text-gray-900">
+                {" "}
+                add
+              </i>
+              <button
+                type="button"
+                className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            
+          ${
+            activeSection === `addHouse`
+              ? "bg-teal-500 w-fit justify-center items-center"
+              : ""
+          }
+          
+          `}
+                id="link"
+                onClick={() => setActiveSection(`addHouse`)}
+              >
+                Post
+              </button>
+            </div>
+
+
             
 
             {user?.Active === "active" ? (
@@ -183,6 +208,8 @@ function UserNav() {
             {activeSection === `/ChangeProfile/${id}` && <ChangeProfile />}
             {activeSection === `/Appointment/${id}` && <Appointment />}
             {activeSection === "userHouse" && <UserHouse />}
+            {activeSection === "addHouse" && <AddingHouse />}
+            
             
           </div>
         </div>

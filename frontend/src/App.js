@@ -57,6 +57,7 @@ import RegisterTenant from "./Renting/RegisterTenant";
 import CreateHouse from "./Renting/CreateHouse";
 import Stats from "./Admin/Stats";
 import AllHouses from "./Renting/AllHouses";
+import AddingHouse from "./user/AddingHouse";
 
 function App() {
   const { user } = useAuthContext();
@@ -120,6 +121,7 @@ function App() {
           <Route path="/createHouse" element={<CreateHouse />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/allHouses" element={<AllHouses />} />
+          <Route path="/addHouse" element={< AddingHouse/>} />
 
           <Route path="*" element={<PageNotFound />}  />
         </Routes>

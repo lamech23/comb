@@ -137,6 +137,7 @@ function UserNav() {
                 Appointment
               </button>
             </div>
+            {user?.Active === "active" ? (
 
             <div className="flex ">
               <i className="material-symbols-outlined text-5xl text-gray-900">
@@ -159,7 +160,7 @@ function UserNav() {
               >
                 Post
               </button>
-            </div>
+            </div>):null}
 
 
             

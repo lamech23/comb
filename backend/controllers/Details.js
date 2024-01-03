@@ -99,7 +99,7 @@ const createDetails = async (req, res) => {
     category: req.body.category,
     price: req.body.price,
     user_id: user_id,
-    house_id: house_id,
+    image_id: user_id,
   };
 
 

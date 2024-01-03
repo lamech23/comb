@@ -17,6 +17,7 @@ function AddingHouse() {
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
 
+
   const handelImage = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -39,18 +40,22 @@ function AddingHouse() {
     console.log("clicked on image");
   };
 
+  const handleCancle = ()=>{
+    setStatus(false)
+    setImage("");
+    setTitle("");
+    setLocation("");
+    setDescription("");
+    setContact("");
+    setPrice("");
+    setCategory("");
+  }
+
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
     try {
-      const formData = new FormData();
-      formData.append("description", description);
-      formData.append("contact", contact);
-      formData.append("location", location);
-      formData.append("price", price);
-      formData.append("category", category);
-      formData.append("title", title);
-
+    
       if (
         (description === "",
         contact === "",
@@ -63,12 +68,19 @@ function AddingHouse() {
       } else {
         const response = await axios.post(
           "http://localhost:4000/Details",
-          formData,
+          {
+            description: description,
+            contact: contact,
+            location: location,
+            price: price,
+            category: category,
+            title: title
+          },
           {
             headers: {
               authorization: ` Bearer ${user?.token}`,
               Accept: "application/json",
-              "Content-Type": "multipart/form-data",
+              "Content-Type": "application/json"
             },
           }
         );
@@ -287,6 +299,7 @@ function AddingHouse() {
               <button
                 type="button"
                 class="text-sm font-semibold leading-6 text-gray-900"
+                onClick={handleCancle}
               >
                 Cancel
               </button>

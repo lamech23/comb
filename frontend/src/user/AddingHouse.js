@@ -1,6 +1,111 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function AddingHouse() {
+  const [image, setImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [contact, setContact] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [error, setError] = useState(null);
+  let navigate = useNavigate();
+  const { user } = useAuthContext();
+  const [status, setStatus] = useState(false);
+
+  const handelImage = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    for (let i = 0; i < image.length; i++) {
+      formData.append("image", image[i]);
+    }
+
+    const addImage = handelImage;
+    const response = await axios.post(
+      "http://localhost:4000/images",
+      formData,
+      {
+        headers: {
+          authorization: ` Bearer ${user?.token}`,
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("clicked on image");
+  };
+
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending ...");
+    try {
+      const formData = new FormData();
+      formData.append("description", description);
+      formData.append("contact", contact);
+      formData.append("location", location);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("title", title);
+
+      if (
+        (description === "",
+        contact === "",
+        location === "",
+        price === "",
+        category === "",
+        title === "")
+      ) {
+        toast.error("All fields must field");
+      } else {
+        const response = await axios.post(
+          "http://localhost:4000/Details",
+          formData,
+          {
+            headers: {
+              authorization: ` Bearer ${user?.token}`,
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setStatus(false);
+        toast.success("Added succesfuly ");
+        {
+          navigate("/");
+        }
+
+        // const json = await response.json()
+
+        if (!response) {
+          setError(error);
+        }
+
+        if (response) {
+          //here am reseting the form
+          setImage("");
+          setTitle("");
+          setLocation("");
+          setDescription("");
+          setContact("");
+          setPrice("");
+          setCategory("");
+          setStatus(false)
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 500) {
+        return toast.error(" Allowed image format jpeg,jpg,png,webp, ");
+      }
+
+      if (error.response?.status === 403) {
+        return toast.error(" you are  not authorized to perform this action  ");
+      }
+    }
+  };
   return (
     <>
       <div class="space-y-12">
@@ -36,7 +141,7 @@ function AddingHouse() {
                     />
                   </svg>
                   <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                    <form>
+                    <form onSubmit={handelImage}>
                       <label
                         for="file-upload"
                         class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -47,6 +152,8 @@ function AddingHouse() {
                           name="file-upload"
                           type="file"
                           class="sr-only"
+                          multiple
+                          onChange={(e) => setImage([...e.target.files])}
                         />
                       </label>
                       <div class="mt-6 flex items-center justify-end gap-x-6">
@@ -76,7 +183,7 @@ function AddingHouse() {
             House Information
           </h2>
           {/* <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> */}
-          <form>
+          <form onSubmit={handelSubmit}>
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-3">
                 <label
@@ -88,10 +195,10 @@ function AddingHouse() {
                 <div class="mt-2">
                   <input
                     type="text"
-                    name="first-name"
-                    id="first-name"
-                    autocomplete="given-name"
+                    name="title"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setTitle(e.target.value)}
+                    value={title}
                   />
                 </div>
               </div>
@@ -106,10 +213,12 @@ function AddingHouse() {
                 <div class="mt-2">
                   <input
                     type="text"
-                    name="last-name"
+                    name="location"
                     id="last-name"
                     autocomplete="family-name"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setLocation(e.target.value)}
+                    value={location}
                   />
                 </div>
               </div>
@@ -124,17 +233,19 @@ function AddingHouse() {
                 <div class="mt-2">
                   <input
                     type="text"
-                    name="first-name"
+                    name="contact"
                     id="first-name"
                     autocomplete="given-name"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setContact(e.target.value)}
+                    value={contact}
                   />
                 </div>
               </div>
 
               <div class="sm:col-span-3">
                 <label
-                  for="last-name"
+                  for="price"
                   class="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Price{" "}
@@ -146,11 +257,13 @@ function AddingHouse() {
                     id="last-name"
                     autocomplete="family-name"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
                   />
                 </div>
               </div>
 
-              <div class="sm:col-span-4">
+              <div class="sm:col-span-6 ">
                 <label
                   for="email"
                   class="block text-sm font-medium leading-6 text-gray-900"
@@ -161,8 +274,10 @@ function AddingHouse() {
                   <textarea
                     id="description"
                     name="description"
-                    rows={6}
+                    rows={12}
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                   ></textarea>
                 </div>
               </div>
@@ -175,16 +290,36 @@ function AddingHouse() {
               >
                 Cancel
               </button>
+
+              {status  ? (
+              <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                {status}
+              </button>
+            ) : (
               <button
                 type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Save
               </button>
+            )}
             </div>
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

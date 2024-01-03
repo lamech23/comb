@@ -102,14 +102,9 @@ const createDetails = async (req, res) => {
     house_id: house_id,
   };
 
-  for (let i = 0; i < req.files.length; i++) {
-    const imagePath = await Details.create({
-        image: `${baseUrl}/${req.files[i].path}`,
-    });
-    imageUrls.push(imagePath);
-}
 
-  await Details.create(info, imageUrls);
+
+  await Details.create(info);
   try {
     await users.findOne({ where: { id: id } });
     const transporter = nodemailer.createTransport({

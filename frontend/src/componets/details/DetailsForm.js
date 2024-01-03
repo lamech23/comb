@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./form.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function DetailsForm() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");

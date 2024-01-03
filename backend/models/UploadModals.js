@@ -8,7 +8,6 @@ const Details = db.define(
   {
     image: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
 
     title: {

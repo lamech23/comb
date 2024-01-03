@@ -82,10 +82,15 @@ const getSingelDetails = async (req, res) => {
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
-  const token = re.user;
+  const token = req.user;
   const user_id = token.id;
   const house_id = req.query.house_id
+  const baseUrl = process.env.BASE_URL;
 
+  const imageUrls = [];
+
+
+  
   const info = {
     title: req.body.title,
     location: req.body.location,
@@ -97,7 +102,14 @@ const createDetails = async (req, res) => {
     house_id: house_id,
   };
 
-  await Details.create(info);
+  for (let i = 0; i < req.files.length; i++) {
+    const imagePath = await Details.create({
+        image: `${baseUrl}/${req.files[i].path}`,
+    });
+    imageUrls.push(imagePath);
+}
+
+  await Details.create(info, imageUrls);
   try {
     await users.findOne({ where: { id: id } });
     const transporter = nodemailer.createTransport({

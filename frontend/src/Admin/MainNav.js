@@ -21,8 +21,7 @@ function MainNav() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-warning auto-hiding-navbar fixed-top  "
-        id="to_nav"
+        className="flex flex-row  justify-between items-center px-20 border bg-green-400 p-4 fixed-top   "
       >
         <div id="page-content-wrapper">
           <nav
@@ -35,7 +34,7 @@ function MainNav() {
                   id="menu-toggle"
                 ></i>
                 <Link
-                  className="text-decoration-none text-danger ms-5 fs-2"
+                  className="text-decoration-none text-white text-2xl border  p-2 rounded-lg  hover:bg-teal-600"
                   to="/"
                 >
                   Home
@@ -56,10 +55,10 @@ function MainNav() {
 
           </nav>
         </div>
-        <div className="container-xxl">
+
+        {/* logout button */}
+        <div className="">
           <div
-            className=" collapse navbar-collapse justify-content-end align-center me-5  "
-            id="#main-navbar"
           >
             <div
               className=" flex justify-end  visible"
@@ -76,7 +75,7 @@ function MainNav() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i className="fas fa-user me-2 -end"> {isAdmin?.email}</i>
+                      <i className="  text-white text-2xl  "> {isAdmin?.email}</i>
                     </a>
                     <ul
                       className="dropdown-menu"

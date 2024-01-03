@@ -87,7 +87,7 @@ function Login() {
             if (isAdmin === "Admin") {
               navigate("/Dashboard");
             } else if (isAdmin === "user") {
-              navigate(`/Profile/${id}`);
+              navigate(`/UserNav/${id}`);
             } else if (isAdmin === "landowner") {
               navigate(`/LandownerDashbard`);
             } else if (isAdmin === "tenant") {
@@ -286,10 +286,12 @@ function Login() {
               </div>
             </div>
           </div>
+
+
         </div>
         {error && (
           <div
-            className="   alert alert-danger mt-5 text-center w-5"
+            className="alert alert-danger mt-5 text-center w-5"
             id="errors"
           >
             {error}
@@ -298,7 +300,7 @@ function Login() {
 
         <div />
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-left"
         autoClose={3000}
         hideProgressBar
@@ -309,7 +311,7 @@ function Login() {
         draggable
         pauseOnHover
         theme="colored"
-      />
+      /> */}
     </div>
   );
 }

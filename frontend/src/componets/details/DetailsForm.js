@@ -57,9 +57,9 @@ function DetailsForm() {
       formData.append("category", category);
       formData.append("title", title);
 
-      // for (let i = 0; i < image.length; i++) {
-      //   formData.append("image", image[i]);
-      // }
+      for (let i = 0; i < image.length; i++) {
+        formData.append("image", image[i]);
+      }
 
       if (
         (description === "",
@@ -216,6 +216,8 @@ function DetailsForm() {
         pauseOnHover
         theme="colored"
       />
+
+      
     </div>
   );
 }

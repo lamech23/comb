@@ -43,9 +43,7 @@ function UpadetUser() {
   }, []);
   return (
     <>
-      <MainNav />
       <div className="split">
-        <SideNavigation />
 
         <form className="col shadow-lg" id="updateUser" onSubmit={updatingUser}>
           <label htmlFor="Email" className="form-Label fw-bold mb-2">

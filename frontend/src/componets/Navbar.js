@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../componets/images/logo.jpg";
 import "./Image.css";
@@ -6,7 +6,6 @@ import "../css/navbar.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { useIsAdmin } from "../hooks/UseAdmin";
-import { useIsStatus } from "../hooks/UseStatus";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -19,6 +18,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
   const [activeNavLink, setActiveNavLink] = useState("/");
+
   document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", function () {
       if (window.scrollY) {
@@ -31,7 +31,6 @@ function Navbar() {
       }
     });
   });
-  
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,16 +43,12 @@ function Navbar() {
     content.style.display = "none";
   };
 
-
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);
-    {
-      localStorage.removeItem("credentials");
-    }
+    localStorage.removeItem("credentials");
     dispatch({ type: "LOGOUT" });
 
     document.cookie = "user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/";
-
     navigate("/");
 
     return toast.success(`Successfully logged out ${user?.email}`);
@@ -62,7 +57,7 @@ function Navbar() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  lg:w-full"
+        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  lg:w-full bg-transparent"
         id="mainNavbar"
       >
         <div className="container-xxl ">
@@ -153,17 +148,16 @@ function Navbar() {
               </li>
 
               {user?.Active === "active" ? (
-                <li 
-                
-                className={`nav-item active cursor-pointer
+                <li
+                  className={`nav-item active cursor-pointer
                 ${
                   activeNavLink === "Contacts"
                     ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
                     : ""
-                }`}>
+                }`}
+                >
                   <Link
                     className="nav-link active cursor-pointer"
-                
                     to="/DetailsForm"
                   >
                     Post

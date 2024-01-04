@@ -27,6 +27,7 @@ imageUrl.belongsTo(users, {
 
 
 
+
 db.sync()
   .then(() => {
     console.log("imageUrl table created successfully!");

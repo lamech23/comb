@@ -6,9 +6,7 @@ const imageUrl = require("./imageModel");
 const Details = db.define(
   "Details",
   {
-    image: {
-      type: DataTypes.STRING,
-    },
+    
 
     title: {
       type: DataTypes.STRING,

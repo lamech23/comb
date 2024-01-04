@@ -4,14 +4,23 @@ const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
 const { log } = require("console");
+const imageUrl = require("../models/imageModel.js");
 
 const getAllHouses = async (req, res) => {
   const page_size = 100;
+
   try {
+   
     const details = await Details.findAll({
+     
+     
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
+      include: {
+        model: imageUrl,
+        as: "imagePath",
+      },
     });
 
     res.status(200).json(details);
@@ -84,13 +93,8 @@ const createDetails = async (req, res) => {
   const id = req.params;
   const token = req.user;
   const user_id = token.id;
-  const house_id = req.query.house_id
-  const baseUrl = process.env.BASE_URL;
-
-  const imageUrls = [];
 
 
-  
   const info = {
     title: req.body.title,
     location: req.body.location,
@@ -101,8 +105,6 @@ const createDetails = async (req, res) => {
     user_id: user_id,
     image_id: user_id,
   };
-
-
 
   await Details.create(info);
   try {

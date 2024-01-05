@@ -93,6 +93,7 @@ const createDetails = async (req, res) => {
   const id = req.params;
   const token = req.user;
   const user_id = token.id;
+  const imageUrls = [];
 
 
   const info = {
@@ -108,6 +109,16 @@ const createDetails = async (req, res) => {
 
   await Details.create(info);
   try {
+    for (let i = 0; i < req.files.length; i++) {
+      const imagePath = await imageUrl.create({
+        image: `${baseUrl}/${req.files[i].path}`,
+        user_id: user_id,
+        details_id: Details.id
+      });
+  
+      imageUrls.push(imagePath);
+    }
+    
     await users.findOne({ where: { id: id } });
     const transporter = nodemailer.createTransport({
       service: "gmail",

@@ -13,6 +13,9 @@ const imageUrl = db.define(
     user_id: {
       type: DataTypes.INTEGER,
     },
+    details_id: {
+      type: DataTypes.INTEGER,
+    },
   },
   {
     freezeTablesName: true,

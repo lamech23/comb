@@ -6,8 +6,8 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import "../../css/moreDetails.css";
 import Calendar from "react-calendar";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 function MoreDetails() {
   const { user } = useAuthContext();
   const [image, setImage] = useState("");
@@ -145,92 +145,25 @@ function MoreDetails() {
           </p>
         </div>
 
-        <div></div>
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
           <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
             <div
-              className="  col-lg-8 col-md-6  ms-2 mb-2   "
-              style={{ width: "350px" }}
+              className=" flex-1 "
             >
-              <div
-                id="controls-carousel"
-                className="relative w-full"
-                data-carousel="slide"
-              >
-                <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-                  <div className=" duration-700 ease-in-out" data-carousel-item>
-                 
-                    {image &&
-                      image?.map((imageUrl, index) => (
-                        <div key={index}>
-                          <img
-                            src={imageUrl}
-                            className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                            alt={`Image ${index}`}
-                            
-                          />
-                        </div>
-                      ))}
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                  data-carousel-prev
-                >
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg
-                      className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 6 10"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 1 1 5l4 4"
+              <Carousel>
+                {image &&
+                  image?.map((imageUrl, index) => (
+                    <div key={index}>
+                      <img
+                        src={imageUrl}
+                        className=" block w-full rounded-lg "
+                        alt={`Image ${index}`}
                       />
-                    </svg>
-                    <span className="sr-only">Previous</span>
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                  data-carousel-next
-                >
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg
-                      className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 6 10"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 9 4-4-4-4"
-                      />
-                    </svg>
-                    <span className="sr-only">Next</span>
-                  </span>
-                </button>
-              </div>
+                    </div>
+                  ))}
+              </Carousel>
 
-              {/* <img
-                className="  ms-5 mt-5 mb-3 "
-                src={image}
-                width="350px"
-                height="350px"
-                style={{ borderRadius: "20px" }}
-                alt=""
-              /> */}
+         
             </div>
 
             <div className="col-8 col-lg-4 text-center text-md-start    ms-5 mt-5">
@@ -258,13 +191,13 @@ function MoreDetails() {
               </div>
             </div>
 
-            <div className=" col-lg-8  col-md-4 col-xl-3 mt-5">
-              <div className="third_card ">
+            <div className=" flex-1">
+              <div className=" flex flex-col items-center gap-10  ">
                 <a
                   data-bs-toggle="modal"
                   href="#contactAg"
                   role="button"
-                  className="request"
+                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
                 >
                   Contact Agent
                 </a>
@@ -272,7 +205,7 @@ function MoreDetails() {
                   data-bs-toggle="modal"
                   href="#tour"
                   role="button"
-                  className="request mt-5"
+                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
                 >
                   Request A tour
                 </a>

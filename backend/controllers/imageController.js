@@ -1,3 +1,4 @@
+const Details = require("../models/UploadModals");
 const imageUrl = require("../models/imageModel");
 
 const createImages = async (req, res) => {
@@ -29,6 +30,10 @@ const getImages = async (req, res) => {
       // where: {
       //     user_id: user_id
       // }
+      include: {
+        model: Details,
+        as: "details",
+      }
     });
 
     res.status(200).json({

@@ -31,9 +31,7 @@ const Details = db.define(
     user_id: {
       type: DataTypes.INTEGER,
     },
-    image_id: {
-      type: DataTypes.INTEGER,
-    },
+
     category: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,13 +49,14 @@ Details.belongsTo(users, {
   onDelete: "cascade",
   onUpdate: "cascade",
 });
+
+
 Details.hasMany(imageUrl, {
-  foreignKey: "image_id",
-  as: "imagePath",
+  foreignKey: "details_id",
+  as: "details",
   onDelete: "cascade",
   onUpdate: "cascade",
 });
-
 db.sync()
   .then(() => {
     console.log("Details table created successfully!");

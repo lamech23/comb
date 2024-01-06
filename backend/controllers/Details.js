@@ -10,17 +10,11 @@ const getAllHouses = async (req, res) => {
   const page_size = 100;
 
   try {
-   
     const details = await Details.findAll({
-     
-     
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-      include: {
-        model: imageUrl,
-        as: "imagePath",
-      },
+   
     });
 
     res.status(200).json(details);
@@ -96,7 +90,6 @@ const createDetails = async (req, res) => {
   const imageUrls = [];
   const baseUrl = process.env.BASE_URL;
 
-
   const info = {
     title: req.body.title,
     location: req.body.location,
@@ -105,17 +98,18 @@ const createDetails = async (req, res) => {
     category: req.body.category,
     price: req.body.price,
     user_id: user_id,
-    image_id: user_id,
+    details_id: imageUrl.id,
   };
   try {
-    const imageInfo = await Details.create(info);  
+    const imageInfo = await Details.create(info);
+
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({
         image: `${baseUrl}/${req.files[i].path}`,
         user_id: user_id,
-        details_id: imageInfo.id
+        details_id: imageInfo.id,
       });
-  
+
       imageUrls.push(imagePath);
     }
     res.status(200).json({

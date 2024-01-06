@@ -26,7 +26,7 @@ const router =express.Router()
 // router.use(isAdmin)
 //POST all uploads
 //Post a details
-router.post('/',requireAuth, createDetails)
+router.post('/',requireAuth, imageUpload, createDetails)
 
  // GET all uploads 
  router.get('/allHouses', getAllHouses)

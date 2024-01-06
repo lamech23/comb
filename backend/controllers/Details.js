@@ -100,6 +100,7 @@ const createDetails = async (req, res) => {
     user_id: user_id,
     details_id: imageUrl.id,
   };
+
   try {
     const imageInfo = await Details.create(info);
 

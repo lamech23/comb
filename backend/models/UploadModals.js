@@ -43,20 +43,16 @@ const Details = db.define(
   }
 );
 
-Details.belongsTo(users, {
-  foreignKey: "user_id",
-  as: "user",
-  onDelete: "cascade",
-  onUpdate: "cascade",
-});
 
-
-Details.hasMany(imageUrl, {
+imageUrl.belongsTo(Details, {
   foreignKey: "details_id",
   as: "details",
   onDelete: "cascade",
   onUpdate: "cascade",
 });
+
+
+
 db.sync()
   .then(() => {
     console.log("Details table created successfully!");

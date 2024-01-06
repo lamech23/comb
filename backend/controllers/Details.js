@@ -10,7 +10,7 @@ const getAllHouses = async (req, res) => {
   const page_size = 100;
 
   try {
-    const details = await Details.findAll({
+    const details = await imageUrl.findAll({
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],

@@ -153,7 +153,7 @@ function MoreDetails() {
             >
               <img
                 className="  ms-5 mt-5 mb-3 "
-                src={`http://localhost:4000/${image}`}
+                src={image}
                 width="350px"
                 height="350px"
                 style={{ borderRadius: "20px" }}

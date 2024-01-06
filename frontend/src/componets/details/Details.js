@@ -101,7 +101,7 @@ const Details = () => {
               <img
                 id="detsImg"
                 className="   w-fit mt-2 mb-3"
-                src={`http://localhost:4000/${detail.image}`}
+                src={detail.image}
                 width="250px"
                 height="250px"
                 style={{ borderRadius: "2px" }}

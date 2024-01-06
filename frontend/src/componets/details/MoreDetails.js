@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "../../css/moreDetails.css";
@@ -121,7 +121,6 @@ function MoreDetails() {
     setContact(response.data.contact);
     setPrice(response.data.price);
     setCategory(response.data.category);
-    console.log(image);
   };
 
   useEffect(() => {
@@ -148,7 +147,7 @@ function MoreDetails() {
 
         <div></div>
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
-          <div className="row  d-flex  ms-5 mt-4">
+          <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
             <div
               className="  col-lg-8 col-md-6  ms-2 mb-2   "
               style={{ width: "350px" }}
@@ -160,19 +159,18 @@ function MoreDetails() {
               >
                 <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
                   <div className=" duration-700 ease-in-out" data-carousel-item>
-                    <img
-                      src={image}
-                      className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                      alt="..."
-                    />
-                    {/* <img
-                className="  ms-5 mt-5 mb-3 "
-                src={image}
-                width="350px"
-                height="350px"
-                style={{ borderRadius: "20px" }}
-                alt=""
-              /> */}
+                 
+                    {image &&
+                      image?.map((imageUrl, index) => (
+                        <div key={index}>
+                          <img
+                            src={imageUrl}
+                            className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt={`Image ${index}`}
+                            
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
                 <button

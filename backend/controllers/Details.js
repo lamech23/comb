@@ -72,7 +72,7 @@ const BnBHouse = async (req, res) => {
 
 //Get a single upload
 const getSingelDetails = async (req, res) => {
-  const id = 1;
+  const id = 1
   const details = await imageUrl.findAll({
 
     where: { details_id: id },
@@ -83,19 +83,15 @@ const getSingelDetails = async (req, res) => {
     }
   });
 
-  const images = details.map((img)=>{
-    return img.image
-
-  })
-  console.log(images);
-
-  if (!details) {
+  const images = details.map((img)=> img.image)
+  if(images){
+      res.status(200).json({
+        ...details,
+        images
+      }); //if it doesn't fire the if statment that means if fond the details so i get a response
+  } else{
     return res.status(404).json({ error: "Details does not exist" }); // the  reason why am returning is because it will carry on and fire the code
   }
-  res.status(200).json({
-    ...details,
-    images
-  }); //if it doesn't fire the if statment that means if fond the details so i get a response
 };
 //CREATE an upload
 const createDetails = async (req, res) => {

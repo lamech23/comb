@@ -107,7 +107,7 @@ const createDetails = async (req, res) => {
     image_id: user_id,
   };
 
-  await Details.create(info);
+ const imageInfo = await Details.create(info);
   try {
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({

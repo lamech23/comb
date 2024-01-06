@@ -13,7 +13,7 @@ function NewsLetter() {
   }, []);
 
   const getNewssletter = async () => {
-    const response = await axios.get("http://localHost:4000/news/NewsLetter");
+    const response = await axios.get("http://localHost:4000/news/newsLetter");
     setNewsLetter(response.data);
   };
 
@@ -23,9 +23,7 @@ function NewsLetter() {
   };
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+ 
         <div className="mt-4">
           <table className="table">
             <thead>
@@ -63,7 +61,6 @@ function NewsLetter() {
             ))}
           </table>
         </div>
-      </div>
     </>
   );
 }

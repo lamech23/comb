@@ -37,34 +37,33 @@ const Details = () => {
           }
         });
       }
-
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     }, 3000);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(`http://localhost:4000/search?q=${query}`);
-      setDetails(res.data);
-    };
-    if (query.length === 0 || query.length > 2) fetchData();
-  }, [query]);
+  // useEffect(() => {
+  //   const fetchData = asy?nc () => {
+  //     const res = await axios.get(`http://localhost:4000/search?q=${query}`);
+  //     setDetails(res.data);
+  //   };
+  //   if (query.length === 0 || query.length > 2)
+  //    fetchData();
+  // }, [query]);
 
   const fetchDetails = async () => {
     const response = await axios.get(
-      "http://localhost:4000/paginatedHouses/houses"
+      "http://localhost:4000/Details/allHouses"
     );
     setDetails(response.data);
     setIsLoading(false);
-    console.log(response.data, "RESPONSE");
   };
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
-
+  // console.log(currentPosts);
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -73,16 +72,9 @@ const Details = () => {
   return (
     <>
       <div className="container-fixed mb-5">
-        <input
-          className="search align-items-center justify-content-center"
-          placeholder="Search..."
-          onChange={(e) => setQuery(e.target.value.toLowerCase())}
-        />
-
         <div className="row d-flex align-items-center justify-content-center ">
-          {error && <div className="alert alert-danger">{error}</div>}
           {isLoading && (
-            <div class="czv xlds-spinner">
+            <div class="czv xlds-spinner bg-red-700">
               <div></div>
               <div></div>
               <div></div>

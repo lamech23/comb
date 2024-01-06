@@ -44,7 +44,7 @@ import Details from "./componets/details/Details";
 import Appointment from "./user/Appointment";
 import { Calendar } from "react-calendar";
 import axios from "axios";
-import Cards from "./componets/Cards";
+import Cards from "./componets/Cards"
 import HelpCenter from "./componets/HelpCenter";
 import Tours from "./Admin/Tours";
 import HelpCenterAdmin from "./Admin/HelpCenterAdmin";
@@ -55,6 +55,9 @@ import LandOwnerNav from "./Renting/LandOwnerNav";
 import House from "./Renting/House";
 import RegisterTenant from "./Renting/RegisterTenant";
 import CreateHouse from "./Renting/CreateHouse";
+import Stats from "./Admin/Stats";
+import AllHouses from "./Renting/AllHouses";
+import AddingHouse from "./user/AddingHouse";
 
 function App() {
   const { user } = useAuthContext();
@@ -65,17 +68,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <div >
+
         <Navbar />
-        {/* <ModuleLoginContext.Provider value={{setOpenModal}}>
-
-      { openModal &&<Login/> }
-
-     </ModuleLoginContext.Provider>
-
-     <ModalSignUpContext.Provider value={{setOpenModalSignUp}}>
-      { openModalSignUp && <SignUp/>}
-     </ModalSignUpContext.Provider> */}
-
         <Routes>
           {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
           <Route path="/DetailsForm" element={<DetailsForm />} />
@@ -101,7 +96,7 @@ function App() {
           <Route path="/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/Reset/:id" element={<Reset />} />
           <Route path="/Pagination" element={<Pagination />} />
-          <Route path="/UserNav" element={<UserNav />} />
+          <Route path="/UserNav/:id" element={<UserNav />} />
           <Route path="/Profile/:id" element={<Profile />} />
           <Route path="/AddAdmin" element={<AddAdmin />} />
           <Route path="/Search" element={<Search />} />
@@ -109,7 +104,7 @@ function App() {
           <Route path="/NewsLetter" element={<NewsLetter />} />
           <Route path="/ClientMessageForm" element={<ClientMessageForm />} />
           <Route path="/ClientContactUs" element={<ClientContactUs />} />
-          <Route path="/ChangeProfile/:id" element={<ChangeProfile />} />
+          <Route path="/ChangeProfile/" element={<ChangeProfile />} />
           <Route path="/UpdateUser/:id" element={<UpadetUser />} />
           <Route path="/UserHouse" element={<UserHouse />} />
           <Route path="/Services" element={<Services />} />
@@ -121,12 +116,17 @@ function App() {
           <Route path="/HouseRegistration" element={<HouseRegistration />} />
           <Route path="/LandownerDashbard/" element={<LandownerDashbard />}/>
           <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
-          <Route path="/House" element={<House />} />
+          <Route path="/House/:houseName" element={<House />} />
           <Route path="/RegisterTenant" element={<RegisterTenant />} />
           <Route path="/createHouse" element={<CreateHouse />} />
+          <Route path="/stats" element={<Stats />} />
+          <Route path="/allHouses" element={<AllHouses />} />
+          <Route path="/addHouse" element={< AddingHouse/>} />
 
           <Route path="*" element={<PageNotFound />}  />
         </Routes>
+      </div>
+
       </BrowserRouter>
     </>
   );

@@ -36,8 +36,9 @@ function GetAllDetails() {
   const fetchAllDEtails = async () => {
     const response = await axios.get("http://localhost:4000/Details/allHouses");
     setGetDetails(response.data);
-    console.log(response.data);
   };
+
+  
 
   const handelDelete = async (id) => {
     await axios.delete(`http://localhost:4000/Details/${id} `);
@@ -54,9 +55,7 @@ function GetAllDetails() {
 
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
+    
 
         <div className="mt-4">
           <div>
@@ -76,13 +75,12 @@ function GetAllDetails() {
                 <th>Description</th>
                 <th>contact</th>
                 <th>price</th>
-                <th>user_id</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
 
-            {filterHouses.map((details) => (
+            {getDEtails.map((details) => (
               <tbody key={details.id}>
                 <tr>
                   <td>
@@ -119,7 +117,6 @@ function GetAllDetails() {
                     <strong>{details.price}</strong>
                   </td>
                   <td>
-                    <strong>{details.user_id}</strong>
                   </td>
                   <td>
                     <Link
@@ -153,8 +150,6 @@ function GetAllDetails() {
             report
           </button>
         </div>
-      </div>
-      :<div></div>
     </>
   );
 }

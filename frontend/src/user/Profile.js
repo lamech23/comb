@@ -5,7 +5,7 @@ import UserNav from './UserNav'
 function Profile() {
   return (
     <>
-    <UserNav/>
+    {/* <UserNav/> */}
     
     </>
   )

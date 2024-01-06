@@ -24,9 +24,6 @@ function ClientContactUs() {
 
   return (
     <>
-      <MainNav />
-      <div className="split">
-        <SideNavigation />
         <div className="mt-4">
           <table className="table">
             <thead>
@@ -88,7 +85,6 @@ function ClientContactUs() {
             ))}
           </table>
         </div>
-      </div>
     </>
   );
 }

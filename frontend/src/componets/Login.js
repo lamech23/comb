@@ -7,7 +7,6 @@ import "../css/error.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setHeaders } from "./Api";
 
 function Login() {
   const [error, setError] = useState(false);
@@ -18,9 +17,23 @@ function Login() {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
-   const {user}=useAuthContext()
+  const { user } = useAuthContext();
 
-  
+  // this section is when a user clicks on the radio buton he/ she can see the button
+
+  const showPassword = async () => {
+    const input = document.querySelector("#inputPassword");
+
+    const button = document.querySelector(".material-symbols-outlined");
+
+    if (input.getAttribute("type") == "password") {
+      input.setAttribute("type", "text");
+      button.innerHTML = "visibility";
+    } else {
+      input.setAttribute("type", "password");
+      button.innerHTML = "visibility_off";
+    }
+  };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -33,13 +46,13 @@ function Login() {
         return toast.error("password must be  8 or more characters");
       } else {
         const response = await axios
-          .post(
-            "http://localhost:4000/users/login",
-            { email: email, password: password },
-         
-          )
+          .post("http://localhost:4000/users/login", {
+            email: email,
+            password: password,
+          })
           //   setLoggedIn(true)
           .then((res) => {
+            console.log(res);
             setEmail("");
             setPassword("");
             setError(null);
@@ -51,6 +64,11 @@ function Login() {
               JSON.stringify(res.data),
               "token"
             );
+
+            // get the user data from the response
+            const userData = res.data;
+            document.cookie = `user=${JSON.stringify(userData)}`;
+
             // update the Auth context
             dispatch({ type: "LOGIN", payload: res.data });
             setIsLoading(false);
@@ -67,7 +85,7 @@ function Login() {
             if (isAdmin === "Admin") {
               navigate("/Dashboard");
             } else if (isAdmin === "user") {
-              navigate(`/Profile/${id}`);
+              navigate(`/UserNav/${id}`);
             } else if (isAdmin === "landowner") {
               navigate(`/LandownerDashbard`);
             } else if (isAdmin === "tenant") {
@@ -78,11 +96,16 @@ function Login() {
           });
         if (!response) {
           setIsLoading(false);
+          setError(res?.error)
         }
+        console.log(error);
       }
     } catch (error) {
-      if(error.response?.status === 400){
-        return toast.error("incorrect email or password please try again " );
+      if (error.response?.status === 403) {
+        return toast.error("your account is not activated  ");
+      }
+      if (error.response?.status === 400) {
+        return toast.error("incorrect email or password please try again ");
       }
     }
   };
@@ -96,7 +119,7 @@ function Login() {
         </div>
       )}
       <div className="container-fluid ">
-        <div className=" login_page   justify-content-center items-center lg:w-fit ">
+        <div className=" login_page   justify-content-center items-center lg:w-fit  ">
           <h5 className="text-center text-info">Login </h5>
           <form onSubmit={handelSubmit} className="col lg:w-fit ">
             <label htmlFor="Email" className="form-Label fw-bold">
@@ -126,15 +149,24 @@ function Login() {
               <span className="input-group-text">
                 <i className="bi bi-lock"></i>
               </span>
-
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                id="inputPassword"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="flex flex-grow gap-2">
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  id="inputPassword"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <span className="input-group-text w-fit">
+                <span
+                  className=" showPasscode material-symbols-outlined text-3xl cursor-pointer text-teal-500"
+                  onClick={showPassword}
+                >
+                  visibility_off
+                </span>
+              </span>
             </div>
 
             <div className="form-text text-info">
@@ -150,7 +182,7 @@ function Login() {
             </button>
 
             <div>
-              <p className="text-end mt-3 ">
+              <p className="text-end mt-3  ">
                 Don't have an account please click here to
                 <Link
                   className="text-decoration-none fs-5 text-info"
@@ -166,25 +198,25 @@ function Login() {
               <Link
                 className="text-decoration-none fs-5 text-info"
                 to="/ForgotPassword"
+                data-modal-target="default-modal"
+                data-modal-toggle="default-modal"
               >
                 {" "}
                 Forgot password?
               </Link>
             </div>
           </form>
+          {/* message modal if user is in active */}
         </div>
         {error && (
-          <div
-            className="   alert alert-danger mt-5 text-center w-5"
-            id="errors"
-          >
+          <div className="alert alert-danger mt-5 text-center w-5" id="errors">
             {error}
           </div>
         )}
 
         <div />
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-left"
         autoClose={3000}
         hideProgressBar
@@ -195,8 +227,7 @@ function Login() {
         draggable
         pauseOnHover
         theme="colored"
-      />
-  
+      /> */}
     </div>
   );
 }

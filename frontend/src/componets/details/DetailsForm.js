@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./form.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function DetailsForm() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -17,13 +16,32 @@ function DetailsForm() {
   let navigate = useNavigate();
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
-  const [user_id, setUser_id] = useState("");
   const { id } = useParams();
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("credentials"));
-    if (user) setUser_id(user.id);
-  }, []);
+
+  const handelImage = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    for (let i = 0; i < image.length; i++) {
+      formData.append("image", image[i]);
+    }
+
+
+    const addImage = handelImage
+    const response = await axios.post(
+      "http://localhost:4000/images",
+      formData,
+      {
+        headers: {
+          authorization: ` Bearer ${user?.token}`,
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("clicked on image");
+
+  };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -37,13 +55,10 @@ function DetailsForm() {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("title", title);
-      formData.append("user_id", user_id);
 
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
       }
-
-      
 
       if (
         (description === "",
@@ -66,13 +81,11 @@ function DetailsForm() {
             },
           }
         );
-        setTimeout(() => {
           setStatus(false);
           toast.success("Added succesfuly ");
           {
             navigate("/");
           }
-        }, 3000);
 
         // const json = await response.json()
 
@@ -106,7 +119,6 @@ function DetailsForm() {
     <div className="container-lg">
       <div className=" row justify-content-center ">
         <div className="col-lg-6">
-
           <form
             onSubmit={handelSubmit}
             className=" frm"
@@ -155,7 +167,7 @@ function DetailsForm() {
             />
             <label className="label-control">Description</label>
             <textarea
-              className="form-control"
+              className="form-control "
               type="text"
               onChange={(e) => setDescription(e.target.value)}
               value={description}
@@ -203,6 +215,8 @@ function DetailsForm() {
         pauseOnHover
         theme="colored"
       />
+
+      
     </div>
   );
 }

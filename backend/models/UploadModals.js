@@ -1,15 +1,12 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/Database");
 const users = require("./UserModels");
+const imageUrl = require("./imageModel");
 
 const Details = db.define(
   "Details",
   {
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      require: true,
-    },
+    
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -33,8 +30,9 @@ const Details = db.define(
     user_id: {
       type: DataTypes.INTEGER,
     },
-    category_id: {
-      type: DataTypes.INTEGER,
+
+    category: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -44,7 +42,19 @@ const Details = db.define(
   }
 );
 
-Details.belongsTo(users, { foreignKey: "user_id", as: "user" });
+Details.belongsTo(users, {
+  foreignKey: "user_id",
+  as: "user",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
+
+imageUrl.belongsTo(Details, {
+  foreignKey: "details_id",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
+
 
 db.sync()
   .then(() => {

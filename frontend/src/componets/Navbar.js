@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../componets/images/logo.jpg";
 import "./Image.css";
@@ -6,88 +6,61 @@ import "../css/navbar.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { useIsAdmin } from "../hooks/UseAdmin";
-import { useIsStatus } from "../hooks/UseStatus";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Search from "./Search";
 
-function Navbar({ filterHouses, setSearch }) {
-  //   const {user}=useAuthContext()
+function Navbar() {
   const { dispatch } = useAuthContext();
-  const { user} = useAuthContext();
+  const { user } = useAuthContext();
   const role = useIsAdmin();
-  const status = useIsStatus();
-  const [Status, setStatus] = useState("");
-  const [open, setOpen]=useState(false)
+  const [open, setOpen] = useState(false);
   let navigate = useNavigate();
+  const [activeNavLink, setActiveNavLink] = useState("/");
 
-  useEffect(() => {
-    fetchUserById();
-
-
-    document.addEventListener("DOMContentLoaded", function(){
+  document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", function () {
-      if (window.scrollY > 50) {
+      if (window.scrollY) {
         document.querySelector("#mainNavbar").classList.add("fixed-top");
         const navbar_height = document.querySelector(".navbar").offSetHeight;
-        document.body.style.paddingTop = navbar_height + 'px';
-
+        document.body.style.paddingTop = navbar_height + "px";
       } else {
         document.querySelector("#mainNavbar").classList.remove("fixed-top");
         document.body.style.paddingTop = "0";
       }
     });
   });
-  }, []);
 
-  const handleOpen = () =>{
-    setOpen(false)
-    const content = document.querySelector("#main_navigation").style.visibility = "visible"
-  }
-
-  const handleClose = () =>{
-    setOpen(false)
-    const content = document.querySelector("#main_navigation")
-    content?.classList.add('hidden')
-  }
-
-  const fetchUserById = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Users/specificUser/+id`
-    );
-    setStatus(response.data.Status);
-    console.log(response);
+  const handleOpen = () => {
+    setOpen(true);
+    document.querySelector("#main_navigation").style.display = "";
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    const content = document.querySelector("#main_navigation");
+    content.style.display = "none";
+  };
 
-  //   console.log(user.Active);
-
-  const handelClick = () => {
-    {
-      localStorage.removeItem("credentials");
-    }
-
+  const handleLogout = async () => {
+    await axios.post(`http://localhost:4000/users/logout`);
+    localStorage.removeItem("credentials");
     dispatch({ type: "LOGOUT" });
 
+    document.cookie = "user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/";
     navigate("/");
 
-    return toast.success(`Successfully logged out ${user.email}`);
+    return toast.success(`Successfully logged out ${user?.email}`);
   };
-  //    const handelprevent=()=>{
-  // if(Active==='inActive'){
-  //     return toast.error('Sorry you are not permited to perform the action')
-  // }
-
-  // }
-
 
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  "
+        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  lg:w-full bg-transparent"
         id="mainNavbar"
       >
-        <div className="container-xxl">
+        <div className="container-xxl ">
           <Link to="/">
             {" "}
             <img className="logo" src={logo} alt="" />
@@ -95,36 +68,39 @@ function Navbar({ filterHouses, setSearch }) {
           <Link className="navbar-brand" to="/">
             Kausi property
           </Link>
-            { open?
-          <button
-            className="navbar-toggler "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#main_navigation"
-            aria-controls="main_navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={handleClose}
-          >
-            <span class="material-symbols-outlined"> close</span>
 
-          </button>: 
+          {open ? (
             <button
-            className="navbar-toggler "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#main_navigation"
-            aria-controls="main_navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={handleOpen}
-            
-          >
-            <span class="navbar-toggler-icon"></span>
-
-          </button>
-          }
+              className="navbar-toggler hover:bg-teal-800"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#main_navigation"
+              aria-controls="main_navigation"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={handleClose}
+            >
+              <span class="material-symbols-outlined text-red-500 text-2xl">
+                {" "}
+                close
+              </span>
+            </button>
+          ) : (
+            <button
+              className="navbar-toggler "
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#main_navigation"
+              aria-controls="main_navigation"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={handleOpen}
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          )}
           {/* <Search/> */}
+          <Search />
 
           <div
             className="   navbar-collapse justify-content-end align-center me-5 visible  "
@@ -132,24 +108,64 @@ function Navbar({ filterHouses, setSearch }) {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" to="/">
+                <Link
+                  className={`nav-link active cursor-pointer
+                 ${
+                   activeNavLink === "/"
+                     ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                     : ""
+                 }`}
+                  to="/"
+                  onClick={() => setActiveNavLink("/")}
+
+                >
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link " to="/About">
+                <Link
+                  className={`nav-link active cursor-pointer
+                    ${
+                      activeNavLink === "About"
+                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center "
+                        : ""
+                    }`}
+                  to="/About"
+                  onClick={() => setActiveNavLink("About")}
+
+                >
                   About
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Contacts">
+                <Link
+                  className={`nav-link active cursor-pointer
+               ${
+                 activeNavLink === "Contacts"
+                   ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                   : ""
+               }`}
+                  to="/Contacts"
+                  onClick={() => setActiveNavLink("Contacts")}
+
+                >
                   Contacts
                 </Link>
               </li>
 
               {user?.Active === "active" ? (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/DetailsForm">
+                <li
+                  className={`nav-item active cursor-pointer
+                ${
+                  activeNavLink === "Contacts"
+                    ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
+                    : ""
+                }`}
+                >
+                  <Link
+                    className="nav-link active cursor-pointer"
+                    to="/DetailsForm"
+                  >
                     Post
                   </Link>
                 </li>
@@ -190,7 +206,7 @@ function Navbar({ filterHouses, setSearch }) {
 
                             <span className="fs-5  text-teal-400 ">
                               {" "}
-                              Welcome {user? user?.email: null}
+                              Welcome {user ? user?.email : null}
                             </span>
                           </a>
                           <ul
@@ -200,7 +216,7 @@ function Navbar({ filterHouses, setSearch }) {
                             <li>
                               <Link
                                 className="dropdown-item"
-                                to={`/Profile/${user.id}`}
+                                to={`/userNav/${user.id}`}
                               >
                                 Profile
                               </Link>
@@ -213,7 +229,7 @@ function Navbar({ filterHouses, setSearch }) {
                             <li>
                               <button
                                 className=" dropdown-item  text-decoration-none text-danger fs-5"
-                                onClick={handelClick}
+                                onClick={handleLogout}
                               >
                                 {" "}
                                 logout{" "}
@@ -244,6 +260,18 @@ function Navbar({ filterHouses, setSearch }) {
       </nav>
 
       {/* <Search/> */}
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

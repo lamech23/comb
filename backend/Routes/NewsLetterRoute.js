@@ -7,7 +7,7 @@ const {
 }=require('../controllers/NewsLetterController')
 
 router.post('/', createNewsLetter)
-router.get('/NewsLetter',getNewsLetter)
+router.get('/newsLetter',getNewsLetter)
 router.delete('/deleteNewsLetter/:id',deleteNewsletter)
 
 

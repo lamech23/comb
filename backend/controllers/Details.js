@@ -3,6 +3,8 @@ const Tours = require("../models/TourRequestModel.js");
 const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
+const { log } = require("console");
+const imageUrl = require("../models/imageModel.js");
 
 
 const getImageUrl = (req) => {
@@ -12,15 +14,15 @@ const getImageUrl = (req) => {
 
 const getAllHouses = async (req, res) => {
   const page_size = 100;
+
   try {
     const details = await Details.findAll({
       
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-
+   
     });
-    //  .json(details)
     res.status(200).json(details);
   } catch (error) {
     res.status(500);
@@ -31,7 +33,6 @@ const getAllHouses = async (req, res) => {
 const getAllDetails = async (req, res) => {
   try {
     const user_id = req.query.user_id;
-    
     const details = await Details.findAll({
       where: {
         user_id: user_id,
@@ -81,7 +82,7 @@ const BnBHouse = async (req, res) => {
 
 //Get a single upload
 const getSingelDetails = async (req, res) => {
-  const id = req.params.id; 
+  const id = req.params.id;
   const details = await Details.findOne({
     where: { id: id },
   });
@@ -94,7 +95,10 @@ const getSingelDetails = async (req, res) => {
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
-  const files  =req.files 
+  const token = req.user;
+  const user_id = token.id;
+  const imageUrls = [];
+  const baseUrl = process.env.BASE_URL;
 
   const info = {
     title: req.body.title,
@@ -103,19 +107,28 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
-
-    user_id: req.body.user_id,
+    user_id: user_id,
+    details_id: imageUrl.id,
   };
 
-
-  if (req.files) {
-    info.image = req.files
-  }
-   await Details.create(info);
   try {
+    const imageInfo = await Details.create(info);
 
-    const currentUser = await users.findOne({ where: { id: id } });
+    for (let i = 0; i < req.files.length; i++) {
+      const imagePath = await imageUrl.create({
+        image: `${baseUrl}/${req.files[i].path}`,
+        user_id: user_id,
+        details_id: imageInfo.id,
+      });
 
+      imageUrls.push(imagePath);
+    }
+    res.status(200).json({
+      success: true,
+      data: imageUrls,
+    });
+
+    await users.findOne({ where: { id: id } });
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -130,7 +143,7 @@ const createDetails = async (req, res) => {
       subject: "Post Alert ",
       html:
         " Hello Admin\n\n" +
-        `<p>You are reciving this email because   ${currentUser?.email}  who is ${currentUser?.role}  has posted a house at kausi property.</p> :\n`,
+        `<p>You are reciving this email because ${users?.email}  who's role is ${users?.role}  has posted a house at kausi property.</p> :\n`,
     };
     // end of else
 
@@ -143,12 +156,10 @@ const createDetails = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(400).json({  mssg: error.message });
+    res.status(400).json({ mssg: error.message });
     console.log("something went wrong", error);
   }
 };
-
-
 
 const RequstingAtour = async (req, res) => {
   const id = req.params;
@@ -161,7 +172,7 @@ const RequstingAtour = async (req, res) => {
   try {
     const response = await Tours.create(info);
 
-     await users.findOne({
+    await users.findOne({
       where: {
         id: id,
       },
@@ -203,7 +214,6 @@ const getAllTours = async (req, res) => {
   const id = req.params;
   const tour = await Tours.findAll({});
 
-
   res.status(200).json(tour);
 };
 
@@ -238,7 +248,7 @@ const deleteDetails = async (req, res) => {
 };
 //UPDATE a upload
 const updateDetails = async (req, res) => {
-  const  id = req.params.id;
+  const id = req.params.id;
   const info = {
     title: req.body.title,
     location: req.body.location,
@@ -262,8 +272,6 @@ const updateDetails = async (req, res) => {
   }
   res.status(200).json(details);
 };
-
-
 
 module.exports = {
   createDetails,

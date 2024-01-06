@@ -7,11 +7,7 @@ import "../css/DetailsAdmin.css";
 function AddHouse() {
   return (
     <>
-      <MainNav />
-
-      <div className="split">
-        <SideNavigation />
-
+      <div className="justify-center">
         <DetailsForm />
       </div>
     </>

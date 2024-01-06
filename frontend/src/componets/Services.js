@@ -4,15 +4,15 @@ import "../css/services.css";
 function Services() {
   return (
     <>
-      <div className=" container-fluid card">
-        <h2 className=" uppercase mt-5 text-center hover:text-teal-500 display-6 fw-bold" id="heading">
+      <div className=" container-fluid card mb-20" >
+        <h2 className=" uppercase mt-5 text-center hover:text-teal-500 display-6 fw-bold mb-20" id="heading">
           Our Services
         </h2>
-        <div className="row d-flex justify-content-center p-4">
+        <div className="flex flex-row flex-wrap  justify-center align-center gap-60   ">
           <div
-            className="card  mb-3 shadow-lg"
-            style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            className="card p-6  mb-3 shadow-lg  w-full h-1/2"
+            style={{ maxWidth: "48rem" ,height: "28rem " }}
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-list-task"></i>
@@ -29,10 +29,11 @@ function Services() {
             </div>
           </div>
 
+
           <div
-            className="card  mb-3 shadow-lg"
-            style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            className="card p-6   mb-3 shadow-lg  w-full"
+            style={{ maxWidth: "48rem" ,height: "28rem " }}
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-send"></i>
@@ -51,9 +52,9 @@ function Services() {
           </div>
 
           <div
-            className="card  mb-3 shadow-lg"
-            style={{ maxWidth: "28rem" }}
-            id="cardOne"
+            className="card p-6  mb-3 shadow-lg w-full"
+            style={{ maxWidth: "48rem" ,height: "28rem " }}
+            // id="cardOne"
           >
             <div className="display-2 text-center text-info">
               <i class="bi bi-search"></i>

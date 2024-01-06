@@ -21,8 +21,7 @@ function UserHouse() {
   } catch (error) {}
   return (
     <>
-      <div className="split">
-        <UserNav />
+      <div className="">
         <div className="mt-4">
           <table className="table">
             <thead>

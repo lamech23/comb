@@ -21,28 +21,25 @@ function MainNav() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-warning auto-hiding-navbar fixed-top  "
-        id="to_nav"
+        className="flex flex-row  justify-between items-center px-20 border bg-green-400 p-4 fixed-top   "
       >
         <div id="page-content-wrapper">
           <nav
             className="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4"
             id="next_bar"
           >
-            <div className="d-flex align-items-center">
-              <i
-                className="fas fa-align-left primary-text fs-4 me-3"
-                id="menu-toggle"
-              ></i>
-              <h2 className="fs-2 ">Dashboard</h2>
-              <Link
-                className="text-decoration-none text-danger ms-5 fs-2"
-                to="/"
-              >
-                Home
-              </Link>
+              <div className=" lg:justify-items-end">
+                <i
+                  className="fas fa-align-left primary-text fs-4 me-3"
+                  id="menu-toggle"
+                ></i>
+                <Link
+                  className="text-decoration-none text-white text-2xl border  p-2 rounded-lg  hover:bg-teal-600"
+                  to="/"
+                >
+                  Home
+                </Link>
             </div>
-
             <button
               className="navbar-toggler"
               type="button"
@@ -54,19 +51,20 @@ function MainNav() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+
+
           </nav>
         </div>
 
-        <div className="container-xxl">
+        {/* logout button */}
+        <div className="">
           <div
-            className=" collapse navbar-collapse justify-content-end align-center me-5  "
-            id="#main-navbar"
           >
             <div
-              className=" navbar-collapse visible"
+              className=" flex justify-end  visible"
               id="navbarSupportedContent"
             >
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0 justify-end">
                 {isAdmin && user ? (
                   <li className="nav-item dropdown">
                     <a
@@ -77,7 +75,7 @@ function MainNav() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i className="fas fa-user me-2 -end"> {isAdmin?.email}</i>
+                      <i className="  text-white text-2xl  "> {isAdmin?.email}</i>
                     </a>
                     <ul
                       className="dropdown-menu"
@@ -97,6 +95,7 @@ function MainNav() {
                 ) : null}
               </ul>
             </div>
+            
           </div>
         </div>
       </nav>

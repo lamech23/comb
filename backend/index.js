@@ -1,26 +1,32 @@
-const express = require("express");
-const db = require("./config/Database.js");
-const cors = require("cors");
-require("dotenv").config();
-const userRoute = require("./Routes/user");
-const uploadRoute = require("./Routes/Upload");
-const contact = require("./Routes/GetInTouch");
-const moreAboutClient = require("./Routes/ClientMore");
-// const NewsLetters=require('./Routes/NewsletterRoute')
-const TotalHouses = require("./Routes/TotalDetailsRoute");
-const relatedHouses = require("./Routes/RelatedHousesRoute");
-const Houses = require("./Routes/PaginationRoute");
-const Mail = require("./Routes/SendEmailRoute");
-const search = require("./Routes/SearchApiRoute");
-const tours = require("./Routes/TourRequestRoute");
-const helpCenter = require("./Routes/HelpCenterRoute");
-const houseRegisration = require("./Routes/RentingRoutes/HouseRegistrationRoute.js");
-// const logingInLandOwner=require('./Routes/RentingRoutes/LogingLandownerRoute.js')
-const TenantRegistering = require("./Routes/RentingRoutes/TenantRegistrationRoute.js");
-const CategoryRoutes = require("./Routes/category");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const app = express();
+
+
+const express =require ("express");
+const db =require( "./config/Database.js");
+const cors =require('cors')
+require('dotenv').config()
+const userRoute =require('./Routes/user')
+const uploadRoute =require('./Routes/Upload')
+const contact =require('./Routes/GetInTouch')
+const moreAboutClient =require('./Routes/ClientMore')
+const NewsLetters=require('./Routes/NewsLetterRoute.js')
+const TotalHouses=require('./Routes/TotalDetailsRoute')
+const relatedHouses=require('./Routes/RelatedHousesRoute')
+const Houses=require('./Routes/PaginationRoute')
+const Mail=require('./Routes/SendEmailRoute')
+const search=require('./Routes/SearchApiRoute')
+const tours=require('./Routes/TourRequestRoute')
+const helpCenter=require('./Routes/HelpCenterRoute')
+const image=require('./Routes/imageRoute.js')
+const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
+const waters =require('./Routes/RentingRoutes/waterRoute.js')
+const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
+const bodyParser = require('body-parser');
+const cookieParser = require("cookie-parser")
+const app = express()
+const fs = require('fs');
+const http = require("http");
+const CLIENT_URL = process.env.CLIENT_URL;
+const socketConfiguration = require("./configs/socketConfiig.js")
 
 app.use(cors());
 
@@ -34,16 +40,19 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/Images", express.static("./Images"));
 
+
+const server = http.createServer(app);
+
 //connection to database
 
-try {
-  db.authenticate();
-  console.log("database connected");
-  app.listen(process.env.PORT, () =>
-    console.log("Server running on port", process.env.PORT)
-  );
-} catch (err) {
-  console.log("Connection error");
+try{
+    db.authenticate()
+    console.log('database connected');
+  server.listen(process.env.PORT, () => 
+  console.log('Server running on port',process.env.PORT))
+ 
+}catch(err){
+    console.log('Connection error')
 }
 // routes
 
@@ -53,19 +62,41 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/Details", uploadRoute);
-app.use("/Users", userRoute);
-app.use("/contacts", contact);
-app.use("/client", moreAboutClient);
-// app.use('/news',NewsLetters)
-app.use("/Total", TotalHouses);
-app.use("/RelatedHouses", relatedHouses);
-app.use("/paginatedHouses", Houses);
-app.use("/AdminMail", Mail);
-app.use("/search", search);
-app.use("/ClientTour", tours);
-app.use("/help", helpCenter);
-app.use("/houseRegister", houseRegisration);
-// app.use('/landowner',logingInLandOwner)
-app.use("/Tenant", TenantRegistering);
-app.use("category", CategoryRoutes);
+//socket connection 
+socketConfiguration(server, CLIENT_URL);
+
+
+app.use('/Details',uploadRoute);
+app.use('/Users',userRoute);
+app.use('/contacts',contact)
+app.use('/client',moreAboutClient)
+app.use('/news',NewsLetters)
+app.use('/Total',TotalHouses)
+app.use('/RelatedHouses',relatedHouses)
+app.use('/paginatedHouses',Houses)
+app.use('/AdminMail',Mail)
+app.use('/searching',search)
+app.use('/ClientTour',tours)
+app.use('/help',helpCenter)
+app.use('/houseRegister',houseRegisration)
+app.use('/water',waters)
+app.use('/Tenant',TenantRegistering)
+app.use('/images',image)
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+

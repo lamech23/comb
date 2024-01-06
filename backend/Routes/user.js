@@ -9,7 +9,8 @@ const {
     deleteUser,
     updateUserEmail,
     getUserById,
-    deactivate
+    deactivate,
+    logout
 
 }=require('../controllers/UserControllers')
 // const isAdmin = require("../middlleware/requireAuth")
@@ -17,6 +18,7 @@ const {requireAuth, isAdmin, checkIfOwner} =require('../middlleware/requireAuth'
 
 
 router.post('/login',loginUser)
+router.post('/logout',logout)
 router.get('/all', getAllUsers)
 router.post('/signup', signupUser)
 router.post('/forgotPassword', forgotPassword)

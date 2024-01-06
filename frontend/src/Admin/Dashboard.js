@@ -11,28 +11,26 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Graph from "../utils/Graph";
 
 function Dashboard() {
   const { user } = useAuthContext();
   const { dispatch } = useAuthContext();
   const role = useIsAdmin();
   const [newsLetter, setNewsLetter] = useState([]);
-  const [count, setCount] = useState();
   const [counts, setCounts] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [activeUser, setActiveUser] = useState(0);
+  const [tenant, setTenant] = useState(0);
+  const [landowner, setLandOwner] = useState(0);
   let navigate = useNavigate();
 
-  
   try {
     useEffect(() => {
-      fetchAllDEtails();
       fetchNewsLetters();
       fetchTotalNews();
-    }, [setCount, setCounts]);
-    //house
-    const fetchAllDEtails = async () => {
-      const response = await axios.get("http://localhost:4000/Total");
-      setCount(response.data);
-    };
+    }, [ setCounts]);
+
 
     //newsLetter
     const fetchNewsLetters = async () => {
@@ -45,105 +43,19 @@ function Dashboard() {
       const response = await axios.get(
         "http://localhost:4000/Total/newsLetters"
       );
-      setCounts(response.data);
+      setCounts(response.data.count);
+      setUsers(response.data.count2);
+      setActiveUser(response.data.activeUser);
+      setTenant(response.data.Tenant);
+      setLandOwner(response.data.Landlord);
     };
   } catch (error) {}
 
-  if (!role) {
-    return (
-      <div>
-        <p className="top display-2 ">Oops!</p>
-        <p className="middle">You are not authenticated</p>
-        <a className="bottom" href="/">
-          Return to homepage
-        </a>
-      </div>
-    );
-  }
 
   return (
     <>
       <MainNav />
-      <div className="split">
-        <SideNavigation />
-
-        <div class="container-fluid px-4 mt-5">
-          <div class="row g-3 my-2">
-            <div class="col-md-3">
-              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
-                <div>
-                  <h3 class="fs-2">{count}</h3>
-                  <p class="fs-5">Houses </p>
-                </div>
-
-                <span
-                  class="material-symbols-outlined display-2 "
-                  style={{ color: "red" }}
-                >
-                  house
-                </span>
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
-                <div>
-                  <h3 class="fs-2">4920</h3>
-                  <p class="fs-5">Sales</p>
-                </div>
-
-                <span
-                  className="material-symbols-outlined display-2  text-green-500"
-                >
-                  attach_money
-                </span>
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
-                <div>
-                  <h3 class="fs-2">{counts}</h3>
-                  <p class="fs-5">Newsletter </p>
-                </div>
-                <span
-                  class="material-symbols-outlined display-2 "
-                  style={{ color: "red" }}
-                >
-                  mail
-                </span>
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="p-3 bg-white shadow-lg d-flex justify-content-around align-items-center rounded">
-                <div>
-                  <h3 class="fs-2">%25</h3>
-                  <p class="fs-5">Increase</p>
-                </div>
-                <span
-                  class="material-symbols-outlined display-2 "
-                  style={{ color: "red" }}
-                >
-                  percent
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ToastContainer
-        position="top-left"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      <SideNavigation />
     </>
   );
 }

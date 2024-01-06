@@ -19,8 +19,8 @@ const requireAuth = async (req, res, next) => {
     const user = jwt.verify(token, process.env.SECRET);
     //here we are finding the user by id . The select method only picks the id instead of getting the hashed password and email
     // const isExpiredToken = false
-   // Attach the decoded user data to the req object
-   req.user = user;
+    // Attach the decoded user data to the req object
+    req.user = user;
 
     // const currentTime = Date.now();
     // // const time = Math.floor(currentTime);
@@ -48,7 +48,9 @@ const isAdmin = (req, res, next) => {
   try {
     const { authorization } = req.headers;
     if (!authorization) {
+      res.redirect("/");
       return res.status(401).json({ error: "Authorization token required" });
+
     }
     const token = authorization.split(" ")[1];
     const Admin = jwt.verify(token, process.env.SECRET);
@@ -58,6 +60,8 @@ const isAdmin = (req, res, next) => {
     }
   } catch (error) {
     res.status(401).json({ error: "Request is not authorized" });
+    res.redirect("/");
+
   }
 };
 

@@ -54,6 +54,7 @@ function AddingHouse() {
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
+   
     try {
     
       if (
@@ -66,7 +67,13 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
-        const response = await axios.post(
+        const formData = new FormData();
+        for (let i = 0; i < image.length; i++) {
+          formData.append("image", image[i]);
+        }
+    
+           
+           const response = await axios.post(
           "http://localhost:4000/Details",
           {
             description: description,
@@ -76,6 +83,7 @@ function AddingHouse() {
             category: category,
             title: title
           },
+          
           {
             headers: {
               authorization: ` Bearer ${user?.token}`,
@@ -83,7 +91,10 @@ function AddingHouse() {
               "Content-Type": "application/json"
             },
           }
+
+          
         );
+        
         setStatus(false);
         toast.success("Added succesfuly ");
         {
@@ -120,6 +131,8 @@ function AddingHouse() {
   };
   return (
     <>
+          <form onSubmit={handelSubmit}>
+
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -153,7 +166,6 @@ function AddingHouse() {
                     />
                   </svg>
                   <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                    <form onSubmit={handelImage}>
                       <label
                         for="file-upload"
                         class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -168,21 +180,7 @@ function AddingHouse() {
                           onChange={(e) => setImage([...e.target.files])}
                         />
                       </label>
-                      <div class="mt-6 flex items-center justify-end gap-x-6">
-                        <button
-                          type="button"
-                          class="text-sm font-semibold leading-6 text-gray-900"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
+                    
                   </div>
                 </div>
               </div>
@@ -195,7 +193,6 @@ function AddingHouse() {
             House Information
           </h2>
           {/* <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> */}
-          <form onSubmit={handelSubmit}>
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-3">
                 <label
@@ -318,7 +315,6 @@ function AddingHouse() {
               </button>
             )}
             </div>
-          </form>
         </div>
       </div>
       <ToastContainer
@@ -333,6 +329,8 @@ function AddingHouse() {
         pauseOnHover
         theme="colored"
       />
+          </form>
+
     </>
   );
 }

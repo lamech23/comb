@@ -51,6 +51,7 @@ Details.belongsTo(users, {
 
 imageUrl.belongsTo(Details, {
   foreignKey: "details_id",
+  as: "details",
   onDelete: "cascade",
   onUpdate: "cascade",
 });

@@ -14,6 +14,9 @@ const getAllHouses = async (req, res) => {
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
+      include:{
+        model:Details, as:"details"
+      }
    
     });
 
@@ -88,7 +91,7 @@ const getSingelDetails = async (req, res) => {
       res.status(200).json({
         ...details,
         images
-      }); //if it doesn't fire the if statment that means if fond the details so i get a response
+      });
   } else{
     return res.status(404).json({ error: "Details does not exist" }); // the  reason why am returning is because it will carry on and fire the code
   }

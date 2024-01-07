@@ -271,6 +271,30 @@ function AddingHouse() {
                 </div>
               </div>
 
+
+              <div class="sm:col-span-3">
+                <label
+                  for="price"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  category{" "}
+                </label>
+                <div class="mt-2">
+                <select
+              className="form-control"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {" "}
+              <option selected> select category </option>
+              <option value="maisonette">Maisonette</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Apartments">Apartments</option>
+              <option value="Others">Others</option>
+            </select>
+
+                </div>
+              </div>
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

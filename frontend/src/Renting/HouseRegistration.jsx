@@ -18,8 +18,7 @@ function HouseRegistration() {
   const [allUser, setAllusers] = useState([]);
   const [user_id, setUser_id] = useState([]);
   const { user } = useAuthContext();
-  console.log(allUser);
-
+console.log(allUser);
   useEffect(() => {
     const getAlluser = async () => {
       const response = await axios.get(

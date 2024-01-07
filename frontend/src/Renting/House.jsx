@@ -14,6 +14,7 @@ function House() {
   const { user } = useAuthContext();
   let [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
+  console.log(getWater);
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`

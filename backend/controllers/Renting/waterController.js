@@ -18,6 +18,7 @@ const createWater = async (req, res) => {
       success: true,
       message: " water readings created successfuly ",
     });
+    console.log("this water " ,createdWater);
   } catch (error) {
     res.status(500).json({
       success: false,

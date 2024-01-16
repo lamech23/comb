@@ -38,8 +38,8 @@ const getWater = async (req, res) => {
         model: houseName,
         as: "house"
       }
-
     });
+    console.log( "water logs",getWater);
     res.status(200).json({
     getWater, 
     success: true

@@ -10,7 +10,6 @@ const createWater = async (req, res) => {
     user_id: user_id,
     house_id: req.body.house_id,
   };
-  console.log(waterDetails);
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({
@@ -39,7 +38,7 @@ const getWater = async (req, res) => {
         as: "house"
       }
     });
-    console.log( "water logs",getWater);
+    // console.log( "water logs",getWater[0]);
     res.status(200).json({
     getWater, 
     success: true

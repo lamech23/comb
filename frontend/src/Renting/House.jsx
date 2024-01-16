@@ -15,12 +15,17 @@ function House() {
   let [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
   console.log(getWater);
+
+
+
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
     setHouse(response.data);
   };
+
+
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -98,12 +103,12 @@ function House() {
   };
   const waterPrice =getWater.map((house)=>{
     return house.price ? house.price : 0;
-  })
+  }).slice(-1)[0]
 
-  // useEffect(() => {
-  //   getWaterRates();
-  // }, [house]);
 
+
+
+ 
   return (
     <>
       <div className=" flex flex-col justify-center items-center gap-20  ">

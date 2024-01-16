@@ -37,7 +37,7 @@ const getAllHouses = async (req, res) => {
         as: "houseName",
       },
     });
-    console.log(landownerName);
+    // console.log(detailsWithTotal);
 
     const landownerEmail = landownerName? landownerName.houseName.email: "Not Found";
 
@@ -157,11 +157,13 @@ const getAll = async (req, res) => {
         as: "houseName",
       },
     });
-    res.status(200).json(details);
+    res.status(200).send(details);
+    console.log( "this is the house", details);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const getHouseByHouseName = async (req, res) => {
   try {

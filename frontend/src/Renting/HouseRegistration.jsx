@@ -18,13 +18,15 @@ function HouseRegistration() {
   const [allUser, setAllusers] = useState([]);
   const [user_id, setUser_id] = useState([]);
   const { user } = useAuthContext();
-console.log(allUser);
+
+
   useEffect(() => {
     const getAlluser = async () => {
       const response = await axios.get(
-        "http://localhost:4000/houseRegister/allHouses"
+        "http://localhost:4000/houseRegister/houseNames"
       );
       setAllusers(response.data);
+      console.log(allUser);
     };
     getAlluser();
   }, []);
@@ -77,7 +79,7 @@ console.log(allUser);
               Select a house
             </option>
 
-            {allUser?.detilsWithTotal?.map((users) => (
+            {allUser?.map((users) => (
               <option
                 className="text-black"
                 key={users.id}

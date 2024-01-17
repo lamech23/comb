@@ -26,7 +26,6 @@ function HouseRegistration() {
         "http://localhost:4000/houseRegister/houseNames"
       );
       setAllusers(response.data);
-      console.log(allUser);
     };
     getAlluser();
   }, []);

@@ -7,25 +7,34 @@ import "../css/admin.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
-
 function RegisterTenant() {
-  const state = useLocation().state; // am  using one for to create and update 
-console.log("this state",state);
+  const state = useLocation().state; // am  using one for to create and update
+  const id = useLocation().state.id
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
-  const [houseNumber, setHouseNumber] = useState( state?.houseNumber || "");
-  const [rent, setRent] = useState( state?.rent || "");
-  const [rentDeposit, setRentDeposit] = useState( state?.rentDeposit ||"");
-  const [waterReading, setWaterReadiing] = useState( state?.waterReading ||"");
-  const [waterBill, setWaterBill] = useState( state?.waterBill || "");
-  const [garbage, setGarbage] = useState( state?.garbage ||"");
-  const [userName, setUserName] = useState( state?.phoneNumber || "");
-  const [phoneNumber, setPhoneNumber] = useState( state?.phoneNumber ||"");
-  const [email, setEmail] = useState( state?.email || "");
-  const [nextOfKingNumber, setNextOfKingNumber] = useState( state?.nextOfKingNumber || "");
+  const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
+  const [rent, setRent] = useState(state?.rent || "");
+  const [rentDeposit, setRentDeposit] = useState(state?.rentDeposit || "");
+  const [waterReading, setWaterReadiing] = useState(state?.waterReading || "");
+  const [waterBill, setWaterBill] = useState(state?.waterBill || "");
+  const [garbage, setGarbage] = useState(state?.garbage || "");
+  const [userName, setUserName] = useState(state?.phoneNumber || "");
+  const [phoneNumber, setPhoneNumber] = useState(state?.phoneNumber || "");
+
+  const [prevReadings, setPrevReadings] = useState(state?.prevReadings || "");
+  const [currentReadings, setCurrentReadings] = useState(
+    state?.currentReadings || ""
+  );
+
+  const [email, setEmail] = useState(state?.email || "");
+  const [nextOfKingNumber, setNextOfKingNumber] = useState(
+    state?.nextOfKingNumber || ""
+  );
   const [password, setPassword] = useState("");
   const [houseName, setHouseName] = useState(state?.houseName || "");
-  const [previousBalance, setPreviousBalance] = useState(state?.previousBalance || "");
+  const [previousBalance, setPreviousBalance] = useState(
+    state?.previousBalance || ""
+  );
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
 
@@ -51,6 +60,28 @@ console.log("this state",state);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (state) {
+          axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
+            tenantsName: tenantsName,
+            houseNumber: houseNumber,
+            rent: rent,
+            email: email,
+            rentDeposit: rentDeposit,
+            password: password,
+            waterReading: waterReading,
+            waterBill: waterBill,
+            garbage: garbage,
+            userName: userName,
+            phoneNumber: phoneNumber,
+            nextOfKingNumber: nextOfKingNumber,
+            houseName: houseName,
+            previousBalance: previousBalance,
+            prevReadings: prevReadings,
+            currentReadings: currentReadings,
+          });
+    }else{
+
+    }
     const response = await axios.post(
       "http://localhost:4000/Tenant/registerTenant",
       {
@@ -71,9 +102,25 @@ console.log("this state",state);
         // house_id: house_id
       }
     );
+    if(response){
+      setTenantsName("")
+      setHouseName("")
+      setRent("")
+      setEmail("")
+      setRentDeposit("")
+      setWaterReadiing("")
+      setWaterBill("")
+      setGarbage("")
+      setUserName("")
+      setNextOfKingNumber("")
+      setHouse("")
+      setPreviousBalance("")
+    }
 
     toast.success("Succesfully registerd tenant");
   };
+
+
   return (
     <>
       <div className="row">
@@ -265,6 +312,36 @@ console.log("this state",state);
               value={nextOfKingNumber}
               onChange={(e) => setNextOfKingNumber(e.target.value)}
             />
+
+            {state && (
+              <div>
+                <label for="" className="form-label">
+                  prev readings
+                </label>
+                <input
+                  type="text"
+                  name="prevReading"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={prevReadings}
+                  onChange={(e) => setPrevReadings(e.target.value)}
+                />
+
+                <label for="" className="form-label">
+                  current Reading
+                </label>
+                <input
+                  type="text"
+                  name="currentReadings"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={currentReadings}
+                  onChange={(e) => setCurrentReadings(e.target.value)}
+                />
+              </div>
+            )}
 
             <button
               className="btn btn-outline-success mt-3 justifiy-content-center "

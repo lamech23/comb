@@ -51,12 +51,20 @@ const tenantRegistration = db.define(
     house_id: {
       type: DataTypes.INTEGER,
     },
+    prevReadings:{
+      type: DataTypes.STRING
+    },
+    currentReadings:{
+      type: DataTypes.STRING
+    }
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
+
+
 
 tenantRegistration.belongsTo(HouseRegistration, {
   foreignKey: "house_id",

@@ -132,6 +132,8 @@ function House() {
                 <th className="border border-slate-600">House Number</th>
                 <th className="border border-slate-600">Rent</th>
                 <th className="border border-slate-600">Rent Deposit</th>
+                <th className="border border-slate-600">prev water reading</th>
+                <th className="border border-slate-600">current water reading</th>
                 <th className="border border-slate-600">Water Reading</th>
                 
 
@@ -167,6 +169,12 @@ function House() {
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.rent}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.prevReadings}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.currentReadings}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}

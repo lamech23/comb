@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 function RegisterTenant() {
   const state = useLocation().state; // am  using one for to create and update
-  const id = useLocation().state.id
+  const id = useLocation().state?.id
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
@@ -61,7 +61,9 @@ function RegisterTenant() {
     e.preventDefault();
 
     if (state) {
-          axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
+         await axios.patch(
+          `http://localhost:4000/Tenant/change/${id}`, 
+          {
             tenantsName: tenantsName,
             houseNumber: houseNumber,
             rent: rent,
@@ -79,6 +81,8 @@ function RegisterTenant() {
             prevReadings: prevReadings,
             currentReadings: currentReadings,
           });
+          toast.success("Succesfully upadated");
+
     }else{
 
     }
@@ -123,11 +127,15 @@ function RegisterTenant() {
 
   return (
     <>
-      <div className="row">
-        <div className="w-fit">
-          <h3 className="house_top"> Tenant Details</h3>
+      <div className=" px-60 mt-40">
+        <div className="space-y-12">
+          <h3 className="text-center mt-4 "> Tenant Details</h3>
+
 
           <form onSubmit={handleSubmit}>
+          <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               {" "}
               Tenant Name
@@ -141,6 +149,10 @@ function RegisterTenant() {
               value={tenantsName}
               onChange={(e) => setTenantsName(e.target.value)}
             />
+            </div>
+
+            <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               House No
             </label>
@@ -153,6 +165,9 @@ function RegisterTenant() {
               value={houseNumber}
               onChange={(e) => setHouseNumber(e.target.value)}
             />
+            </div>
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               Registerd tenants
             </label>
@@ -176,6 +191,10 @@ function RegisterTenant() {
                 </option>
               ))}
             </select>
+            </div>
+
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               House Name
             </label>
@@ -199,6 +218,9 @@ function RegisterTenant() {
                 </option>
               ))}
             </select>
+            </div>
+          <div class="sm:col-span-3">
+
 
             <label for="" className="form-label">
               Rent
@@ -212,6 +234,9 @@ function RegisterTenant() {
               value={rent}
               onChange={(e) => setRent(e.target.value)}
             />
+            </div>
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               Rent Deposit
             </label>
@@ -224,6 +249,9 @@ function RegisterTenant() {
               value={rentDeposit}
               onChange={(e) => setRentDeposit(e.target.value)}
             />
+            </div>
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               Water reading
             </label>
@@ -237,6 +265,11 @@ function RegisterTenant() {
               value={waterReading}
               onChange={(e) => setWaterReadiing(e.target.value)}
             />
+
+            </div>
+          <div class="sm:col-span-3">
+
+
             <label for="" className="form-label">
               Water Bill
             </label>
@@ -250,6 +283,10 @@ function RegisterTenant() {
               value={waterBill}
               onChange={(e) => setWaterBill(e.target.value)}
             />
+            </div>
+
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               Previous Balance
             </label>
@@ -262,6 +299,10 @@ function RegisterTenant() {
               value={previousBalance}
               onChange={(e) => setPreviousBalance(e.target.value)}
             />
+            </div>
+
+          <div class="sm:col-span-3">
+
 
             <label for="" className="form-label">
               Garbage
@@ -275,6 +316,9 @@ function RegisterTenant() {
               value={garbage}
               onChange={(e) => setGarbage(e.target.value)}
             />
+            </div>
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               User name
             </label>
@@ -287,6 +331,10 @@ function RegisterTenant() {
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
+            </div>
+
+          <div class="sm:col-span-3">
+            
 
             <label for="" className="form-label">
               Phone Number
@@ -300,6 +348,9 @@ function RegisterTenant() {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
+            </div>
+          <div class="sm:col-span-3">
+
             <label for="" className="form-label">
               Next Of King
             </label>
@@ -312,9 +363,13 @@ function RegisterTenant() {
               value={nextOfKingNumber}
               onChange={(e) => setNextOfKingNumber(e.target.value)}
             />
+            </div>
+            
 
             {state && (
+          <div class="sm:col-span-3">
               <div>
+
                 <label for="" className="form-label">
                   prev readings
                 </label>
@@ -327,6 +382,7 @@ function RegisterTenant() {
                   value={prevReadings}
                   onChange={(e) => setPrevReadings(e.target.value)}
                 />
+
 
                 <label for="" className="form-label">
                   current Reading
@@ -341,16 +397,28 @@ function RegisterTenant() {
                   onChange={(e) => setCurrentReadings(e.target.value)}
                 />
               </div>
+              </div>
+
             )}
 
-            <button
-              className="btn btn-outline-success mt-3 justifiy-content-center "
+            {
+
+              state? <button
+              className=" border  p-2 bg-blue-200 mt-3 hover:bg-blue-400 "
               type="submit"
-              style={{ width: "100%" }}
             >
-              submit
-            </button>
+              update
+            </button>:
+            <button
+            className="border  p-2 bg-blue-200 mt-3 hover:bg-blue-400 "
+            type="submit"
+          >
+            create
+          </button>
+            }
+          </section>
           </form>
+
         </div>
       </div>
       <ToastContainer

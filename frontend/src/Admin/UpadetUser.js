@@ -43,7 +43,7 @@ function UpadetUser() {
   }, []);
   return (
     <>
-      <div className="split">
+      <div className=" flex flex-col justify-center items-center">
 
         <form className="col shadow-lg" id="updateUser" onSubmit={updatingUser}>
           <label htmlFor="Email" className="form-Label fw-bold mb-2">

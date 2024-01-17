@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -12,9 +12,8 @@ function House() {
   let houseName = useLocation().pathname.split("/")[2];
   const [price, setPrice] = useState("");
   const { user } = useAuthContext();
-  let [getWater, setGetWater] = useState([]);
+  const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
-  console.log(getWater);
 
 
 
@@ -22,7 +21,7 @@ function House() {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
-    setHouse(response.data);
+    setHouse(response.data );
   };
 
 
@@ -77,6 +76,7 @@ function House() {
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
     }
+
   };
 
   //
@@ -95,20 +95,20 @@ function House() {
       const res = await axios.get(
         `http://localhost:4000/water/fetchWater/${visitedHouseId}`
       );
-      setGetWater(res.data?.getWater);
+      setGetWater(res.data?.getWater );
       
     } catch (error) {
       // toast.error("water rates not found "|| error.massage)/
     }
   };
-  const waterPrice =getWater.map((house)=>{
+  const waterPrice = getWater && getWater.map((house)=>{
     return house.price ? house.price : 0;
   }).slice(-1)[0]
-
-
-
-
  
+
+
+
+
   return (
     <>
       <div className=" flex flex-col justify-center items-center gap-20  ">
@@ -133,6 +133,8 @@ function House() {
                 <th className="border border-slate-600">Rent</th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">Water Reading</th>
+                
+
                 <th className="border border-slate-600">Water per unit</th>
                 <th className="border border-slate-600">Water Bill</th>
                 <th className="border border-slate-600">Previous Balance</th>
@@ -142,6 +144,7 @@ function House() {
                   Next_of_king_number{" "}
                 </th>
                 <th className="border border-slate-600">total</th>
+                <th> water readings</th>
               </tr>
             </thead>
             <tbody>
@@ -193,6 +196,7 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
+                  <Link to={`/RegisterTenant/?edit=${tenants.id}`} state={tenant?.detailsWithTotal?.find((meteData)=> meteData.id === tenants.id )} className="text-green-600 no-underline"> update </Link>
                 </tr>
               ))}
               <tr></tr>

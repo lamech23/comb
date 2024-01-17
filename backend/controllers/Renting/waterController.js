@@ -38,7 +38,6 @@ const getWater = async (req, res) => {
         as: "house"
       }
     });
-    // console.log( "water logs",getWater[0]);
     res.status(200).json({
     getWater, 
     success: true

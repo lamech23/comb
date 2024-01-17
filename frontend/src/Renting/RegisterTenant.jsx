@@ -5,23 +5,27 @@ import axios from "axios";
 import "../css/admin.css";
 
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
+
 
 function RegisterTenant() {
-  const [tenantsName, setTenantsName] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
-  const [rent, setRent] = useState("");
-  const [rentDeposit, setRentDeposit] = useState("");
-  const [waterReading, setWaterReadiing] = useState("");
-  const [waterBill, setWaterBill] = useState("");
-  const [garbage, setGarbage] = useState("");
-  const [userName, setUserName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [nextOfKingNumber, setNextOfKingNumber] = useState("");
+  const state = useLocation().state; // am  using one for to create and update 
+console.log("this state",state);
+
+  const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
+  const [houseNumber, setHouseNumber] = useState( state?.houseNumber || "");
+  const [rent, setRent] = useState( state?.rent || "");
+  const [rentDeposit, setRentDeposit] = useState( state?.rentDeposit ||"");
+  const [waterReading, setWaterReadiing] = useState( state?.waterReading ||"");
+  const [waterBill, setWaterBill] = useState( state?.waterBill || "");
+  const [garbage, setGarbage] = useState( state?.garbage ||"");
+  const [userName, setUserName] = useState( state?.phoneNumber || "");
+  const [phoneNumber, setPhoneNumber] = useState( state?.phoneNumber ||"");
+  const [email, setEmail] = useState( state?.email || "");
+  const [nextOfKingNumber, setNextOfKingNumber] = useState( state?.nextOfKingNumber || "");
   const [password, setPassword] = useState("");
-  const [houseName, setHouseName] = useState("");
-  const [previousBalance, setPreviousBalance] = useState("");
+  const [houseName, setHouseName] = useState(state?.houseName || "");
+  const [previousBalance, setPreviousBalance] = useState(state?.previousBalance || "");
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
 

@@ -7,6 +7,7 @@ const{
 } =require('../../controllers/Renting/TenantRegistrationController')
 
 
+
 router.post('/registerTenant', tenatRegistration)
 router.patch('/change/:id', tentantUpdating)
 

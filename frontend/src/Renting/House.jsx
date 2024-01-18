@@ -171,14 +171,15 @@ function House() {
                     {tenants.rent}
                   </td>
                   <td className="border text-black border-slate-700">
+                    {tenants.rentDeposit}
+                  </td>
+                  <td className="border text-black border-slate-700">
                     {tenants.prevReadings}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.currentReadings}
                   </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.rentDeposit}
-                  </td>
+              
                   <td className="border text-black border-slate-700">
                     {tenants.waterReading}
                   </td>

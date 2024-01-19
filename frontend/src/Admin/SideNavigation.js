@@ -57,11 +57,11 @@ function SideNavigation() {
           </i>
           <button
             type="button"
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-red-200
+            className={` py-2 px-14 my-2   text-red-200 
             
           ${
             activeSection === "stats"
-              ? "bg-teal-500 w-fit justify-center items-center"
+              ? "bg-teal-500  justify-center items-center border-r-4"
               : ""
           }
           
@@ -79,10 +79,10 @@ function SideNavigation() {
           </i>
           <button
             type="button"
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
           ${
             activeSection === "User"
-              ? "bg-teal-500 w-fit justify-center items-center"
+              ? "bg-teal-500  justify-center items-center border-r-4"
               : ""
           }
           `}
@@ -99,10 +99,10 @@ function SideNavigation() {
             add_circle
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
             ${
               activeSection === "AddHouse"
-                ? "bg-teal-500 w-fit justify-center items-center"
+                ? "bg-teal-500  justify-center items-center border-r-4"
                 : ""
             }
             `}
@@ -119,10 +119,10 @@ function SideNavigation() {
             other_houses
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
               ${
                 activeSection === "GetAllDetails"
-                  ? "bg-teal-500 w-fit justify-center items-center"
+                  ? "bg-teal-500  justify-center items-center border-r-4"
                   : ""
               }
               `}
@@ -138,10 +138,10 @@ function SideNavigation() {
             apartment
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
          ${
            activeSection === "HouseRegistration"
-             ? "bg-teal-500 w-fit justify-center items-center"
+             ? "bg-teal-500  justify-center items-center border-r-4"
              : ""
          }
          `}
@@ -157,10 +157,10 @@ function SideNavigation() {
             person_add
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
              ${
                activeSection === "RegisterTenant"
-                 ? "bg-teal-500 w-fit justify-center items-center"
+                 ? "bg-teal-500  justify-center items-center border-r-4"
                  : ""
              }
              `}
@@ -177,10 +177,10 @@ function SideNavigation() {
             category
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
                ${
                  activeSection === "category"
-                   ? "bg-teal-500 w-fit justify-center items-center"
+                   ? "bg-teal-500  justify-center items-center border-r-4"
                    : ""
                }
                `}
@@ -197,10 +197,10 @@ function SideNavigation() {
             list
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
                 ${
                   activeSection === "allHouses"
-                    ? "bg-teal-500 w-fit justify-center items-center"
+                    ? "bg-teal-500  justify-center items-center border-r-4"
                     : ""
                 }
                 `}
@@ -217,10 +217,10 @@ function SideNavigation() {
             mail
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
         ${
           activeSection === "NewsLetter"
-            ? "bg-teal-500 w-fit justify-center items-center"
+            ? "bg-teal-500  justify-center items-center border-r-4"
             : ""
         }
         `}
@@ -237,10 +237,10 @@ function SideNavigation() {
             inbox
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
             ${
               activeSection === "ClientContactUs"
-                ? "bg-teal-500 w-fit justify-center items-center"
+                ? "bg-teal-500  justify-center items-center border-r-4"
                 : ""
             }
             `}
@@ -256,10 +256,10 @@ function SideNavigation() {
             question_mark
           </i>
           <button
-            className={` py-2 px-4 my-2 rounded-lg   w-full text-gray-200
+            className={` py-2 px-4 my-2   w-full text-gray-200
               ${
                 activeSection === "HelpCenterAdmin"
-                  ? "bg-teal-500 w-fit justify-center items-center"
+                  ? "bg-teal-500  justify-center items-center border-r-4"
                   : ""
               }
               `}

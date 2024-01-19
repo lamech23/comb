@@ -154,7 +154,9 @@ function Stats() {
               </div>
             </div>
           </div>
-          <Graph users={allUsers } />
+        <div>
+        <Graph users={allUsers } />
+        </div>
         </div>
 
         <ToastContainer

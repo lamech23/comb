@@ -18,7 +18,6 @@ function Login() {
   let navigate = useNavigate();
   const [role, setRole] = useState("");
   const { user } = useAuthContext();
-  console.log(error);
 
   // this section is when a user clicks on the radio buton he/ she can see the button
 

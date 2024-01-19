@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./componets/Home";
 import About from "./componets/About";
 import Contacts from "./componets/Contacts";
@@ -44,7 +44,7 @@ import Details from "./componets/details/Details";
 import Appointment from "./user/Appointment";
 import { Calendar } from "react-calendar";
 import axios from "axios";
-import Cards from "./componets/Cards"
+import Cards from "./componets/Cards";
 import HelpCenter from "./componets/HelpCenter";
 import Tours from "./Admin/Tours";
 import HelpCenterAdmin from "./Admin/HelpCenterAdmin";
@@ -61,74 +61,74 @@ import AddingHouse from "./user/AddingHouse";
 import Category from "./Admin/Category";
 
 function App() {
-  const { user } = useAuthContext();
-  
+  // const { user } = useAuthContext();
 
   const [openModalSignUp, setOpenModalSignUp] = useState(false);
+  const user = document.cookie;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <>
       <BrowserRouter>
-      <div >
+        <div>
+          <Navbar />
+          <Routes>
+            {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
+            <Route path="/DetailsForm" element={<DetailsForm />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/Contacts" element={<Contacts />} />
+            <Route path="/Details" element={<Details />} />
+            <Route path="/Maisonette" element={<Maisonette />} />
+            <Route path="/MoreDetails/:id" element={<MoreDetails />} />
+            <Route path="/BuyHouse" element={<BuyHouse />} />
+            <Route path="/BnbHouse" element={<BnbHouse />} />
 
-        <Navbar />
-        <Routes>
-          {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
-          <Route path="/DetailsForm" element={<DetailsForm />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/Contacts" element={<Contacts />} />
-          <Route path="/Details" element={<Details />} />
-          <Route path="/Maisonette" element={<Maisonette />} />
-          <Route path="/MoreDetails/:id" element={<MoreDetails />} />
-          <Route path="/BuyHouse" element={<BuyHouse />} />
-          <Route path="/BnbHouse" element={<BnbHouse />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/Cards" element={<Cards />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/User" element={<User />} />
-          <Route path="/GetAllDetails" element={<GetAllDetails />} />
-          <Route path="/UserProfile" element={<UserProfile />} />
-          <Route path="/AddHouse" element={<AddHouse />} />
-          <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
-          <Route path="/Settings" element={<Settings />} />
-          <Route path="/Checkout" element={<CheckOut />} />
-          <Route path="/ForgotPassword" element={<ForgotPassword />} />
-          <Route path="/Reset/:id" element={<Reset />} />
-          <Route path="/Pagination" element={<Pagination />} />
-          <Route path="/UserNav/:id" element={<UserNav />} />
-          <Route path="/Profile/:id" element={<Profile />} />
-          <Route path="/AddAdmin" element={<AddAdmin />} />
-          <Route path="/Search" element={<Search />} />
-          <Route path="/Calender" element={<Calendar />} />
-          <Route path="/NewsLetter" element={<NewsLetter />} />
-          <Route path="/ClientMessageForm" element={<ClientMessageForm />} />
-          <Route path="/ClientContactUs" element={<ClientContactUs />} />
-          <Route path="/ChangeProfile/" element={<ChangeProfile />} />
-          <Route path="/UpdateUser/:id" element={<UpadetUser />} />
-          <Route path="/UserHouse" element={<UserHouse />} />
-          <Route path="/Services" element={<Services />} />
-          <Route path="/Appointment/:id" element={<Appointment />} />
-          <Route path="/HelpCenter" element={<HelpCenter />} />
-          <Route path="/HelpCenterAdmin" element={<HelpCenterAdmin />} />
-          <Route path="/Tours/:id" element={<Tours />} />
-          <Route path="/HelpReply" element={<HelpReply />} />
-          <Route path="/HouseRegistration" element={<HouseRegistration />} />
-          <Route path="/LandownerDashbard/" element={<LandownerDashbard />}/>
-          <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
-          <Route path="/House/:houseName" element={<House />} />
-          <Route path="/RegisterTenant" element={<RegisterTenant />} />
-          <Route path="/createHouse" element={<CreateHouse />} />
-          <Route path="/stats" element={<Stats />} />
-          <Route path="/allHouses" element={<AllHouses />} />
-          <Route path="/addHouse" element={< AddingHouse/>} />
-          <Route path="/category" element={< Category/>} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/Cards" element={<Cards />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/User" element={<User />} />
+            <Route path="/GetAllDetails" element={<GetAllDetails />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+            <Route path="/AddHouse" element={<AddHouse />} />
+            <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
+            <Route path="/Settings" element={<Settings />} />
+            <Route path="/Checkout" element={<CheckOut />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route path="/Reset/:id" element={<Reset />} />
+            <Route path="/Pagination" element={<Pagination />} />
+            <Route path="/UserNav/:id" element={<UserNav />} />
+            <Route path="/Profile/:id" element={<Profile />} />
+            <Route path="/AddAdmin" element={<AddAdmin />} />
+            <Route path="/Search" element={<Search />} />
+            <Route path="/Calender" element={<Calendar />} />
+            <Route path="/NewsLetter" element={<NewsLetter />} />
+            <Route path="/ClientMessageForm" element={<ClientMessageForm />} />
+            <Route path="/ClientContactUs" element={<ClientContactUs />} />
+            <Route path="/ChangeProfile/" element={<ChangeProfile />} />
+            <Route path="/UpdateUser/:id" element={<UpadetUser />} />
+            <Route path="/UserHouse" element={<UserHouse />} />
+            <Route path="/Services" element={<Services />} />
+            <Route path="/Appointment/:id" element={<Appointment />} />
+            <Route path="/HelpCenter" element={<HelpCenter />} />
+            <Route path="/HelpCenterAdmin" element={<HelpCenterAdmin />} />
+            <Route path="/Tours/:id" element={<Tours />} />
+            <Route path="/HelpReply" element={<HelpReply />} />
+            <Route path="/HouseRegistration" element={<HouseRegistration />} />
+            <Route path="/LandownerDashbard/" element={<LandownerDashbard />} />
+            <Route path="/LandOwnerNav" element={<LandOwnerNav />} />
+            <Route path="/House/:houseName" element={<House />} />
+            <Route path="/RegisterTenant" element={<RegisterTenant />} />
+            <Route path="/createHouse" element={<CreateHouse />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/allHouses" element={<AllHouses />} />
+            <Route path="/addHouse" element={<AddingHouse />} />
+            <Route path="/category" element={<Category />} />
 
-          <Route path="*" element={<PageNotFound />}  />
-        </Routes>
-      </div>
-
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );

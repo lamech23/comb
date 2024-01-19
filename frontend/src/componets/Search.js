@@ -59,14 +59,13 @@ function Search() {
 
   return (
     <>
-      <div className="search-bar hidden lg:flex absolute right-1/3 left-1/3 items-center">
+      <div className="search-bar  lg:flex absolute right-1/3 left-1/3 items-center ">
         <form className="w-full max-w-lg">
           <div>
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
             <input
               type="search"
               id="default-search"
-              class="block w-full p-4 pl-10 text-sm  border border-gray-300 rounded-lg bg-teal-100 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="block w-full p-4 pl-10 text-sm  border-2 border-gray-100 rounded-lg bg-teal-10 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="  Search for house category, price location"
               value={search}
               onChange={handleChange}
@@ -78,8 +77,7 @@ function Search() {
               <div className="" id="search">
                 {isLoading ? (
                   <div className="p-2">
-                    <i className="">
-                      </i> Loading...
+                    <i className=""></i> Loading...
                   </div>
                 ) : (
                   search.length >= 2 && (

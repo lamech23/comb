@@ -38,7 +38,6 @@ const UserGraph = ({ users }) => {
       const month = new Date(user.createdAt).toLocaleString("default", {
         month: "short",
       });
-      // const months = generateMonthLabels(month)
       Math.floor(userCountByMonth[month] += 1)
     });
     return Object.values(userCountByMonth);
@@ -65,8 +64,8 @@ const UserGraph = ({ users }) => {
             {
               label: "user Data ",
               data: data,
-              borderColor: "rgba(355, 192, 192, 1)",
-              backgroundColor: "rgba(255, 252, 192, 0.2)",
+              borderColor: "rgba(340, 0, 0, 2)",
+              backgroundColor: "rgba(0, 140 , 140, 2)",
               borderWidth: 1,
               fill: true,
             },
@@ -97,23 +96,22 @@ const UserGraph = ({ users }) => {
   }, [users]);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 ">
       <canvas ref={chartRef} id="myGraph" width="200" height="300"></canvas>
     </div>
   );
 };
 
+
+
+
 const Graph = ({ users }) => {
   return (
-    <div className="grid grid-col-2">
-      <div className=" col-span-3">
+    <div className="mt-4">
+      <div className=" border-2 shadow-lg rounded-lg p-4 mt-20 mb-20  lg:w-[100rem]" >
         <UserGraph users={users} />
       </div>
-      <div >
-        <p>
-          fucker
-        </p>
-      </div>
+      
     </div>
   );
 };

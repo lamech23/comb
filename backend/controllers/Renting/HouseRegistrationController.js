@@ -6,6 +6,7 @@ const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const { NUMBER } = require("sequelize");
 
 // const users = require("../../models/UserModels.js");
 
@@ -25,6 +26,22 @@ const getAllHouses = async (req, res) => {
         Number(detail.garbage) || 0,
       ].reduce((acc, currentValue) => acc + currentValue, 0);
 
+      // const waterCalculation = [
+      //   Number(detail.waterBill) || 0,
+      //   Number(detail.rent) || 0,
+      //   Number(detail.rentDeposit) || 0,
+
+      // ]
+      const waterReadings = details
+        .map((detail) => {
+          return {
+            currentReadings: parseInt(detail.currentReadings),
+            prevReadings: parseInt(detail.prevReadings),
+          };
+        })
+        .reduce((acc, current) => acc.currentReadings - current.prevReadings);
+      console.log("this water", waterReadings);
+
       return {
         ...detail.dataValues,
         totalExpenses, // Adding the total expenses to the user details
@@ -39,7 +56,9 @@ const getAllHouses = async (req, res) => {
     });
     // console.log(detailsWithTotal);
 
-    const landownerEmail = landownerName? landownerName.houseName.email: "Not Found";
+    const landownerEmail = landownerName
+      ? landownerName.houseName.email
+      : "Not Found";
 
     res.status(200).send({ detailsWithTotal, landownerEmail });
   } catch (error) {
@@ -158,12 +177,11 @@ const getAll = async (req, res) => {
       },
     });
     res.status(200).send(details);
-    console.log( "this is the house", details);
+    console.log("this is the house", details);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const getHouseByHouseName = async (req, res) => {
   try {

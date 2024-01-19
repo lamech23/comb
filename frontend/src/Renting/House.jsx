@@ -15,15 +15,12 @@ function House() {
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
 
-
-
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
-    setHouse(response.data );
+    setHouse(response.data);
   };
-
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -38,7 +35,6 @@ function House() {
     };
     getTenantinfo();
     getHouse();
-    getWaterRates()
   }, [houseName]);
 
   // guard clause
@@ -49,8 +45,9 @@ function House() {
 
   // creating water reading
 
-  const visitedHouseId = house?.find(house => house.house_name === houseName)?.id;
-
+  const visitedHouseId = house?.find(
+    (house) => house.house_name === houseName
+  )?.id;
 
   const createWater = async (e) => {
     e.preventDefault();
@@ -76,7 +73,6 @@ function House() {
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
     }
-
   };
 
   //
@@ -90,24 +86,22 @@ function House() {
   };
 
   // getting water retes
+ useEffect(()=>{
   const getWaterRates = async () => {
+    
     try {
       const res = await axios.get(
         `http://localhost:4000/water/fetchWater/${visitedHouseId}`
       );
-      setGetWater(res.data?.getWater );
-      
+      setGetWater(res.data?.getWater);
     } catch (error) {
-      // toast.error("water rates not found "|| error.massage)/
+      toast.error("water rates not found "|| error.massage)
     }
   };
-  const waterPrice = getWater && getWater.map((house)=>{
-    return house.price ? house.price : 0;
-  }).slice(-1)[0]
+  getWaterRates();
+
+ },[])
  
-
-
-
 
   return (
     <>
@@ -133,9 +127,10 @@ function House() {
                 <th className="border border-slate-600">Rent</th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
-                <th className="border border-slate-600">current water reading</th>
+                <th className="border border-slate-600">
+                  current water reading
+                </th>
                 <th className="border border-slate-600">Water Reading</th>
-                
 
                 <th className="border border-slate-600">Water per unit</th>
                 <th className="border border-slate-600">Water Bill</th>
@@ -179,13 +174,16 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.currentReadings}
                   </td>
-              
+
                   <td className="border text-black border-slate-700">
                     {tenants.waterReading}
                   </td>
 
                   <td className="border text-black border-slate-700">
-                      {waterPrice }
+                    {getWater && getWater?.map((house) =>(
+                       house.price
+                    )).slice(-1)[0]}
+                    
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.waterBill}
@@ -205,7 +203,16 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
-                  <Link to={`/RegisterTenant/?edit=${tenants.id}`} state={tenant?.detailsWithTotal?.find((meteData)=> meteData.id === tenants.id )} className="text-green-600 no-underline"> update </Link>
+                  <Link
+                    to={`/RegisterTenant/?edit=${tenants.id}`}
+                    state={tenant?.detailsWithTotal?.find(
+                      (meteData) => meteData.id === tenants.id
+                    )}
+                    className="text-green-600 no-underline"
+                  >
+                    {" "}
+                    update{" "}
+                  </Link>
                 </tr>
               ))}
               <tr></tr>

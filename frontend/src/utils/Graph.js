@@ -11,20 +11,44 @@ const UserGraph = ({ users }) => {
 
     for (let i = 0; i < monthCount; i++) {
       const date = new Date();
-      
-      date.setMonth(currentDate.getMonth() - i); // Subtract months to go back in time
+      date.setMonth(currentDate.getMonth() + i); // Subtract months to go back in time
       const monthLabel = date.toLocaleDateString("default", { month: "short" });
-      labels.push(monthLabel); // Add the month label to the beginning of the array
+      labels.push(monthLabel);
     }
 
-    return labels
+    return labels;
   }
+
+  function countUsers(users) {
+    const userCountByMonth = {
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
+    users.forEach((user) => {
+      const month = new Date(user.createdAt).toLocaleString("default", {
+        month: "short",
+      });
+      // const months = generateMonthLabels(month)
+      Math.floor(userCountByMonth[month] += 1)
+    });
+    return Object.values(userCountByMonth);
+  }
+  const userCounts = countUsers(users);
 
   useEffect(() => {
     // Define data for the chart.
     const labels = generateMonthLabels(12);
-    const data = [users];
-    
+    const data = userCounts
 
     if (chartRef.current) {
       // If a chart instance exists, destroy it to prevent duplicates.
@@ -34,7 +58,7 @@ const UserGraph = ({ users }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "bar",
+        type: "line",
         data: {
           labels: labels,
           datasets: [
@@ -81,9 +105,14 @@ const UserGraph = ({ users }) => {
 
 const Graph = ({ users }) => {
   return (
-    <div className="p-5 m-3">
-      <div className="">
+    <div className="grid grid-col-2">
+      <div className=" col-span-3">
         <UserGraph users={users} />
+      </div>
+      <div >
+        <p>
+          fucker
+        </p>
       </div>
     </div>
   );

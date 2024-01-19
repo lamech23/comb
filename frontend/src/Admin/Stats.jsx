@@ -15,14 +15,23 @@ function Stats() {
     const [tenant, setTenant] = useState(0);
     const [landowner, setLandOwner] = useState(0);
     let navigate = useNavigate();
+    const [allUsers, setAllUsers] =useState([])
   
     try {
       useEffect(() => {
         fetchAllDEtails();
         fetchNewsLetters();
         fetchTotalNews();
+        fetchUsers()
       }, [setCount, setCounts]);
+
+      const fetchUsers = async () => {
+        const response = await axios.get("http://localhost:4000/Users/all");
+        setAllUsers(response.data);
+      };
+
       //house
+
       const fetchAllDEtails = async () => {
         const response = await axios.get("http://localhost:4000/Total");
         setCount(response.data);
@@ -145,7 +154,7 @@ function Stats() {
               </div>
             </div>
           </div>
-          <Graph users={users} />
+          <Graph users={allUsers } />
         </div>
 
         <ToastContainer

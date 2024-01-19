@@ -45,7 +45,7 @@ const getWater = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message:" water rates not found"
+      error: error.message
 
     })
   }

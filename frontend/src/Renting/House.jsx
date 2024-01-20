@@ -15,6 +15,19 @@ function House() {
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
 
+  // water bill total
+
+  const waterUnits = getWater
+    ?.map((house) => {
+      return house.price;
+    })
+    .slice(-1)[0];
+
+  // const waterBill = tenant?.waterReadings?.map(
+  //   (units) => units.total * waterUnits
+  // );
+  // console.log(waterBill);
+
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
@@ -86,22 +99,19 @@ function House() {
   };
 
   // getting water retes
- useEffect(()=>{
-  const getWaterRates = async () => {
-    
-    try {
-      const res = await axios.get(
-        `http://localhost:4000/water/fetchWater/${visitedHouseId}`
-      );
-      setGetWater(res.data?.getWater);
-    } catch (error) {
-      toast.error("water rates not found "|| error.massage)
-    }
-  };
-  getWaterRates();
-
- },[])
- 
+  useEffect(() => {
+    const getWaterRates = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        );
+        setGetWater(res.data?.getWater);
+      } catch (error) {
+        toast.error("water rates not found " || error.massage);
+      }
+    };
+    getWaterRates();
+  }, []);
 
   return (
     <>
@@ -180,19 +190,25 @@ function House() {
                   </td>
 
                   <td className="border text-black border-slate-700">
-                    {getWater && getWater?.map((house) =>(
-                       house.price
-                    )).slice(-1)[0]}
-                    
+                    {getWater &&
+                      getWater?.map((house) => house.price).slice(-1)[0]}
                   </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.waterBill}
+                  <td
+                    className={`border border-slate-700 ${
+                      tenants?.totalWaterReadings * waterUnits < 0
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {tenants?.totalWaterReadings * waterUnits}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.previousBalance}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.garbage}
+                    
+
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.phoneNumber}
@@ -203,6 +219,7 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
+
                   <Link
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.detailsWithTotal?.find(

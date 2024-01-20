@@ -6,7 +6,7 @@ const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
-const { NUMBER } = require("sequelize");
+const water = require("../../models/RentingModels/waterModel");
 
 // const users = require("../../models/UserModels.js");
 
@@ -16,9 +16,12 @@ const getAllHouses = async (req, res) => {
       houseName: req.params.houseName,
     },
   });
+
+  
   try {
+
     // Calculating the total expenses for each user
-    const detailsWithTotal = details.map((detail) => {
+    const detailsWithTotal = details?.map((detail) => {
       const totalExpenses = [
         Number(detail.waterBill) || 0,
         Number(detail.rent) || 0,
@@ -26,27 +29,20 @@ const getAllHouses = async (req, res) => {
         Number(detail.garbage) || 0,
       ].reduce((acc, currentValue) => acc + currentValue, 0);
 
-      // const waterCalculation = [
-      //   Number(detail.waterBill) || 0,
-      //   Number(detail.rent) || 0,
-      //   Number(detail.rentDeposit) || 0,
+      const totalWaterReadings = [
+        Number(detail.prevReadings) || 0,
+        Number(detail.currentReadings) || 0,
+       ].reduce((acc, current) => current - acc , 0);
 
-      // ]
-      const waterReadings = details
-        .map((detail) => {
-          return {
-            currentReadings: parseInt(detail.currentReadings),
-            prevReadings: parseInt(detail.prevReadings),
-          };
-        })
-        .reduce((acc, current) => acc.currentReadings - current.prevReadings);
-      console.log("this water", waterReadings);
-
+  
       return {
         ...detail.dataValues,
-        totalExpenses, // Adding the total expenses to the user details
+        totalExpenses,
+        totalWaterReadings // Adding the total expenses to the user details
       };
     });
+
+
 
     const landownerName = await houseName.findOne({
       include: {
@@ -60,7 +56,7 @@ const getAllHouses = async (req, res) => {
       ? landownerName.houseName.email
       : "Not Found";
 
-    res.status(200).send({ detailsWithTotal, landownerEmail });
+    res.status(200).json({ detailsWithTotal, landownerEmail });
   } catch (error) {
     res.status(400).json(error.message);
   }

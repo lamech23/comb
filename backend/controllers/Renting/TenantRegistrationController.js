@@ -17,6 +17,7 @@ const tenatRegistration = async (req, res) => {
     previousBalance,
     houseName,
     nextOfKingNumber,
+    prevReadings
     // house_id,
   } = req.body;
 
@@ -36,7 +37,6 @@ const tenatRegistration = async (req, res) => {
       phoneNumber,
       nextOfKingNumber,
       prevReadings,
-      currentReadings,
       // house_id,
     });
     res.status(200).json(tenant);

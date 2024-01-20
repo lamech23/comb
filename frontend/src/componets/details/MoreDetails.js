@@ -122,7 +122,6 @@ function MoreDetails() {
     setPrice(response.data.price);
     setCategory(response.data.category);
   };
-
   useEffect(() => {
     getMore();
     fetchDetails(id);
@@ -177,7 +176,6 @@ function MoreDetails() {
                   {" "}
                   <strong> Features {title}</strong>
                 </p>
-                {/* <p className=' fs-4 ' > <strong>{contact}</strong></p> */}
                 <p className=" text-lead ms-4">
                   {" "}
                   <strong>{description}</strong>
@@ -187,7 +185,6 @@ function MoreDetails() {
                   {" "}
                   <strong className="text-danger"> Ksh: {price}</strong>
                 </p>
-                {/* <a className="btn btn-outline-warning w-75 mb-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Procced to buy</a> */}
               </div>
             </div>
 

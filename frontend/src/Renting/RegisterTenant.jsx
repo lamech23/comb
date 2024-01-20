@@ -5,7 +5,7 @@ import axios from "axios";
 import "../css/admin.css";
 
 import { ToastContainer, toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function RegisterTenant() {
   const state = useLocation().state; // am  using one for to create and update
@@ -37,6 +37,9 @@ function RegisterTenant() {
   );
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
+  const navigate = useNavigate()
+  console.log(houseName);
+  
 
   const [users, setUsers] = useState([]);
   const tenantInfo = [...users];
@@ -61,7 +64,7 @@ function RegisterTenant() {
     e.preventDefault();
 
     if (state) {
-      const re = await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
+     await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
         tenantsName: tenantsName,
         houseNumber: houseNumber,
         rent: rent,
@@ -79,6 +82,7 @@ function RegisterTenant() {
         prevReadings: prevReadings,
         currentReadings: currentReadings,
       });
+      // navigate(`House/${houseName}`)
       toast.success("Succesfully upadated");
     } else {
     }
@@ -99,6 +103,8 @@ function RegisterTenant() {
         nextOfKingNumber: nextOfKingNumber,
         houseName: houseName,
         previousBalance: previousBalance,
+        prevReadings: prevReadings,
+
         // house_id: house_id
       }
     );
@@ -341,9 +347,7 @@ function RegisterTenant() {
                 />
               </div>
 
-              {state && (
-                <div class="sm:col-span-3 space-y-6">
-                  <div className="flex flex-col ">
+              <div class="sm:col-span-3">
                     <label for="" className="form-label">
                       prev readings
                     </label>
@@ -357,6 +361,8 @@ function RegisterTenant() {
                       onChange={(e) => setPrevReadings(e.target.value)}
                     />
                   </div>
+              {state && (
+                <div class="sm:col-span-3 space-y-6">
 
                   <div>
                     <label for="" className="form-label">

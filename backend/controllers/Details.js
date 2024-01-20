@@ -5,17 +5,18 @@ const users = require("../models/UserModels.js");
 const fs = require("fs");
 const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
+// for landing page
 
 const getAllHouses = async (req, res) => {
   const page_size = 100;
-
   try {
     const details = await imageUrl.findAll({
       offset: 0,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
       include:{
-        model:Details, as:"details"
+        model:Details, 
+        as:"details"
       }
    
     });

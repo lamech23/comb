@@ -59,7 +59,7 @@ function RegisterTenant() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    try {
     if (state) {
       const re = await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
         tenantsName: tenantsName,
@@ -118,7 +118,12 @@ function RegisterTenant() {
     }
 
     toast.success("Succesfully registerd tenant");
-  };
+  } catch (error) {
+    // Handle errors here
+    console.error("Error occurred:", error.message);
+    toast.error("An error occurred. Please try again later.");
+  }
+};
 
   return (
     <>

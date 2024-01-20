@@ -10,6 +10,8 @@ const createWater = async (req, res) => {
     user_id: user_id,
     house_id: req.body.house_id,
   };
+
+
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({
@@ -25,6 +27,8 @@ const createWater = async (req, res) => {
     });
   }
 };
+
+
 // fetching water based on the house_id and the the associated house 
 const getWater = async (req, res) => {
   const house_id = req.params.id;

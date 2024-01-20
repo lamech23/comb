@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function RegisterTenant() {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
+  const user = document.cookie
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
@@ -35,10 +36,10 @@ function RegisterTenant() {
   const [previousBalance, setPreviousBalance] = useState(
     state?.previousBalance || ""
   );
+  const [house_id, setHouseId]=useState(state?.houseName || "")
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
   const navigate = useNavigate()
-  console.log(houseName);
   
 
   const [users, setUsers] = useState([]);
@@ -81,7 +82,13 @@ function RegisterTenant() {
         previousBalance: previousBalance,
         prevReadings: prevReadings,
         currentReadings: currentReadings,
-      });
+        house_id: house_id
+      },  
+       {
+        headers: {
+          authorization: ` Bearer ${user?.token}`,
+          Accept: "application/json",
+        }});
       // navigate(`House/${houseName}`)
       toast.success("Succesfully upadated");
     } else {
@@ -105,7 +112,6 @@ function RegisterTenant() {
         previousBalance: previousBalance,
         prevReadings: prevReadings,
 
-        // house_id: house_id
       }
     );
     if (response) {

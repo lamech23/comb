@@ -1,6 +1,7 @@
 const tenantRegistration = require("../../models/RentingModels/RegisterTenantModel");
 
 const users = require("../../models/UserModels");
+const waterStore = require("../../models/RentingModels/waterBackupModel");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -17,7 +18,7 @@ const tenatRegistration = async (req, res) => {
     previousBalance,
     houseName,
     nextOfKingNumber,
-    prevReadings
+    prevReadings,
     // house_id,
   } = req.body;
 
@@ -47,6 +48,10 @@ const tenatRegistration = async (req, res) => {
 
 const tentantUpdating = async (req, res) => {
   const { id } = req.params;
+
+  const token = req.user;
+  const user_id = token?.id;
+
   const tenantDetails = {
     tenantsName: req.body.tenantsName,
     rent: req.body.rent,
@@ -61,12 +66,36 @@ const tentantUpdating = async (req, res) => {
     prevReadings: req.body.prevReadings,
     currentReadings: req.body.currentReadings,
   };
+
   try {
-    const tenantUpadate = await tenantRegistration.update(tenantDetails, {
+    const [numberOfAffectedRows, [updatedTenant]] = await tenantRegistration.update(tenantDetails, {
       where: { id: id },
+      returning: true, // Make sure to add this option to return the updated rows
     });
 
-    res.status(200).json(tenantUpadate);
+    if (numberOfAffectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        error: "Tenant not found",
+      });
+    }
+
+    const waterBackupDetails = {
+      currentReadings: req.body.currentReadings,
+      user_id: user_id,
+      tenant_id: updatedTenant.id, // Access the id property from the updatedTenant
+      house_id: req.body.house_id,
+    };
+
+    const waterBackup = await waterStore.create(waterBackupDetails);
+
+    console.log(waterBackup);
+
+    res.status(200).json({
+      success: true,
+      tenantUpdate: updatedTenant,
+      waterBackup: waterBackup,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -74,6 +103,7 @@ const tentantUpdating = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   tenatRegistration,

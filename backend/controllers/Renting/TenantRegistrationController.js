@@ -19,6 +19,10 @@ const tenatRegistration = async (req, res) => {
     houseName,
     nextOfKingNumber,
     prevReadings,
+<<<<<<< HEAD
+=======
+    currentReadings,
+>>>>>>> mohamed
     // house_id,
   } = req.body;
 
@@ -42,6 +46,7 @@ const tenatRegistration = async (req, res) => {
     });
     res.status(200).json(tenant);
   } catch (error) {
+    console.log(error.message);
     res.status(400).json({ error: error.message });
   }
 };

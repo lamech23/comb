@@ -19,8 +19,11 @@ const tenatRegistration = async (req, res) => {
     houseName,
     nextOfKingNumber,
     prevReadings,
+<<<<<<< HEAD
     currentReadings,
     // house_id,
+=======
+>>>>>>> origin
   } = req.body;
 
   try {

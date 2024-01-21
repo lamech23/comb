@@ -63,6 +63,7 @@ function RegisterTenant() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     if (state) {
      await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {

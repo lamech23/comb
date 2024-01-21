@@ -57,7 +57,6 @@ function House() {
   }
 
   // creating water reading
-
   const visitedHouseId = house?.find(
     (house) => house.house_name === houseName
   )?.id;
@@ -74,7 +73,7 @@ function House() {
         waterDetails,
         {
           headers: {
-            authorization: ` Bearer ${user?.token}`,
+            authorization: ` Bearer ${user?.token}`, 
             Accept: "application/json",
           },
         }
@@ -93,6 +92,7 @@ function House() {
     if (display) {
       document.querySelector("#content").style.display = "none";
     } else {
+      
       setDisplay(true);
       document.querySelector("#content").style.display = "block";
     }
@@ -186,7 +186,7 @@ function House() {
                   </td>
 
                   <td className="border text-black border-slate-700">
-                    {tenants.waterReading}
+                    {tenants.totalWaterReadings}
                   </td>
 
                   <td className="border text-black border-slate-700">
@@ -207,8 +207,6 @@ function House() {
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.garbage}
-                    
-
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.phoneNumber}

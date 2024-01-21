@@ -23,10 +23,6 @@ function House() {
     })
     .slice(-1)[0];
 
-  // const waterBill = tenant?.waterReadings?.map(
-  //   (units) => units.total * waterUnits
-  // );
-  // console.log(waterBill);
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -53,7 +49,7 @@ function House() {
   // guard clause
   if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");
-    return;
+    // return;
   }
 
   // creating water reading
@@ -81,6 +77,8 @@ function House() {
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
+        getWaterRates();
+
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");

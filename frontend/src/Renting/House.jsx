@@ -15,14 +15,13 @@ function House() {
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
 
+
   // water bill total
 
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;
-    })
-    .slice(-1)[0];
-
+    }).slice(-1)[0];
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -69,7 +68,7 @@ function House() {
         waterDetails,
         {
           headers: {
-            authorization: ` Bearer ${user?.token}`, 
+            authorization: ` Bearer ${user?.token}`,
             Accept: "application/json",
           },
         }
@@ -78,7 +77,6 @@ function House() {
         setPrice("");
         toast.success("added succesfuly");
         getWaterRates();
-
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -90,7 +88,6 @@ function House() {
     if (display) {
       document.querySelector("#content").style.display = "none";
     } else {
-      
       setDisplay(true);
       document.querySelector("#content").style.display = "block";
     }
@@ -109,7 +106,7 @@ function House() {
       }
     };
     getWaterRates();
-  }, []);
+  }, [getWater]);
 
   return (
     <>

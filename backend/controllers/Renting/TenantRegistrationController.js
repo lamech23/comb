@@ -19,6 +19,7 @@ const tenatRegistration = async (req, res) => {
     houseName,
     nextOfKingNumber,
     prevReadings,
+    payableRent
   } = req.body;
 
   try {
@@ -37,6 +38,7 @@ const tenatRegistration = async (req, res) => {
       phoneNumber,
       nextOfKingNumber,
       prevReadings,
+      payableRent
       // house_id,
     });
     res.status(200).json(tenant);
@@ -68,28 +70,27 @@ const tentantUpdating = async (req, res) => {
   };
 
   try {
-    const [numberOfAffectedRows, [updatedTenant]] = await tenantRegistration.update(tenantDetails, {
+    const updatedTenant= await tenantRegistration.update(tenantDetails, {
       where: { id: id },
       returning: true, // Make sure to add this option to return the updated rows
     });
 
-    if (numberOfAffectedRows === 0) {
-      return res.status(404).json({
-        success: false,
-        error: "Tenant not found",
-      });
-    }
+      //  res.status(404).json({
+      //   success: false,
+      //   error: "Tenant not found",
+      // });
 
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
       user_id: user_id,
-      tenant_id: updatedTenant.id, // Access the id property from the updatedTenant
+      tenant_id: req.body.tenant_id, // Access the id property from the updatedTenant
       house_id: req.body.house_id,
     };
+    console.log(waterBackupDetails);
 
     const waterBackup = await waterStore.create(waterBackupDetails);
 
-    console.log(waterBackup);
+    console.log(" water backups",waterBackup);
 
     res.status(200).json({
       success: true,

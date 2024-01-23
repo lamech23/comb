@@ -15,7 +15,6 @@ function House() {
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
 
-
   // water bill total
 
   const waterUnits = getWater
@@ -106,7 +105,7 @@ function House() {
       }
     };
     getWaterRates();
-  }, [getWater]);
+  }, [tenant]);
 
   return (
     <>
@@ -125,17 +124,16 @@ function House() {
             <thead className="">
               <tr>
                 <th className="border border-slate-600">id </th>
-                <th className="border border-slate-600">Tenant Name </th>
-                <th className="border border-slate-600">email </th>
-                <th className="border border-slate-600">House Name</th>
                 <th className="border border-slate-600">House Number</th>
-                <th className="border border-slate-600">Rent</th>
+                <th className="border border-slate-600">Tenant Name </th>
+                <th className="border border-slate-600" >payable Rent</th>
+                <th className="border border-slate-600" >Rent</th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
                 <th className="border border-slate-600">
                   current water reading
                 </th>
-                <th className="border border-slate-600">Water Reading</th>
+                <th className="border border-slate-600">Water units</th>
 
                 <th className="border border-slate-600">Water per unit</th>
                 <th className="border border-slate-600">Water Bill</th>
@@ -145,6 +143,7 @@ function House() {
                 <th className="border border-slate-600">
                   Next_of_king_number{" "}
                 </th>
+                <th className="border border-slate-600">balance CF</th>
                 <th className="border border-slate-600">total</th>
                 <th> water readings</th>
               </tr>
@@ -155,19 +154,17 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.id}
                   </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.tenantsName}
-                  </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.email}
-                  </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.houseName}
-                  </td>
+                  
                   <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
                   </td>
                   <td className="border text-black border-slate-700">
+                    {tenants.tenantsName}
+                  </td>
+                 
+                  <td className="border text-black border-slate-700">
+                    {tenants.payableRent}
+                  </td><td className="border text-black border-slate-700">
                     {tenants.rent}
                   </td>
                   <td className="border text-black border-slate-700">
@@ -208,6 +205,16 @@ function House() {
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.nextOfKingNumber}
+                  </td>
+                  <td
+                    className={`border border-slate-700 ${
+                      tenants?.balance <= 0
+
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {tenants?.balance }
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}

@@ -34,6 +34,9 @@ const tenantRegistration = db.define(
     userName: {
       type: DataTypes.STRING,
     },
+    payableRent: {
+      type: DataTypes.STRING,
+    },
 
     previousBalance: {
       type: DataTypes.BIGINT,

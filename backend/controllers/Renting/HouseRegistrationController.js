@@ -17,9 +17,7 @@ const getAllHouses = async (req, res) => {
     },
   });
 
-  
   try {
-
     // Calculating the total expenses for each user
     const detailsWithTotal = details?.map((detail) => {
       const totalExpenses = [
@@ -28,21 +26,24 @@ const getAllHouses = async (req, res) => {
         Number(detail.rentDeposit) || 0,
         Number(detail.garbage) || 0,
       ].reduce((acc, currentValue) => acc + currentValue, 0);
-
+      // water readings
       const totalWaterReadings = [
         Number(detail.prevReadings) || 0,
         Number(detail.currentReadings) || 0,
-       ].reduce((acc, current) => current - acc , 0);
-
-  
+      ].reduce((acc, current) => current - acc, 0);
+      const balance = [
+        Number(detail.waterBill) || 0,
+        Number(detail.rent) || 0,
+        Number(detail.garbage) || 0,
+      ].reduce((acc, currentValue) => Number(detail.payableRent) - acc + currentValue , 0);
+      console.log("this balance" ,balance);
       return {
         ...detail.dataValues,
         totalExpenses,
-        totalWaterReadings // Adding the total expenses to the user details
+        totalWaterReadings,
+        balance,
       };
     });
-
-
 
     const landownerName = await houseName.findOne({
       include: {

@@ -6,11 +6,13 @@ import "../css/admin.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function RegisterTenant() {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
-  const user = document.cookie
+  // const user = document.cookie
+  const {user} =useAuthContext()
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
@@ -40,9 +42,9 @@ function RegisterTenant() {
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
   const navigate = useNavigate()
-  
-
   const [users, setUsers] = useState([]);
+  const [payableRent, setPaybleRent] = useState( state?.payableRent || "");
+
   const tenantInfo = [...users];
   useEffect(() => {
     const getHouse = async () => {
@@ -82,7 +84,8 @@ function RegisterTenant() {
         previousBalance: previousBalance,
         prevReadings: prevReadings,
         currentReadings: currentReadings,
-        house_id: house_id
+        house_id: house_id,
+        tenant_id: id
       },  
        {
         headers: {
@@ -145,6 +148,34 @@ function RegisterTenant() {
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
+
+
+            <div class="sm:col-span-3">
+                <label for="" className="form-label">
+                  Email
+                </label>
+                <select
+                  type="text"
+                  name="houseName"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                >
+                  <option value=""> select email </option>
+                  {tenants.map((tenant) => (
+                    <option
+                      className="text-red visible"
+                      key={tenant.id}
+                      value={tenant.email}
+                    >
+                      {tenant.email}{" "}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   {" "}
@@ -175,32 +206,7 @@ function RegisterTenant() {
                   onChange={(e) => setHouseNumber(e.target.value)}
                 />
               </div>
-              <div class="sm:col-span-3">
-                <label for="" className="form-label">
-                  Registerd tenants
-                </label>
-                <select
-                  type="text"
-                  name="houseName"
-                  id=""
-                  className="form-control"
-                  placeholder=""
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                >
-                  <option value=""> select tenant</option>
-                  {tenants.map((tenant) => (
-                    <option
-                      className="text-red visible"
-                      key={tenant.id}
-                      value={tenant.email}
-                    >
-                      {tenant.email}{" "}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+            
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   House Name
@@ -225,6 +231,20 @@ function RegisterTenant() {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div class="sm:col-span-3">
+                <label for="" className="form-label">
+                  payable Rent
+                </label>
+                <input
+                  type="number"
+                  name="rent"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={payableRent}
+                  onChange={(e) => setPaybleRent(e.target.value)}
+                />
               </div>
               <div class="sm:col-span-3">
                 <label for="" className="form-label">

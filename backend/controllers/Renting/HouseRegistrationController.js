@@ -35,7 +35,8 @@ const getAllHouses = async (req, res) => {
         Number(detail.waterBill) || 0,
         Number(detail.rent) || 0,
         Number(detail.garbage) || 0,
-      ].reduce((acc, currentValue) => Number(detail.payableRent) - acc + currentValue , 0);
+      ].reduce((acc, currentValue) =>  acc + currentValue, 0) - Number(detail.payableRent)
+
       console.log("this balance" ,balance);
       return {
         ...detail.dataValues,

@@ -16,7 +16,7 @@ function House() {
   const [display, setDisplay] = useState(false);
 
   // water bill total
-
+console.log(tenant);
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;

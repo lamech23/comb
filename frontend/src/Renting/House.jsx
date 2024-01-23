@@ -174,11 +174,11 @@ console.log(tenant);
                     {tenants.prevReadings}
                   </td>
                   <td className="border text-black border-slate-700">
-                    {tenants.currentReadings}
+                    {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
                   </td>
 
                   <td className="border text-black border-slate-700">
-                    {tenants.totalWaterReadings}
+                    {tenants.totalWaterReadings <= 0 ? 0 : tenants?.totalWaterReadings}
                   </td>
 
                   <td className="border text-black border-slate-700">
@@ -192,7 +192,7 @@ console.log(tenant);
                         : "text-green-600"
                     }`}
                   >
-                    {tenants?.totalWaterReadings * waterUnits}
+                    {tenants?.totalWaterReadings * waterUnits <= 0 ? 0  : tenants?.totalWaterReadings * waterUnits  }
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.previousBalance}
@@ -214,7 +214,7 @@ console.log(tenant);
                         : "text-green-600"
                     }`}
                   >
-                    {tenants?.balance }
+                    {tenants?.balance  }
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}

@@ -228,7 +228,8 @@ function House() {
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.detailsWithTotal?.find(
                       (meteData) => meteData.id === tenants.id
-                    )}
+                    )
+                  }
                     className="text-green-600 no-underline"
                   >
                     {" "}

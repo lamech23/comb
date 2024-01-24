@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Calendar } from 'primereact/calendar';
+import { Calendar } from "primereact/calendar";
 import { toast, ToastContainer } from "react-toastify";
-
 
 function AdditinalPaymants() {
   let houseName = useLocation().pathname.split("/")[2];
-  const [date, setDate]=useState(null)
+  const [date, setDate] = useState(null);
   const [updatedUsers, setUpdatedUsers] = useState({});
   const [tenant, setTenant] = useState([]);
   // console.log(houseName);
@@ -16,7 +15,7 @@ function AdditinalPaymants() {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseName}`
+          ` http://localhost:4000/houseRegister/${houseName}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -31,7 +30,8 @@ function AdditinalPaymants() {
     try {
       // Send a batch update request to the server
       const response = await axios.put(
-        `http://localhost:4000/Tenant/updateWaterBill`,
+        `        http://localhost:4000/Tenant/updateWaterBill,
+`,
         { updatedUsers }
       );
       toast.success("added succesfuly");
@@ -39,7 +39,7 @@ function AdditinalPaymants() {
       toast.error("Number must be a positive value");
     }
   };
-  
+
   return (
     <>
       <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
@@ -75,27 +75,31 @@ function AdditinalPaymants() {
               <td className="border text-black border-slate-700">
                 {tenants.prevReadings}
               </td>
-              <td className="border text-black border-slate-700"
-                    contentEditable={true}
-                    onBlur={(e) =>
-                      setUpdatedUsers({
-                        ...updatedUsers,
-                        [tenants.id]: {
-                          ...updatedUsers[tenants.id],
-                          currentReadings: e.target.innerText,
-                        },
-                      })
-                    }
-                  >
-                    {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
-                  </td>
+              <td
+                className="border text-black border-slate-700"
+                contentEditable={true}
+                onBlur={(e) =>
+                  setUpdatedUsers({
+                    ...updatedUsers,
+                    [tenants.id]: {
+                      ...updatedUsers[tenants.id],
+                      currentReadings: e.target.innerText,
+                    },
+                  })
+                }
+              >
+                {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
+              </td>
 
               <td className="border text-black border-slate-700">
-              <Calendar value={date}  onChange={(e) =>
-               setUpdatedUsers({ ...updatedUsers,
-                 [tenants.id]: {
-                   ...updatedUsers[tenants.id],
-                     entryDate: e.value,
+                <Calendar
+                  value={date}
+                  onChange={(e) =>
+                    setUpdatedUsers({
+                      ...updatedUsers,
+                      [tenants.id]: {
+                        ...updatedUsers[tenants.id],
+                        entryDate: e.value,
                       },
                     })
                   }
@@ -128,7 +132,12 @@ function AdditinalPaymants() {
           <tr></tr>
         </tbody>
       </table>
-      <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleUpdate();
+        }}
+      >
         <button type="submit">Update</button>
       </form>
 

@@ -59,7 +59,7 @@ import Stats from "./Admin/Stats";
 import AllHouses from "./Renting/AllHouses";
 import AddingHouse from "./user/AddingHouse";
 import Category from "./Admin/Category";
-import AdditinalPaymants from "./Renting/AdditinalPaymants";
+import BilWater from "./Renting/BillWater";
 
 function App() {
   // const { user } = useAuthContext();
@@ -126,7 +126,7 @@ function App() {
             <Route path="/allHouses" element={<AllHouses />} />
             <Route path="/addHouse" element={<AddingHouse />} />
             <Route path="/category" element={<Category />} />
-            <Route path="/payments/:houseName" element={<AdditinalPaymants />} />
+            <Route path="/payments/:houseName" element={<BilWater />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

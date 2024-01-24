@@ -59,6 +59,9 @@ const tenantRegistration = db.define(
     },
     currentReadings:{
       type: DataTypes.STRING
+    },
+    entryDate:{
+      type: DataTypes.DATE
     }
   },
   {

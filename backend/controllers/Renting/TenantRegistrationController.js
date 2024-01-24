@@ -106,9 +106,43 @@ const tentantUpdating = async (req, res) => {
 };
 
 // 
+const updateWaterBill = async (req, res) => {
+  const { updatedUsers } = req.body;
+
+  try {
+    // Iterate through updatedUsers and update only the specified fields
+    for (const tenantId in updatedUsers) {
+      const { currentReadings, entryDate } = updatedUsers[tenantId];
+
+      // Find the user in the database by tenantId and update the fields
+      // Assuming you have a Mongoose model named tenantRegistration:
+      const tenant = await tenantRegistration.findByPk(tenantId);
+
+      if (!tenant) {
+        return res.status(404).json({ error: `Tenant with ID ${tenantId} not found` });
+      }
+
+      if (currentReadings !== undefined) {
+        tenant.currentReadings = currentReadings;
+      }
+      if (entryDate !== undefined) {
+        tenant.entryDate = entryDate;
+      }
+
+      // Save the changes
+      await tenant.save();
+    }
+
+    res.json({ message: "Users updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 
 module.exports = {
   tenatRegistration,
   tentantUpdating,
-  
+  updateWaterBill
 };

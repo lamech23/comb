@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
-import AdditinalPaymants from "./AdditinalPaymants";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -279,7 +278,7 @@ function House() {
           </section>
         </div>
         {/* addtinal paymant section  */}
-        <Link to="/payments" className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+        <Link to={`/payments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
           payments
         </Link>
       </div>

@@ -105,8 +105,10 @@ const tentantUpdating = async (req, res) => {
   }
 };
 
+// 
 
 module.exports = {
   tenatRegistration,
   tentantUpdating,
+  
 };

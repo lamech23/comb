@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import AdditinalPaymants from "./AdditinalPaymants";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -16,11 +17,11 @@ function House() {
   const [display, setDisplay] = useState(false);
 
   // water bill total
-console.log(tenant);
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;
-    }).slice(-1)[0];
+    })
+    .slice(-1)[0];
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -126,8 +127,9 @@ console.log(tenant);
                 <th className="border border-slate-600">id </th>
                 <th className="border border-slate-600">House Number</th>
                 <th className="border border-slate-600">Tenant Name </th>
-                <th className="border border-slate-600" >payable Rent</th>
-                <th className="border border-slate-600" >Rent</th>
+                <th className="border border-slate-600">payable Rent</th>
+                <th className="border border-slate-600"> Paid Rent</th>
+
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
                 <th className="border border-slate-600">
@@ -143,8 +145,8 @@ console.log(tenant);
                 <th className="border border-slate-600">
                   Next_of_king_number{" "}
                 </th>
-                <th className="border border-slate-600">balance CF</th>
-                <th className="border border-slate-600">total</th>
+                <th className="border border-slate-600">balance C/F</th>
+                <th className="border border-slate-600">Total</th>
                 <th> water readings</th>
               </tr>
             </thead>
@@ -154,19 +156,21 @@ console.log(tenant);
                   <td className="border text-black border-slate-700">
                     {tenants.id}
                   </td>
-                  
+
                   <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.tenantsName}
                   </td>
-                 
+
                   <td className="border text-black border-slate-700">
                     {tenants.payableRent}
-                  </td><td className="border text-black border-slate-700">
+                  </td>
+                  <td className="border text-black border-slate-700  ">
                     {tenants.rent}
                   </td>
+
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>
@@ -178,7 +182,9 @@ console.log(tenant);
                   </td>
 
                   <td className="border text-black border-slate-700">
-                    {tenants.totalWaterReadings <= 0 ? 0 : tenants?.totalWaterReadings}
+                    {tenants.totalWaterReadings <= 0
+                      ? 0
+                      : tenants?.totalWaterReadings}
                   </td>
 
                   <td className="border text-black border-slate-700">
@@ -192,7 +198,9 @@ console.log(tenant);
                         : "text-green-600"
                     }`}
                   >
-                    {tenants?.totalWaterReadings * waterUnits <= 0 ? 0  : tenants?.totalWaterReadings * waterUnits  }
+                    {tenants?.totalWaterReadings * waterUnits <= 0
+                      ? 0
+                      : tenants?.totalWaterReadings * waterUnits}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.previousBalance}
@@ -208,13 +216,10 @@ console.log(tenant);
                   </td>
                   <td
                     className={`border border-slate-700 ${
-                      tenants?.balance <= 0
-
-                        ? "text-red-600"
-                        : "text-green-600"
+                      tenants?.balance <= 0 ? "text-red-600" : "text-green-600"
                     }`}
                   >
-                    {tenants?.balance  }
+                    {tenants?.balance}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
@@ -235,6 +240,9 @@ console.log(tenant);
               <tr></tr>
             </tbody>
           </table>
+
+      {/* <AdditinalPaymants houseName={houseName}/> */}
+
         </div>
         {/* water section  */}
         <div className="flex  gap-2 ">
@@ -270,7 +278,10 @@ console.log(tenant);
             </form>
           </section>
         </div>
-        {/* garbage section */}
+        {/* addtinal paymant section  */}
+        <Link to="/payments" className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+          payments
+        </Link>
       </div>
       <ToastContainer
         position="top-left"

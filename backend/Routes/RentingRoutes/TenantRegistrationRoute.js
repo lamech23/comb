@@ -10,7 +10,7 @@ const {requireAuth} =require('../../middlleware/requireAuth')
 
 
 
-router.post('/registerTenant', requireAuth, tenatRegistration)
-router.patch('/change/:id', tentantUpdating)
+router.post('/registerTenant',  tenatRegistration)
+router.patch('/change/:id',requireAuth, tentantUpdating)
 
 module.exports=router

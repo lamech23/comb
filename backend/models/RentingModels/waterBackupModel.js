@@ -5,7 +5,7 @@ const houseName = require("./houseNameModel");
 const tenantRegistration = require("./RegisterTenantModel");
 
 const waterStore = db.define(
-  "waterBackup",
+  "waterBackups",
   {
     currentReadings: {
       type: DataTypes.STRING,

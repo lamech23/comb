@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Calendar } from 'primereact/calendar';
+import { toast, ToastContainer } from "react-toastify";
 
 
 function AdditinalPaymants() {
@@ -33,9 +34,9 @@ function AdditinalPaymants() {
         `http://localhost:4000/Tenant/updateWaterBill`,
         { updatedUsers }
       );
-      console.log(response.data);
+      toast.success("added succesfuly");
     } catch (error) {
-      console.error(error);
+      toast.error("Number must be a positive value");
     }
   };
   
@@ -130,6 +131,19 @@ function AdditinalPaymants() {
       <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
         <button type="submit">Update</button>
       </form>
+
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

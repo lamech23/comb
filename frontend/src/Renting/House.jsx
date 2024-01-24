@@ -229,7 +229,8 @@ function House() {
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.detailsWithTotal?.find(
                       (meteData) => meteData.id === tenants.id
-                    )}
+                    )
+                  }
                     className="text-green-600 no-underline"
                   >
                     {" "}
@@ -279,7 +280,7 @@ function House() {
           </section>
         </div>
         {/* addtinal paymant section  */}
-        <Link to="/payments" className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+        <Link to={`/payments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
           payments
         </Link>
       </div>

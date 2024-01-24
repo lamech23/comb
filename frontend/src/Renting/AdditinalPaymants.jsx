@@ -1,15 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Calendar } from 'primereact/calendar';
-
+import { Calendar } from "primereact/calendar";
 
 function AdditinalPaymants() {
   let houseName = useLocation().pathname.split("/")[2];
-  const [date, setDate]=useState(null)
+  const [dateTime, setDateTime] = useState({});
+  const [amount, setAmount] = useState({});
+  const [paymentType, setPaymentType] = useState("");
 
   const [tenant, setTenant] = useState([]);
-  // console.log(houseName);
+  const handleDateChange = (userId, date) => {
+    setDateTime((prevUserDates) => ({
+      ...prevUserDates,
+      [userId]: date,
+    }));
+  };
+  const handleAmountChange = (userId, amount) => {
+    setAmount((prevAmounts) => ({
+      ...prevAmounts,
+      [userId]: amount
+    }));
+  };
+  console.log(amount);
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -24,78 +37,93 @@ function AdditinalPaymants() {
     };
     getTenantinfo();
   }, []);
+
+  const creatingPayment = async (e, id) => {
+    e.preventDefault()
+    const response = await axios.post(
+      `http://localhost:4000/houseRegister/registerPayment/`,
+      {
+        amount: amount,
+        paymentType: paymentType,
+        dateTime: dateTime,
+        userId: id,
+      }
+    );
+
+    if (response) {
+      setAmount(""), setPaymentType(""), setDateTime("");
+    }
+  };
   return (
     <>
-      <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
-        <thead className="">
-          <tr>
-            <th className="border border-slate-600">id </th>
-            <th className="border border-slate-600">House Number</th>
-            <th className="border border-slate-600">Tenant Name </th>
+      <div className=" flex flex-col justify-center items-center gap-20 mt-20  ">
+        <form onSubmit={creatingPayment}>
+          <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
+            <thead className="">
+              <tr>
+                <th className="border border-slate-600">id </th>
+                <th className="border border-slate-600">House Number</th>
+                <th className="border border-slate-600">Tenant Name </th>
 
-            <th className="border border-slate-600">prev water reading</th>
-            <th className="border border-slate-600">current water reading</th>
-            <th className="border border-slate-600">Entry Date </th>
-            <th className="border border-slate-600">Water units</th>
+                <th className="border border-slate-600">payments</th>
+                <th className="border border-slate-600">Paid Date</th>
+                <th className="border border-slate-600">PaymentType</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tenant?.detailsWithTotal?.map((tenants) => (
+                <tr key={tenants.id}>
+                  <td className="border text-black border-slate-700">
+                    {tenants.id}
+                  </td>
 
-            <th className="border border-slate-600">Water per unit</th>
-            <th className="border border-slate-600">Water Bill</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tenant?.detailsWithTotal?.map((tenants) => (
-            <tr key={tenants.id}>
-              <td className="border text-black border-slate-700">
-                {tenants.id}
-              </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.houseNumber}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.tenantsName}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    <input type="text" 
+                    value={amount[tenants.id] || ""}
+                    onChange={(e)=> handleAmountChange(tenants.id, e.target.value)}
+                    />
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    <Calendar
+                      value={dateTime[tenants.id] || ""}
+                      onChange={(e) => handleDateChange(tenants.id, e.value)}
+                    />
+                  </td>
 
-              <td className="border text-black border-slate-700">
-                {tenants.houseNumber}
-              </td>
-              <td className="border text-black border-slate-700">
-                {tenants.tenantsName}
-              </td>
+                 
+                  <select
+                    id="paymenyType"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                      dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      onChange={(e) => setPaymentType(e.target.value)}
 
-              <td className="border text-black border-slate-700">
-                {tenants.prevReadings}
-              </td>
-              <td
-                className="border text-black border-slate-700"
-                contentEditable={true}
-              >
-                {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
-              </td>
-
-              <td>
-              {/* <Calendar value={date} onChange={(e) => setDate(e.value)} /> */}
-              </td>
-
-              <td className="border text-black border-slate-700">
-                {tenants.totalWaterReadings <= 0
-                  ? 0
-                  : tenants?.totalWaterReadings}
-              </td>
-
-              <td className="border text-black border-slate-700">
-                {/* {getWater &&
-                      getWater?.map((house) => house.price).slice(-1)[0]} */}
-              </td>
-              <td
-                className={`border border-slate-700 ${
-                  tenants?.totalWaterReadings < 0
-                    ? "text-red-600"
-                    : "text-green-600"
-                }`}
-              >
-                {tenants?.totalWaterReadings <= 0
-                  ? 0
-                  : tenants?.totalWaterReadings}
-              </td>
-            </tr>
-          ))}
-          <tr></tr>
-        </tbody>
-      </table>
+                  >
+                    <option>payment Type</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="bank">Bank </option>
+                    <option value="cash">Cash</option>
+                  </select>
+                </tr>
+              ))}
+              <tr></tr>
+            </tbody>
+          </table>
+          <button
+            type="submit"
+            className="border p-2 mt-4 rounded-lg bg-blue-400 text-white leading-3 text-[1rem] font-thin  lg:hover:bg-blue-600"
+          >
+            {" "}
+            add payments
+          </button>
+        </form>
+      </div>
     </>
   );
 }

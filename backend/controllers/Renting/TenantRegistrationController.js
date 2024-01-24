@@ -2,6 +2,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 
 const users = require("../../models/UserModels");
 const waterStore = require("../../models/RentingModels/waterBackupModel");
+const payments = require("../../models/RentingModels/additionalPaymentsModel");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -19,7 +20,7 @@ const tenatRegistration = async (req, res) => {
     houseName,
     nextOfKingNumber,
     prevReadings,
-    payableRent
+    payableRent,
   } = req.body;
 
   try {
@@ -38,7 +39,7 @@ const tenatRegistration = async (req, res) => {
       phoneNumber,
       nextOfKingNumber,
       prevReadings,
-      payableRent
+      payableRent,
       // house_id,
     });
     res.status(200).json(tenant);
@@ -70,15 +71,14 @@ const tentantUpdating = async (req, res) => {
   };
 
   try {
-    const updatedTenant= await tenantRegistration.update(tenantDetails, {
+    const updatedTenant = await tenantRegistration.update(tenantDetails, {
       where: { id: id },
-      returning: true, // Make sure to add this option to return the updated rows
     });
 
-      //  res.status(404).json({
-      //   success: false,
-      //   error: "Tenant not found",
-      // });
+    //  res.status(404).json({
+    //   success: false,
+    //   error: "Tenant not found",
+    // });
 
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
@@ -90,11 +90,9 @@ const tentantUpdating = async (req, res) => {
 
     const waterBackup = await waterStore.create(waterBackupDetails);
 
-    console.log(" water backups",waterBackup);
-
     res.status(200).json({
       success: true,
-      tenantUpdate: updatedTenant,
+      createPayments: updatedTenant,
       waterBackup: waterBackup,
     });
   } catch (error) {
@@ -105,10 +103,30 @@ const tentantUpdating = async (req, res) => {
   }
 };
 
-// 
+const paymentsCreations = async (req, res) => {
+  const paymentsParams = {
+    amount: req.body.amount,
+    paymentType: req.body.paymentType,
+    dateTime: req.body.dateTime,
+    userId: req.body.userId,
+  };
+console.log(paymentsParams);
+  try {
+    const createPayments = await payments.create(paymentsParams);
+    res.status(200).json({
+      success: true,
+      createPayments,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   tenatRegistration,
   tentantUpdating,
-  
+  paymentsCreations,
 };

@@ -66,7 +66,7 @@ const tentantUpdating = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     nextOfKingNumber: req.body.nextOfKingNumber,
     prevReadings: req.body.prevReadings,
-    currentReadings: req.body.currentReadings,
+    currentReadings: 0,
   };
 
   try {
@@ -114,14 +114,35 @@ const updateWaterBill = async (req, res) => {
     for (const tenantId in updatedUsers) {
       const { currentReadings, entryDate } = updatedUsers[tenantId];
 
-      // Find the user in the database by tenantId and update the fields
-      // Assuming you have a Mongoose model named tenantRegistration:
+      // Find the tenant in the tenantRegistration table
       const tenant = await tenantRegistration.findByPk(tenantId);
 
+      console.log(tenant.currentReadings);
+      // Check if the tenant exists
       if (!tenant) {
         return res.status(404).json({ error: `Tenant with ID ${tenantId} not found` });
       }
 
+      // Update or create the waterStore entry
+      let waterStoreEntry = await waterStore.findOne({ where: { tenant_id: tenantId } });
+      
+
+      if (!waterStoreEntry) {
+        // If the entry doesn't exist, create a new one
+        waterStoreEntry = await waterStore.create({
+          currentReadings :tenant.currentReadings,
+          tenant_id: tenant.Id
+        });
+      } else {
+        // If the entry exists, update it
+        await waterStore.update({ 
+          currentReadings:tenant.currentReadings
+         },
+          { where: { tenant_id: tenantId } }
+        );
+      }
+
+      // Update the fields in the tenantRegistration table
       if (currentReadings !== undefined) {
         tenant.currentReadings = currentReadings;
       }
@@ -129,7 +150,7 @@ const updateWaterBill = async (req, res) => {
         tenant.entryDate = entryDate;
       }
 
-      // Save the changes
+      // Save the changes in the tenantRegistration table
       await tenant.save();
     }
 
@@ -139,6 +160,7 @@ const updateWaterBill = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 
 module.exports = {

@@ -67,7 +67,7 @@ const tentantUpdating = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     nextOfKingNumber: req.body.nextOfKingNumber,
     prevReadings: req.body.prevReadings,
-    currentReadings: req.body.currentReadings,
+    currentReadings: 0,
   };
 
   try {
@@ -124,9 +124,67 @@ console.log(paymentsParams);
     });
   }
 };
+// 
+const updateWaterBill = async (req, res) => {
+  const { updatedUsers } = req.body;
+
+  try {
+    // Iterate through updatedUsers and update only the specified fields
+    for (const tenantId in updatedUsers) {
+      const { currentReadings, entryDate } = updatedUsers[tenantId];
+
+      // Find the tenant in the tenantRegistration table
+      const tenant = await tenantRegistration.findByPk(tenantId);
+
+      console.log(tenant.currentReadings);
+      // Check if the tenant exists
+      if (!tenant) {
+        return res.status(404).json({ error: `Tenant with ID ${tenantId} not found` });
+      }
+
+      // Update or create the waterStore entry
+      let waterStoreEntry = await waterStore.findOne({ where: { tenant_id: tenantId } });
+      
+
+      if (!waterStoreEntry) {
+        // If the entry doesn't exist, create a new one
+        waterStoreEntry = await waterStore.create({
+          currentReadings :tenant.currentReadings,
+          tenant_id: tenant.Id
+        });
+      } else {
+        // If the entry exists, update it
+        await waterStore.update({ 
+          currentReadings:tenant.currentReadings
+         },
+          { where: { tenant_id: tenantId } }
+        );
+      }
+
+      // Update the fields in the tenantRegistration table
+      if (currentReadings !== undefined) {
+        tenant.currentReadings = currentReadings;
+      }
+      if (entryDate !== undefined) {
+        tenant.entryDate = entryDate;
+      }
+
+      // Save the changes in the tenantRegistration table
+      await tenant.save();
+    }
+
+    res.json({ message: "Users updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 
 module.exports = {
   tenatRegistration,
   tentantUpdating,
   paymentsCreations,
+  updateWaterBill
 };

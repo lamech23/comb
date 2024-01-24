@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
-import AdditinalPaymants from "./AdditinalPaymants";
 
 function House() {
   const [tenant, setTenant] = useState([]);

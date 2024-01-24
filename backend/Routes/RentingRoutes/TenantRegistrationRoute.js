@@ -3,7 +3,7 @@ const router =express.Router()
 
 const{ 
     tenatRegistration,
-    tentantUpdating
+    tentantUpdating,
 } =require('../../controllers/Renting/TenantRegistrationController')
 const {requireAuth} =require('../../middlleware/requireAuth')
 

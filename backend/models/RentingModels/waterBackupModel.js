@@ -12,7 +12,7 @@ const waterStore = db.define(
       allowNull: false,
     },
     house_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     user_id: {
       type: DataTypes.INTEGER,

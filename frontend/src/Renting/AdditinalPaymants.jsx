@@ -9,6 +9,9 @@ function AdditinalPaymants() {
   const [amount, setAmount] = useState({});
   const [paymentType, setPaymentType] = useState("");
 
+  const [updatedUsers, setUpdatedUsers] = useState({});
+
+
   const [tenant, setTenant] = useState([]);
   const handleDateChange = (userId, date) => {
     setDateTime((prevUserDates) => ({
@@ -19,7 +22,8 @@ function AdditinalPaymants() {
   const handleAmountChange = (userId, amount) => {
     setAmount((prevAmounts) => ({
       ...prevAmounts,
-      [userId]: amount,
+      userId,
+       amount,
     }));
   };
 
@@ -39,8 +43,9 @@ function AdditinalPaymants() {
 
   const creatingPayment = async (e, id) => {
     e.preventDefault();
+    console.log({amount, paymentType, dateTime});
     const response = await axios.post(
-      `http://localhost:4000/houseRegister/registerPayment/`,
+      `http://localhost:4000/Tenant/registerPayment/`,
       {
         amount: amount,
         paymentType: paymentType,
@@ -85,16 +90,30 @@ function AdditinalPaymants() {
                   <td className="border text-black border-slate-700">
                     <input
                       type="text"
-                      value={amount[tenants.id] || ""}
+                      value={amount}
                       onChange={(e) =>
-                        handleAmountChange(tenants.id, e.target.value)
+                        setUpdatedUsers({
+                          ...updatedUsers,
+                          [tenants.id]: {
+                            ...updatedUsers[tenants.id],
+                            amount: e.target.value,
+                          },
+                        })
                       }
                     />
                   </td>
                   <td className="border text-black border-slate-700">
                     <Calendar
-                      value={dateTime[tenants.id] || ""}
-                      onChange={(e) => handleDateChange(tenants.id, e.target.value)}
+                    value={dateTime}
+                       onChange={(e) =>
+                        setUpdatedUsers({
+                          ...updatedUsers,
+                          [tenants.id]: {
+                            ...updatedUsers[tenants.id],
+                            dateTime: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </td>
 
@@ -103,8 +122,16 @@ function AdditinalPaymants() {
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
                      focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
                       dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    onChange={(e) => setPaymentType(e.target.value)}
-                    
+                      value={paymentType}
+                      onChange={(e) =>
+                        setUpdatedUsers({
+                          ...updatedUsers,
+                          [tenants.id]: {
+                            ...updatedUsers[tenants.id],
+                            paymentType: e.target.value,
+                          },
+                        })
+                      }
                   >
                     <option>payment Type</option>
                     <option value="mpesa">Mpesa</option>

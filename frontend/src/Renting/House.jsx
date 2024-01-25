@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { usePDF } from 'react-to-pdf';
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -14,6 +15,7 @@ function House() {
   const { user } = useAuthContext();
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
+  const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
 
   // water bill total
   const waterUnits = getWater
@@ -120,7 +122,7 @@ function House() {
             LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
           </div>
 
-          <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
+          <table  ref={targetRef} className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
             <thead className="">
               <tr>
                 <th className="border border-slate-600">id </th>
@@ -286,6 +288,7 @@ function House() {
         <Link to={`/addtionalPayments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
           Addtinal payments
         </Link>
+        <button onClick={() => toPDF()}>Download PDF</button>
       </div>
       <ToastContainer
         position="top-left"

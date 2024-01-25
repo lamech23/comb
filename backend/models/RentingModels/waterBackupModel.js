@@ -20,6 +20,9 @@ const waterStore = db.define(
     tenant_id: {
       type: DataTypes.INTEGER,
     },
+    EntryDate : {
+      type: DataTypes.DATE,
+    },
   },
   {
     freezeTablesName: true,

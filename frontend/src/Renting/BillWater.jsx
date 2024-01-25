@@ -108,7 +108,7 @@ function BillWater() {
                 <td className="border text-black border-slate-700">
                   <Calendar
                     value={date}
-                    onChange={(e) => 
+                    onChange={(e) =>
                       setUpdatedUsers({
                         ...updatedUsers,
                         [tenants.id]: {

@@ -198,6 +198,7 @@ function House() {
                     }`}
                   >
                     {tenants?.totalWaterReadings * waterUnits <= 0
+
                       ? 0
                       : tenants?.totalWaterReadings * waterUnits}
                   </td>
@@ -279,8 +280,11 @@ function House() {
           </section>
         </div>
         {/* addtinal paymant section  */}
-        <Link to={`/payments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
-          payments
+        <Link to={`/payments/${houseName}`} state={getWater} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+          bill Water
+        </Link>
+        <Link to={`/addtionalPayments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+          Addtinal payments
         </Link>
       </div>
       <ToastContainer

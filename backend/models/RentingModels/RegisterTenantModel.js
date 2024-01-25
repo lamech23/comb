@@ -58,7 +58,9 @@ const tenantRegistration = db.define(
       type: DataTypes.STRING
     },
     currentReadings:{
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: 0,
+
     },
     entryDate:{
       type: DataTypes.DATE

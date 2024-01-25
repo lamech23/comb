@@ -5,25 +5,31 @@ import { Calendar } from "primereact/calendar";
 
 function AdditinalPaymants() {
   let houseName = useLocation().pathname.split("/")[2];
-  const [dateTime, setDateTime] = useState({});
-  const [amount, setAmount] = useState({});
+  const [dateTime, setDateTime] = useState("");
+  const [amount, setAmount] = useState("")
   const [paymentType, setPaymentType] = useState("");
 
-  const [updatedUsers, setUpdatedUsers] = useState({});
-
+  
 
   const [tenant, setTenant] = useState([]);
   const handleDateChange = (userId, date) => {
     setDateTime((prevUserDates) => ({
       ...prevUserDates,
-      [userId]: date,
+       date
     }));
   };
   const handleAmountChange = (userId, amount) => {
-    setAmount((prevAmounts) => ({
-      ...prevAmounts,
-      userId,
-       amount,
+  let amounts = String(amount)
+    setAmount(
+   ...amounts
+  );
+  };
+  const handlePaymentChange = (userId, payment) => {
+    setPaymentType((type) => ({
+      ...type,
+      [userId]:{
+        
+      }
     }));
   };
 
@@ -90,29 +96,17 @@ function AdditinalPaymants() {
                   <td className="border text-black border-slate-700">
                     <input
                       type="text"
-                      value={amount}
+                      value={amount[tenants.id] }
                       onChange={(e) =>
-                        setUpdatedUsers({
-                          ...updatedUsers,
-                          [tenants.id]: {
-                            ...updatedUsers[tenants.id],
-                            amount: e.target.value,
-                          },
-                        })
+                        handleAmountChange( tenants.id, e.target.value)
                       }
                     />
                   </td>
                   <td className="border text-black border-slate-700">
                     <Calendar
-                    value={dateTime}
-                       onChange={(e) =>
-                        setUpdatedUsers({
-                          ...updatedUsers,
-                          [tenants.id]: {
-                            ...updatedUsers[tenants.id],
-                            dateTime: e.target.value,
-                          },
-                        })
+                      value={dateTime[tenants.id] || ""}
+                      onChange={(e) =>
+                        handleDateChange(tenants.id, e.target.value)
                       }
                     />
                   </td>
@@ -123,15 +117,7 @@ function AdditinalPaymants() {
                      focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
                       dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       value={paymentType}
-                      onChange={(e) =>
-                        setUpdatedUsers({
-                          ...updatedUsers,
-                          [tenants.id]: {
-                            ...updatedUsers[tenants.id],
-                            paymentType: e.target.value,
-                          },
-                        })
-                      }
+                    onChange={(e) => setPaymentType(e.target.value)}
                   >
                     <option>payment Type</option>
                     <option value="mpesa">Mpesa</option>

@@ -50,6 +50,7 @@ function BillWater() {
       toast.error("Number must be a positive value");
     }
   };
+  
 
   return (
     <>
@@ -106,11 +107,7 @@ function BillWater() {
                 <td className="border text-black border-slate-700">
                   <Calendar
                     value={date}
-<<<<<<< HEAD
                     onChange={(e) =>
-=======
-                    onChange={(e) => 
->>>>>>> ahmed
                       setUpdatedUsers({
                         ...updatedUsers,
                         [tenants.id]: {

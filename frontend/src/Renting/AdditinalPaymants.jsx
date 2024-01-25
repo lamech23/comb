@@ -6,26 +6,14 @@ import { Calendar } from "primereact/calendar";
 function AdditinalPaymants() {
   let houseName = useLocation().pathname.split("/")[2];
   const [dateTime, setDateTime] = useState({});
-  const [amount, setAmount] = useState({});
+  const [amount, setAmount] = useState(null);
   const [paymentType, setPaymentType] = useState("");
 
   const [updatedUsers, setUpdatedUsers] = useState({});
 
 
   const [tenant, setTenant] = useState([]);
-  const handleDateChange = (userId, date) => {
-    setDateTime((prevUserDates) => ({
-      ...prevUserDates,
-      [userId]: date,
-    }));
-  };
-  const handleAmountChange = (userId, amount) => {
-    setAmount((prevAmounts) => ({
-      ...prevAmounts,
-      userId,
-       amount,
-    }));
-  };
+
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -41,22 +29,21 @@ function AdditinalPaymants() {
     getTenantinfo();
   }, []);
 
-  const creatingPayment = async (e, id) => {
+  const creatingPayment = async (e) => {
     e.preventDefault();
-    console.log({amount, paymentType, dateTime});
+
+    const updatedPayment = Object.entries(updatedUsers).map(([id, values]) => ({
+      id,
+         amount: values.amount,
+        paymentType: values.paymentType,
+        dateTime: values.dateTime,
+    }));
+    console.log(updatedPayment);
     const response = await axios.post(
       `http://localhost:4000/Tenant/registerPayment/`,
-      {
-        amount: amount,
-        paymentType: paymentType,
-        dateTime: dateTime,
-        userId: id,
-      }
+      { updatedPayment }
     );
 
-    if (response) {
-      setAmount(""), setPaymentType(""), setDateTime("");
-    }
   };
   return (
     <>
@@ -96,7 +83,7 @@ function AdditinalPaymants() {
                           ...updatedUsers,
                           [tenants.id]: {
                             ...updatedUsers[tenants.id],
-                            amount: e.target.value,
+                            amount: e.target.value, // Fix the property name to "amount"
                           },
                         })
                       }

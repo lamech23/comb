@@ -34,11 +34,12 @@ function BillWater() {
   const handleUpdate = async () => {
     try {
       // Filter out only the updated tenants
-      const updatedTenants = Object.keys(updatedUsers).map((id) => ({
+      const updatedTenants = Object.entries(updatedUsers).map(([id, values]) => ({
         id,
-        currentReadings: updatedUsers[id].currentReadings,
-        entryDate: updatedUsers[id].entryDate,
+        currentReadings: values.currentReadings, 
+        entryDate: values.entryDate,
       }));
+      
   
       // Send a batch update request to the server
       const response = await axios.put(

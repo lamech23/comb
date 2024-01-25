@@ -154,28 +154,31 @@ const paymentsCreations = async (req, res) => {
 //
 const updateWaterBill = async (req, res) => {
   const { updatedTenants } = req.body;
-console.log(updatedTenants);
+  console.log('log', updatedTenants);
+
   try {
-    // Iterate through updatedUsers and update only the specified fields
-    for (const tenantUpdate of updatedTenants) {
+    // Convert updatedUsers object to an array of values
+    const updatedUsersArray = Object.values(updatedTenants);
+
+    // Iterate through updatedUsersArray and update only the specified fields
+    for (const tenantUpdate of updatedUsersArray) {
       const { id, currentReadings, entryDate } = tenantUpdate;
 
       // Find the tenant in the tenantRegistration table
       const tenant = await tenantRegistration.findByPk(id);
-         // Check if the tenant exists
-         if (!tenant) {
-          return res.status(404).json({ error: `Tenant with ID ${id} not found` });
-        }
 
-  
+      // Check if the tenant exists
+      if (!tenant) {
+        return res.status(404).json({ error: `Tenant with ID ${id} not found` });
+      }
+
       await tenantRegistration.update(
         {
           prevReadings: tenant.currentReadings,
-          currentReadings: currentReadings
+          currentReadings: currentReadings,
         },
         { where: { id: id } }
       );
-
 
       // Update or create the waterStore entry
       let waterStoreEntry = await waterStore.findOne({
@@ -199,7 +202,6 @@ console.log(updatedTenants);
           { where: { tenant_id: id } }
         );
       }
-
     }
 
     res.json({ message: "Users updated successfully" });
@@ -209,9 +211,10 @@ console.log(updatedTenants);
   }
 };
 
+ 
 module.exports = {
   tenatRegistration,
-  tentantUpdating,
+  tentantUpdating, 
   paymentsCreations,
   updateWaterBill,
 };

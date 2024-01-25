@@ -104,19 +104,44 @@ const tentantUpdating = async (req, res) => {
 };
 
 const paymentsCreations = async (req, res) => {
-  const paymentsParams = {
-    amount: req.body.amount,
-    paymentType: req.body.paymentType,
-    dateTime: req.body.dateTime,
-    userId: req.body.userId,
-  };
   try {
+    const params = {
+      amount: req.body.amount,
+      paymentType: req.body.paymentType,
+      dateTime: req.body.dateTime,
+      userId: req.body.userId,
+    };
 
-    
-    const createPayments = await payments.create(paymentsParams);
+    // Array to store the created payments
+    const createdPayments = [];
+    const userIds = Array.isArray(params.userId)
+      ? params.userId
+      : [params.userId];
+
+    // Iterate over user IDs and create payments for each user
+    for (const userId of userIds) {
+      try {
+        // Create a payment for the current user
+        const createPayment = await payments.create({
+          amount: params.amount,
+          paymentType: params.paymentType,
+          dateTime: params.dateTime,
+          userId: userId,
+        });
+
+        // Add the created payment to the array
+        createdPayments.push(createPayment);
+      } catch (error) {
+        // Handle individual payment creation errors if needed
+        console.error(
+          `Error creating payment for user ${userId}: ${error.message}`
+        );
+      }
+    }
+
     res.status(200).json({
       success: true,
-      createPayments,
+      createdPayments,
     });
   } catch (error) {
     res.status(400).json({
@@ -125,6 +150,7 @@ const paymentsCreations = async (req, res) => {
     });
   }
 };
+
 //
 const updateWaterBill = async (req, res) => {
   const { updatedTenants } = req.body;

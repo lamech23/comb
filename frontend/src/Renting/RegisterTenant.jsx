@@ -44,6 +44,7 @@ function RegisterTenant() {
   const navigate = useNavigate()
   const [users, setUsers] = useState([]);
   const [payableRent, setPaybleRent] = useState( state?.payableRent || "");
+  // console.log(payableRent);
 
   const tenantInfo = [...users];
   useEffect(() => {
@@ -66,7 +67,7 @@ function RegisterTenant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    if (state) {
+    if(state){
      await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
         tenantsName: tenantsName,
         houseNumber: houseNumber,
@@ -114,6 +115,7 @@ function RegisterTenant() {
         houseName: houseName,
         previousBalance: previousBalance,
         prevReadings: prevReadings,
+        payableRent:payableRent
 
       }
     );

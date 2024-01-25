@@ -153,55 +153,53 @@ const paymentsCreations = async (req, res) => {
 
 //
 const updateWaterBill = async (req, res) => {
-  const { updatedUsers } = req.body;
-
+  const { updatedTenants } = req.body;
+console.log(updatedTenants);
   try {
     // Iterate through updatedUsers and update only the specified fields
-    for (const tenantId in updatedUsers) {
-      const { currentReadings, entryDate } = updatedUsers[tenantId];
+    for (const tenantUpdate of updatedTenants) {
+      const { id, currentReadings, entryDate } = tenantUpdate;
 
       // Find the tenant in the tenantRegistration table
-      const tenant = await tenantRegistration.findByPk(tenantId);
+      const tenant = await tenantRegistration.findByPk(id);
+         // Check if the tenant exists
+         if (!tenant) {
+          return res.status(404).json({ error: `Tenant with ID ${id} not found` });
+        }
 
-      console.log(tenant.currentReadings);
-      // Check if the tenant exists
-      if (!tenant) {
-        return res
-          .status(404)
-          .json({ error: `Tenant with ID ${tenantId} not found` });
-      }
+  
+      await tenantRegistration.update(
+        {
+          prevReadings: tenant.currentReadings,
+          currentReadings: currentReadings
+        },
+        { where: { id: id } }
+      );
+
 
       // Update or create the waterStore entry
       let waterStoreEntry = await waterStore.findOne({
-        where: { tenant_id: tenantId },
+        where: { tenant_id: id },
       });
 
       if (!waterStoreEntry) {
         // If the entry doesn't exist, create a new one
         waterStoreEntry = await waterStore.create({
-          currentReadings: tenant.currentReadings,
-          tenant_id: tenant.Id,
+          currentReadings: currentReadings,
+          EntryDate: entryDate,
+          tenant_id: tenant.id,
         });
       } else {
         // If the entry exists, update it
         await waterStore.update(
           {
-            currentReadings: tenant.currentReadings,
+            currentReadings: currentReadings,
+            EntryDate: entryDate,
           },
-          { where: { tenant_id: tenantId } }
+          { where: { tenant_id: id } }
         );
       }
 
-      // Update the fields in the tenantRegistration table
-      if (currentReadings !== undefined) {
-        tenant.currentReadings = currentReadings;
-      }
-      if (entryDate !== undefined) {
-        tenant.entryDate = entryDate;
-      }
-
-      // Save the changes in the tenantRegistration table
-      await tenant.save();
     }
 
     res.json({ message: "Users updated successfully" });

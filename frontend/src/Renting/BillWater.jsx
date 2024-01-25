@@ -33,12 +33,19 @@ function BillWater() {
 
   const handleUpdate = async () => {
     try {
+      // Filter out only the updated tenants
+      const updatedTenants = Object.keys(updatedUsers).map((id) => ({
+        id,
+        currentReadings: updatedUsers[id].currentReadings,
+        entryDate: updatedUsers[id].entryDate,
+      }));
+  
       // Send a batch update request to the server
       const response = await axios.put(
         `http://localhost:4000/Tenant/updateWaterBill`,
-        { updatedUsers }
+        { updatedTenants }
       );
-      toast.success("added succesfuly");
+      toast.success("Added successfully");
     } catch (error) {
       toast.error("Number must be a positive value");
     }
@@ -99,7 +106,11 @@ function BillWater() {
                 <td className="border text-black border-slate-700">
                   <Calendar
                     value={date}
+<<<<<<< HEAD
                     onChange={(e) =>
+=======
+                    onChange={(e) => 
+>>>>>>> ahmed
                       setUpdatedUsers({
                         ...updatedUsers,
                         [tenants.id]: {

@@ -104,49 +104,91 @@ const tentantUpdating = async (req, res) => {
 };
 
 const paymentsCreations = async (req, res) => {
+  const { updatedPayment } = req.body;
+  console.log(updatedPayment);
   try {
-    const params = {
-      amount: req.body.amount,
-      paymentType: req.body.paymentType,
-      dateTime: req.body.dateTime,
-      userId: req.body.userId,
-    };
-
-    // Array to store the created payments
-    const createdPayments = [];
-    const userIds = Array.isArray(params.userId)
-      ? params.userId
-      : [params.userId];
+    const updatedPaymentArray = Object.values(updatedPayment);
 
     // Iterate over user IDs and create payments for each user
-    for (const userId of userIds) {
-      try {
-        // Create a payment for the current user
-        const createPayment = await payments.create({
-          amount: params.amount,
-          paymentType: params.paymentType,
-          dateTime: params.dateTime,
-          userId: userId,
-        });
+    for (const tenantUpdate of updatedPaymentArray) {
+      const { id, amount, paymentType, dateTime } = tenantUpdate;
 
-        // Add the created payment to the array
-        createdPayments.push(createPayment);
-      } catch (error) {
-        // Handle individual payment creation errors if needed
-        console.error(
-          `Error creating payment for user ${userId}: ${error.message}`
-        );
-      }
+      // Create a payment for the current user
+      const createPayment = await payments.create({
+        amount: amount,
+        paymentType: paymentType,
+        dateTime: dateTime,
+        userId: id,
+      });
     }
 
     res.status(200).json({
       success: true,
-      createdPayments,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       success: false,
       error: error.message,
+    });
+  }
+};
+const getPayments = async (req, res) => {
+  try {
+    // Find payment data for the specified user
+    const tenant = await tenantRegistration.findAll({});
+    const tenantsId = tenant.map((data) => data.id);
+
+    const paymentData = await payments.findAll({
+      where: { userId: tenantsId },
+    });
+
+  // const totalAdditionalPayments=  tenantsId.map(async (tenantId) => {
+  //     const paymentData = await payments.findAll({
+  //       where: { userId: tenantId },
+  //     });
+  
+  //     const totalAmount = paymentData.reduce((acc, detail) => {
+  //       return acc + Number(detail.amount);
+  //     }, 0);
+  
+  //     return { tenantId, totalAmount };
+  //   })
+  //   console.log(totalAdditionalPayments);
+  const totalAdditionalPayments = await Promise.all(
+    tenantsId.map(async (tenantId) => {
+      const paymentData = await payments.findAll({
+        where: { userId: tenantId },
+      });
+  
+      const totalAmount = paymentData.reduce((acc, detail) => {
+        return acc + Number(detail.amount);
+      }, 0);
+  
+      console.log(totalAmount);
+      return {
+        ...paymentData,
+        totalAmount} 
+    })
+  );
+
+  // console.log(totalAdditionalPayments);
+    if (paymentData) {
+      res.status(200).json({
+        success: true,
+        totalAdditionalPayments,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Payment data not found for the user",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
     });
   }
 };
@@ -216,4 +258,5 @@ module.exports = {
   tentantUpdating,
   paymentsCreations,
   updateWaterBill,
+  getPayments,
 };

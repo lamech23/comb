@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
-import { usePDF } from 'react-to-pdf';
+import { usePDF } from "react-to-pdf";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -15,7 +15,8 @@ function House() {
   const { user } = useAuthContext();
   const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
-  const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const [payments, setPayments] = useState([]);
 
   // water bill total
   const waterUnits = getWater
@@ -107,7 +108,18 @@ function House() {
       }
     };
     getWaterRates();
+
+    const getPayments = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
+        );
+        setPayments(response.data?.totalAdditionalPayments);
+      } catch (error) {}
+    };
+    getPayments();
   }, [tenant]);
+  console.log(payments);
 
   return (
     <>
@@ -122,7 +134,10 @@ function House() {
             LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
           </div>
 
-          <table  ref={targetRef} className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
+          <table
+            ref={targetRef}
+            className=" table-auto border-separate border-spacing-2 border border-slate-400   "
+          >
             <thead className="">
               <tr>
                 <th className="border border-slate-600">id </th>
@@ -168,8 +183,44 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.payableRent}
                   </td>
-                  <td className="border text-black border-slate-700  ">
+                  <td className="border text-black border-slate-700">
                     {tenants.rent}
+
+                    {payments &&
+                      Object.values(payments).map((paymentData, index) => {
+                        const matchingObjects = Object.values(
+                          paymentData
+                        ).filter((obj) => obj.userId === tenants.id);
+
+                        if (matchingObjects.length > 0) {
+                          const totalAmount = matchingObjects.reduce(
+                            (sum, obj) => sum + Number(obj.amount),
+                            0
+                          );
+
+                          return (
+                            <React.Fragment key={index}>
+                              {matchingObjects.map(
+                                (matchingObject, innerIndex) => (
+                                  <tr key={`${index}-${innerIndex}`}>
+                                    <td className="border text-black border-slate-700">
+                                      {matchingObject.amount}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                              <tr key={`total-${index}`}>
+                                <td className="border  border-slate-700  text-green-600">
+                                  Total Rent:{" "}
+                                  {totalAmount + Number(tenants.rent)}
+                                </td>
+                              </tr>
+                            </React.Fragment>
+                          );
+                        }
+
+                        return null; // Return null if userId doesn't match
+                      })}
                   </td>
 
                   <td className="border text-black border-slate-700">
@@ -200,7 +251,6 @@ function House() {
                     }`}
                   >
                     {tenants?.totalWaterReadings * waterUnits <= 0
-
                       ? 0
                       : tenants?.totalWaterReadings * waterUnits}
                   </td>
@@ -218,10 +268,49 @@ function House() {
                   </td>
                   <td
                     className={`border border-slate-700 ${
-                      tenants?.balance <= 0 ? "text-red-600" : "text-green-600"
+                      tenants?.balance +
+                      (payments &&
+                        Object.values(payments)
+                          .map((paymentData, index) => {
+                            const matchingObjects = Object.values(paymentData).filter(
+                              (obj) => obj.userId === tenants.id
+                            );
+                    
+                            if (matchingObjects.length > 0) {
+                              const totalAmount = matchingObjects.reduce(
+                                (sum, obj) => sum + Number(obj.amount),
+                                0
+                              );
+                              return totalAmount;
+                            }
+                    
+                            return 0; // Return 0 if userId doesn't match
+                          })
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0)) >= 0
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
+                    
                   >
-                    {tenants?.balance}
+                    {tenants?.balance +
+                      (payments &&
+                        Object.values(payments)
+                          .map((paymentData, index) => {
+                            const matchingObjects = Object.values(
+                              paymentData
+                            ).filter((obj) => obj.userId === tenants.id);
+
+                            if (matchingObjects.length > 0) {
+                              const totalAmount = matchingObjects.reduce(
+                                (sum, obj) => sum + Number(obj.amount),
+                                0
+                              );
+                              return totalAmount;
+                            }
+
+                            return 0; // Return 0 if userId doesn't match
+                          })
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
@@ -231,8 +320,7 @@ function House() {
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.detailsWithTotal?.find(
                       (meteData) => meteData.id === tenants.id
-                    )
-                  }
+                    )}
                     className="text-green-600 no-underline"
                   >
                     {" "}
@@ -244,8 +332,7 @@ function House() {
             </tbody>
           </table>
 
-      {/* <AdditinalPaymants houseName={houseName}/> */}
-
+          {/* <AdditinalPaymants houseName={houseName}/> */}
         </div>
         {/* water section  */}
         <div className="flex  gap-2 ">
@@ -282,10 +369,17 @@ function House() {
           </section>
         </div>
         {/* addtinal paymant section  */}
-        <Link to={`/payments/${houseName}`} state={getWater} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+        <Link
+          to={`/payments/${houseName}`}
+          state={getWater}
+          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
+        >
           bill Water
         </Link>
-        <Link to={`/addtionalPayments/${houseName}`} className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800">
+        <Link
+          to={`/addtionalPayments/${houseName}`}
+          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
+        >
           Addtinal payments
         </Link>
         <button onClick={() => toPDF()}>Download PDF</button>

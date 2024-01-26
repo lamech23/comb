@@ -146,7 +146,11 @@ function House() {
                 <th className="border border-slate-600">payable Rent</th>
                 <th className="border border-slate-600"> Paid Rent</th>
 
-                <th className="border border-slate-600">additinalPayments</th>
+                <th className="border border-slate-600 flex flex-row justify-start items-center gap-20">additinalPayments 
+                <th className=" border-slate-600"> date</th> 
+                <th className=" border-slate-600"> paymentType</th> 
+
+                </th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
                 <th className="border border-slate-600">
@@ -207,9 +211,15 @@ function House() {
                             <React.Fragment key={index}>
                               {matchingObjects.map(
                                 (matchingObject, innerIndex) => (
-                                  <tr key={`${index}-${innerIndex}`}>
+                                  <tr key={`${index}-${innerIndex}`} className="flex flex-row justify-around items-center">
                                     <td className="border text-black border-slate-700">
                                     Payment {innerIndex + 1}: {matchingObject.amount}
+                                    </td>
+                                    <td className="border text-black border-slate-700">
+                                     {matchingObject.dateTime}
+                                    </td>
+                                    <td className="border text-black border-slate-700">
+                                     {matchingObject.paymentType}
                                     </td>
                                   </tr>
                                 )

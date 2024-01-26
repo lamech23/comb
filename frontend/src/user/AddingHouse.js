@@ -54,7 +54,8 @@ function AddingHouse() {
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
-   
+    const addImage = handelImage;
+
     try {
     
       if (
@@ -71,23 +72,25 @@ function AddingHouse() {
         for (let i = 0; i < image.length; i++) {
           formData.append("image", image[i]);
         }
-    
            
            const response = await axios.post(
           "http://localhost:4000/Details",
+          formData,
+
           {
             description: description,
             contact: contact,
             location: location,
             price: price,
             category: category,
-            title: title
+            title: title,
           },
+
           {
             headers: {
               authorization: ` Bearer ${user?.token}`,
               Accept: "application/json",
-              "Content-Type": "application/json"
+              "Content-Type": "multipart/form-data",
             },
           }
 
@@ -172,9 +175,9 @@ function AddingHouse() {
                         <span>Upload a file</span>
                         <input
                           id="file-upload"
-                          name="file-upload"
+                          name="image"
                           type="file"
-                          class="sr-only"
+                          // class="sr-only"
                           multiple
                           onChange={(e) => setImage([...e.target.files])}
                         />

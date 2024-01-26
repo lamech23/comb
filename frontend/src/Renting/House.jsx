@@ -146,6 +146,7 @@ function House() {
                 <th className="border border-slate-600">payable Rent</th>
                 <th className="border border-slate-600"> Paid Rent</th>
 
+                <th className="border border-slate-600">additinalPayments</th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
                 <th className="border border-slate-600">
@@ -186,7 +187,11 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.rent}
 
-                    {payments &&
+                  </td>
+
+                  <td className="border text-black border-slate-700">
+
+                  {payments &&
                       Object.values(payments).map((paymentData, index) => {
                         const matchingObjects = Object.values(
                           paymentData
@@ -204,7 +209,7 @@ function House() {
                                 (matchingObject, innerIndex) => (
                                   <tr key={`${index}-${innerIndex}`}>
                                     <td className="border text-black border-slate-700">
-                                      {matchingObject.amount}
+                                    Payment {innerIndex + 1}: {matchingObject.amount}
                                     </td>
                                   </tr>
                                 )
@@ -220,9 +225,9 @@ function House() {
                         }
 
                         return null; // Return null if userId doesn't match
-                      })}
-                  </td>
-
+                      })}                  </td>
+                  
+                  
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>

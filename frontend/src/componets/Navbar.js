@@ -61,13 +61,15 @@ function Navbar() {
         id="mainNavbar"
       >
         <div className="container-xxl ">
-          <Link to="/">
+        <div className="flex flex-col justify-start items-center ">
+        <Link to="/">
             {" "}
             <img className="logo" src={logo} alt="" />
           </Link>
-          <Link className="navbar-brand" to="/">
-            Kausi property
+          <Link className=" no-underline text-3xl text-blue-700 font-serif ms-3   font-bold  " to="/">
+             Freyton Property Agencies
           </Link>
+        </div>
 
           {open ? (
             <button

@@ -54,7 +54,8 @@ function AddingHouse() {
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
-   
+    const addImage = handelImage;
+
     try {
     
       if (
@@ -71,23 +72,25 @@ function AddingHouse() {
         for (let i = 0; i < image.length; i++) {
           formData.append("image", image[i]);
         }
-    
            
            const response = await axios.post(
           "http://localhost:4000/Details",
+          formData,
+
           {
             description: description,
             contact: contact,
             location: location,
             price: price,
             category: category,
-            title: title
+            title: title,
           },
+
           {
             headers: {
               authorization: ` Bearer ${user?.token}`,
               Accept: "application/json",
-              "Content-Type": "application/json"
+              "Content-Type": "multipart/form-data",
             },
           }
 
@@ -172,9 +175,9 @@ function AddingHouse() {
                         <span>Upload a file</span>
                         <input
                           id="file-upload"
-                          name="file-upload"
+                          name="image"
                           type="file"
-                          class="sr-only"
+                          // class="sr-only"
                           multiple
                           onChange={(e) => setImage([...e.target.files])}
                         />
@@ -193,6 +196,7 @@ function AddingHouse() {
           </h2>
           {/* <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> */}
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              
               <div class="sm:col-span-3">
                 <label
                   for="first-name"
@@ -271,6 +275,30 @@ function AddingHouse() {
                 </div>
               </div>
 
+
+              <div class="sm:col-span-3">
+                <label
+                  for="price"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  category{" "}
+                </label>
+                <div class="mt-2">
+                <select
+              className="form-control"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {" "}
+              <option selected> select category </option>
+              <option value="maisonette">Maisonette</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Apartments">Apartments</option>
+              <option value="Others">Others</option>
+            </select>
+
+                </div>
+              </div>
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

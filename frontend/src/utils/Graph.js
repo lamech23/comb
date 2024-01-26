@@ -11,20 +11,43 @@ const UserGraph = ({ users }) => {
 
     for (let i = 0; i < monthCount; i++) {
       const date = new Date();
-      
-      date.setMonth(currentDate.getMonth() - i); // Subtract months to go back in time
+      date.setMonth(currentDate.getMonth() + i); // Subtract months to go back in time
       const monthLabel = date.toLocaleDateString("default", { month: "short" });
-      labels.push(monthLabel); // Add the month label to the beginning of the array
+      labels.push(monthLabel);
     }
 
-    return labels
+    return labels;
   }
+
+  function countUsers(users) {
+    const userCountByMonth = {
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
+    users.forEach((user) => {
+      const month = new Date(user.createdAt).toLocaleString("default", {
+        month: "short",
+      });
+      Math.floor(userCountByMonth[month] += 1)
+    });
+    return Object.values(userCountByMonth);
+  }
+  const userCounts = countUsers(users);
 
   useEffect(() => {
     // Define data for the chart.
     const labels = generateMonthLabels(12);
-    const data = [users];
-    
+    const data = userCounts
 
     if (chartRef.current) {
       // If a chart instance exists, destroy it to prevent duplicates.
@@ -34,15 +57,15 @@ const UserGraph = ({ users }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "bar",
+        type: "line",
         data: {
           labels: labels,
           datasets: [
             {
               label: "user Data ",
               data: data,
-              borderColor: "rgba(355, 192, 192, 1)",
-              backgroundColor: "rgba(255, 252, 192, 0.2)",
+              borderColor: "rgba(340, 0, 0, 2)",
+              backgroundColor: "rgba(0, 140 , 140, 2)",
               borderWidth: 1,
               fill: true,
             },
@@ -73,18 +96,22 @@ const UserGraph = ({ users }) => {
   }, [users]);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 ">
       <canvas ref={chartRef} id="myGraph" width="200" height="300"></canvas>
     </div>
   );
 };
 
+
+
+
 const Graph = ({ users }) => {
   return (
-    <div className="p-5 m-3">
-      <div className="">
+    <div className="mt-4">
+      <div className=" border-2 shadow-lg rounded-lg p-4 mt-20 mb-20  lg:w-[100rem]" >
         <UserGraph users={users} />
       </div>
+      
     </div>
   );
 };

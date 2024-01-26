@@ -39,6 +39,8 @@ router.post('/',requireAuth, imageUpload, createDetails)
  
  //Get a single upload 
 router.get('/:id', getSingelDetails)
+  //Testing Route
+  router.get('/byId', getSingelDetails)
 
  //DELETE an upload
  router.delete('/:id', isAdmin ,deleteDetails)

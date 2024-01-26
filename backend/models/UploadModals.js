@@ -1,12 +1,10 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/Database");
-const users = require("./UserModels");
 const imageUrl = require("./imageModel");
 
 const Details = db.define(
   "Details",
   {
-    
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -42,18 +40,18 @@ const Details = db.define(
   }
 );
 
-Details.belongsTo(users, {
-  foreignKey: "user_id",
-  as: "user",
-  onDelete: "cascade",
-  onUpdate: "cascade",
-});
-
 imageUrl.belongsTo(Details, {
   foreignKey: "details_id",
   as: "details",
   onDelete: "cascade",
   onUpdate: "cascade",
+});
+
+Details.hasMany(imageUrl, {
+    foreignKey: "details_id",
+    as: "images",
+    onDelete: "cascade",
+    onUpdate: "cascade",
 });
 
 
@@ -63,6 +61,6 @@ db.sync()
   })
   .catch((error) => {
     console.log("Unable to create Details table", error);
-});
+  });
 
 module.exports = Details;

@@ -34,6 +34,9 @@ const tenantRegistration = db.define(
     userName: {
       type: DataTypes.STRING,
     },
+    payableRent: {
+      type: DataTypes.STRING,
+    },
 
     previousBalance: {
       type: DataTypes.BIGINT,
@@ -51,12 +54,25 @@ const tenantRegistration = db.define(
     house_id: {
       type: DataTypes.INTEGER,
     },
+    prevReadings:{
+      type: DataTypes.STRING
+    },
+    currentReadings:{
+      type: DataTypes.STRING,
+      defaultValue: 0,
+
+    },
+    entryDate:{
+      type: DataTypes.DATE
+    }
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
+
+
 
 tenantRegistration.belongsTo(HouseRegistration, {
   foreignKey: "house_id",

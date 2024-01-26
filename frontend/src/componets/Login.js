@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
@@ -51,8 +51,9 @@ function Login() {
             password: password,
           })
           //   setLoggedIn(true)
+
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             setEmail("");
             setPassword("");
             setError(null);
@@ -94,15 +95,12 @@ function Login() {
               navigate("/");
             }
           });
-        if (!response) {
-          setIsLoading(false);
-          setError(res?.error)
-        }
-        console.log(error);
+     
+        console.log(res);
       }
     } catch (error) {
       if (error.response?.status === 403) {
-        return toast.error("your account is not activated  ");
+        return toast.error("your account is not activated ");
       }
       if (error.response?.status === 400) {
         return toast.error("incorrect email or password please try again ");

@@ -21,7 +21,7 @@ router.get('/houseNames/', getTenantForTenantRegistration)
 router.get('/total/:id',  subtotal)
 router.get('/:houseName', getAllHouses)
 router.get('/houseByHouseName', getHouseByHouseName)
-router.get('/allHouses', getAll)
+router.get('/houseNames', getAll)
 router.post('/houseName', creatHouseCategory)
 
 module.exports=router

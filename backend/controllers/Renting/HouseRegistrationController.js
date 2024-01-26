@@ -6,6 +6,7 @@ const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const water = require("../../models/RentingModels/waterModel");
 
 // const users = require("../../models/UserModels.js");
 
@@ -15,19 +16,35 @@ const getAllHouses = async (req, res) => {
       houseName: req.params.houseName,
     },
   });
+
   try {
     // Calculating the total expenses for each user
-    const detailsWithTotal = details.map((detail) => {
+    const detailsWithTotal = details?.map((detail) => {
       const totalExpenses = [
         Number(detail.waterBill) || 0,
         Number(detail.rent) || 0,
         Number(detail.rentDeposit) || 0,
         Number(detail.garbage) || 0,
       ].reduce((acc, currentValue) => acc + currentValue, 0);
+      // water readings
+      const totalWaterReadings = [
+        Number(detail.prevReadings) || 0,
+        Number(detail.currentReadings) || 0,
+      ].reduce((acc, current) => current - acc, 0);
+      const balance =
+        [
+          Number(detail.waterBill) || 0,
+          Number(detail.rent) || 0,
+          Number(detail.garbage) || 0,
+        ].reduce((acc, currentValue) => acc + currentValue, 0) -
+        Number(detail.payableRent);
 
+      console.log("this balance", balance);
       return {
         ...detail.dataValues,
-        totalExpenses, // Adding the total expenses to the user details
+        totalExpenses,
+        totalWaterReadings,
+        balance,
       };
     });
 
@@ -37,11 +54,12 @@ const getAllHouses = async (req, res) => {
         as: "houseName",
       },
     });
-    console.log(landownerName);
 
-    const landownerEmail = landownerName? landownerName.houseName.email: "Not Found";
+    const landownerEmail = landownerName
+      ? landownerName.houseName.email
+      : "Not Found";
 
-    res.status(200).send({ detailsWithTotal, landownerEmail });
+    res.status(200).json({ detailsWithTotal, landownerEmail });
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -157,7 +175,8 @@ const getAll = async (req, res) => {
         as: "houseName",
       },
     });
-    res.status(200).json(details);
+    res.status(200).send(details);
+    console.log("this is the house", details);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

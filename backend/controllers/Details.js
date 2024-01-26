@@ -5,40 +5,78 @@ const users = require("../models/UserModels.js");
 const fs = require("fs");
 const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
+const tty = require("tty");
+const {getAll} = require("./Renting/HouseRegistrationController");
+// for landing page
 
-
-const getImageUrl = (req) => {
-  const baseUrl = process.env.BASE_URL; // Replace with your base URL for serving images
-  return `${baseUrl}/${req.file.path}`;
-};
-
+// const getAllHouses = async (req, res) => {
+//   const page_size = 100;
+//   try {
+//     const details = await imageUrl.findAll({
+//       offset: 0,
+//       limit: page_size,
+//       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
+//       include:{
+//         model:Details,
+//         as:"details"
+//       }
+//
+//     });
+//     res.status(200).json(details);
+//   } catch (error) {
+//     res.status(500);
+//   }
+// };
 const getAllHouses = async (req, res) => {
   const page_size = 100;
-
   try {
-    const details = await Details.findAll({
-      
-      offset: 0,
+    const offset = req.query.page ? (req.query.page - 1) * page_size : 0;
+
+    const allHousesWithImage = await Details.findAll({
+      offset: offset,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-   
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
     });
-    res.status(200).json(details);
+
+    const totalCount = await Details.count();
+
+    const totalPages = Math.ceil(totalCount / page_size);
+
+    res.status(200).json({
+      data: allHousesWithImage,
+      pagination: {
+        currentPage: req.query.page || 1,
+        totalPages: totalPages,
+        totalItems: totalCount,
+      },
+    });
   } catch (error) {
-    res.status(500);
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    //const user_id = req.query.user_id;
+
+    const user_id = 1
+
     const details = await Details.findAll({
       where: {
         user_id: user_id,
       },
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
     });
-    
     res.status(200).json(details);
   } catch (error) {
     res.status(400).json("nop");
@@ -56,7 +94,6 @@ const ownCompound = async (req, res) => {
   }
 };
 
-
 const RentalHouse = async (req, res) => {
   try {
     let Maisonette = await Details.findAll({
@@ -67,7 +104,6 @@ const RentalHouse = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const BnBHouse = async (req, res) => {
   try {
@@ -81,17 +117,26 @@ const BnBHouse = async (req, res) => {
 };
 
 //Get a single upload
-const getSingelDetails = async (req, res) => {
-  const id = req.params.id;
-  const details = await Details.findOne({
-    where: { id: id },
-  });
+  const  getSingelDetails = async (req, res) => {
+    try {
+      const id = 3;
 
-  if (!details) {
-    return res.status(404).json({ error: "Details does not exist" }); // the  reason why am returning is because it will carry on and fire the code
-  }
-  res.status(200).json(details); //if it doesn't fire the if statment that means if fond the details so i get a response
-};
+      const details = await Details.findOne({
+        where: { id: id },
+        include: {
+          model: imageUrl,
+          as: "images",
+        },
+      });
+
+      res.status(200).json(details);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Cant get the single details for " });
+    }
+  };
+
+
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
@@ -112,8 +157,6 @@ const createDetails = async (req, res) => {
   };
 
   try {
-    const imageInfo = await Details.create(info);
-
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({
         image: `${baseUrl}/${req.files[i].path}`,
@@ -136,8 +179,8 @@ const createDetails = async (req, res) => {
         pass: "fdbmegjxghvigklv",
       },
     });
-    //email option
 
+    //email option
     const mailOption = {
       to: `lamechcruze@gmail.com`,
       subject: "Post Alert ",

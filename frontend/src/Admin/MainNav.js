@@ -21,7 +21,7 @@ function MainNav() {
   return (
     <div>
       <nav
-        className="flex flex-row  justify-between items-center px-20 border bg-green-400 p-4 fixed-top   "
+        className="flex flex-row  justify-between items-center px-20 border bg-green-600 p-4 fixed-top   "
       >
         <div id="page-content-wrapper">
           <nav

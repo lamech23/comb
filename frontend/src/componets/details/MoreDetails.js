@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "../../css/moreDetails.css";
 import Calendar from "react-calendar";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 function MoreDetails() {
   const { user } = useAuthContext();
   const [image, setImage] = useState("");
@@ -114,7 +114,7 @@ function MoreDetails() {
 
   const getMore = async () => {
     const response = await axios.get(`http://localhost:4000/Details/` + id);
-    setImage(response.data.image);
+    setImage(response.data.images);
     setTitle(response.data.title);
     setLocation(response.data.location);
     setDescription(response.data.description);
@@ -144,21 +144,25 @@ function MoreDetails() {
           </p>
         </div>
 
-        <div></div>
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
-          <div className="row  d-flex  ms-5 mt-4">
+          <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
             <div
-              className="  col-lg-8 col-md-6  ms-2 mb-2   "
-              style={{ width: "350px" }}
+              className=" flex-1 "
             >
-              <img
-                className="  ms-5 mt-5 mb-3 "
-                src={`http://localhost:4000/${image}`}
-                width="350px"
-                height="350px"
-                style={{ borderRadius: "20px" }}
-                alt=""
-              />
+              <Carousel>
+                {image &&
+                  image?.map((imageUrl, index) => (
+                    <div key={index}>
+                      <img
+                        src={imageUrl}
+                        className=" block w-full rounded-lg "
+                        alt={`Image ${index}`}
+                      />
+                    </div>
+                  ))}
+              </Carousel>
+
+         
             </div>
 
             <div className="col-8 col-lg-4 text-center text-md-start    ms-5 mt-5">
@@ -172,7 +176,6 @@ function MoreDetails() {
                   {" "}
                   <strong> Features {title}</strong>
                 </p>
-                {/* <p className=' fs-4 ' > <strong>{contact}</strong></p> */}
                 <p className=" text-lead ms-4">
                   {" "}
                   <strong>{description}</strong>
@@ -182,17 +185,16 @@ function MoreDetails() {
                   {" "}
                   <strong className="text-danger"> Ksh: {price}</strong>
                 </p>
-                {/* <a className="btn btn-outline-warning w-75 mb-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Procced to buy</a> */}
               </div>
             </div>
 
-            <div className=" col-lg-8  col-md-4 col-xl-3 mt-5">
-              <div className="third_card ">
+            <div className=" flex-1">
+              <div className=" flex flex-col items-center gap-10  ">
                 <a
                   data-bs-toggle="modal"
                   href="#contactAg"
                   role="button"
-                  className="request"
+                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
                 >
                   Contact Agent
                 </a>
@@ -200,7 +202,7 @@ function MoreDetails() {
                   data-bs-toggle="modal"
                   href="#tour"
                   role="button"
-                  className="request mt-5"
+                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
                 >
                   Request A tour
                 </a>

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { usePDF } from "react-to-pdf";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -12,14 +13,25 @@ function House() {
   let houseName = useLocation().pathname.split("/")[2];
   const [price, setPrice] = useState("");
   const { user } = useAuthContext();
-  let [getWater, setGetWater] = useState([]);
+  const [getWater, setGetWater] = useState([]);
   const [display, setDisplay] = useState(false);
+  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const [payments, setPayments] = useState([]);
+
+  // water bill total
+  const waterUnits = getWater
+    ?.map((house) => {
+      return house.price;
+    })
+    .slice(-1)[0];
+
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/houseRegister/houseNames/`
     );
     setHouse(response.data);
   };
+
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -33,19 +45,18 @@ function House() {
     };
     getTenantinfo();
     getHouse();
-    getWaterRates()
   }, [houseName]);
 
   // guard clause
   if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");
-    return;
+    // return;
   }
 
   // creating water reading
-
-  const visitedHouseId = house?.find(house => house.house_name === houseName)?.id;
-
+  const visitedHouseId = house?.find(
+    (house) => house.house_name === houseName
+  )?.id;
 
   const createWater = async (e) => {
     e.preventDefault();
@@ -67,6 +78,7 @@ function House() {
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
+        getWaterRates();
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -84,24 +96,30 @@ function House() {
   };
 
   // getting water retes
-  const getWaterRates = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:4000/water/fetchWater/${visitedHouseId}`
-      );
-      setGetWater(res.data?.getWater);
-      
-    } catch (error) {
-      // toast.error("water rates not found "|| error.massage)/
-    }
-  };
-  const waterPrice =getWater.map((house)=>{
-    return house.price ? house.price : 0;
-  })
+  useEffect(() => {
+    const getWaterRates = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        );
+        setGetWater(res.data?.getWater);
+      } catch (error) {
+        toast.error("water rates not found " || error.massage);
+      }
+    };
+    getWaterRates();
 
-  // useEffect(() => {
-  //   getWaterRates();
-  // }, [house]);
+    const getPayments = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
+        );
+        setPayments(response.data?.totalAdditionalPayments);
+      } catch (error) {}
+    };
+    getPayments();
+  }, [tenant]);
+  console.log(payments);
 
   return (
     <>
@@ -116,17 +134,30 @@ function House() {
             LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
           </div>
 
-          <table className=" table-auto border-separate border-spacing-2 border border-slate-400   ">
+          <table
+            ref={targetRef}
+            className=" table-auto border-separate border-spacing-2 border border-slate-400   "
+          >
             <thead className="">
               <tr>
                 <th className="border border-slate-600">id </th>
-                <th className="border border-slate-600">Tenant Name </th>
-                <th className="border border-slate-600">email </th>
-                <th className="border border-slate-600">House Name</th>
                 <th className="border border-slate-600">House Number</th>
-                <th className="border border-slate-600">Rent</th>
+                <th className="border border-slate-600">Tenant Name </th>
+                <th className="border border-slate-600">payable Rent</th>
+                <th className="border border-slate-600"> Paid Rent</th>
+
+                <th className="border border-slate-600 flex flex-row justify-start items-center gap-20">additinalPayments 
+                <th className=" border-slate-600"> date</th> 
+                <th className=" border-slate-600"> paymentType</th> 
+
+                </th>
                 <th className="border border-slate-600">Rent Deposit</th>
-                <th className="border border-slate-600">Water Reading</th>
+                <th className="border border-slate-600">prev water reading</th>
+                <th className="border border-slate-600">
+                  current water reading
+                </th>
+                <th className="border border-slate-600">Water units</th>
+
                 <th className="border border-slate-600">Water per unit</th>
                 <th className="border border-slate-600">Water Bill</th>
                 <th className="border border-slate-600">Previous Balance</th>
@@ -135,7 +166,9 @@ function House() {
                 <th className="border border-slate-600">
                   Next_of_king_number{" "}
                 </th>
-                <th className="border border-slate-600">total</th>
+                <th className="border border-slate-600">balance C/F</th>
+                <th className="border border-slate-600">Total</th>
+                <th> water readings</th>
               </tr>
             </thead>
             <tbody>
@@ -144,33 +177,97 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.id}
                   </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.tenantsName}
-                  </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.email}
-                  </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.houseName}
-                  </td>
+
                   <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
                   </td>
                   <td className="border text-black border-slate-700">
-                    {tenants.rent}
+                    {tenants.tenantsName}
                   </td>
+
+                  <td className="border text-black border-slate-700">
+                    {tenants.payableRent}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.rent}
+
+                  </td>
+
+                  <td className="border text-black border-slate-700">
+
+                  {payments &&
+                      Object.values(payments).map((paymentData, index) => {
+                        const matchingObjects = Object.values(
+                          paymentData
+                        ).filter((obj) => obj.userId === tenants.id);
+
+                        if (matchingObjects.length > 0) {
+                          const totalAmount = matchingObjects.reduce(
+                            (sum, obj) => sum + Number(obj.amount),
+                            0
+                          );
+
+                          return (
+                            <React.Fragment key={index}>
+                              {matchingObjects.map(
+                                (matchingObject, innerIndex) => (
+                                  <tr key={`${index}-${innerIndex}`} className="flex flex-row justify-around items-center">
+                                    <td className="border text-black border-slate-700">
+                                    Payment {innerIndex + 1}: {matchingObject.amount}
+                                    </td>
+                                    <td className="border text-black border-slate-700">
+                                     {matchingObject.dateTime}
+                                    </td>
+                                    <td className="border text-black border-slate-700">
+                                     {matchingObject.paymentType}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                              <tr key={`total-${index}`}>
+                                <td className="border  border-slate-700  text-green-600">
+                                  Total Rent:{" "}
+                                  {totalAmount + Number(tenants.rent)}
+                                </td>
+                              </tr>
+                            </React.Fragment>
+                          );
+                        }
+
+                        return null; // Return null if userId doesn't match
+                      })}                  </td>
+                  
+                  
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>
                   <td className="border text-black border-slate-700">
-                    {tenants.waterReading}
+                    {tenants.prevReadings}
+                  </td>
+                  <td className="border text-black border-slate-700">
+                    {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
                   </td>
 
                   <td className="border text-black border-slate-700">
-                      {waterPrice }
+                    {tenants.totalWaterReadings <= 0
+                      ? 0
+                      : tenants?.totalWaterReadings}
                   </td>
+
                   <td className="border text-black border-slate-700">
-                    {tenants.waterBill}
+                    {getWater &&
+                      getWater?.map((house) => house.price).slice(-1)[0]}
+                  </td>
+                  <td
+                    className={`border border-slate-700 ${
+                      tenants?.totalWaterReadings * waterUnits < 0
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {tenants?.totalWaterReadings * waterUnits <= 0
+                      ? 0
+                      : tenants?.totalWaterReadings * waterUnits}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.previousBalance}
@@ -184,14 +281,73 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.nextOfKingNumber}
                   </td>
+                  <td
+                    className={`border border-slate-700 ${
+                      tenants?.balance +
+                      (payments &&
+                        Object.values(payments)
+                          .map((paymentData, index) => {
+                            const matchingObjects = Object.values(paymentData).filter(
+                              (obj) => obj.userId === tenants.id
+                            );
+                    
+                            if (matchingObjects.length > 0) {
+                              const totalAmount = matchingObjects.reduce(
+                                (sum, obj) => sum + Number(obj.amount),
+                                0
+                              );
+                              return totalAmount;
+                            }
+                    
+                            return 0; // Return 0 if userId doesn't match
+                          })
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0)) >= 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                    
+                  >
+                    {tenants?.balance +
+                      (payments &&
+                        Object.values(payments)
+                          .map((paymentData, index) => {
+                            const matchingObjects = Object.values(
+                              paymentData
+                            ).filter((obj) => obj.userId === tenants.id);
+
+                            if (matchingObjects.length > 0) {
+                              const totalAmount = matchingObjects.reduce(
+                                (sum, obj) => sum + Number(obj.amount),
+                                0
+                              );
+                              return totalAmount;
+                            }
+
+                            return 0; // Return 0 if userId doesn't match
+                          })
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0))}
+                  </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
+
+                  <Link
+                    to={`/RegisterTenant/?edit=${tenants.id}`}
+                    state={tenant?.detailsWithTotal?.find(
+                      (meteData) => meteData.id === tenants.id
+                    )}
+                    className="text-green-600 no-underline"
+                  >
+                    {" "}
+                    update{" "}
+                  </Link>
                 </tr>
               ))}
               <tr></tr>
             </tbody>
           </table>
+
+          {/* <AdditinalPaymants houseName={houseName}/> */}
         </div>
         {/* water section  */}
         <div className="flex  gap-2 ">
@@ -227,7 +383,21 @@ function House() {
             </form>
           </section>
         </div>
-        {/* garbage section */}
+        {/* addtinal paymant section  */}
+        <Link
+          to={`/payments/${houseName}`}
+          state={getWater}
+          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
+        >
+          bill Water
+        </Link>
+        <Link
+          to={`/addtionalPayments/${houseName}`}
+          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
+        >
+          Addtinal payments
+        </Link>
+        <button onClick={() => toPDF()}>Download PDF</button>
       </div>
       <ToastContainer
         position="top-left"

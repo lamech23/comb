@@ -10,7 +10,8 @@ const createWater = async (req, res) => {
     user_id: user_id,
     house_id: req.body.house_id,
   };
-  console.log(waterDetails);
+
+
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({
@@ -18,6 +19,7 @@ const createWater = async (req, res) => {
       success: true,
       message: " water readings created successfuly ",
     });
+    console.log("this water " ,createdWater);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -25,6 +27,8 @@ const createWater = async (req, res) => {
     });
   }
 };
+
+
 // fetching water based on the house_id and the the associated house 
 const getWater = async (req, res) => {
   const house_id = req.params.id;
@@ -37,7 +41,6 @@ const getWater = async (req, res) => {
         model: houseName,
         as: "house"
       }
-
     });
     res.status(200).json({
     getWater, 
@@ -46,7 +49,7 @@ const getWater = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message:" water rates not found"
+      error: error.message
 
     })
   }

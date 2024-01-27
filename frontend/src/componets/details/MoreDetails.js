@@ -146,9 +146,7 @@ function MoreDetails() {
 
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
           <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
-            <div
-              className=" flex-1 "
-            >
+            <div className=" flex-1 ">
               <Carousel>
                 {image &&
                   image?.map((imageUrl, index) => (
@@ -161,8 +159,6 @@ function MoreDetails() {
                     </div>
                   ))}
               </Carousel>
-
-         
             </div>
 
             <div className="col-8 col-lg-4 text-center text-md-start    ms-5 mt-5">

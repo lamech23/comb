@@ -21,7 +21,12 @@ function AllHouses() {
       {house.map((item, index) => {
         return (
           <div key={index} value={item}>
-            <Link className="no-underline text-gray-700" to={`/House/${item.house_name}`}>{item.house_name}</Link>
+            <Link
+              className="no-underline text-gray-700"
+              to={`/House/${item.house_name}`}
+            >
+              {item.house_name}
+            </Link>
             {/* <Link to={"/House"}>
 
                 </Link> */}

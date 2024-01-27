@@ -6,7 +6,7 @@ const fs = require("fs");
 const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
 const tty = require("tty");
-const {getAll} = require("./Renting/HouseRegistrationController");
+const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
 // const getAllHouses = async (req, res) => {
@@ -47,7 +47,7 @@ const getAllHouses = async (req, res) => {
     const totalPages = Math.ceil(totalCount / page_size);
 
     res.status(200).json({
-      data: allHousesWithImage,
+     allHousesWithImage,
       pagination: {
         currentPage: req.query.page || 1,
         totalPages: totalPages,
@@ -60,13 +60,12 @@ const getAllHouses = async (req, res) => {
   }
 };
 
-
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
     //const user_id = req.query.user_id;
 
-    const user_id = 1
+    const user_id = 1;
 
     const details = await Details.findAll({
       where: {
@@ -117,25 +116,24 @@ const BnBHouse = async (req, res) => {
 };
 
 //Get a single upload
-  const  getSingelDetails = async (req, res) => {
-    try {
-      const id = 3;
+const getSingelDetails = async (req, res) => {
+  try {
+    const id = 3;
 
-      const details = await Details.findOne({
-        where: { id: id },
-        include: {
-          model: imageUrl,
-          as: "images",
-        },
-      });
+    const details = await Details.findOne({
+      where: { id: id },
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
+    });
 
-      res.status(200).json(details);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Cant get the single details for " });
-    }
-  };
-
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Cant get the single details for " });
+  }
+};
 
 //CREATE an upload
 const createDetails = async (req, res) => {
@@ -157,18 +155,22 @@ const createDetails = async (req, res) => {
   };
 
   try {
+    const details = await Details.create(info);
+
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({
         image: `${baseUrl}/${req.files[i].path}`,
         user_id: user_id,
-        details_id: imageInfo.id,
+        details_id: details.id,
       });
 
       imageUrls.push(imagePath);
     }
+
     res.status(200).json({
       success: true,
       data: imageUrls,
+      data: details,
     });
 
     await users.findOne({ where: { id: id } });

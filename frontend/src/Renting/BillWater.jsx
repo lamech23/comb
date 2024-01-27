@@ -34,13 +34,14 @@ function BillWater() {
   const handleUpdate = async () => {
     try {
       // Filter out only the updated tenants
-      const updatedTenants = Object.entries(updatedUsers).map(([id, values]) => ({
-        id,
-        currentReadings: values.currentReadings, 
-        entryDate: values.entryDate,
-      }));
-      
-  
+      const updatedTenants = Object.entries(updatedUsers).map(
+        ([id, values]) => ({
+          id,
+          currentReadings: values.currentReadings,
+          entryDate: values.entryDate,
+        })
+      );
+
       // Send a batch update request to the server
       const response = await axios.put(
         `http://localhost:4000/Tenant/updateWaterBill`,
@@ -51,7 +52,6 @@ function BillWater() {
       toast.error("Number must be a positive value");
     }
   };
-  
 
   return (
     <>

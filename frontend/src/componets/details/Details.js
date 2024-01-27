@@ -54,19 +54,19 @@ const Details = () => {
 
   const fetchDetails = async () => {
     const response = await axios.get("http://localhost:4000/Details/allHouses");
-    setDetails(response.data);
+    setDetails(response.data.allHousesWithImage);
+
     setIsLoading(false);
   };
 
   // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
-
-  console.log(currentPosts);
+  // const indexOfLastPost = currentPage * postsPerPage;
+  // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // const currentPosts = details?.slice(indexOfFirstPost, indexOfLastPost);
+  // console.log(currentPosts);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Get current posts
 
@@ -79,23 +79,39 @@ const Details = () => {
               <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
             </div>
           ) : (
-            currentPosts?.map((detail) => (
+            details &&
+            details?.map((detail, index) => (
               <div
-                key={detail.id}
-                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between    "
+                key={index}
+                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between "
                 style={{ width: "350px" }}
               >
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
                   <a href="#">
-                    <img
+                    {/* <img
                       id="detsImg"
                       className="w-fit mt-2 mb-3"
-                      src={detail.image}
+                      src={detail?.image}
                       width="250px"
                       height="250px"
                       style={{ borderRadius: "2px" }}
                       alt=""
-                    />{" "}
+                    />{" "} */}
+                    {detail?.images?.map(
+                      (img, imgIndex) =>
+                        imgIndex === 0 && (
+                          <img
+                            key={imgIndex}
+                            id="detsImg"
+                            className="w-fit mt-2 mb-3"
+                            src={img.image}
+                            width="250px"
+                            height="250px"
+                            style={{ borderRadius: "2px" }}
+                            alt=""
+                          />
+                        )
+                    )}
                   </a>
                   <div class="p-5 ">
                     <a href="#">
@@ -110,18 +126,18 @@ const Details = () => {
                       {detail.contact}
                     </p>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail?.details.locaton}
+                      {detail?.details?.locaton}
                     </p>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                       {detail.price}
                     </p>
 
                     <p className="mb-3 font-normal text-red-700 dark:text-red-400">
-                      <strong>
+                      {/* <strong>
                         {formatDistanceToNow(new Date(detail.createdAt), {
                           addSuffix: true,
                         })}
-                      </strong>
+                      </strong> */}
                     </p>
                     <Link
                       to={`/MoreDetails/${detail.id}`}
@@ -151,12 +167,12 @@ const Details = () => {
           )}
         </div>
       </div>
-      <Pagination
+      {/* <Pagination
         postsPerPage={postsPerPage}
         totalPosts={details.length}
         paginate={paginate}
         details={currentPosts}
-      />
+      /> */}
 
       <ToastContainer
         position="bottom-center"

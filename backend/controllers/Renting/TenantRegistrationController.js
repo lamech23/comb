@@ -67,7 +67,7 @@ const tentantUpdating = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     nextOfKingNumber: req.body.nextOfKingNumber,
     prevReadings: req.body.prevReadings,
-    currentReadings: 0,
+    currentReadings: currentReadings,
   };
 
   try {
@@ -143,36 +143,25 @@ const getPayments = async (req, res) => {
       where: { userId: tenantsId },
     });
 
-  // const totalAdditionalPayments=  tenantsId.map(async (tenantId) => {
-  //     const paymentData = await payments.findAll({
-  //       where: { userId: tenantId },
-  //     });
-  
-  //     const totalAmount = paymentData.reduce((acc, detail) => {
-  //       return acc + Number(detail.amount);
-  //     }, 0);
-  
-  //     return { tenantId, totalAmount };
-  //   })
-  //   console.log(totalAdditionalPayments);
-  const totalAdditionalPayments = await Promise.all(
-    tenantsId.map(async (tenantId) => {
-      const paymentData = await payments.findAll({
-        where: { userId: tenantId },
-      });
-  
-      const totalAmount = paymentData.reduce((acc, detail) => {
-        return acc + Number(detail.amount);
-      }, 0);
-  
-      console.log(totalAmount);
-      return {
-        ...paymentData,
-        totalAmount} 
-    })
-  );
+    const totalAdditionalPayments = await Promise.all(
+      tenantsId.map(async (tenantId) => {
+        const paymentData = await payments.findAll({
+          where: { userId: tenantId },
+        });
 
-  // console.log(totalAdditionalPayments);
+        const totalAmount = paymentData.reduce((acc, detail) => {
+          return acc + Number(detail.amount);
+        }, 0);
+
+        console.log(totalAmount);
+        return {
+          ...paymentData,
+          totalAmount,
+        };
+      })
+    );
+
+    // console.log(totalAdditionalPayments);
     if (paymentData) {
       res.status(200).json({
         success: true,
@@ -205,7 +194,6 @@ const updateWaterBill = async (req, res) => {
       // Find the tenant in the tenantRegistration table
       const tenant = await tenantRegistration.findByPk(tenantId);
 
-      console.log(tenant.currentReadings);
       // Check if the tenant exists
       if (!tenant) {
         return res

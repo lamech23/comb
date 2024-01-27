@@ -3,39 +3,34 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import LandOwnerNav from "./LandOwnerNav";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
-import setHeader from "../componets/Api"
+import setHeader from "../componets/Api";
 
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
-  const {user} =useAuthContext()
-
-
+  const { user } = useAuthContext();
 
   try {
     useEffect(() => {
       getTenantInfo();
-      
     }, []);
     const getTenantInfo = async () => {
-        const response = await axios.get(
-          `http://localhost:4000/houseRegister/specific/` ,
-          {
-            headers: {
-              authorization: ` Bearer ${user?.token}`,
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        setTenant(response.data)
-        console.log(response.data);
-        
-      }
-      } catch (error) {
+      const response = await axios.get(
+        `http://localhost:4000/houseRegister/specific/`,
+        {
+          headers: {
+            authorization: ` Bearer ${user?.token}`,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setTenant(response.data);
+      console.log(response.data);
+    };
+  } catch (error) {
+    console.log("Error", error);
+  }
 
-        console.log("Error", error);
-      }
-  
   return (
     <>
       <div className="split">
@@ -55,7 +50,7 @@ function LandownerDashbard() {
                   <th scope="col">Garbage</th>
                   <th scope="col">Phone Number</th>
                   <th scope="col">Next_of_king_number </th>
-                  <th scope="col">houseName  </th>
+                  <th scope="col">houseName </th>
                 </tr>
               </thead>
               <tbody>

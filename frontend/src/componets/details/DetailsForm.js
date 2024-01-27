@@ -20,28 +20,28 @@ function DetailsForm() {
   console.log(image);
 
 
-  const handelImage = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    for (let i = 0; i < image.length; i++) {
-      formData.append("image", image[i]);
-    }
+  // const handelImage = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (let i = 0; i < image.length; i++) {
+  //     formData.append("image", image[i]);
+  //   }
 
 
-    const response = await axios.post(
-      "http://localhost:4000/images",
-      formData,
-      {
-        headers: {
-          authorization: ` Bearer ${user?.token}`,
-          Accept: "application/json",
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log("clicked on image");
+  //   const response = await axios.post(
+  //     "http://localhost:4000/images",
+  //     formData,
+  //     {
+  //       headers: {
+  //         authorization: ` Bearer ${user?.token}`,
+  //         Accept: "application/json",
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     }
+  //   );
+  //   console.log("clicked on image");
 
-  };
+  // };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +87,6 @@ function DetailsForm() {
             navigate("/");
           }
 
-        // const json = await response.json()
 
         if (!response) {
           setError(error);

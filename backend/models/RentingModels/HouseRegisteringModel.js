@@ -17,32 +17,30 @@ const HouseRegistration = db.define(
     user_name: {
       type: DataTypes.STRING,
     },
-   
+
     contact: {
       type: DataTypes.INTEGER,
     },
     location: {
       type: DataTypes.STRING,
     },
-   
-    user_id:{
-      type: DataTypes.INTEGER,
 
-    }
+    user_id: {
+      type: DataTypes.INTEGER,
+    },
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
-  HouseRegistration.belongsTo(users,
-     { foreignKey: "user_id" ,
-     as: "users",
-     
-     onDelete: "cascade",
-     onUpdate: "cascade",
-  });
+HouseRegistration.belongsTo(users, {
+  foreignKey: "user_id",
+  as: "users",
 
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
 
 db.sync()
   .then(() => {

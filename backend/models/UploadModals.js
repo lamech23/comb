@@ -1,13 +1,10 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/Database");
-const users = require("./UserModels");
 const imageUrl = require("./imageModel");
 
 const Details = db.define(
   "Details",
   {
-    
-
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -43,7 +40,6 @@ const Details = db.define(
   }
 );
 
-
 imageUrl.belongsTo(Details, {
   foreignKey: "details_id",
   as: "details",
@@ -51,6 +47,12 @@ imageUrl.belongsTo(Details, {
   onUpdate: "cascade",
 });
 
+Details.hasMany(imageUrl, {
+    foreignKey: "details_id",
+    as: "images",
+    onDelete: "cascade",
+    onUpdate: "cascade",
+});
 
 
 db.sync()

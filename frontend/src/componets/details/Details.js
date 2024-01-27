@@ -88,15 +88,7 @@ const Details = () => {
               >
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
                   <a href="#">
-                    {/* <img
-                      id="detsImg"
-                      className="w-fit mt-2 mb-3"
-                      src={detail?.image}
-                      width="250px"
-                      height="250px"
-                      style={{ borderRadius: "2px" }}
-                      alt=""
-                    />{" "} */}
+                  
                     {detail?.images?.map(
                       (img, imgIndex) =>
                         imgIndex === 0 && (

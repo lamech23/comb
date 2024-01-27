@@ -10,7 +10,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 function MoreDetails() {
   const { user } = useAuthContext();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
@@ -31,6 +31,7 @@ function MoreDetails() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [tour_id, setTour_id] = useState("");
+  
 
   const setDate = (date) => {
     if (date < new Date()) {
@@ -148,11 +149,11 @@ function MoreDetails() {
           <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
             <div className=" flex-1 ">
               <Carousel>
-                {image &&
+                {
                   image?.map((imageUrl, index) => (
                     <div key={index}>
                       <img
-                        src={imageUrl}
+                        src={imageUrl.image}
                         className=" block w-full rounded-lg "
                         alt={`Image ${index}`}
                       />

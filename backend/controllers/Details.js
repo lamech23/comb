@@ -9,24 +9,7 @@ const tty = require("tty");
 const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
-// const getAllHouses = async (req, res) => {
-//   const page_size = 100;
-//   try {
-//     const details = await imageUrl.findAll({
-//       offset: 0,
-//       limit: page_size,
-//       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-//       include:{
-//         model:Details,
-//         as:"details"
-//       }
-//
-//     });
-//     res.status(200).json(details);
-//   } catch (error) {
-//     res.status(500);
-//   }
-// };
+
 const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {
@@ -118,8 +101,7 @@ const BnBHouse = async (req, res) => {
 //Get a single upload
 const getSingelDetails = async (req, res) => {
   try {
-    const id = 3;
-
+    const id   = req.params.id;
     const details = await Details.findOne({
       where: { id: id },
       include: {

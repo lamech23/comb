@@ -155,6 +155,8 @@ function MoreDetails() {
                       <img
                         src={imageUrl.image}
                         className=" block w-full rounded-lg "
+                            width="250px"
+                            // height="250px"
                         alt={`Image ${index}`}
                       />
                     </div>

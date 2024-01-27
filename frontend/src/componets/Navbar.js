@@ -26,7 +26,7 @@ function Navbar() {
         const navbar_height = document.querySelector(".navbar").offSetHeight;
         document.body.style.paddingTop = navbar_height + "px";
       } else {
-        // document.querySelector("#mainNavbar").classList.remove("fixed-top");
+        document.querySelector("#mainNavbar").classList.remove("fixed-top");
         document.body.style.paddingTop = "0";
       }
     });

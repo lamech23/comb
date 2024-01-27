@@ -9,12 +9,10 @@ const tty = require("tty");
 const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
-
 const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {
     const offset = req.query.page ? (req.query.page - 1) * page_size : 0;
-
     const allHousesWithImage = await Details.findAll({
       offset: offset,
       limit: page_size,
@@ -24,17 +22,33 @@ const getAllHouses = async (req, res) => {
         as: "images",
       },
     });
+    const pageNumbers = [];
 
     const totalCount = await Details.count();
+    console.log();
+    const currentPage = req.query.page || 1 
+    const postPerPage = 4;
+    const totalPages = Math.ceil(totalCount / postPerPage);
 
-    const totalPages = Math.ceil(totalCount / page_size);
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPosts = allHousesWithImage?.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
 
+    console.log(currentPosts.length);
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    console.log(pageNumbers);
     res.status(200).json({
-     allHousesWithImage,
+      allHousesWithImage,
       pagination: {
-        currentPage: req.query.page || 1,
-        totalPages: totalPages,
-        totalItems: totalCount,
+        pageNumbers,
+        currentPosts,
+        currentPage,
       },
     });
   } catch (error) {
@@ -101,7 +115,7 @@ const BnBHouse = async (req, res) => {
 //Get a single upload
 const getSingelDetails = async (req, res) => {
   try {
-    const id   = req.params.id;
+    const id = req.params.id;
     const details = await Details.findOne({
       where: { id: id },
       include: {

@@ -17,6 +17,7 @@ function DetailsForm() {
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
   const { id } = useParams();
+  console.log(image);
 
 
   const handelImage = async (e) => {
@@ -27,7 +28,6 @@ function DetailsForm() {
     }
 
 
-    const addImage = handelImage
     const response = await axios.post(
       "http://localhost:4000/images",
       formData,
@@ -122,7 +122,6 @@ function DetailsForm() {
           <form
             onSubmit={handelSubmit}
             className=" frm"
-            enctype="multipart/form-data"
           >
             <h3 className="text-center">Add image and details</h3>
             <label>Image title</label>

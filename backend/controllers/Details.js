@@ -117,7 +117,6 @@ const createDetails = async (req, res) => {
   };
 
   try {
-    const imageInfo = await Details.create(info);
 
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({

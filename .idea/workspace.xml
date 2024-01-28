@@ -5,96 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="917d363b-13f4-4b1f-b9bb-183da8c97ec3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/Routes/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/auth/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/auth/register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/auth/resetPasswordAndEmail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/middlleware/checkRoles.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/middlleware/emailAndPasswordCheck.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/HouseRegistrationRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/HouseRegistrationRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/TenantRegistrationRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/TenantRegistrationRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/waterRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/waterRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/Upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/imageRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/imageRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/config/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/config/Database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/UserControllers.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/UserControllers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlleware/requireAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlleware/requireAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models/UserModels.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/UserModels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/alpha.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/alpha.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isAfter.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isAfter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBIC.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBIC.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBase32.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBase32.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBtcAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isBtcAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isCreditCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isCreditCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isDataURI.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isDataURI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isDate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isEmail.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isEmail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isFQDN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isFQDN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isFloat.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isFloat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIBAN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIBAN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIP.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIP.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isISBN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isISBN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIdentityCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isIdentityCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isJWT.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isJWT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLength.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLength.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLicensePlate.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLicensePlate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLocale.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isLocale.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMACAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMACAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMagnetURI.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMagnetURI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMimeType.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMimeType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMobilePhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isMobilePhone.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isPassportNumber.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isPassportNumber.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isPostalCode.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isPostalCode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isRgbColor.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isRgbColor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isStrongPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isStrongPassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isTaxID.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isTaxID.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isURL.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isURL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isVAT.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/isVAT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/matches.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/es/lib/matches.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/alpha.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/alpha.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isAfter.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isAfter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBIC.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBIC.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBase32.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBase32.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBtcAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isBtcAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isCreditCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isCreditCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isDataURI.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isDataURI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isDate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isEmail.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isEmail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isFQDN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isFQDN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isFloat.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isFloat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIBAN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIBAN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIP.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIP.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isISBN.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isISBN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIdentityCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isIdentityCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isJWT.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isJWT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLength.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLength.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLicensePlate.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLicensePlate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLocale.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isLocale.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMACAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMACAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMagnetURI.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMagnetURI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMimeType.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMimeType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMobilePhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isMobilePhone.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isPassportNumber.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isPassportNumber.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isPostalCode.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isPostalCode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isRgbColor.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isRgbColor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isStrongPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isStrongPassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isTaxID.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isTaxID.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isURL.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isURL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/isVAT.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/isVAT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/lib/matches.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/lib/matches.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/validator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/validator/validator.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/validator/validator.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/user/UserNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/user/UserNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +50,7 @@
       <updated>1706311419282</updated>
       <workItem from="1706311420506" duration="2865000" />
       <workItem from="1706433343336" duration="6802000" />
-      <workItem from="1706441662343" duration="14266000" />
+      <workItem from="1706441662343" duration="15025000" />
     </task>
     <servers />
   </component>

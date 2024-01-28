@@ -14,9 +14,6 @@ import UserHouse from "../user/UserHouse";
 import AddingHouse from "./AddingHouse";
 
 
-
-
-
 function UserNav() {
   let navigate = useNavigate();
   // const {user}=useAuthContext()

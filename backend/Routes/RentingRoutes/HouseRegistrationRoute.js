@@ -13,10 +13,10 @@ const{
 
 } =require('../../controllers/Renting/HouseRegistrationController')
 
-const {requireAuth, isAdmin, checkIfOwner} =require('../../middlleware/requireAuth')
+//const {requireAuth, isAdmin, checkIfOwner} =require('../../middlleware/requireAuth')
 
 router.post('/', RegisteringHouse)
-router.get('/specific/', requireAuth,getTenants)
+//router.get('/specific/', requireAuth,getTenants)
 router.get('/houseNames/', getTenantForTenantRegistration)
 router.get('/total/:id',  subtotal)
 router.get('/:houseName', getAllHouses)

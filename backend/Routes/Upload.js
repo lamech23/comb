@@ -5,26 +5,28 @@ const {
     getSingelDetails,
     deleteDetails,
     updateDetails,
-    
     ownCompound,
     RentalHouse,
     BnBHouse,
     grtDetailsById,
     getAllHouses,
     getAllTours 
-    
-    
+
 }=require('../controllers/Details')
 const {imageUpload} =require('../middlleware/upload')
-const {requireAuth, isAdmin, checkIfOwner} =require('../middlleware/requireAuth')
+const {isAdmin, isVerified,isTenant } = require("../middlleware/checkRoles");
+const { verifyToken } = require("../middlleware/requireAuth");
 
 
 
 const router =express.Router()
+
+
 //this basically means that the middleware fires first before the other routes so as to protect them
 // router.use(requireAuth)
 // router.use(isAdmin)
 //POST all uploads
+
 //Post a details
 router.post('/',requireAuth, imageUpload, createDetails)
 
@@ -38,15 +40,15 @@ router.post('/',requireAuth, imageUpload, createDetails)
 // 
  
  //Get a single upload 
-router.get('/:id', getSingelDetails)
+  router.get('/:id', getSingelDetails)
   //Testing Route
-  router.get('/byId', getSingelDetails)
+  router.get('/byId',verifyToken, getSingelDetails)
 
  //DELETE an upload
- router.delete('/:id', isAdmin ,deleteDetails)
+ router.delete('/:id',verifyToken, isAdmin ,deleteDetails)
  // get images by id
  router.get('/:id',grtDetailsById)
  //UPDATE a workout
- router.patch('/:id', checkIfOwner,imageUpload,updateDetails)    
+ router.patch('/:id',imageUpload,updateDetails)
 
 module.exports = router

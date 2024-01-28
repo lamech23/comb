@@ -1,10 +1,9 @@
-
-
 const express =require ("express");
 const db =require( "./config/Database.js");
 const cors =require('cors')
 require('dotenv').config()
 const userRoute =require('./Routes/user')
+const AuthRoute =require ('./Routes/auth')
 const uploadRoute =require('./Routes/Upload')
 const contact =require('./Routes/GetInTouch')
 const moreAboutClient =require('./Routes/ClientMore')
@@ -29,9 +28,6 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const socketConfiguration = require("./configs/socketConfiig.js")
 
 app.use(cors());
-
-// middleware to look if the req has some body to it if true passed on to req to the object
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -39,6 +35,7 @@ app.use(bodyParser.json());
 //static
 app.use(cookieParser());
 app.use("/Images", express.static("./Images"));
+
 
 
 const server = http.createServer(app);
@@ -68,6 +65,7 @@ socketConfiguration(server, CLIENT_URL);
 
 app.use('/Details',uploadRoute);
 app.use('/Users',userRoute);
+app.use('/auth' , AuthRoute )
 app.use('/contacts',contact)
 app.use('/client',moreAboutClient)
 app.use('/news',NewsLetters)

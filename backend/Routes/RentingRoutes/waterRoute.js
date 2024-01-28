@@ -5,11 +5,11 @@ const{
     createWater,
     getWater
 } =require('../../controllers/Renting/waterController')
-const {requireAuth} =require('../../middlleware/requireAuth')
+//const {requireAuth} =require('../../middlleware/requireAuth')
 
 
 
-router.post('/', requireAuth, createWater)
+//router.post('/', requireAuth, createWater)
 router.get('/fetchWater/:id', getWater)
 
 module.exports=router

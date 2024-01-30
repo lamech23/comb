@@ -47,7 +47,7 @@ function Category() {
         <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 lg:grid-cols-12">
           <div class="sm:col-span-4">
             <label
-              for="username"
+              for="category"
               class="block text-sm font-medium leading-6 text-gray-900"
             >
               category{" "}
@@ -59,10 +59,10 @@ function Category() {
                 </span>
                 <input
                   type="text"
-                  name="username"
-                  id="username"
+                  name="category"
+                  id="category"
                   value={name}
-                  autocomplete="username"
+                  autocomplete="category"
                   class="block flex-1 border-2  py-1.5 pl-5 text-black placeholder:text-white focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="mansionet"
                   onChange={(e) => setName(e.target.value)}

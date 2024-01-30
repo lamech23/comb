@@ -7,6 +7,7 @@ const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const water = require("../../models/RentingModels/waterModel");
+const Details = require("../../models/UploadModals");
 
 // const users = require("../../models/UserModels.js");
 
@@ -168,14 +169,13 @@ const creatHouseCategory = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const details = await houseName.findAll({
+    const details = await Details.findAll({
       include: {
         model: users,
-        as: "houseName",
+        as: "houses",
       },
     });
     res.status(200).send(details);
-    console.log("this is the house", details);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

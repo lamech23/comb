@@ -10,6 +10,7 @@ function AllHouses() {
       `http://localhost:4000/houseRegister/houseNames/`
     );
     setHouse(response.data);
+    console.log(response);
   };
   useEffect(() => {
     // getSpecificHouse();

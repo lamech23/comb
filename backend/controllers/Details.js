@@ -146,6 +146,8 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
+    houseName: req.body.houseName,
+    type: req.body.type,
     user_id: user_id,
     details_id: imageUrl.id,
   };

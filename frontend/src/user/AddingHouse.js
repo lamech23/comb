@@ -17,7 +17,9 @@ function AddingHouse() {
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
   const [cat, setCat] = useState([]);
-  console.log(cat);
+  const [propertyType, setPropertyType] = useState([]);
+  console.log(propertyType);
+  
 
   const handleCancle = () => {
     setStatus(false);
@@ -110,8 +112,13 @@ function AddingHouse() {
       setCat(response.data);
     };
     fetchCategories();
+    fetchPopertyType()
   }, []);
 
+  const fetchPopertyType = async () => {
+    const response = await axios.get("http://localhost:4000/type/fetch");
+    setPropertyType(response.data);
+  }
   return (
     <>
       <form onSubmit={handelSubmit}>
@@ -284,7 +291,7 @@ function AddingHouse() {
                   for="price"
                   class="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Aspect{" "}
+                  Property For{" "}
                 </label>
                 <div class="mt-2">
                   <select
@@ -293,12 +300,39 @@ function AddingHouse() {
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     {" "}
-                    <option selected> select aspect </option>
-                    <option value="maisonette">renting</option>
-                    <option value="Bungalow">selling</option>
+                    <option selected> select type </option>
+
+                    {propertyType &&
+                      propertyType?.map((type, index) => (
+                        <option value={type.type} key={index}>
+                          {type.type}
+                        </option>
+                      ))}
+                  
                   </select>
                 </div>
               </div>
+
+          {category === 'renting' && (
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="house-name"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            House Name
+          </label>
+          <div className="mt-2">
+            <input
+              type="text"
+              name="house-name"
+              id="house-name"
+              placeholder="e.g. k-1, k2, k3, etc."
+              autoComplete="given-name"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+      )}
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

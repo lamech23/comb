@@ -61,6 +61,7 @@ import AddingHouse from "./user/AddingHouse";
 import Category from "./Admin/Category";
 import BilWater from "./Renting/BillWater";
 import AdditinalPaymants from "./Renting/AdditinalPaymants";
+import PropertType from "./Admin/PropertType";
 
 function App() {
   // const { user } = useAuthContext();
@@ -129,6 +130,7 @@ function App() {
             <Route path="/category" element={<Category />} />
             <Route path="/addtionalPayments/:houseName" element={<AdditinalPaymants />} />
             <Route path="/payments/:houseName" element={<BilWater />} />
+            <Route path="/propertyType" element={<PropertType />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

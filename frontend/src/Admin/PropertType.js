@@ -1,71 +1,54 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function Category() {
-  const [name, setName] = useState("");
+function PropertType() {
+  const [type, setType] = useState([]);
   const [category, setCategory] = useState([]);
 
   const handleSbubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post("http://localhost:4000/cat/", {
-      name: name,
+    const response = await axios.post("http://localhost:4000/type/", {
+      type: type,
     });
     if (response) {
-      setName("");
+      setType("");
     }
   };
 
-  const fetchCategories = async () => {
-    const response = await axios.get("http://localhost:4000/cat/fetch");
+  const fetchPropertyType = async () => {
+    const response = await axios.get("http://localhost:4000/type/fetch");
     setCategory(response.data);
   };
   useEffect(() => {
-    fetchCategories();
+    fetchPropertyType();
   }, []);
-
-  const deleteCat = async (id) => {
-    try {
-      console.log(id);
-      const res = await axios.delete(`http://localhost:4000/cat/${id}`);
-      
-      if (res.status === 200) {
-        fetchCategories();
-        console.log('Category deleted successfully');
-      } else {
-        console.error('Failed to delete category:', res.statusText);
-      }
-    } catch (error) {
-      console.error('Error deleting category:', error.message);
-    }
-  };
-  
 
   return (
     <>
-      <form clas onSubmit={handleSbubmit}>
+      <form onSubmit={handleSbubmit}>
         <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 lg:grid-cols-12">
           <div class="sm:col-span-4">
             <label
               for="username"
               class="block text-sm font-medium leading-6 text-gray-900"
             >
-              category{" "}
+              propertyType{" "}
             </label>
             <div class="mt-2">
               <div class="flex gap-3 rounded-md shadow-sm ring-1 ring-inset ring-white focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-lg">
                 <span class="flex select-none items-center pl-6 text-black sm:text-sm">
-                  category
+                  type
                 </span>
                 <input
                   type="text"
                   name="username"
                   id="username"
-                  value={name}
                   autocomplete="username"
                   class="block flex-1 border-2  py-1.5 pl-5 text-black placeholder:text-white focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="mansionet"
-                  onChange={(e) => setName(e.target.value)}
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
                 />
               </div>
             </div>
@@ -88,8 +71,6 @@ function Category() {
         </div>
       </form>
 
-      {/* table Section  */}
-
       <div className="overflow-x-auto mt-20">
         <p className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
           {" "}
@@ -102,7 +83,7 @@ function Category() {
                 id
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Name of Birth
+                type
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 edit
@@ -115,14 +96,13 @@ function Category() {
 
           <tbody className="divide-y divide-gray-200">
             {category &&
-              category.map((cat) => (
-                <tr key={cat.id}>
+              category.map((type) => (
+                <tr key={type.id}>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {" "}
-                    {cat.id}
+                    {type.id}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    {cat.name}
+                    {type.type}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                     <button class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-green-500 hover:text-gray-700 focus:relative">
@@ -149,10 +129,7 @@ function Category() {
                     </button>
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    <button
-                      class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative"
-                      onClick={deleteCat}
-                    >
+                    <button class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -179,4 +156,4 @@ function Category() {
   );
 }
 
-export default Category;
+export default PropertType;

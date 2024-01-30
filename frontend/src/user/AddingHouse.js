@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -16,6 +16,8 @@ function AddingHouse() {
   let navigate = useNavigate();
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
+  const [cat, setCat] = useState([]);
+  console.log(cat);
 
   const handleCancle = () => {
     setStatus(false);
@@ -102,6 +104,14 @@ function AddingHouse() {
       }
     }
   };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await axios.get("http://localhost:4000/cat/fetch");
+      setCat(response.data);
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <form onSubmit={handelSubmit}>
@@ -256,12 +266,36 @@ function AddingHouse() {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    {" "}
                     <option selected> select category </option>
-                    <option value="maisonette">Maisonette</option>
-                    <option value="Bungalow">Bungalow</option>
-                    <option value="Apartments">Apartments</option>
-                    <option value="Others">Others</option>
+
+                    {cat &&
+                      cat?.map((cat, index) => (
+                        <option value={cat.name} key={index}>
+                          {cat.name}
+                        </option>
+                      ))}
+                  
+                  </select>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label
+                  for="price"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Aspect{" "}
+                </label>
+                <div class="mt-2">
+                  <select
+                    className="form-control"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    {" "}
+                    <option selected> select aspect </option>
+                    <option value="maisonette">renting</option>
+                    <option value="Bungalow">selling</option>
                   </select>
                 </div>
               </div>

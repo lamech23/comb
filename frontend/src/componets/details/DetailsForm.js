@@ -17,7 +17,9 @@ function DetailsForm() {
   const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
   const { id } = useParams();
-  console.log(image);
+  const [cat, setCat] = useState([]);
+  console.log(cat);
+
 
 
   // const handelImage = async (e) => {
@@ -114,6 +116,14 @@ function DetailsForm() {
     }
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await axios.get("http://localhost:4000/cat/fetch");
+      setCat(response.data);
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <div className="container-lg">
       <div className=" row justify-content-center ">
@@ -139,12 +149,17 @@ function DetailsForm() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              {" "}
-              <option selected>please select</option>
+              {
+                category && category.map((cat, index)=> (
+                  <option key={index}>{cat}</option>
+                 ))
+
+              }
+              {/* <option selected>please select</option>
               <option value="maisonette">Maisonette</option>
               <option value="Bungalow">Bungalow</option>
               <option value="Apartments">Apartments</option>
-              <option value="Others">Others</option>
+              <option value="Others">Others</option> */}
             </select>
 
             <label className="label-control">title</label>

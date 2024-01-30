@@ -20,6 +20,7 @@ const image=require('./Routes/imageRoute.js')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
 const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
+const createCategory=require('./Routes/category.js')
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
 const app = express()
@@ -82,6 +83,8 @@ app.use('/houseRegister',houseRegisration)
 app.use('/water',waters)
 app.use('/Tenant',TenantRegistering)
 app.use('/images',image)
+app.use('/cat',createCategory)
+
 
 
 

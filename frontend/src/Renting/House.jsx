@@ -78,7 +78,6 @@ function House() {
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
-        getWaterRates();
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -94,7 +93,6 @@ function House() {
       document.querySelector("#content").style.display = "block";
     }
   };
-
   // getting water retes
   useEffect(() => {
     const getWaterRates = async () => {
@@ -119,7 +117,6 @@ function House() {
     };
     getPayments();
   }, [tenant]);
-  console.log(payments);
 
   return (
     <>

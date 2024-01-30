@@ -114,7 +114,7 @@ function MoreDetails() {
   };
 
   const getMore = async () => {
-    const response = await axios.get(`http://localhost:4000/Details/` + id);
+    const response = await axios.get(`http://localhost:4000/Details/`+id);
     setImage(response.data.images);
     setTitle(response.data.title);
     setLocation(response.data.location);
@@ -134,7 +134,7 @@ function MoreDetails() {
     }
   };
   function handleCategoryChange(event) {
-    setCategory(event.target.getAttribute("data-category")); // update category state when user selects an option
+    setCategory(event.target.getAttribute("data-category")); 
   }
   return (
     <>
@@ -156,7 +156,7 @@ function MoreDetails() {
                         src={imageUrl.image}
                         className=" block w-full rounded-lg "
                             width="250px"
-                            // height="250px"
+                            height="250px"
                         alt={`Image ${index}`}
                       />
                     </div>

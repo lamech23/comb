@@ -47,23 +47,34 @@ const requireAuth = async (req, res, next) => {
 const isAdmin = (req, res, next) => {
   try {
     const { authorization } = req.headers;
+
     if (!authorization) {
-      res.redirect("/");
-      return res.status(401).json({ error: "Authorization token required" });
-
+      // Redirect and return immediately
+      return res.redirect("/");
     }
+
     const token = authorization.split(" ")[1];
-    const Admin = jwt.verify(token, process.env.SECRET);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
 
-    if (Admin.role.includes("Admin")) {
+    if (decodedToken.role && decodedToken.role.includes("Admin")) {
+      // if  User is an admin, continue to the next middleware
       next();
+    } else {
+      // User is not an admin, respond accordingly
+      return res.status(403).json({ error: "You do not have permission to access this resource" });
+      // Alternatively, you can redirect to a different page
+      // return res.redirect("/");
     }
-  } catch (error) {
-    res.status(401).json({ error: "Request is not authorized" });
-    res.redirect("/");
 
+  } catch (error) {
+    // Token verification failed, respond accordingly
+    console.error("Token verification failed:", error);
+    return res.status(401).json({ error: "Request is not authorized" });
+    // Alternatively, you can redirect to a login page
+    // return res.redirect("/login");
   }
 };
+
 
 const checkIfOwner = async (req, res, next) => {
   try {

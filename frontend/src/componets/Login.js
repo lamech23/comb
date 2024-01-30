@@ -96,7 +96,6 @@ function Login() {
             }
           });
      
-        console.log(res);
       }
     } catch (error) {
       if (error.response?.status === 403) {

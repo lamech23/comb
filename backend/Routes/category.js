@@ -9,7 +9,7 @@ const {
 
 const CategoryRoutes = express.Router();
 
-CategoryRoutes.get("/", getAllCategory);
+CategoryRoutes.get("/fetch", getAllCategory);
 CategoryRoutes.post("/", createCategory);
 CategoryRoutes.patch("/:id", updateCategory);
 CategoryRoutes.delete("/:id", deleteCategory);

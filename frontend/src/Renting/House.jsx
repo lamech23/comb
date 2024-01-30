@@ -27,9 +27,10 @@ function House() {
 
   const getHouse = async () => {
     const response = await axios.get(
-      `http://localhost:4000/houseRegister/houseNames/`
+      `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
+    console.log(response.data);
   };
 
   useEffect(() => {
@@ -55,9 +56,8 @@ function House() {
 
   // creating water reading
   const visitedHouseId = house?.find(
-    (house) => house.house_name === houseName
+    (house) => house.houseName === houseName
   )?.id;
-
   const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
@@ -128,7 +128,10 @@ function House() {
           </div>
           <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
-            LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
+            LANDOWNER: <p className="text-red-400">
+            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
+
+            </p>
           </div>
 
           <table

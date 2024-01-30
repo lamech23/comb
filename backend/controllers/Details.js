@@ -25,7 +25,6 @@ const getAllHouses = async (req, res) => {
     const pageNumbers = [];
 
     const totalCount = await Details.count();
-    console.log();
     const currentPage = req.query.page || 1 
     const postPerPage = 4;
     const totalPages = Math.ceil(totalCount / postPerPage);
@@ -56,6 +55,24 @@ const getAllHouses = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+
+const getAllHousesByName = async (req, res) => {
+  try {
+    const details = await Details.findAll({
+
+      include: {
+        model: users,
+        as: "houses",
+      },
+    });
+    res.status(200).send(details);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
@@ -329,4 +346,5 @@ module.exports = {
   getAllHouses,
   RequstingAtour,
   getAllTours,
+  getAllHousesByName
 };

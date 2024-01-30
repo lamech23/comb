@@ -7,10 +7,9 @@ function AllHouses() {
 
   const getHouse = async () => {
     const response = await axios.get(
-      `http://localhost:4000/houseRegister/houseNames/`
+      `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
-    console.log(response);
   };
   useEffect(() => {
     // getSpecificHouse();
@@ -24,9 +23,9 @@ function AllHouses() {
           <div key={index} value={item}>
             <Link
               className="no-underline text-gray-700"
-              to={`/House/${item.house_name}`}
+              to={`/House/${item.houseName}`}
             >
-              {item.house_name}
+              {item.houseName}
             </Link>
             {/* <Link to={"/House"}>
 

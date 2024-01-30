@@ -50,7 +50,7 @@ function RegisterTenant() {
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
-        `http://localhost:4000/houseRegister/houseNames/`
+        `http://localhost:4000/Details/fetchHousesByName/`
       );
       setHouse(response.data);
     };
@@ -230,7 +230,7 @@ function RegisterTenant() {
                       key={houses.id}
                       value={houses.email}
                     >
-                      {houses.house_name}{" "}
+                      {houses.houseName}{" "}
                     </option>
                   ))}
                 </select>

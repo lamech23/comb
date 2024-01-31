@@ -6,6 +6,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { usePDF } from "react-to-pdf";
+import RegisterTenant from "./RegisterTenant";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -416,6 +417,7 @@ function House() {
         pauseOnHover
         theme="colored"
       />
+      <RegisterTenant/>
     </>
   );
 }

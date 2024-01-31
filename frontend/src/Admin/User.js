@@ -105,8 +105,7 @@ function User() {
                 <Link
                   to={`/UpdateUser/${allUsers.id}`}
                   type="button"
-                  className="material-symbols-outlined text-decoration-none"
-                  style={{ color: "blue" }}
+                  className="material-symbols-outlined text-decoration-none text-green-700"
                 >
                   edit
                 </Link>

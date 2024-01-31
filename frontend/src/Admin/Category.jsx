@@ -43,6 +43,7 @@ function Category() {
 
   return (
     <>
+    
       <form clas onSubmit={handleSbubmit}>
         <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 lg:grid-cols-12">
           <div class="sm:col-span-4">

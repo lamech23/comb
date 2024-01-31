@@ -18,6 +18,7 @@ function House() {
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
+  console.log(houseName);
 
   // water bill total
   const waterUnits = getWater
@@ -57,7 +58,7 @@ function House() {
 
   // creating water reading
   const visitedHouseId = house?.find(
-    (house) => house.houseName === houseName
+    (house) => house?.houseName === houseName
   )?.id;
   const createWater = async (e) => {
     e.preventDefault();

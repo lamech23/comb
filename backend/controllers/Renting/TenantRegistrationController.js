@@ -40,7 +40,7 @@ const tenatRegistration = async (req, res) => {
       nextOfKingNumber,
       prevReadings,
       payableRent,
-      // house_id,
+      houseId: req.params.houseId,
     });
     res.status(200).json(tenant);
   } catch (error) {

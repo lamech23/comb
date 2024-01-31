@@ -41,7 +41,6 @@ const getAllHouses = async (req, res) => {
       pageNumbers.push(i);
     }
 
-    console.log(pageNumbers);
     res.status(200).json({
       allHousesWithImage,
       pagination: {
@@ -77,10 +76,8 @@ const getAllHousesByName = async (req, res) => {
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-    //const user_id = req.query.user_id;
 
     const user_id = 1;
-
     const details = await Details.findAll({
       where: {
         user_id: user_id,

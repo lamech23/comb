@@ -20,6 +20,7 @@ function AddingHouse() {
   const [propertyType, setPropertyType] = useState([]);
   const [houseName, setHouseName] = useState("");
   const [type, setType] = useState("");
+  console.log(cat);
 
   const handleCancle = () => {
     setStatus(false);
@@ -280,12 +281,9 @@ function AddingHouse() {
                     <option selected> select category </option>
                     {cat &&
                       cat?.map((cat, index) =>
-                        (user.role === "landowner" || user.role === "Admin") &&
-                        cat.name === "renting" ? (
                           <option value={cat.name} key={index}>
                             {cat.name}
                           </option>
-                        ) : null
                       )}
                   </select>
                 </div>
@@ -316,7 +314,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" && user?.role === "landowner" && (
+              {type === "renting" &&
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -337,7 +335,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              )}
+              }
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

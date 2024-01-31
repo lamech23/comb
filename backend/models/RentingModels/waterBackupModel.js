@@ -21,7 +21,7 @@ const waterStore = db.define(
       type: DataTypes.INTEGER,
     },
     EntryDate : {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
   },
   {

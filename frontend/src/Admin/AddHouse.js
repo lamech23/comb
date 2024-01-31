@@ -76,9 +76,7 @@ function AddHouse() {
 
         setStatus(false);
         toast.success("Added succesfuly ");
-        {
-          navigate("/");
-        }
+
 
         // const json = await response.json()
 
@@ -313,7 +311,7 @@ function AddHouse() {
                 </div>
               </div>
 
-              {type === "renting" && user?.role === "landowner" && (
+              {type === "renting" &&
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -334,7 +332,7 @@ function AddHouse() {
                     />
                   </div>
                 </div>
-              )}
+              }
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

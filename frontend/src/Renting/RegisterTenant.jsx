@@ -55,6 +55,8 @@ function RegisterTenant() {
       setHouse(response.data);
     };
     getHouse();
+
+
     const fetchUsers = async () => {
       const response = await axios.get("http://localhost:4000/Users/all");
       setUsers(response.data);
@@ -120,6 +122,7 @@ function RegisterTenant() {
           previousBalance: previousBalance,
           prevReadings: prevReadings,
           payableRent: payableRent,
+          // houseId:
         }
       );
       if (response) {

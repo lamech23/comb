@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../../config/Database");
 const HouseRegistration = require("../RentingModels/HouseRegisteringModel");
+const Details = require("../UploadModals");
 
 const tenantRegistration = db.define(
   "tenant_info",
@@ -41,9 +42,7 @@ const tenantRegistration = db.define(
     previousBalance: {
       type: DataTypes.BIGINT,
     },
-    houseName: {
-      type: DataTypes.STRING,
-    },
+
     phoneNumber: {
       type: DataTypes.STRING,
     },
@@ -51,20 +50,20 @@ const tenantRegistration = db.define(
       type: DataTypes.STRING,
     },
 
-    house_id: {
-      type: DataTypes.INTEGER,
+    prevReadings: {
+      type: DataTypes.STRING,
     },
-    prevReadings:{
-      type: DataTypes.STRING
-    },
-    currentReadings:{
+    currentReadings: {
       type: DataTypes.STRING,
       defaultValue: 0,
-
     },
-    entryDate:{
-      type: DataTypes.DATE
-    }
+    houseId: {
+      type: DataTypes.INTEGER,
+    },
+
+    rentPaymentDate: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTablesName: true,
@@ -72,10 +71,14 @@ const tenantRegistration = db.define(
   }
 );
 
-
-
-tenantRegistration.belongsTo(HouseRegistration, {
-  foreignKey: "house_id",
+tenantRegistration.belongsTo(Details, {
+  foreignKey: "houseId",
+  as: "tenentHouse",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
+Details.hasMany(tenantRegistration, {
+  foreignKey: "houseId",
   as: "tenentHouse",
   onDelete: "cascade",
   onUpdate: "cascade",

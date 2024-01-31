@@ -11,7 +11,8 @@ const {
     BnBHouse,
     grtDetailsById,
     getAllHouses,
-    getAllTours 
+    getAllTours ,
+    getAllHousesByName
     
     
 }=require('../controllers/Details')
@@ -30,6 +31,7 @@ router.post('/',requireAuth, imageUpload, createDetails)
 
  // GET all uploads 
  router.get('/allHouses', getAllHouses)
+ router.get('/fetchHousesByName', getAllHousesByName)
  router.get('/', getAllDetails)
  router.get('/Bungalow',  ownCompound)
  router.get('/Maisonette',  RentalHouse)
@@ -39,6 +41,8 @@ router.post('/',requireAuth, imageUpload, createDetails)
  
  //Get a single upload 
 router.get('/:id', getSingelDetails)
+  //Testing Route
+  router.get('/byId', getSingelDetails)
 
  //DELETE an upload
  router.delete('/:id', isAdmin ,deleteDetails)

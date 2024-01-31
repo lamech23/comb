@@ -14,6 +14,7 @@ import HelpCenterAdmin from "./HelpCenterAdmin";
 import Stats from "./Stats";
 import AllHouses from "../Renting/AllHouses";
 import Category from "./Category";
+import PropertType from "./PropertType";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
@@ -191,6 +192,28 @@ function SideNavigation() {
           </button>
         </div>
 
+
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            category
+          </i>
+          <button
+            className={` py-2 px-4 my-2   w-full text-gray-200
+               ${
+                 activeSection === "propertyType"
+                   ? "bg-teal-500  justify-center items-center border-r-4"
+                   : ""
+               }
+               `}
+            onClick={() => setActiveSection("propertyType")}
+            id="link"
+          >
+            propter Type
+          </button>
+        </div>
+
+
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
@@ -272,7 +295,7 @@ function SideNavigation() {
 
       </div>
 
-      <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
+      <div className="p-5 w-full h-fit overflow-y-scroll hide-scrollbar ">
         <div className="p-5 w-full">
           <div className=" bg-gray-100 p-4  rounded-lg max-w-full">
             {activeSection === "stats" && <Stats />}
@@ -287,6 +310,7 @@ function SideNavigation() {
             {activeSection === "House" && <House />}
             {activeSection === "allHouses" && <AllHouses />}
             {activeSection === "category" && <Category />}
+            {activeSection === "propertyType" && <PropertType />}
           </div>
         </div>
       </div>

@@ -5,36 +5,89 @@ const users = require("../models/UserModels.js");
 const fs = require("fs");
 const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
+const tty = require("tty");
+const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
 const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {
-    const details = await imageUrl.findAll({
-      offset: 0,
+    const offset = req.query.page ? (req.query.page - 1) * page_size : 0;
+    const allHousesWithImage = await Details.findAll({
+      offset: offset,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-      include:{
-        model:Details, 
-        as:"details"
-      }
-   
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
     });
+    const pageNumbers = [];
 
-    res.status(200).json(details);
+    const totalCount = await Details.count();
+    const currentPage = req.query.page || 1 
+    const postPerPage = 4;
+    const totalPages = Math.ceil(totalCount / postPerPage);
+
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPosts = allHousesWithImage?.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
+
+    console.log(currentPosts.length);
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    console.log(pageNumbers);
+    res.status(200).json({
+      allHousesWithImage,
+      pagination: {
+        pageNumbers,
+        currentPosts,
+        currentPage,
+      },
+    });
   } catch (error) {
-    res.status(500);
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+
+const getAllHousesByName = async (req, res) => {
+  try {
+    const details = await Details.findAll({
+
+      include: {
+        model: users,
+        as: "houses",
+      },
+    });
+    res.status(200).send(details);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    //const user_id = req.query.user_id;
+
+    const user_id = 1;
 
     const details = await Details.findAll({
       where: {
         user_id: user_id,
+      },
+      include: {
+        model: imageUrl,
+        as: "images",
       },
     });
     res.status(200).json(details);
@@ -53,6 +106,7 @@ const ownCompound = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const RentalHouse = async (req, res) => {
   try {
     let Maisonette = await Details.findAll({
@@ -63,6 +117,7 @@ const RentalHouse = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const BnBHouse = async (req, res) => {
   try {
     let Apartments = await Details.findAll({
@@ -76,27 +131,23 @@ const BnBHouse = async (req, res) => {
 
 //Get a single upload
 const getSingelDetails = async (req, res) => {
-  const id = 1
-  const details = await imageUrl.findAll({
+  try {
+    const id = req.params.id;
+    const details = await Details.findOne({
+      where: { id: id },
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
+    });
 
-    where: { details_id: id },
-    include:{
-      model:Details,
-      as: "details",
-
-    }
-  });
-
-  const images = details.map((img)=> img.image)
-  if(images){
-      res.status(200).json({
-        ...details,
-        images
-      });
-  } else{
-    return res.status(404).json({ error: "Details does not exist" }); // the  reason why am returning is because it will carry on and fire the code
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Cant get the single details for " });
   }
 };
+
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
@@ -112,24 +163,29 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
+    houseName: req.body.houseName,
+    type: req.body.type,
     user_id: user_id,
     details_id: imageUrl.id,
   };
 
   try {
+    const details = await Details.create(info);
 
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({
         image: `${baseUrl}/${req.files[i].path}`,
         user_id: user_id,
-        details_id: imageInfo.id,
+        details_id: details.id,
       });
 
       imageUrls.push(imagePath);
     }
+
     res.status(200).json({
       success: true,
       data: imageUrls,
+      data: details,
     });
 
     await users.findOne({ where: { id: id } });
@@ -140,8 +196,8 @@ const createDetails = async (req, res) => {
         pass: "fdbmegjxghvigklv",
       },
     });
-    //email option
 
+    //email option
     const mailOption = {
       to: `lamechcruze@gmail.com`,
       subject: "Post Alert ",
@@ -290,4 +346,5 @@ module.exports = {
   getAllHouses,
   RequstingAtour,
   getAllTours,
+  getAllHousesByName
 };

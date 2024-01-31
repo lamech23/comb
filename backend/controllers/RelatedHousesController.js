@@ -1,5 +1,6 @@
 const Details = require("../models/UploadModals.js");
 const { Op } = require("sequelize");
+const imageUrl = require("../models/imageModel.js");
 
 const relatedHouses = async (req, res) => {
   const q = req.query.category;
@@ -9,6 +10,10 @@ const relatedHouses = async (req, res) => {
         category: {
           [Op.eq]: q,
         },
+      },
+      include: {
+        model: imageUrl,
+        as: "images",
       },
     });
 

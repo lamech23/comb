@@ -1,12 +1,12 @@
 const HouseRegistration = require("../../models/RentingModels/HouseRegisteringModel");
 const tenantRegistration = require("../../models/RentingModels/RegisterTenantModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const water = require("../../models/RentingModels/waterModel");
+const Details = require("../../models/UploadModals");
 
 // const users = require("../../models/UserModels.js");
 
@@ -39,7 +39,6 @@ const getAllHouses = async (req, res) => {
         ].reduce((acc, currentValue) => acc + currentValue, 0) -
         Number(detail.payableRent);
 
-      console.log("this balance", balance);
       return {
         ...detail.dataValues,
         totalExpenses,
@@ -167,20 +166,21 @@ const creatHouseCategory = async (req, res) => {
   }
 };
 
-const getAll = async (req, res) => {
+const getAllHousesByName = async (req, res) => {
   try {
-    const details = await houseName.findAll({
+    const details = await Details.findAll({
+
       include: {
         model: users,
-        as: "houseName",
+        as: "houses",
       },
     });
     res.status(200).send(details);
-    console.log("this is the house", details);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const getHouseByHouseName = async (req, res) => {
   try {
@@ -204,7 +204,7 @@ module.exports = {
   getAllHouses,
   subtotal,
   creatHouseCategory,
-  getAll,
+  getAllHousesByName,
   getTenantForTenantRegistration,
   getHouseByHouseName,
 };

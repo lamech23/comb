@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/Database");
 const users = require("./UserModels");
-const Details = require("./UploadModals");
+const Details = require("./UploadModals")
 
 const imageUrl = db.define(
   "imageUrl",
@@ -21,15 +21,13 @@ const imageUrl = db.define(
     freezeTablesName: true,
   }
 );
+
 imageUrl.belongsTo(users, {
   foreignKey: "user_id",
   as: "imagePath",
   onDelete: "cascade",
   onUpdate: "cascade",
 });
-
-
-
 
 
 

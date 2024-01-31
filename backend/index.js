@@ -20,25 +20,27 @@ const image=require('./Routes/imageRoute.js')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
 const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
+const createCategory=require('./Routes/category.js')
+const propertyType=require('./Routes/propertyType.js')
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
 const app = express()
 const fs = require('fs');
 const http = require("http");
 const CLIENT_URL = process.env.CLIENT_URL;
-const socketConfiguration = require("./configs/socketConfiig.js")
+const socketConfiguration = require("./configs/socketConfiig.js");
 
-app.use(cors())
+app.use(cors());
 
- // middleware to look if the req has some body to it if true passed on to req to the object
+// middleware to look if the req has some body to it if true passed on to req to the object
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // routes for postman testing
 //static
-app.use(cookieParser())
-app.use('/Images', express.static('./Images'))
+app.use(cookieParser());
+app.use("/Images", express.static("./Images"));
 
 
 const server = http.createServer(app);
@@ -54,13 +56,13 @@ try{
 }catch(err){
     console.log('Connection error')
 }
-    // routes
+// routes
 
- //middleware    
-app.use((req ,res ,next)=>{
-  console.log(req.path ,req.body, req.method)
-  next()
-})
+//middleware
+app.use((req, res, next) => {
+  console.log(req.path, req.body, req.method);
+  next();
+});
 
 //socket connection 
 socketConfiguration(server, CLIENT_URL);
@@ -82,6 +84,9 @@ app.use('/houseRegister',houseRegisration)
 app.use('/water',waters)
 app.use('/Tenant',TenantRegistering)
 app.use('/images',image)
+app.use('/cat',createCategory)
+app.use('/type',propertyType)
+
 
 
 

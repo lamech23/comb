@@ -10,7 +10,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 function MoreDetails() {
   const { user } = useAuthContext();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
@@ -31,6 +31,7 @@ function MoreDetails() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [tour_id, setTour_id] = useState("");
+  
 
   const setDate = (date) => {
     if (date < new Date()) {
@@ -113,7 +114,7 @@ function MoreDetails() {
   };
 
   const getMore = async () => {
-    const response = await axios.get(`http://localhost:4000/Details/` + id);
+    const response = await axios.get(`http://localhost:4000/Details/`+id);
     setImage(response.data.images);
     setTitle(response.data.title);
     setLocation(response.data.location);
@@ -133,7 +134,7 @@ function MoreDetails() {
     }
   };
   function handleCategoryChange(event) {
-    setCategory(event.target.getAttribute("data-category")); // update category state when user selects an option
+    setCategory(event.target.getAttribute("data-category")); 
   }
   return (
     <>
@@ -146,23 +147,21 @@ function MoreDetails() {
 
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
           <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
-            <div
-              className=" flex-1 "
-            >
+            <div className=" flex-1 ">
               <Carousel>
-                {image &&
+                {
                   image?.map((imageUrl, index) => (
                     <div key={index}>
                       <img
-                        src={imageUrl}
+                        src={imageUrl.image}
                         className=" block w-full rounded-lg "
+                            width="250px"
+                            height="250px"
                         alt={`Image ${index}`}
                       />
                     </div>
                   ))}
               </Carousel>
-
-         
             </div>
 
             <div className="col-8 col-lg-4 text-center text-md-start    ms-5 mt-5">

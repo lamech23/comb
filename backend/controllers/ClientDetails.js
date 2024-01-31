@@ -2,7 +2,6 @@ const Tour = require("../models/TourRequestModel.js");
 
 const CreateClientInfo = async (req, res) => {
   // const {first_name,second_name,phoneNumber,id_number,postal_address,gender}=req.body
-
   const clientInfo = {
     first_name: req.body.first_name,
     second_name: req.body.second_name,

@@ -7,7 +7,7 @@ function AllHouses() {
 
   const getHouse = async () => {
     const response = await axios.get(
-      `http://localhost:4000/houseRegister/houseNames/`
+      `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
   };
@@ -21,7 +21,12 @@ function AllHouses() {
       {house.map((item, index) => {
         return (
           <div key={index} value={item}>
-            <Link className="no-underline text-gray-700" to={`/House/${item.house_name}`}>{item.house_name}</Link>
+            <Link
+              className="no-underline text-gray-700"
+              to={`/House/${item.houseName}`}
+            >
+              {item.houseName}
+            </Link>
             {/* <Link to={"/House"}>
 
                 </Link> */}

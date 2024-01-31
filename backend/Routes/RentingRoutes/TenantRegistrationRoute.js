@@ -19,4 +19,4 @@ router.patch('/change/:id',requireAuth, tentantUpdating)
 router.put('/updateWaterBill',  updateWaterBill)
 router.get('/fetchPayment/',  getPayments)
 
-module.exports=router
+module.exports= router ;

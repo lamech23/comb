@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
       res.status(400).json({ succes: false, error: "invalid email" });
     }
 
-    if (user.Active == "inActive") {
+    if (user.active == "active") {
       // check the status of the user if he or she is inActive he is consider a forbiden user
       return res.status(403).json({ error: "your account is not activated" });
     }
@@ -120,7 +120,7 @@ const deactivate = async (req, res) => {
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
     if (userEmail === 0) {
-      return res.status(400).json({ msg: "nop" });
+      return res.status(400).json({ error: error.message });
     }
     res.status(200).json(userEmail);
   } catch (error) {

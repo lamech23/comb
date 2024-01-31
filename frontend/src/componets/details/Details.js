@@ -20,7 +20,9 @@ const Details = () => {
   const [postsPerPage] = useState(4);
   const [details, setDetails] = useState([]);
   const [query, setQuery] = useState("");
-  console.log(details);
+  const [pagination, setPagination] =useState({})
+  console.log(pagination);
+  console.log(pagination);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));
@@ -54,22 +56,20 @@ const Details = () => {
 
   const fetchDetails = async () => {
     const response = await axios.get("http://localhost:4000/Details/allHouses");
-    setDetails(response.data);
+    setDetails(response.data.allHousesWithImage);
+    setPagination(response.data?.pagination );
+
     setIsLoading(false);
   };
 
-  // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
+  
 
-  console.log(currentPosts);
+  const handleChangePage = (pageNumber)=>{
+    setPagination(pageNumber);
 
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  }
 
-  // Get current posts
-
+  
   return (
     <>
       <div className="container-fixed mb-5">
@@ -79,23 +79,32 @@ const Details = () => {
               <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
             </div>
           ) : (
-            currentPosts?.map((detail) => (
+             pagination?.currentPage  && 
+
+            pagination?.currentPosts?.map((detail, index) => (
               <div
-                key={detail.id}
-                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between    "
+                key={index}
+                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between "
                 style={{ width: "350px" }}
               >
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
                   <a href="#">
-                    <img
-                      id="detsImg"
-                      className="w-fit mt-2 mb-3"
-                      src={detail.image}
-                      width="250px"
-                      height="250px"
-                      style={{ borderRadius: "2px" }}
-                      alt=""
-                    />{" "}
+                  
+                    {detail?.images?.map(
+                      (img, imgIndex) =>
+                        imgIndex === 0 && (
+                          <img
+                            key={imgIndex}
+                            id="detsImg"
+                            className="w-fit mt-2 mb-3"
+                            src={img.image}
+                            width="250px"
+                            height="250px"
+                            style={{ borderRadius: "2px" }}
+                            alt=""
+                          />
+                        )
+                    )}
                   </a>
                   <div class="p-5 ">
                     <a href="#">
@@ -110,18 +119,18 @@ const Details = () => {
                       {detail.contact}
                     </p>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail?.details.locaton}
+                      {detail?.details?.locaton}
                     </p>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                       {detail.price}
                     </p>
 
                     <p className="mb-3 font-normal text-red-700 dark:text-red-400">
-                      <strong>
+                      {/* <strong>
                         {formatDistanceToNow(new Date(detail.createdAt), {
                           addSuffix: true,
                         })}
-                      </strong>
+                      </strong> */}
                     </p>
                     <Link
                       to={`/MoreDetails/${detail.id}`}
@@ -149,14 +158,23 @@ const Details = () => {
               </div>
             ))
           )}
+
         </div>
       </div>
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={details.length}
-        paginate={paginate}
-        details={currentPosts}
-      />
+      
+
+     <div className="flex flex-row justify-center items-center">
+    
+         { 
+        pagination?.pageNumbers?.map((number) => (
+          <div key={number} className="">
+            <a onClick={() => handleChangePage(number)} className="page-link ">
+              {number}
+             </a> 
+          </div> 
+        ))}
+
+     </div>
 
       <ToastContainer
         position="bottom-center"

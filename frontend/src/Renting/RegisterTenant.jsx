@@ -12,7 +12,7 @@ function RegisterTenant() {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
   // const user = document.cookie
-  const {user} =useAuthContext()
+  const { user } = useAuthContext();
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
@@ -38,19 +38,19 @@ function RegisterTenant() {
   const [previousBalance, setPreviousBalance] = useState(
     state?.previousBalance || ""
   );
-  const [house_id, setHouseId]=useState(state?.houseName || "")
+  const [house_id, setHouseId] = useState(state?.houseName || "");
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [payableRent, setPaybleRent] = useState( state?.payableRent || "");
+  const [payableRent, setPaybleRent] = useState(state?.payableRent || "");
   // console.log(payableRent);
 
   const tenantInfo = [...users];
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
-        `http://localhost:4000/houseRegister/houseNames/`
+        `http://localhost:4000/Details/fetchHousesByName/`
       );
       setHouse(response.data);
     };
@@ -67,80 +67,83 @@ function RegisterTenant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    if(state){
-     await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
-        tenantsName: tenantsName,
-        houseNumber: houseNumber,
-        rent: rent,
-        email: email,
-        rentDeposit: rentDeposit,
-        password: password,
-        waterReading: waterReading,
-        waterBill: waterBill,
-        garbage: garbage,
-        userName: userName,
-        phoneNumber: phoneNumber,
-        nextOfKingNumber: nextOfKingNumber,
-        houseName: houseName,
-        previousBalance: previousBalance,
-        prevReadings: prevReadings,
-        currentReadings: currentReadings,
-        house_id: house_id,
-        tenant_id: id
-      },  
-       {
-        headers: {
-          authorization: ` Bearer ${user?.token}`,
-          Accept: "application/json",
-        }});
-      // navigate(`House/${houseName}`)
-      toast.success("Succesfully upadated");
-    } else {
-    }
-    const response = await axios.post(
-      "http://localhost:4000/Tenant/registerTenant",
-      {
-        tenantsName: tenantsName,
-        houseNumber: houseNumber,
-        rent: rent,
-        email: email,
-        rentDeposit: rentDeposit,
-        password: password,
-        waterReading: waterReading,
-        waterBill: waterBill,
-        garbage: garbage,
-        userName: userName,
-        phoneNumber: phoneNumber,
-        nextOfKingNumber: nextOfKingNumber,
-        houseName: houseName,
-        previousBalance: previousBalance,
-        prevReadings: prevReadings,
-        payableRent:payableRent
-
+      if (state) {
+        await axios.patch(
+          `http://localhost:4000/Tenant/change/${id}`,
+          {
+            tenantsName: tenantsName,
+            houseNumber: houseNumber,
+            rent: rent,
+            email: email,
+            rentDeposit: rentDeposit,
+            password: password,
+            waterReading: waterReading,
+            waterBill: waterBill,
+            garbage: garbage,
+            userName: userName,
+            phoneNumber: phoneNumber,
+            nextOfKingNumber: nextOfKingNumber,
+            houseName: houseName,
+            previousBalance: previousBalance,
+            prevReadings: prevReadings,
+            currentReadings: currentReadings,
+            house_id: house_id,
+            tenant_id: id,
+          },
+          {
+            headers: {
+              authorization: ` Bearer ${user?.token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        // navigate(`House/${houseName}`)
+        toast.success("Succesfully upadated");
+      } else {
       }
-    );
-    if (response) {
-      setTenantsName("");
-      setHouseName("");
-      setRent("");
-      setEmail("");
-      setRentDeposit("");
-      setWaterReadiing("");
-      setWaterBill("");
-      setGarbage("");
-      setUserName("");
-      setNextOfKingNumber("");
-      setHouse("");
-      setPreviousBalance("");
-    }
+      const response = await axios.post(
+        "http://localhost:4000/Tenant/registerTenant",
+        {
+          tenantsName: tenantsName,
+          houseNumber: houseNumber,
+          rent: rent,
+          email: email,
+          rentDeposit: rentDeposit,
+          password: password,
+          waterReading: waterReading,
+          waterBill: waterBill,
+          garbage: garbage,
+          userName: userName,
+          phoneNumber: phoneNumber,
+          nextOfKingNumber: nextOfKingNumber,
+          houseName: houseName,
+          previousBalance: previousBalance,
+          prevReadings: prevReadings,
+          payableRent: payableRent,
+        }
+      );
+      if (response) {
+        setTenantsName("");
+        setHouseName("");
+        setRent("");
+        setEmail("");
+        setRentDeposit("");
+        setWaterReadiing("");
+        setWaterBill("");
+        setGarbage("");
+        setUserName("");
+        setNextOfKingNumber("");
+        setHouse("");
+        setPreviousBalance("");
+      }
 
-    toast.success("Succesfully registerd tenant");
-  } catch (error) {
-    // Handle errors here
-    console.error("Error occurred:", error.message);
-    toast.error("An error occurred. Please try again later.");
-  }
-};
+      toast.success("Succesfully registerd tenant");
+    } catch (error) {
+      // Handle errors here
+      console.error("Error occurred:", error.message);
+      toast.error("An error occurred. Please try again later.");
+    }
+  };
 
   return (
     <>
@@ -150,9 +153,7 @@ function RegisterTenant() {
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
-
-
-            <div class="sm:col-span-3">
+              <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   Email
                 </label>
@@ -208,7 +209,7 @@ function RegisterTenant() {
                   onChange={(e) => setHouseNumber(e.target.value)}
                 />
               </div>
-            
+
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   House Name
@@ -229,7 +230,7 @@ function RegisterTenant() {
                       key={houses.id}
                       value={houses.email}
                     >
-                      {houses.house_name}{" "}
+                      {houses.houseName}{" "}
                     </option>
                   ))}
                 </select>
@@ -381,22 +382,21 @@ function RegisterTenant() {
               </div>
 
               <div class="sm:col-span-3">
-                    <label for="" className="form-label">
-                      prev readings
-                    </label>
-                    <input
-                      type="text"
-                      name="prevReading"
-                      id=""
-                      className="form-control"
-                      placeholder=""
-                      value={prevReadings}
-                      onChange={(e) => setPrevReadings(e.target.value)}
-                    />
-                  </div>
+                <label for="" className="form-label">
+                  prev readings
+                </label>
+                <input
+                  type="text"
+                  name="prevReading"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={prevReadings}
+                  onChange={(e) => setPrevReadings(e.target.value)}
+                />
+              </div>
               {state && (
                 <div class="sm:col-span-3 space-y-6">
-
                   <div>
                     <label for="" className="form-label">
                       current Reading

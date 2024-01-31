@@ -27,9 +27,10 @@ function House() {
 
   const getHouse = async () => {
     const response = await axios.get(
-      `http://localhost:4000/houseRegister/houseNames/`
+      `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
+    console.log(response.data);
   };
 
   useEffect(() => {
@@ -55,9 +56,8 @@ function House() {
 
   // creating water reading
   const visitedHouseId = house?.find(
-    (house) => house.house_name === houseName
+    (house) => house.houseName === houseName
   )?.id;
-
   const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
@@ -78,7 +78,6 @@ function House() {
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
-        getWaterRates();
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -94,7 +93,6 @@ function House() {
       document.querySelector("#content").style.display = "block";
     }
   };
-
   // getting water retes
   useEffect(() => {
     const getWaterRates = async () => {
@@ -119,7 +117,6 @@ function House() {
     };
     getPayments();
   }, [tenant]);
-  console.log(payments);
 
   return (
     <>
@@ -131,7 +128,10 @@ function House() {
           </div>
           <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
-            LANDOWNER: <p className="text-red-400">{tenant?.landownerEmail}</p>
+            LANDOWNER: <p className="text-red-400">
+            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
+
+            </p>
           </div>
 
           <table
@@ -146,10 +146,10 @@ function House() {
                 <th className="border border-slate-600">payable Rent</th>
                 <th className="border border-slate-600"> Paid Rent</th>
 
-                <th className="border border-slate-600 flex flex-row justify-start items-center gap-20">additinalPayments 
-                <th className=" border-slate-600"> date</th> 
-                <th className=" border-slate-600"> paymentType</th> 
-
+                <th className="border border-slate-600 flex flex-row justify-start items-center gap-20">
+                  additinalPayments
+                  <th className=" border-slate-600"> date</th>
+                  <th className=" border-slate-600"> paymentType</th>
                 </th>
                 <th className="border border-slate-600">Rent Deposit</th>
                 <th className="border border-slate-600">prev water reading</th>
@@ -190,12 +190,10 @@ function House() {
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.rent}
-
                   </td>
 
                   <td className="border text-black border-slate-700">
-
-                  {payments &&
+                    {payments &&
                       Object.values(payments).map((paymentData, index) => {
                         const matchingObjects = Object.values(
                           paymentData
@@ -211,15 +209,19 @@ function House() {
                             <React.Fragment key={index}>
                               {matchingObjects.map(
                                 (matchingObject, innerIndex) => (
-                                  <tr key={`${index}-${innerIndex}`} className="flex flex-row justify-around items-center">
-                                    <td className="border text-black border-slate-700">
-                                    Payment {innerIndex + 1}: {matchingObject.amount}
+                                  <tr
+                                    key={`${index}-${innerIndex}`}
+                                    className="flex flex-row justify-around items-center "
+                                  >
+                                    <td className="border text-black border-slate-700 p-2">
+                                      Payment {innerIndex + 1}:{" "}
+                                      {matchingObject.amount}
                                     </td>
                                     <td className="border text-black border-slate-700">
-                                     {matchingObject.dateTime}
+                                      {matchingObject.dateTime}
                                     </td>
                                     <td className="border text-black border-slate-700">
-                                     {matchingObject.paymentType}
+                                      {matchingObject.paymentType}
                                     </td>
                                   </tr>
                                 )
@@ -235,9 +237,9 @@ function House() {
                         }
 
                         return null; // Return null if userId doesn't match
-                      })}                  </td>
-                  
-                  
+                      })}{" "}
+                  </td>
+
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>
@@ -284,28 +286,31 @@ function House() {
                   <td
                     className={`border border-slate-700 ${
                       tenants?.balance +
-                      (payments &&
-                        Object.values(payments)
-                          .map((paymentData, index) => {
-                            const matchingObjects = Object.values(paymentData).filter(
-                              (obj) => obj.userId === tenants.id
-                            );
-                    
-                            if (matchingObjects.length > 0) {
-                              const totalAmount = matchingObjects.reduce(
-                                (sum, obj) => sum + Number(obj.amount),
-                                0
-                              );
-                              return totalAmount;
-                            }
-                    
-                            return 0; // Return 0 if userId doesn't match
-                          })
-                          .reduce((sum, totalAmount) => sum + totalAmount, 0)) >= 0
+                        (payments &&
+                          Object.values(payments)
+                            .map((paymentData, index) => {
+                              const matchingObjects = Object.values(
+                                paymentData
+                              ).filter((obj) => obj.userId === tenants.id);
+
+                              if (matchingObjects.length > 0) {
+                                const totalAmount = matchingObjects.reduce(
+                                  (sum, obj) => sum + Number(obj.amount),
+                                  0
+                                );
+                                return totalAmount;
+                              }
+
+                              return 0; // Return 0 if userId doesn't match
+                            })
+                            .reduce(
+                              (sum, totalAmount) => sum + totalAmount,
+                              0
+                            )) >=
+                      0
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
-                    
                   >
                     {tenants?.balance +
                       (payments &&

@@ -204,7 +204,7 @@ function UserNav() {
       </div>
       <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar">
         <div className="p-5 w-full">
-          <div className=" bg-gray-400 p-4  rounded-lg max-w-full">
+          <div className=" bg-gray-100 p-4  rounded-lg max-w-full">
             {activeSection === "UserProfile" && <UserProfile />}
             {activeSection === `/ChangeProfile/${id}` && <ChangeProfile />}
             {activeSection === `/Appointment/${id}` && <Appointment />}

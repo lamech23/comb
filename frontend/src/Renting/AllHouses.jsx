@@ -27,9 +27,7 @@ function AllHouses() {
             >
               {item.houseName}
             </Link>
-            {/* <Link to={"/House"}>
-
-                </Link> */}
+        
           </div>
         );
       })}

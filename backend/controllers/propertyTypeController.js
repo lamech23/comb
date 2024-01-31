@@ -13,7 +13,7 @@ const getAllPropertyType = async (req, res) => {
 const createPropertyType = async (req, res) => {
   try {
     const newType = await propertyType.create({
-      name: req.body.name,
+      type: req.body.type,
     });
     res.json(newType);
   } catch (error) {

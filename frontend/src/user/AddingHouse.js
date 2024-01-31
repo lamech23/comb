@@ -123,7 +123,9 @@ function AddingHouse() {
   };
   return (
     <>
+    
       <form onSubmit={handelSubmit}>
+        
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -276,13 +278,15 @@ function AddingHouse() {
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <option selected> select category </option>
-
                     {cat &&
-                      cat?.map((cat, index) => (
-                        <option value={cat.name} key={index}>
-                          {cat.name}
-                        </option>
-                      ))}
+                      cat?.map((cat, index) =>
+                        (user.role === "landowner" || user.role === "Admin") &&
+                        cat.name === "renting" ? (
+                          <option value={cat.name} key={index}>
+                            {cat.name}
+                          </option>
+                        ) : null
+                      )}
                   </select>
                 </div>
               </div>
@@ -312,7 +316,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" && (
+              {type === "renting" && user?.role === "landowner" && (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"

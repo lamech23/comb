@@ -114,44 +114,7 @@ function SideNavigation() {
           </button>
         </div>
 
-        <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-gray-900">
-            {" "}
-            other_houses
-          </i>
-          <button
-            className={` py-2 px-4 my-2   w-full text-gray-200
-              ${
-                activeSection === "GetAllDetails"
-                  ? "bg-teal-500  justify-center items-center border-r-4"
-                  : ""
-              }
-              `}
-            onClick={() => setActiveSection("GetAllDetails")}
-            id="link"
-          >
-            Houses
-          </button>
-        </div>
-        <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-gray-900">
-            {" "}
-            apartment
-          </i>
-          <button
-            className={` py-2 px-4 my-2   w-full text-gray-200
-         ${
-           activeSection === "HouseRegistration"
-             ? "bg-teal-500  justify-center items-center border-r-4"
-             : ""
-         }
-         `}
-            onClick={() => setActiveSection("HouseRegistration")}
-            id="link"
-          >
-            Register House
-          </button>
-        </div>
+       
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
@@ -302,12 +265,10 @@ function SideNavigation() {
             {activeSection === "User" && <User />}
             {activeSection === "AddHouse" && <AddHouse />}
             {activeSection === "GetAllDetails" && <GetAllDetails />}
-            {activeSection === "HouseRegistration" && <HouseRegistration />}
             {activeSection === "RegisterTenant" && <RegisterTenant />}
             {activeSection === "NewsLetter" && <NewsLetter />}
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
-            {activeSection === "House" && <House />}
             {activeSection === "allHouses" && <AllHouses />}
             {activeSection === "category" && <Category />}
             {activeSection === "propertyType" && <PropertType />}

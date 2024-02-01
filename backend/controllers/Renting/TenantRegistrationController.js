@@ -21,6 +21,8 @@ const tenatRegistration = async (req, res) => {
     nextOfKingNumber,
     prevReadings,
     payableRent,
+    houseId,
+    rentPaymentDate
   } = req.body;
 
   try {
@@ -40,7 +42,8 @@ const tenatRegistration = async (req, res) => {
       nextOfKingNumber,
       prevReadings,
       payableRent,
-      houseId: req.params.houseId,
+      houseId,
+      rentPaymentDate
     });
     res.status(200).json(tenant);
   } catch (error) {

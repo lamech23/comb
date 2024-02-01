@@ -11,9 +11,10 @@ const Details = require("../../models/UploadModals");
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
+
   const details = await tenantRegistration.findAll({
     where: {
-      houseName: req.params.houseName,
+      houseId:  req.params.houseId
     },
   });
 
@@ -94,7 +95,7 @@ const getTenants = async (req, res) => {
   const user_id = token.id;
 
   try {
-    const tenats = await houseName.findAll({
+    const tenats = await Details.findAll({
       where: {
         user_id: user_id,
       },
@@ -169,7 +170,6 @@ const creatHouseCategory = async (req, res) => {
 const getAllHousesByName = async (req, res) => {
   try {
     const details = await Details.findAll({
-
       include: {
         model: users,
         as: "houses",
@@ -180,7 +180,6 @@ const getAllHousesByName = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const getHouseByHouseName = async (req, res) => {
   try {

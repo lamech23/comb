@@ -18,7 +18,6 @@ function House() {
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
-  console.log(houseName);
 
   // water bill total
   const waterUnits = getWater
@@ -26,20 +25,23 @@ function House() {
       return house.price;
     })
     .slice(-1)[0];
+    //houseId
+    let houseIdArray = house?.map((house) => house.id);
+    let houseId = houseIdArray ? houseIdArray[0] : null;
+        console.log(houseId);
 
   const getHouse = async () => {
     const response = await axios.get(
       `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
-    console.log(response.data);
+    // console.log(response.data);
   };
-
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseName}`
+          `http://localhost:4000/houseRegister/${houseId}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -48,7 +50,7 @@ function House() {
     };
     getTenantinfo();
     getHouse();
-  }, [houseName]);
+  }, [houseName, houseId]);
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -418,7 +420,7 @@ function House() {
         pauseOnHover
         theme="colored"
       />
-      <RegisterTenant/>
+      <RegisterTenant houseId={houseId}/>
     </>
   );
 }

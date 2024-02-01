@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-function RegisterTenant() {
+function RegisterTenant({houseId}) {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
   // const user = document.cookie
@@ -122,7 +122,7 @@ function RegisterTenant() {
           previousBalance: previousBalance,
           prevReadings: prevReadings,
           payableRent: payableRent,
-          // houseId:
+          houseId: houseId
         }
       );
       if (response) {

@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const db = require("../../config/Database");
 const HouseRegistration = require("../RentingModels/HouseRegisteringModel");
 const Details = require("../UploadModals");
+const users = require("../UserModels");
 
 const tenantRegistration = db.define(
   "tenant_info",
@@ -60,7 +61,13 @@ const tenantRegistration = db.define(
     houseId: {
       type: DataTypes.INTEGER,
     },
-
+    userId: {
+        type: DataTypes.INTEGER,
+        references: {
+         model: users,
+         key: 'id',
+        },
+    },
     rentPaymentDate: {
       type: DataTypes.STRING,
     },
@@ -70,7 +77,7 @@ const tenantRegistration = db.define(
     timestamps: true,
   }
 );
-
+tenantRegistration.belongsTo(users, { foreignKey: 'userId' });
 tenantRegistration.belongsTo(Details, {
   foreignKey: "houseId",
   as: "tenentHouse",

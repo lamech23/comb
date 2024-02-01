@@ -24,25 +24,38 @@ const tenatRegistration = async (req, res) => {
   } = req.body;
 
   try {
-    const tenant = await tenantRegistration.create({
-      tenantsName,
-      houseNumber,
-      rent,
-      email,
-      rentDeposit,
-      waterReading,
-      waterBill,
-      garbage,
-      userName,
-      houseName,
-      previousBalance,
-      phoneNumber,
-      nextOfKingNumber,
-      prevReadings,
-      payableRent,
-      houseId: req.params.houseId,
+    const findUser = await  users.findOne({ where: { email: email } });
+    if (!findUser) return res.status(401).json({ msg: "Invalid User" });
+
+    //checking the user is already registered or not
+    let checkUser = await tenantRegistration.findOne({
+      where: { userId: findUser.id },
     });
-    res.status(200).json(tenant);
+
+    if (checkUser) {
+      return res.status(409).send({ error: "You are already a Tenant!" });
+    } else {
+      const TenantsData = await tenantRegistration.create({
+        userId: findUser.id,
+        tenantsName,
+        houseNumber,
+        rent,
+        email,
+        rentDeposit,
+        waterReading,
+        waterBill,
+        garbage,
+        userName,
+        houseName,
+        previousBalance,
+        phoneNumber,
+        nextOfKingNumber,
+        prevReadings,
+        payableRent,
+        houseId: req.params.houseId,
+      });
+      res.status(200).json(TenantsData);
+    }
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ error: error.message });

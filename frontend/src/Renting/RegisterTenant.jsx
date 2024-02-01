@@ -49,8 +49,9 @@ function RegisterTenant({ houseId, tenant }) {
   const [payableRent, setPaybleRent] = useState(state?.payableRent || "");
   const [date, setDate] = useState(state?.date || null);
   // console.log(payableRent);
+  const  selectedTenantId = tenant?.detailsWithTotal?.find((tenant)=> tenant.email)
 
-  console.log(email);
+  console.log(selectedTenantId);
 
   const tenantInfo = [...users];
 

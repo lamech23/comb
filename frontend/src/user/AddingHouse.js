@@ -124,9 +124,7 @@ function AddingHouse() {
   };
   return (
     <>
-    
       <form onSubmit={handelSubmit}>
-        
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -224,71 +222,6 @@ function AddingHouse() {
                   />
                 </div>
               </div>
-
-              <div class="sm:col-span-3">
-                <label
-                  for="first-name"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Contact
-                </label>
-                <div class="mt-2">
-                  <input
-                    type="text"
-                    name="contact"
-                    id="first-name"
-                    autocomplete="given-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) => setContact(e.target.value)}
-                    value={contact}
-                  />
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label
-                  for="price"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Price{" "}
-                </label>
-                <div class="mt-2">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    autocomplete="family-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) => setPrice(e.target.value)}
-                    value={price}
-                  />
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label
-                  for="price"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  category{" "}
-                </label>
-                <div class="mt-2">
-                  <select
-                    className="form-control"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    <option selected> select category </option>
-                    {cat &&
-                      cat?.map((cat, index) =>
-                          <option value={cat.name} key={index}>
-                            {cat.name}
-                          </option>
-                      )}
-                  </select>
-                </div>
-              </div>
-
               <div class="sm:col-span-3">
                 <label
                   for="price"
@@ -314,7 +247,76 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" &&
+              <div class="sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Contact
+                </label>
+                <div class="mt-2">
+                  <input
+                    type="text"
+                    name="contact"
+                    id="first-name"
+                    autocomplete="given-name"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setContact(e.target.value)}
+                    value={contact}
+                  />
+                </div>
+              </div>
+
+              { type === "renting" ? null 
+              :
+                <div class="sm:col-span-3">
+                  <label
+                    for="price"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Price{" "}
+                  </label>
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      name="last-name"
+                      id="last-name"
+                      autocomplete="family-name"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
+                    />
+                  </div>
+                </div>
+              }
+
+              <div class="sm:col-span-3">
+                <label
+                  for="price"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  category{" "}
+                </label>
+                <div class="mt-2">
+                  <select
+                    className="form-control"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option selected> select category </option>
+                    {cat &&
+                      cat?.map((cat, index) => (
+                        <option value={cat.name} key={index}>
+                          {cat.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+          
+
+              {type === "renting" && (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -335,7 +337,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              }
+              )}
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

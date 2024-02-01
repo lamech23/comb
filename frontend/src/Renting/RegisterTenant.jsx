@@ -7,8 +7,11 @@ import "../css/admin.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Calendar } from "primereact/calendar";
 
-function RegisterTenant({houseId}) {
+function RegisterTenant({ houseId, tenant }) {
+
+  
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
   // const user = document.cookie
@@ -44,9 +47,14 @@ function RegisterTenant({houseId}) {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [payableRent, setPaybleRent] = useState(state?.payableRent || "");
+  const [date, setDate] = useState(state?.date || null);
   // console.log(payableRent);
 
+  console.log(email);
+
   const tenantInfo = [...users];
+
+  const  registeredTenants = tenant?.detailsWithTotal?.map((tenant)=> tenant.email)
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
@@ -55,7 +63,6 @@ function RegisterTenant({houseId}) {
       setHouse(response.data);
     };
     getHouse();
-
 
     const fetchUsers = async () => {
       const response = await axios.get("http://localhost:4000/Users/all");
@@ -91,6 +98,7 @@ function RegisterTenant({houseId}) {
             currentReadings: currentReadings,
             house_id: house_id,
             tenant_id: id,
+            
           },
           {
             headers: {
@@ -122,7 +130,8 @@ function RegisterTenant({houseId}) {
           previousBalance: previousBalance,
           prevReadings: prevReadings,
           payableRent: payableRent,
-          houseId: houseId
+          houseId: houseId,
+          date: date
         }
       );
       if (response) {
@@ -152,7 +161,7 @@ function RegisterTenant({houseId}) {
     <>
       <div className=" px-60 mt-40">
         <div className="space-y-12">
-          <h3 className="text-center mt-4 "> Tenant Details</h3>
+          <h3 className=" flex flex-row justify-center   text-center mt-4 "> Tenants Details for  <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">  {email}</p></h3>
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
@@ -170,14 +179,16 @@ function RegisterTenant({houseId}) {
                   onChange={(e) => setEmail(e.target.value)}
                 >
                   <option value=""> select email </option>
-                  {tenants.map((tenant) => (
-                    <option
-                      className="text-red visible"
-                      key={tenant.id}
-                      value={tenant.email}
-                    >
-                      {tenant.email}{" "}
-                    </option>
+                  {tenants.map((client) => (
+                      !registeredTenants?.includes(client.email) && (
+                        <option
+                          className="text-red visible"
+                          key={client.id}
+                          value={client.email}
+                        >
+                          {client.email}
+                        </option>
+                      )
                   ))}
                 </select>
               </div>
@@ -215,31 +226,6 @@ function RegisterTenant({houseId}) {
 
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
-                  House Name
-                </label>
-                <select
-                  type="text"
-                  name="houseName"
-                  id=""
-                  className="form-control"
-                  placeholder=""
-                  value={houseName}
-                  onChange={(e) => setHouseName(e.target.value)}
-                >
-                  <option value=""> select house</option>
-                  {house.map((houses) => (
-                    <option
-                      className="text-red visible"
-                      key={houses.id}
-                      value={houses.email}
-                    >
-                      {houses.houseName}{" "}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div class="sm:col-span-3">
-                <label for="" className="form-label">
                   payable Rent
                 </label>
                 <input
@@ -266,6 +252,20 @@ function RegisterTenant({houseId}) {
                   onChange={(e) => setRent(e.target.value)}
                 />
               </div>
+
+              {rent.length  >= 5 ? 
+                <div class="sm:col-span-3 ">
+                  <label for="" className="form-label">
+                    paid Date
+                  </label>
+                  <div className="border">
+                    <Calendar
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                  </div>
+                </div> : null
+              }
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   Rent Deposit

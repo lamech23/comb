@@ -28,7 +28,6 @@ function House() {
     //houseId
     let houseIdArray = house?.map((house) => house.id);
     let houseId = houseIdArray ? houseIdArray[0] : null;
-        console.log(houseId);
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -420,7 +419,7 @@ function House() {
         pauseOnHover
         theme="colored"
       />
-      <RegisterTenant houseId={houseId}/>
+      <RegisterTenant houseId={houseId} tenant={tenant}/>
     </>
   );
 }

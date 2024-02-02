@@ -12,7 +12,7 @@ function MoreDetails() {
   const { user } = useAuthContext();
   const [image, setImage] = useState([]);
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
+
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
   const [price, setPrice] = useState("");
@@ -20,12 +20,10 @@ function MoreDetails() {
   const [units, setUnits] = useState("");
   const { id } = useParams();
   const [details, setDetails] = useState([]);
-  const [value, onChange] = useState(new Date());
+  const [location, setLocation] = useState("");
   //clinte info
-  const [first_name, setFirst_name] = useState("");
-  const [second_name, setSecond_name] = useState("");
-  const [id_number, setId_number] = useState("");
-  const [postal_address, setPostal_address] = useState("");
+  const [names, setNames] = useState("");
+  const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [client_id, setClient_id] = useState("");
@@ -33,6 +31,8 @@ function MoreDetails() {
   const [time, setTime] = useState("");
   const [tour_id, setTour_id] = useState("");
   const [tenant, setTenant] = useState([]);
+  const [requestTour, setRequestTour] = useState("");
+  const [reason, setReason] = useState("");
 
   const setDate = (date) => {
     if (date < new Date()) {
@@ -56,31 +56,28 @@ function MoreDetails() {
     // formData.append('client_id', client_id)
     try {
       if (
-        first_name === "" ||
-        second_name === "" ||
+        names === "" ||
+        email === "" ||
         phoneNumber === "" ||
-        id_number === "" ||
-        postal_address === "" ||
+        details === "" ||
         gender === ""
       ) {
         return toast.error("All fields must be filled in order to submit");
       } else {
         const response = await axios.post("http://localhost:4000/client", {
-          first_name: first_name,
-          second_name: second_name,
+          names: names,
+          email: email,
           phoneNumber: phoneNumber,
-          id_number: id_number,
-          postal_address: postal_address,
           gender: gender,
           client_id: client_id,
+          details: details,
         });
 
         if (response) {
-          first_name("");
-          second_name("");
+          names("");
+          email("");
           phoneNumber("");
-          id_number("");
-          postal_address("");
+          details("");
         }
       }
     } catch (error) {
@@ -207,23 +204,15 @@ function MoreDetails() {
               </div>
             </div>
 
-            <div className=" flex-1">
-              <div className=" flex flex-col items-center gap-10  ">
+            <div className="flex-1">
+              <div className="flex flex-col items-center gap-10">
                 <a
                   data-bs-toggle="modal"
                   href="#contactAg"
                   role="button"
-                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
+                  className="border p-10 bg-teal-600 text-2xl uppercase rounded-lg no-underline text-teal-900 animated-button"
                 >
                   Contact Agent
-                </a>
-                <a
-                  data-bs-toggle="modal"
-                  href="#tour"
-                  role="button"
-                  className="border p-10 bg-teal-600 text-2xl uppercase  rounded-lg  no-underline text-teal-900"
-                >
-                  Request A tour
                 </a>
               </div>
             </div>
@@ -254,43 +243,30 @@ function MoreDetails() {
                     </div>
                     <div className="modal-body text-start ">
                       <form onSubmit={handelSubmit} className="formOne">
-                        <label className="label-control">First Name</label>
+                        <label className="label-control"> Names </label>
                         <input
                           className="form-control"
                           type="text"
                           placeholder=""
-                          onChange={(e) => setFirst_name(e.target.value)}
-                          value={first_name}
+                          onChange={(e) => setNames(e.target.value)}
+                          value={names}
                         />
-                        <label className="label-control">Second Name</label>
+                        <label className="label-control"> Email </label>
                         <input
                           className="form-control"
-                          type="text"
-                          onChange={(e) => setSecond_name(e.target.value)}
-                          value={second_name}
+                          type="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                          value={email}
                         />
 
-                        <label className="label-control">Contact</label>
+                        <label className="label-control">Contact / Phone</label>
                         <input
                           className="form-control"
                           type="text"
                           onChange={(e) => setPhoneNumber(e.target.value)}
                           value={phoneNumber}
                         />
-                        <label className="label-control">Id Number</label>
-                        <input
-                          className="form-control"
-                          type="number"
-                          onChange={(e) => setId_number(e.target.value)}
-                          value={id_number}
-                        />
-                        <label className="label-control">Postal Adress</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          onChange={(e) => setPostal_address(e.target.value)}
-                          value={postal_address}
-                        />
+
                         <div className="input-group mb-3 mt-3">
                           <label className="input-group-text ">gender</label>
                           <select
@@ -303,6 +279,113 @@ function MoreDetails() {
                             <option value="female">Female</option>
                           </select>
                         </div>
+
+                        <div className="mb-3">
+                          <label className="label-control">
+                            Request a Tour
+                          </label>
+                          <div className="form-check">
+                            <input
+                              type="radio"
+                              className="form-check-input"
+                              id="requestTourYes"
+                              name="requestTour"
+                              value="yes"
+                              checked={requestTour === "yes"}
+                              onChange={() => setRequestTour("yes")}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="requestTourYes"
+                            >
+                              Yes
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              type="radio"
+                              className="form-check-input"
+                              id="requestTourNo"
+                              name="requestTour"
+                              value="no"
+                              checked={requestTour === "no"}
+                              onChange={() => setRequestTour("no")}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="requestTourNo"
+                            >
+                              No
+                            </label>
+                          </div>
+                        </div>
+
+                        {requestTour === "yes" && (
+                          <div className="modal-body text-start">
+                            {/* Content for 'Yes' option */}
+                            <div>
+                              <form onSubmit={handelSelect}>
+                                <div className="calendar-container">
+                                  <Calendar
+                                    onChange={setDate}
+                                    value={selectedDate}
+                                  />
+                                </div>
+                                <label className="label-control">
+                                  Select Time
+                                </label>
+                                <label className="label-control">
+                                  Select Time
+                                </label>
+                                <select
+                                  className="form-control"
+                                  value={category}
+                                  onChange={(e) => setTime(e.target.value)}
+                                >
+                                  {" "}
+                                  <option selected>please select</option>
+                                  <option value=" 8:00 Am">8:00 Am</option>
+                                  <option value="8:30 Am">8:30 Am</option>
+                                  <option value="9:00 Am">9:00 Am</option>
+                                  <option value="9:30 Am">9:30 Am</option>
+                                  <option value=" 10:00 Am">10:00 Am</option>
+                                  <option value="  10:30 Am">10:30 Am</option>
+                                  <option value="11:00 Am">11:00 Am</option>
+                                  <option value=" 11:30 Am">11:30 Am</option>
+                                  <option value="12:00 Pm">12:00 Pm</option>
+                                  <option value=" 12:30 Pm">12:30 Pm</option>
+                                  <option value="1:00 Pm">1:00 Pm</option>
+                                  <option value="1:30 Pm">1:30 Pm</option>
+                                  <option value=" 2:00 Pm">2:00 Pm</option>
+                                  <option value=" 2:30 Pm">2:30 Pm</option>
+                                  <option value="  3:00 Pm">3:00 Pm</option>
+                                  <option value=" 3:30 Pm">3:30 Pm</option>
+                                  <option value="4:00 Pm">4:00 Pm</option>
+                                  <option value=" 4:30 Pm">4:30 Pm</option>
+                                </select>
+                                <p className="text-center ">
+                                  <span className="bold">Selected Date:</span>{" "}
+                                  {selectedDate.toDateString()}
+                                  {/* <span className='bold'>Time</span>
+                                      {date.toLocaleTimeString()  } */}
+                                </p>
+
+                                <label className="label-control">
+                                  {" "}
+                                  Reason for visit{" "}
+                                </label>
+                                <textarea
+                                  className="form-control"
+                                  type="text"
+                                  onChange={(e) => setReason(e.target.value)}
+                                  value={reason}
+                                  placeholder="Enter your reason..."
+                                />
+                              </form>
+                            </div>
+                          </div>
+                        )}
+
                         {user ? (
                           <button
                             type="submit"
@@ -328,96 +411,6 @@ function MoreDetails() {
               </div>
             </div>
 
-            {/* form-2 */}
-            <div className="text-center">
-              <div
-                className="modal fade"
-                id="tour"
-                aria-hidden="true"
-                aria-labelledby="exampleModalToggleLabel"
-                tabindex="-1"
-              >
-                <div className="modal-dialog modal-dialog-centered">
-                  <div className="modal-content">
-                    <div className="modal-header ">
-                      <h1
-                        className="modal-title fs-3  "
-                        id="exampleModalToggleLabel"
-                      >
-                        Tour with a Buyer's Agent{" "}
-                      </h1>
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div className="modal-body text-start ">
-                      <div>
-                        <form onSubmit={handelSelect}>
-                          <div className="calendar-container">
-                            <Calendar onChange={setDate} value={selectedDate} />
-                          </div>
-                          <label className="label-control">Select Time</label>
-                          <select
-                            className="form-control"
-                            value={category}
-                            onChange={(e) => setTime(e.target.value)}
-                          >
-                            {" "}
-                            <option selected>please select</option>
-                            <option value=" 8:00 Am">8:00 Am</option>
-                            <option value="8:30 Am">8:30 Am</option>
-                            <option value="9:00 Am">9:00 Am</option>
-                            <option value="9:30 Am">9:30 Am</option>
-                            <option value=" 10:00 Am">10:00 Am</option>
-                            <option value="  10:30 Am">10:30 Am</option>
-                            <option value="11:00 Am">11:00 Am</option>
-                            <option value=" 11:30 Am">11:30 Am</option>
-                            <option value="12:00 Pm">12:00 Pm</option>
-                            <option value=" 12:30 Pm">12:30 Pm</option>
-                            <option value="1:00 Pm">1:00 Pm</option>
-                            <option value="1:30 Pm">1:30 Pm</option>
-                            <option value=" 2:00 Pm">2:00 Pm</option>
-                            <option value=" 2:30 Pm">2:30 Pm</option>
-                            <option value="  3:00 Pm">3:00 Pm</option>
-                            <option value=" 3:30 Pm">3:30 Pm</option>
-                            <option value="4:00 Pm">4:00 Pm</option>
-                            <option value=" 4:30 Pm">4:30 Pm</option>
-                          </select>
-                          <p className="text-center ">
-                            <span className="bold">Selected Date:</span>{" "}
-                            {selectedDate.toDateString()}
-                            {/* <span className='bold'>Time</span>
-        {date.toLocaleTimeString()  } */}
-                          </p>
-                          {user ? (
-                            <button
-                              type="submit"
-                              className="btn btn-outline-warning w-75 btn-lg mt-2 ms-5 mb-3"
-                              data-bs-dismiss="modal"
-                            >
-                              submit
-                            </button>
-                          ) : (
-                            <div
-                              type="submit"
-                              className="btn btn-outline-warning w-75 btn-lg mt-2 ms-5 mb-3"
-                              data-bs-dismiss="modal"
-                              onClick={prevent}
-                            >
-                              submit
-                            </div>
-                          )}
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* end of for */}
           </div>
         </div>
@@ -425,28 +418,27 @@ function MoreDetails() {
       <p className="text-center text-[1.4rem] underline"> Number of units</p>
 
       <div className="flex flex-row  justify-center gap-20 items-center mb-40">
-      <div className="flex flex-col  justify-center items-center  flex-wrap ">
-        <p className="text-lg text-[2.4rem] text-teal-400"> Occupied </p>
-        <div className={` m-2`}>
-          <div className="w-32 h-32  bg-red-600 relative">
-            <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
-            <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
-            <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+        <div className="flex flex-col  justify-center items-center  flex-wrap ">
+          <p className="text-lg text-[2.4rem] text-teal-400"> Occupied </p>
+          <div className={` m-2`}>
+            <div className="w-32 h-32  bg-red-600 relative">
+              <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+              <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+              <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex flex-col  justify-center items-center  flex-wrap ">
-        <p className="text-lg text-[2.4rem] text-teal-400"> vaccant </p>
-        <div className={` m-2`}>
-          <div className="w-32 h-32  bg-green-500 relative">
-            <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
-            <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
-            <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+        <div className="flex flex-col  justify-center items-center  flex-wrap ">
+          <p className="text-lg text-[2.4rem] text-teal-400"> vaccant </p>
+          <div className={` m-2`}>
+            <div className="w-32 h-32  bg-green-500 relative">
+              <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+              <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+              <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+            </div>
           </div>
         </div>
-      </div>
-
       </div>
       <div className="flex flex-wrap justify-center">
         {breakNumberIntoDigits(Number(units)).map((digit, digitIndex) => (
@@ -461,7 +453,7 @@ function MoreDetails() {
               <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
               <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
               <div className=" flex flex-row justify-center items-center h-9 text-3xl text-white">
-                <p> a-</p>  <p>{digit}</p>
+                <p> a-</p> <p>{digit}</p>
               </div>
             </div>
           </div>

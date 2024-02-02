@@ -2,8 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function Category() {
-  const [name, setName] = useState("")
+  const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
+
+  const fetchCategories = async () => {
+    const response = await axios.get("http://localhost:4000/cat/fetch");
+    setCategory(response.data);
+    fetchCategories();
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleSbubmit = async (e) => {
     e.preventDefault();
@@ -11,21 +20,13 @@ function Category() {
     const response = await axios.post("http://localhost:4000/cat/", {
       name: name,
     });
+
+    fetchCategories();
+
     if (response) {
       setName("");
     }
   };
-
-  const fetchCategories = async () => {
-    const response = await axios.get("http://localhost:4000/cat/fetch");
-    setCategory(response.data);
-    fetchCategories();
-
-  };
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
 
   const deleteCat = async (id) => {
     try {
@@ -154,7 +155,6 @@ function Category() {
                       class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative"
                       // onClick={deleteCat}
                       onClick={() => deleteCat(cat.id)}
-
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

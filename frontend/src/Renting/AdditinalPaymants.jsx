@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Calendar } from "primereact/calendar";
 
 function AdditinalPaymants() {
-  let houseName = useLocation().pathname.split("/")[2];
+  let houseId = useLocation().pathname.split("/")[2];
   const [dateTime, setDateTime] = useState({});
   const [amount, setAmount] = useState(null);
   const [paymentType, setPaymentType] = useState("");
@@ -17,7 +17,7 @@ function AdditinalPaymants() {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseName}`
+          `http://localhost:4000/houseRegister/${houseId}`
         );
         setTenant(response.data);
       } catch (error) {

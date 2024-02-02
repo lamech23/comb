@@ -7,12 +7,15 @@ import "../css/admin.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Calendar } from "primereact/calendar";
 
-function RegisterTenant() {
+function RegisterTenant({ houseId, tenant }) {
+
+  
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
   // const user = document.cookie
-  const {user} =useAuthContext()
+  const { user } = useAuthContext();
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");
@@ -38,23 +41,30 @@ function RegisterTenant() {
   const [previousBalance, setPreviousBalance] = useState(
     state?.previousBalance || ""
   );
-  const [house_id, setHouseId]=useState(state?.houseName || "")
+  const [house_id, setHouseId] = useState(state?.houseName || "");
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [payableRent, setPaybleRent] = useState( state?.payableRent || "");
+  const [payableRent, setPaybleRent] = useState(state?.payableRent || "");
+  const [date, setDate] = useState(state?.date || null);
   // console.log(payableRent);
+  const  selectedTenantId = tenant?.detailsWithTotal?.find((tenant)=> tenant.email)
+
+  console.log(selectedTenantId);
 
   const tenantInfo = [...users];
+
+  const  registeredTenants = tenant?.detailsWithTotal?.map((tenant)=> tenant.email)
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
-        `http://localhost:4000/houseRegister/houseNames/`
+        `http://localhost:4000/Details/fetchHousesByName/`
       );
       setHouse(response.data);
     };
     getHouse();
+
     const fetchUsers = async () => {
       const response = await axios.get("http://localhost:4000/Users/all");
       setUsers(response.data);
@@ -67,92 +77,96 @@ function RegisterTenant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    if(state){
-     await axios.patch(`http://localhost:4000/Tenant/change/${id}`, {
-        tenantsName: tenantsName,
-        houseNumber: houseNumber,
-        rent: rent,
-        email: email,
-        rentDeposit: rentDeposit,
-        password: password,
-        waterReading: waterReading,
-        waterBill: waterBill,
-        garbage: garbage,
-        userName: userName,
-        phoneNumber: phoneNumber,
-        nextOfKingNumber: nextOfKingNumber,
-        houseName: houseName,
-        previousBalance: previousBalance,
-        prevReadings: prevReadings,
-        currentReadings: currentReadings,
-        house_id: house_id,
-        tenant_id: id
-      },  
-       {
-        headers: {
-          authorization: ` Bearer ${user?.token}`,
-          Accept: "application/json",
-        }});
-      // navigate(`House/${houseName}`)
-      toast.success("Succesfully upadated");
-    } else {
-    }
-    const response = await axios.post(
-      "http://localhost:4000/Tenant/registerTenant",
-      {
-        tenantsName: tenantsName,
-        houseNumber: houseNumber,
-        rent: rent,
-        email: email,
-        rentDeposit: rentDeposit,
-        password: password,
-        waterReading: waterReading,
-        waterBill: waterBill,
-        garbage: garbage,
-        userName: userName,
-        phoneNumber: phoneNumber,
-        nextOfKingNumber: nextOfKingNumber,
-        houseName: houseName,
-        previousBalance: previousBalance,
-        prevReadings: prevReadings,
-        payableRent:payableRent
-
+      if (state) {
+        await axios.patch(
+          `http://localhost:4000/Tenant/change/${id}`,
+          {
+            tenantsName: tenantsName,
+            houseNumber: houseNumber,
+            rent: rent,
+            email: email,
+            rentDeposit: rentDeposit,
+            password: password,
+            waterReading: waterReading,
+            waterBill: waterBill,
+            garbage: garbage,
+            userName: userName,
+            phoneNumber: phoneNumber,
+            nextOfKingNumber: nextOfKingNumber,
+            houseName: houseName,
+            previousBalance: previousBalance,
+            prevReadings: prevReadings,
+            currentReadings: currentReadings,
+            house_id: house_id,
+            tenant_id: id,
+            
+          },
+          {
+            headers: {
+              authorization: ` Bearer ${user?.token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        // navigate(`House/${houseName}`)
+        toast.success("Succesfully upadated");
+      } else {
       }
-    );
-    if (response) {
-      setTenantsName("");
-      setHouseName("");
-      setRent("");
-      setEmail("");
-      setRentDeposit("");
-      setWaterReadiing("");
-      setWaterBill("");
-      setGarbage("");
-      setUserName("");
-      setNextOfKingNumber("");
-      setHouse("");
-      setPreviousBalance("");
-    }
+      const response = await axios.post(
+        "http://localhost:4000/Tenant/registerTenant",
+        {
+          tenantsName: tenantsName,
+          houseNumber: houseNumber,
+          rent: rent,
+          email: email,
+          rentDeposit: rentDeposit,
+          password: password,
+          waterReading: waterReading,
+          waterBill: waterBill,
+          garbage: garbage,
+          userName: userName,
+          phoneNumber: phoneNumber,
+          nextOfKingNumber: nextOfKingNumber,
+          houseName: houseName,
+          previousBalance: previousBalance,
+          prevReadings: prevReadings,
+          payableRent: payableRent,
+          houseId: houseId,
+          date: date
+        }
+      );
+      if (response) {
+        setTenantsName("");
+        setHouseName("");
+        setRent("");
+        setEmail("");
+        setRentDeposit("");
+        setWaterReadiing("");
+        setWaterBill("");
+        setGarbage("");
+        setUserName("");
+        setNextOfKingNumber("");
+        setHouse("");
+        setPreviousBalance("");
+      }
 
-    toast.success("Succesfully registerd tenant");
-  } catch (error) {
-    // Handle errors here
-    console.error("Error occurred:", error.message);
-    toast.error("An error occurred. Please try again later.");
-  }
-};
+      toast.success("Succesfully registerd tenant");
+    } catch (error) {
+      // Handle errors here
+      console.error("Error occurred:", error.message);
+      toast.error("An error occurred. Please try again later.");
+    }
+  };
 
   return (
     <>
       <div className=" px-60 mt-40">
         <div className="space-y-12">
-          <h3 className="text-center mt-4 "> Tenant Details</h3>
+          <h3 className=" flex flex-row justify-center   text-center mt-4 "> Tenants Details for  <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">  {email}</p></h3>
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
-
-
-            <div class="sm:col-span-3">
+              <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   Email
                 </label>
@@ -166,14 +180,16 @@ function RegisterTenant() {
                   onChange={(e) => setEmail(e.target.value)}
                 >
                   <option value=""> select email </option>
-                  {tenants.map((tenant) => (
-                    <option
-                      className="text-red visible"
-                      key={tenant.id}
-                      value={tenant.email}
-                    >
-                      {tenant.email}{" "}
-                    </option>
+                  {tenants.map((client) => (
+                      !registeredTenants?.includes(client.email) && (
+                        <option
+                          className="text-red visible"
+                          key={client.id}
+                          value={client.email}
+                        >
+                          {client.email}
+                        </option>
+                      )
                   ))}
                 </select>
               </div>
@@ -208,32 +224,7 @@ function RegisterTenant() {
                   onChange={(e) => setHouseNumber(e.target.value)}
                 />
               </div>
-            
-              <div class="sm:col-span-3">
-                <label for="" className="form-label">
-                  House Name
-                </label>
-                <select
-                  type="text"
-                  name="houseName"
-                  id=""
-                  className="form-control"
-                  placeholder=""
-                  value={houseName}
-                  onChange={(e) => setHouseName(e.target.value)}
-                >
-                  <option value=""> select house</option>
-                  {house.map((houses) => (
-                    <option
-                      className="text-red visible"
-                      key={houses.id}
-                      value={houses.email}
-                    >
-                      {houses.house_name}{" "}
-                    </option>
-                  ))}
-                </select>
-              </div>
+
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   payable Rent
@@ -262,6 +253,20 @@ function RegisterTenant() {
                   onChange={(e) => setRent(e.target.value)}
                 />
               </div>
+
+              {rent.length  >= 5 ? 
+                <div class="sm:col-span-3 ">
+                  <label for="" className="form-label">
+                    paid Date
+                  </label>
+                  <div className="border">
+                    <Calendar
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                  </div>
+                </div> : null
+              }
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   Rent Deposit
@@ -381,22 +386,21 @@ function RegisterTenant() {
               </div>
 
               <div class="sm:col-span-3">
-                    <label for="" className="form-label">
-                      prev readings
-                    </label>
-                    <input
-                      type="text"
-                      name="prevReading"
-                      id=""
-                      className="form-control"
-                      placeholder=""
-                      value={prevReadings}
-                      onChange={(e) => setPrevReadings(e.target.value)}
-                    />
-                  </div>
+                <label for="" className="form-label">
+                  prev readings
+                </label>
+                <input
+                  type="text"
+                  name="prevReading"
+                  id=""
+                  className="form-control"
+                  placeholder=""
+                  value={prevReadings}
+                  onChange={(e) => setPrevReadings(e.target.value)}
+                />
+              </div>
               {state && (
                 <div class="sm:col-span-3 space-y-6">
-
                   <div>
                     <label for="" className="form-label">
                       current Reading

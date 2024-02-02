@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/Database");
 const imageUrl = require("./imageModel");
+const users = require("./UserModels");
 
 const Details = db.define(
   "Details",
@@ -33,12 +34,33 @@ const Details = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    houseName: {
+      type: DataTypes.STRING,
+      allowNull: false
+
+    },
+    type: {
+      type: DataTypes.STRING,
+      // allowNull: false
+
+    },
+    units: {
+      type: DataTypes.STRING,
+      // allowNull: false
+
+    },
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
+Details.belongsTo(users, {
+  foreignKey: "user_id",
+  as: "houses",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
 
 imageUrl.belongsTo(Details, {
   foreignKey: "details_id",

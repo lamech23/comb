@@ -12,7 +12,7 @@ const payments = db.define(
       type: DataTypes.STRING,
     },
     dateTime: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
 
     userId: {

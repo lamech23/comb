@@ -40,7 +40,6 @@ function CreateHouse() {
   return (
     <>
       <div className="split">
-        <LandOwnerNav />
 
         <div class="mb-6">
           <form onSubmit={handelSubmit}>

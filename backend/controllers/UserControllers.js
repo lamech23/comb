@@ -120,7 +120,7 @@ const deactivate = async (req, res) => {
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
     if (userEmail === 0) {
-      return res.status(400).json({ msg: "nop" });
+      return res.status(400).json({ error: error.message });
     }
     res.status(200).json(userEmail);
   } catch (error) {

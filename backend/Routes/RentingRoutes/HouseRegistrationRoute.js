@@ -7,7 +7,7 @@ const{
     getAllHouses,
     subtotal, 
     creatHouseCategory,
-    getAll,
+    getAllHousesByName,
     getTenantForTenantRegistration,
     getHouseByHouseName
 
@@ -19,9 +19,9 @@ router.post('/', RegisteringHouse)
 router.get('/specific/', requireAuth,getTenants)
 router.get('/houseNames/', getTenantForTenantRegistration)
 router.get('/total/:id',  subtotal)
-router.get('/:houseName', getAllHouses)
+router.get('/:houseId', getAllHouses)
 router.get('/houseByHouseName', getHouseByHouseName)
-router.get('/houseNames', getAll)
+router.get('/houseNames', getAllHousesByName)
 router.post('/houseName', creatHouseCategory)
 
 module.exports=router

@@ -6,32 +6,13 @@ const fs = require("fs");
 const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
 const tty = require("tty");
-const {getAll} = require("./Renting/HouseRegistrationController");
+const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
-// const getAllHouses = async (req, res) => {
-//   const page_size = 100;
-//   try {
-//     const details = await imageUrl.findAll({
-//       offset: 0,
-//       limit: page_size,
-//       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-//       include:{
-//         model:Details,
-//         as:"details"
-//       }
-//
-//     });
-//     res.status(200).json(details);
-//   } catch (error) {
-//     res.status(500);
-//   }
-// };
 const getAllHouses = async (req, res) => {
   const page_size = 100;
   try {
     const offset = req.query.page ? (req.query.page - 1) * page_size : 0;
-
     const allHousesWithImage = await Details.findAll({
       offset: offset,
       limit: page_size,
@@ -41,17 +22,31 @@ const getAllHouses = async (req, res) => {
         as: "images",
       },
     });
+    const pageNumbers = [];
 
     const totalCount = await Details.count();
+    const currentPage = req.query.page || 1;
+    const postPerPage = 4;
+    const totalPages = Math.ceil(totalCount / postPerPage);
 
-    const totalPages = Math.ceil(totalCount / page_size);
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPosts = allHousesWithImage?.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
+
+    console.log(currentPosts.length);
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
 
     res.status(200).json({
-      data: allHousesWithImage,
+      allHousesWithImage,
       pagination: {
-        currentPage: req.query.page || 1,
-        totalPages: totalPages,
-        totalItems: totalCount,
+        pageNumbers,
+        currentPosts,
+        currentPage,
       },
     });
   } catch (error) {
@@ -60,14 +55,24 @@ const getAllHouses = async (req, res) => {
   }
 };
 
+const getAllHousesByName = async (req, res) => {
+  try {
+    const details = await Details.findAll({
+      include: {
+        model: users,
+        as: "houses",
+      },
+    });
+    res.status(200).send(details);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-    //const user_id = req.query.user_id;
-
-    const user_id = 1
-
+    const user_id = 1;
     const details = await Details.findAll({
       where: {
         user_id: user_id,
@@ -117,25 +122,23 @@ const BnBHouse = async (req, res) => {
 };
 
 //Get a single upload
-  const  getSingelDetails = async (req, res) => {
-    try {
-      const id = 3;
+const getSingelDetails = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const details = await Details.findOne({
+      where: { id: id },
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
+    });
 
-      const details = await Details.findOne({
-        where: { id: id },
-        include: {
-          model: imageUrl,
-          as: "images",
-        },
-      });
-
-      res.status(200).json(details);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Cant get the single details for " });
-    }
-  };
-
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Cant get the single details for " });
+  }
+};
 
 //CREATE an upload
 const createDetails = async (req, res) => {
@@ -152,23 +155,30 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
+    houseName: req.body.houseName,
+    type: req.body.type,
+    units: req.body.units,
     user_id: user_id,
     details_id: imageUrl.id,
   };
 
   try {
+    const details = await Details.create(info);
+
     for (let i = 0; i < req.files.length; i++) {
       const imagePath = await imageUrl.create({
         image: `${baseUrl}/${req.files[i].path}`,
         user_id: user_id,
-        details_id: imageInfo.id,
+        details_id: details.id,
       });
 
       imageUrls.push(imagePath);
     }
+
     res.status(200).json({
       success: true,
       data: imageUrls,
+      data: details,
     });
 
     await users.findOne({ where: { id: id } });
@@ -329,4 +339,5 @@ module.exports = {
   getAllHouses,
   RequstingAtour,
   getAllTours,
+  getAllHousesByName,
 };

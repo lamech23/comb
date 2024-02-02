@@ -10,13 +10,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 function MoreDetails() {
   const { user } = useAuthContext();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [units, setUnits] = useState("");
   const { id } = useParams();
   const [details, setDetails] = useState([]);
   const [value, onChange] = useState(new Date());
@@ -112,6 +113,10 @@ function MoreDetails() {
     setDetails(response.data);
   };
 
+  const breakNumberIntoDigits = (number) => {
+    return Array.from({ length: number }, (_, index) => index + 1);
+  };
+
   const getMore = async () => {
     const response = await axios.get(`http://localhost:4000/Details/` + id);
     setImage(response.data.images);
@@ -121,6 +126,7 @@ function MoreDetails() {
     setContact(response.data.contact);
     setPrice(response.data.price);
     setCategory(response.data.category);
+    setUnits(response.data.units);
   };
   useEffect(() => {
     getMore();
@@ -133,7 +139,7 @@ function MoreDetails() {
     }
   };
   function handleCategoryChange(event) {
-    setCategory(event.target.getAttribute("data-category")); // update category state when user selects an option
+    setCategory(event.target.getAttribute("data-category"));
   }
   return (
     <>
@@ -146,23 +152,20 @@ function MoreDetails() {
 
         <div className=" mt-5" style={{ padding: "20px  0 " }}>
           <div className=" flex flex-row justify-center items-center flex-wrap  ms-5 mt-4">
-            <div
-              className=" flex-1 "
-            >
+            <div className=" flex-1 ">
               <Carousel>
-                {image &&
-                  image?.map((imageUrl, index) => (
-                    <div key={index}>
-                      <img
-                        src={imageUrl}
-                        className=" block w-full rounded-lg "
-                        alt={`Image ${index}`}
-                      />
-                    </div>
-                  ))}
+                {image?.map((imageUrl, index) => (
+                  <div key={index}>
+                    <img
+                      src={imageUrl.image}
+                      className=" block w-full rounded-lg "
+                      width="250px"
+                      height="250px"
+                      alt={`Image ${index}`}
+                    />
+                  </div>
+                ))}
               </Carousel>
-
-         
             </div>
 
             <div className="col-8 col-lg-4 text-center text-md-start    ms-5 mt-5">
@@ -403,6 +406,26 @@ function MoreDetails() {
           </div>
         </div>
       </div>
+
+      <div className="flex flex-wrap justify-center">
+  {breakNumberIntoDigits(Number(units)).map((digit, digitIndex) => (
+    <div key={digitIndex} className="flex flex-row justify-center items-center   border m-2">
+      <div className="w-32 h-32 bg-teal-200 relative">
+        <div className=" top-0 left-0 w-full h-6 bg-blue-500"></div>
+        <div className=" top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+        <div className=" bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+        <div className=" top-1/4 left-1/4 w-6 h-6 bg-yellow-300">
+          {digit}
+        </div>
+      </div>
+    </div>
+    // {(digitIndex + 1) % 4 === 0 && <div className="w-0" key={`separator-${digitIndex}`}> >}
+    
+  ))}
+</div>
+
+
+
       <div className="text-center mt-5 fs-3 text-danger fw-bold">
         Related House
       </div>

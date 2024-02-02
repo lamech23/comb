@@ -15,13 +15,6 @@ const Category = db.define(
   }
 );
 
-Category.hasMany(Details, {
-  foreignKey: "category_id",
-});
-
-Details.belongsTo(Category, {
-  foreignKey: "category_id",
-});
 
 db.sync();
 

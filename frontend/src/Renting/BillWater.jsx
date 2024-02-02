@@ -5,12 +5,14 @@ import { Calendar } from "primereact/calendar";
 import { toast, ToastContainer } from "react-toastify";
 
 function BillWater() {
-  let houseName = useLocation().pathname.split("/")[2];
+  let houseId = useLocation().pathname.split("/")[2];
   const [date, setDate] = useState(null);
   const [updatedUsers, setUpdatedUsers] = useState({});
   const [tenant, setTenant] = useState([]);
   const state = useLocation().state; // am  using one for to create and update
+  
   // water bill total
+
   const waterUnits = state
     ?.map((house) => {
       return house.price;
@@ -21,7 +23,7 @@ function BillWater() {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          ` http://localhost:4000/houseRegister/${houseName}`
+          ` http://localhost:4000/houseRegister/${houseId}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -34,13 +36,14 @@ function BillWater() {
   const handleUpdate = async () => {
     try {
       // Filter out only the updated tenants
-      const updatedTenants = Object.entries(updatedUsers).map(([id, values]) => ({
-        id,
-        currentReadings: values.currentReadings, 
-        entryDate: values.entryDate,
-      }));
-      
-  
+      const updatedTenants = Object.entries(updatedUsers).map(
+        ([id, values]) => ({
+          id,
+          currentReadings: values.currentReadings,
+          entryDate: values.entryDate,
+        })
+      );
+
       // Send a batch update request to the server
       const response = await axios.put(
         `http://localhost:4000/Tenant/updateWaterBill`,
@@ -51,7 +54,6 @@ function BillWater() {
       toast.error("Number must be a positive value");
     }
   };
-  
 
   return (
     <>

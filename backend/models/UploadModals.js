@@ -44,6 +44,11 @@ const Details = db.define(
       // allowNull: false
 
     },
+    units: {
+      type: DataTypes.STRING,
+      // allowNull: false
+
+    },
   },
   {
     freezeTablesName: true,

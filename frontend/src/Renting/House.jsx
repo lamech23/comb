@@ -50,6 +50,7 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
+  console.log(tenant);
 
   // guard clause
   if (isNaN(price) || price < 0) {

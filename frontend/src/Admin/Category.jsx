@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function Category() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState("")
   const [category, setCategory] = useState([]);
 
   const handleSbubmit = async (e) => {
@@ -19,31 +19,31 @@ function Category() {
   const fetchCategories = async () => {
     const response = await axios.get("http://localhost:4000/cat/fetch");
     setCategory(response.data);
+    fetchCategories();
+
   };
   useEffect(() => {
     fetchCategories();
   }, []);
 
+
   const deleteCat = async (id) => {
     try {
-      console.log(id);
       const res = await axios.delete(`http://localhost:4000/cat/${id}`);
-      
+
       if (res.status === 200) {
         fetchCategories();
-        console.log('Category deleted successfully');
+        console.log("Category deleted successfully");
       } else {
-        console.error('Failed to delete category:', res.statusText);
+        console.error("Failed to delete category:", res.statusText);
       }
     } catch (error) {
-      console.error('Error deleting category:', error.message);
+      console.error("Error deleting category:", error.message);
     }
   };
-  
 
   return (
     <>
-    
       <form clas onSubmit={handleSbubmit}>
         <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 lg:grid-cols-12">
           <div class="sm:col-span-4">
@@ -103,7 +103,7 @@ function Category() {
                 id
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Name of Birth
+                category{" "}
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 edit
@@ -152,7 +152,9 @@ function Category() {
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                     <button
                       class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative"
-                      onClick={deleteCat}
+                      // onClick={deleteCat}
+                      onClick={() => deleteCat(cat.id)}
+
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -32,6 +32,7 @@ function MoreDetails() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [tour_id, setTour_id] = useState("");
+  const [tenant, setTenant] = useState([]);
 
   const setDate = (date) => {
     if (date < new Date()) {
@@ -141,6 +142,21 @@ function MoreDetails() {
   function handleCategoryChange(event) {
     setCategory(event.target.getAttribute("data-category"));
   }
+
+  useEffect(() => {
+    const getTenantinfo = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/houseRegister/${id}`
+        );
+        setTenant(response.data?.detailsWithTotal);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTenantinfo();
+  }, []);
   return (
     <>
       <div className="container-fixed  align-items-center justify-content-center ">
@@ -406,25 +422,51 @@ function MoreDetails() {
           </div>
         </div>
       </div>
+      <p className="text-center text-[1.4rem] underline"> Number of units</p>
 
-      <div className="flex flex-wrap justify-center">
-  {breakNumberIntoDigits(Number(units)).map((digit, digitIndex) => (
-    <div key={digitIndex} className="flex flex-row justify-center items-center   border m-2">
-      <div className="w-32 h-32 bg-teal-200 relative">
-        <div className=" top-0 left-0 w-full h-6 bg-blue-500"></div>
-        <div className=" top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
-        <div className=" bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
-        <div className=" top-1/4 left-1/4 w-6 h-6 bg-yellow-300">
-          {digit}
+      <div className="flex flex-row  justify-center gap-20 items-center mb-40">
+      <div className="flex flex-col  justify-center items-center  flex-wrap ">
+        <p className="text-lg text-[2.4rem] text-teal-400"> Occupied </p>
+        <div className={` m-2`}>
+          <div className="w-32 h-32  bg-red-600 relative">
+            <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+            <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+            <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+          </div>
         </div>
       </div>
-    </div>
-    // {(digitIndex + 1) % 4 === 0 && <div className="w-0" key={`separator-${digitIndex}`}> >}
-    
-  ))}
-</div>
 
+      <div className="flex flex-col  justify-center items-center  flex-wrap ">
+        <p className="text-lg text-[2.4rem] text-teal-400"> vaccant </p>
+        <div className={` m-2`}>
+          <div className="w-32 h-32  bg-green-500 relative">
+            <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+            <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+            <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+          </div>
+        </div>
+      </div>
 
+      </div>
+      <div className="flex flex-wrap justify-center">
+        {breakNumberIntoDigits(Number(units)).map((digit, digitIndex) => (
+          <div
+            key={digitIndex}
+            className={`flex flex-row justify-center items-center border m-2 ${
+              tenant.some((t) => t.id === digit) ? "bg-red-600" : "bg-green-500"
+            }`}
+          >
+            <div className="w-32 h-32  relative">
+              <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+              <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
+              <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
+              <div className=" flex flex-row justify-center items-center h-9 text-3xl text-white">
+                <p> a-</p>  <p>{digit}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="text-center mt-5 fs-3 text-danger fw-bold">
         Related House

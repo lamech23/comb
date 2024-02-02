@@ -37,7 +37,6 @@ const Details = db.define(
     houseName: {
       type: DataTypes.STRING,
       allowNull: false
-
     },
     type: {
       type: DataTypes.STRING,

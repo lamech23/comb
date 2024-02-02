@@ -5,17 +5,6 @@ function Category() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
 
-  const handleSbubmit = async (e) => {
-    e.preventDefault();
-
-    const response = await axios.post("http://localhost:4000/cat/", {
-      name: name,
-    });
-    if (response) {
-      setName("");
-    }
-  };
-
   const fetchCategories = async () => {
     const response = await axios.get("http://localhost:4000/cat/fetch");
     setCategory(response.data);
@@ -24,11 +13,24 @@ function Category() {
     fetchCategories();
   }, []);
 
+  const handleSbubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post("http://localhost:4000/cat/", {
+      name: name,
+    });
+
+    fetchCategories();
+
+    if (response) {
+      setName("");
+    }
+  };
+
+
   const deleteCat = async (id) => {
     try {
-      console.log(id);
       const res = await axios.delete(`http://localhost:4000/cat/${id}`);
-      
       if (res.status === 200) {
         fetchCategories();
         console.log('Category deleted successfully');
@@ -103,7 +105,7 @@ function Category() {
                 id
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Name of Birth
+                Category
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 edit
@@ -152,7 +154,10 @@ function Category() {
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                     <button
                       class="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm text-red-500 shadow-sm focus:relative"
-                      onClick={deleteCat}
+                      // onClick={deleteCat(cat.id)}
+                        onClick={
+                          ()=> deleteCat(cat.id)
+                        }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

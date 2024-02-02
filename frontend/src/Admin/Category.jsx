@@ -19,7 +19,7 @@ function Category() {
     const response = await axios.post("http://localhost:4000/cat/", {
       name: name,
     });
-    
+
     fetchCategories();
 
     if (response) {

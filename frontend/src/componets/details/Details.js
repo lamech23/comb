@@ -61,6 +61,7 @@ const Details = () => {
 
     setIsLoading(false);
   };
+  console.log(details);
 
   
 
@@ -123,6 +124,9 @@ const Details = () => {
                     </p>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                       {detail.price}
+                    </p>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                      {detail.units}
                     </p>
 
                     <p className="mb-3 font-normal text-red-700 dark:text-red-400">

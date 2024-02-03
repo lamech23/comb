@@ -28,7 +28,6 @@ function House() {
     //houseId
     let houseIdArray = house?.map((house) => house.id);
     let houseId = houseIdArray ? houseIdArray[0] : null;
-        console.log(houseId);
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -51,6 +50,7 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
+  console.log(tenant);
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -124,7 +124,7 @@ function House() {
 
   return (
     <>
-      <div className=" flex flex-col justify-center items-center gap-20  ">
+      <div className=" flex flex-col justify-center items-center gap-20 px-80  ">
         <div className=" text-sm mt-14 ">
           <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
@@ -137,6 +137,49 @@ function House() {
 
             </p>
           </div>
+
+
+          <header className="bg-white mt-10 mb-20">
+  <div className="mx-auto flex  flex-wrap h-16 max-w-screen-xl  items-center gap-8 ">
+  
+    <div className="flex  gap-4 flex-1 items-center justify-start md:justify-between">
+      <nav aria-label="Global" className=" md:block ">
+      <div className="sm:flex sm:gap-4">
+          <a
+            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            href="/"
+          >
+            water rates
+          </a>
+
+          <a
+            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            href="/"
+          >
+            bill water
+          </a>
+
+          <a
+            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            href="/"
+          >
+            additinal payments
+          </a>
+
+          <a
+            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            href="/"
+          >
+            Download
+          </a>
+        </div>
+      </nav>
+
+   
+    </div>
+  </div>
+</header>
+
 
           <table
             ref={targetRef}
@@ -394,14 +437,14 @@ function House() {
         </div>
         {/* addtinal paymant section  */}
         <Link
-          to={`/payments/${houseName}`}
+          to={`/payments/${houseId}`}
           state={getWater}
           className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
         >
           bill Water
         </Link>
         <Link
-          to={`/addtionalPayments/${houseName}`}
+          to={`/addtionalPayments/${houseId}`}
           className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
         >
           Addtinal payments
@@ -420,7 +463,7 @@ function House() {
         pauseOnHover
         theme="colored"
       />
-      <RegisterTenant houseId={houseId}/>
+      <RegisterTenant houseId={houseId} tenant={tenant}/>
     </>
   );
 }

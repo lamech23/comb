@@ -25,7 +25,7 @@ const getAllHouses = async (req, res) => {
     const pageNumbers = [];
 
     const totalCount = await Details.count();
-    const currentPage = req.query.page || 1 
+    const currentPage = req.query.page || 1;
     const postPerPage = 4;
     const totalPages = Math.ceil(totalCount / postPerPage);
 
@@ -55,12 +55,9 @@ const getAllHouses = async (req, res) => {
   }
 };
 
-
-
 const getAllHousesByName = async (req, res) => {
   try {
     const details = await Details.findAll({
-
       include: {
         model: users,
         as: "houses",
@@ -72,11 +69,9 @@ const getAllHousesByName = async (req, res) => {
   }
 };
 
-
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-
     const user_id = 1;
     const details = await Details.findAll({
       where: {
@@ -162,6 +157,7 @@ const createDetails = async (req, res) => {
     price: req.body.price,
     houseName: req.body.houseName,
     type: req.body.type,
+    units: req.body.units,
     user_id: user_id,
     details_id: imageUrl.id,
   };
@@ -343,5 +339,5 @@ module.exports = {
   getAllHouses,
   RequstingAtour,
   getAllTours,
-  getAllHousesByName
+  getAllHousesByName,
 };

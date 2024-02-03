@@ -445,7 +445,7 @@ function MoreDetails() {
           <div
             key={digitIndex}
             className={`flex flex-row justify-center items-center border m-2 ${
-              tenant.some((t) => t.id === digit) ? "bg-red-600" : "bg-green-500"
+              tenant.some((t) => Number(t.houseNumber.slice(2))  === digit) ? "bg-red-600" : "bg-green-500"
             }`}
           >
             <div className="w-32 h-32  relative">

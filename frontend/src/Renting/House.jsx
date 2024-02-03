@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , Fragment} from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
@@ -7,6 +7,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { usePDF } from "react-to-pdf";
 import RegisterTenant from "./RegisterTenant";
+import { Dialog, Transition } from '@headlessui/react'
+
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -18,6 +20,24 @@ function House() {
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenRate, setIsOpenRate] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModalRate() {
+    setIsOpenRate(false)
+  }
+
+  function openModalRate() {
+    setIsOpenRate(true)
+  }
 
   // water bill total
   const waterUnits = getWater
@@ -82,6 +102,8 @@ function House() {
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
+        setIsOpen(false);
+    
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -145,37 +167,46 @@ function House() {
     <div className="flex  gap-4 flex-1 items-center justify-start md:justify-between">
       <nav aria-label="Global" className=" md:block ">
       <div className="sm:flex sm:gap-4">
-          <a
-            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-            href="/"
-          >
-            water rates
-          </a>
+      < button
+          type="button"
+          onClick={openModal}
+          className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+        >
+          Open dialog
+        </button>
 
-          <a
+        < button
+          type="button"
+          onClick={openModalRate}
+          className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+        >
+          Add Water Rate
+        </button>
+
+           <Link
+            to={`/payments/${houseId}`}
+            state={getWater}
             className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             href="/"
           >
             bill water
-          </a>
+          </Link>
 
-          <a
+           <Link
+            to={`/addtionalPayments/${houseId}`}
             className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             href="/"
           >
             additinal payments
-          </a>
+          </Link>
 
-          <a
-            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-            href="/"
-          >
+          <button  onClick={() => toPDF()}
+            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
             Download
-          </a>
+          </button>
         </div>
       </nav>
-
-   
+  
     </div>
   </div>
 </header>
@@ -401,55 +432,8 @@ function House() {
 
           {/* <AdditinalPaymants houseName={houseName}/> */}
         </div>
-        {/* water section  */}
-        <div className="flex  gap-2 ">
-          <button
-            type="button "
-            className="text-3xl text-red-400 m-3 font-bold  border rounded-lg p-2 bg-orange-300 shadow-lg w-fit h-fit "
-            onClick={handleWaterButton}
-          >
-            Add Water Rates{" "}
-          </button>
-          <section className="mb-4" id="content" style={{ display: "none" }}>
-            <form onSubmit={createWater}>
-              <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
-                <label className="  text-white text-2xl gap-4 mb-4">
-                  Water Rates{" "}
-                </label>
-                <input
-                  type="text"
-                  className="p-2 rounded-lg w-96"
-                  placeholder="Enter water rates"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
+  
 
-                <button
-                  type="submit"
-                  className="material-symbols-outlined text-red-500 mt-4"
-                >
-                  {" "}
-                  Add
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
-        {/* addtinal paymant section  */}
-        <Link
-          to={`/payments/${houseId}`}
-          state={getWater}
-          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
-        >
-          bill Water
-        </Link>
-        <Link
-          to={`/addtionalPayments/${houseId}`}
-          className=" text-[1.3rem] text-black-600 group-hover:block border p-2 rounded-lg bg-green-200 lg:hover:bg-green-800"
-        >
-          Addtinal payments
-        </Link>
-        <button onClick={() => toPDF()}>Download PDF</button>
       </div>
       <ToastContainer
         position="top-left"
@@ -462,8 +446,104 @@ function House() {
         draggable
         pauseOnHover
         theme="colored"
-      />
-      <RegisterTenant houseId={houseId} tenant={tenant}/>
+        />
+        <Transition appear show={isOpenRate} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <form onSubmit={createWater}>
+                  <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
+                    <label className="  text-white text-2xl gap-4 mb-4">
+                      Water Rates{" "}
+                    </label>
+                    <input
+                      type="text"
+                      className="p-2 rounded-lg w-96"
+                      placeholder="Enter water rates"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+
+                    <button
+                      type="submit"
+                      className="material-symbols-outlined text-red-500 mt-4"
+                    >
+                      {" "}
+                      Add
+                    </button>
+                    <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModalRate}
+                    >
+                      close
+                    </button>
+                  </div>
+                  </div>
+                </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <RegisterTenant setIsOpen={setIsOpen} closeModal={closeModal} houseId={houseId} tenant={tenant}/>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 }

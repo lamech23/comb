@@ -10,6 +10,7 @@ function AllHouses() {
       `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
+    console.log(response.data);
   };
   useEffect(() => {
     // getSpecificHouse();

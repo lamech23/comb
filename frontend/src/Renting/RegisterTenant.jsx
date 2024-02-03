@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Calendar } from "primereact/calendar";
 
-function RegisterTenant({ houseId, tenant }) {
+function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
 
   
   const state = useLocation().state; // am  using one for to create and update
@@ -148,6 +148,7 @@ function RegisterTenant({ houseId, tenant }) {
         setNextOfKingNumber("");
         setHouse("");
         setPreviousBalance("");
+        setIsOpen(false);
       }
 
       toast.success("Succesfully registerd tenant");
@@ -433,6 +434,16 @@ function RegisterTenant({ houseId, tenant }) {
                   create
                 </button>
               )}
+
+                   <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                     close
+                    </button>
+                  </div>
             </section>
           </form>
         </div>

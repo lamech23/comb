@@ -74,7 +74,7 @@ function PropertType() {
       <div className="overflow-x-auto mt-20">
         <p className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
           {" "}
-          List of catgories
+          Type
         </p>
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
           <thead className="ltr:text-left rtl:text-right">

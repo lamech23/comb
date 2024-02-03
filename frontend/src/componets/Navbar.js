@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Search from "./Search";
 
+
+
 function Navbar() {
   const { dispatch } = useAuthContext();
   const { user } = useAuthContext();
@@ -57,12 +59,12 @@ function Navbar() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted  lg:w-full bg-transparent"
+        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted lg:w-full "
         id="mainNavbar"
       >
         <div className="container-xxl ">
         <div className="flex flex-col justify-start items-center ">
-        <Link to="/">
+          <Link to="/">
             {" "}
             <img className="logo" src={logo} alt="" />
           </Link>
@@ -195,27 +197,29 @@ function Navbar() {
                       <ul className="navbar-nav ms-auto mb-2 mb-lg-0 visible">
                         <li className="nav-item dropdown  dropend ">
                           <a
-                            className="nav-link dropdown-toggle second-text fw-bold visible "
-                            href="#"
-                            id="navbarDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                              className="nav-link dropdown-toggle second-text fw-bold visible "
+                              href="#"
+                              id="navbarDropdown"
+                              role="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
                           >
                             <span className="fs-5">
                               <i class="bi bi-person-check fs-5  text-yellow-500 me-2"></i>
                             </span>
 
-                            <span className="fs-5  text-teal-400 ">
-                              {" "}
-                              Welcome {user ? user?.email : null}
-                            </span>
+                               <span className="fs-5 text-teal-400">
+                                  {user ? <span className="icon">{user.email.charAt(0)}</span> : null}
+                                    {user ? `${user?.email.substring(1, 4)}...${user?.email.slice(-3)}` : null}
+                               </span>
+
+
                           </a>
                           <ul
-                            className="dropdown-menu mt-5"
-                            aria-labelledby="navbarDropdown"
+                              className="dropdown-menu mt-5"
+                              aria-labelledby="navbarDropdown"
                           >
-                            <li>
+                          <li>
                               <Link
                                 className="dropdown-item"
                                 to={`/userNav/${user.id}`}

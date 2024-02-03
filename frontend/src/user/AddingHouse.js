@@ -20,7 +20,7 @@ function AddingHouse() {
   const [propertyType, setPropertyType] = useState([]);
   const [houseName, setHouseName] = useState("");
   const [type, setType] = useState("");
-  console.log(cat);
+  const [units, setUnits] = useState("");
 
   const handleCancle = () => {
     setStatus(false);
@@ -47,6 +47,7 @@ function AddingHouse() {
       formData.append("title", title);
       formData.append("houseName", houseName);
       formData.append("type", type);
+      formData.append("units", units);
 
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
@@ -267,8 +268,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              { type === "renting" ? null 
-              :
+              {type === "renting" ? null : (
                 <div class="sm:col-span-3">
                   <label
                     for="price"
@@ -288,7 +288,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              }
+              )}
 
               <div class="sm:col-span-3">
                 <label
@@ -314,8 +314,6 @@ function AddingHouse() {
                 </div>
               </div>
 
-          
-
               {type === "renting" && (
                 <div className="sm:col-span-3">
                   <label
@@ -334,6 +332,29 @@ function AddingHouse() {
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       value={houseName}
                       onChange={(e) => setHouseName(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {type === "renting" && (
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="house-name"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    house Units
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="units"
+                      id="units"
+                      placeholder="e.g. k-1, k2, k3, etc."
+                      autoComplete="given-units"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={units}
+                      onChange={(e) => setUnits(e.target.value)}
                     />
                   </div>
                 </div>

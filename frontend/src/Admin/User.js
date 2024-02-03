@@ -128,7 +128,7 @@ function User() {
                   {allUsers.Active === "active" ? (
                     <button
                       type="button"
-                      className={"btn btn-success"}
+                      className={"whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 text-sm text-green-700"}
                       onClick={() => deactivate(allUsers.id)}
                     >
                       active
@@ -137,7 +137,7 @@ function User() {
                     <button
                       type="button"
                       onClick={() => activate(allUsers.id)}
-                      className="btn btn-danger"
+                      className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700"
                     >
                       inActive
                     </button>

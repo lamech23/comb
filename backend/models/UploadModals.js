@@ -37,9 +37,13 @@ const Details = db.define(
     houseName: {
       type: DataTypes.STRING,
       allowNull: false
-
     },
     type: {
+      type: DataTypes.STRING,
+      // allowNull: false
+
+    },
+    units: {
       type: DataTypes.STRING,
       // allowNull: false
 

@@ -83,25 +83,31 @@ function User() {
   }, [socket]);
 
   return (
-    <>
-      <div className="mt-4">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Edit</th>
-              <th>Delete</th>
-              <th>status</th>
-            </tr>
-          </thead>
-          {users.map((allUsers) => (
-            <tbody key={allUsers.id}>
-              <td>{allUsers.id}</td>
-              <td>{allUsers.email}</td>
-              <td>{allUsers.role}</td>
-              <td>
+     <>
+
+      <div className="card w-full p-6 bg-base-100 shadow-xl ">
+                    <p>Help Center</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                    <th>id</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>status</th>
+                    </tr>
+                    </thead>
+                    {users.map((allUsers) => (
+                    <tbody key={allUsers.id}>
+                       <tr>
+                       <td>{allUsers.id}</td>
+                      <td>{allUsers.email}</td>
+                      <td>{allUsers.role}</td>
+                       <td>
                 <Link
                   to={`/UpdateUser/${allUsers.id}`}
                   type="button"
@@ -144,10 +150,13 @@ function User() {
                   ) : null}
                 </span>
               </td>
-            </tbody>
-          ))}
-        </table>
-      </div>
+                      </tr>        
+                    </tbody>
+                ))}
+                </table>
+            </div>
+       </div>
+
     </>
   );
 }

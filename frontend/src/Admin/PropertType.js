@@ -27,74 +27,43 @@ function PropertType() {
   return (
     <>
       <form onSubmit={handleSbubmit}>
-        <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 lg:grid-cols-12">
-          <div class="sm:col-span-4">
-            <label
-              for="username"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >
-              propertyType{" "}
-            </label>
-            <div class="mt-2">
-              <div class="flex gap-3 rounded-md shadow-sm ring-1 ring-inset ring-white focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-lg">
-                <span class="flex select-none items-center pl-6 text-black sm:text-sm">
-                  type
-                </span>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  autocomplete="username"
-                  class="block flex-1 border-2  py-1.5 pl-5 text-black placeholder:text-white focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder="mansionet"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
+        <div class="flex flex-wrap items-stretch mb-4 relative w-full lg:w-4/12 mt-20">
+								<div class="flex">
+									<span class="flex items-center leading-normal bg-grey-lighter border-1 rounded-r-none border border-r-0 border-blue-300 px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 bg-blue-300 justify-center items-center  text-xl rounded-lg text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+                                   </span>
+								</div>
+						<input  value={type} onChange={(e) => setType(e.target.value)} type="text"
+              class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:outline-none" placeholder="property type"/>
+         </div>
 
-          <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button
-              type="button"
-              class="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Save
-            </button>
-          </div>
-        </div>
+             <div class="mt-5  md:space-x-3 md:block flex flex-col-reverse">
+									<button class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
+									<button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500">Save</button>
+							</div>
       </form>
 
-      <div className="overflow-x-auto mt-20">
-        <p className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
-          {" "}
-          Type
-        </p>
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                id
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                type
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                edit
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                delete
-              </th>
-            </tr>
-          </thead>
 
-          <tbody className="divide-y divide-gray-200">
+
+
+      <div className="card w-full p-6 bg-base-100 shadow-xl mt-20">
+                    <p>Property Types</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Type</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
             {category &&
               category.map((type) => (
                 <tr key={type.id}>
@@ -150,8 +119,10 @@ function PropertType() {
                 </tr>
               ))}
           </tbody>
-        </table>
-      </div>
+                </table>
+            </div>
+       </div>
+
     </>
   );
 }

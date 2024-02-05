@@ -1,10 +1,10 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import React, { lazy } from 'react'
 import Home from "./componets/Home";
 import About from "./componets/About";
 import Contacts from "./componets/Contacts";
 import Navbar from "./componets/Navbar";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./componets/Footer";
 import Login from "./componets/Login";
 import { ModuleLoginContext } from "./context/ModuleLogInContext";
@@ -63,6 +63,7 @@ import BilWater from "./Renting/BillWater";
 import AdditinalPaymants from "./Renting/AdditinalPaymants";
 import PropertType from "./Admin/PropertType";
 
+const Layout = lazy(() => import('./containers/Layout'))
 
 function App() {
   // const { user } = useAuthContext();
@@ -132,6 +133,8 @@ function App() {
             <Route path="/addtionalPayments/:houseName" element={<AdditinalPaymants />} />
             <Route path="/payments/:houseName" element={<BilWater />} />
             <Route path="/propertyType" element={<PropertType />} />
+
+            <Route path="/app/*" element={<Layout />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

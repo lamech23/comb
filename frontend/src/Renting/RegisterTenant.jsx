@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MainNav from "../Admin/MainNav";
-import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
 import "../css/admin.css";
 
@@ -161,7 +160,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
 
   return (
     <>
-      <div className=" px-60 mt-40">
+      <div className=" mt-40">
         <div className="space-y-12">
           <h3 className=" flex flex-row justify-center   text-center mt-4 "> Tenants Details for  <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">  {email}</p></h3>
 
@@ -175,7 +174,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="houseName"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -204,7 +203,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="tenantName"
                   id="house_name"
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={tenantsName}
                   onChange={(e) => setTenantsName(e.target.value)}
@@ -219,7 +218,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="houseNumber"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={houseNumber}
                   onChange={(e) => setHouseNumber(e.target.value)}
@@ -234,7 +233,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rent"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={payableRent}
                   onChange={(e) => setPaybleRent(e.target.value)}
@@ -248,7 +247,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rent"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={rent}
                   onChange={(e) => setRent(e.target.value)}
@@ -276,7 +275,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rentDeposit"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={rentDeposit}
                   onChange={(e) => setRentDeposit(e.target.value)}
@@ -291,7 +290,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="waterReading"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={waterReading}
                   onChange={(e) => setWaterReadiing(e.target.value)}
@@ -306,7 +305,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="waterBill"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={waterBill}
                   onChange={(e) => setWaterBill(e.target.value)}
@@ -321,7 +320,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="previousBalance"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={previousBalance}
                   onChange={(e) => setPreviousBalance(e.target.value)}
@@ -336,7 +335,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="garbage"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={garbage}
                   onChange={(e) => setGarbage(e.target.value)}
@@ -350,7 +349,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="userName"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
@@ -365,7 +364,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="phoneNumber"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -379,7 +378,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="nextOfKingNumber"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={nextOfKingNumber}
                   onChange={(e) => setNextOfKingNumber(e.target.value)}
@@ -394,7 +393,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="prevReading"
                   id=""
-                  className="form-control"
+                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={prevReadings}
                   onChange={(e) => setPrevReadings(e.target.value)}
@@ -410,7 +409,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                       type="text"
                       name="currentReadings"
                       id=""
-                      className="form-control"
+                       class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                       placeholder=""
                       value={currentReadings}
                       onChange={(e) => setCurrentReadings(e.target.value)}
@@ -421,14 +420,14 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
 
               {state ? (
                 <button
-                  className="  border  p-2 bg-blue-200 mt-3 hover:bg-blue-400  "
+                  className="  border rounded-md  p-2 bg-blue-200 mt-3 hover:bg-blue-400  "
                   type="submit"
                 >
                   update
                 </button>
               ) : (
                 <button
-                  className="border  p-2 bg-blue-200 mt-3 hover:bg-blue-400 "
+                  className="border rounded-md p-2 bg-blue-200 mt-3 hover:bg-blue-400 "
                   type="submit"
                 >
                   create

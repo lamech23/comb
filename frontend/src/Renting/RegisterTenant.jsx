@@ -51,7 +51,6 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
   // console.log(payableRent);
   const  selectedTenantId = tenant?.detailsWithTotal?.find((tenant)=> tenant.email)
 
-  console.log(selectedTenantId);
 
   const tenantInfo = [...users];
 
@@ -162,6 +161,16 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
   return (
     <>
       <div className=" px-60 mt-40">
+      <div className="mt-4">
+                    <button
+                      type="button"
+                      className=" material-symbols-outlined text-red-600"
+                      // className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                     close
+                    </button>
+                  </div>
         <div className="space-y-12">
           <h3 className=" flex flex-row justify-center   text-center mt-4 "> Tenants Details for  <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">  {email}</p></h3>
 
@@ -435,15 +444,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                 </button>
               )}
 
-                   <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
-                     close
-                    </button>
-                  </div>
+                  
             </section>
           </form>
         </div>

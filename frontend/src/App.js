@@ -62,6 +62,7 @@ import Category from "./Admin/Category";
 import BilWater from "./Renting/BillWater";
 import AdditinalPaymants from "./Renting/AdditinalPaymants";
 import PropertType from "./Admin/PropertType";
+import CreateUser from "./Admin/CreateUser";
 
 
 function App() {
@@ -132,6 +133,7 @@ function App() {
             <Route path="/addtionalPayments/:houseName" element={<AdditinalPaymants />} />
             <Route path="/payments/:houseName" element={<BilWater />} />
             <Route path="/propertyType" element={<PropertType />} />
+            <Route path="/registerUser" element={<CreateUser />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

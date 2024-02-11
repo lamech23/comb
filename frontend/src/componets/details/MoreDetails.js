@@ -156,7 +156,6 @@ function MoreDetails() {
     getTenantinfo();
   }, []);
 
-  console.log(type);
   return (
     <>
       <div className="container-fixed  align-items-center justify-content-center ">

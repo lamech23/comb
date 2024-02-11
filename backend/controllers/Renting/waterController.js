@@ -10,8 +10,6 @@ const createWater = async (req, res) => {
     user_id: user_id,
     house_id: req.body.house_id,
   };
-
-
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({

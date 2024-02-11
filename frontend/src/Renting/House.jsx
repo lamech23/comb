@@ -1,4 +1,4 @@
-import React, { useEffect, useState , Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
@@ -7,8 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { usePDF } from "react-to-pdf";
 import RegisterTenant from "./RegisterTenant";
-import { Dialog, Transition } from '@headlessui/react'
-
+import { Dialog, Transition } from "@headlessui/react";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -24,19 +23,19 @@ function House() {
   const [isOpenRate, setIsOpenRate] = useState(false);
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   function closeModalRate() {
-    setIsOpenRate(false)
+    setIsOpenRate(false);
   }
 
   function openModalRate() {
-    setIsOpenRate(true)
+    setIsOpenRate(true);
   }
 
   // water bill total
@@ -45,9 +44,9 @@ function House() {
       return house.price;
     })
     .slice(-1)[0];
-    //houseId
-    let houseIdArray = house?.map((house) => house.id);
-    let houseId = houseIdArray ? houseIdArray[0] : null;
+  //houseId
+  let houseIdArray = house?.map((house) => house.id);
+  let houseId = houseIdArray ? houseIdArray[0] : null;
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -70,7 +69,6 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
-  console.log(tenant);
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -103,7 +101,6 @@ function House() {
         setPrice("");
         toast.success("added succesfuly");
         setIsOpen(false);
-    
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -154,63 +151,61 @@ function House() {
           </div>
           <div className=" flex gap-4 text-teal-500 text-3xl ">
             {" "}
-            LANDOWNER: <p className="text-red-400">
-            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
-
+            LANDOWNER:{" "}
+            <p className="text-red-400">
+              {house && house.length > 0 && <p>{house[0].houses.email}</p>}
             </p>
           </div>
 
-
           <header className="bg-white mt-10 mb-20">
-  <div className="mx-auto flex  flex-wrap h-16 max-w-screen-xl  items-center gap-8 ">
-  
-    <div className="flex  gap-4 flex-1 items-center justify-start md:justify-between">
-      <nav aria-label="Global" className=" md:block ">
-      <div className="sm:flex sm:gap-4">
-      < button
-          type="button"
-          onClick={openModal}
-          className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-        >
-          Open dialog
-        </button>
+            <div className="mx-auto flex  flex-wrap h-16 max-w-screen-xl  items-center gap-8 ">
+              <div className="flex  gap-4 flex-1 items-center justify-start md:justify-between">
+                <nav aria-label="Global" className=" md:block ">
+                  <div className="sm:flex sm:gap-4">
+                    <button
+                      type="button"
+                      onClick={openModal}
+                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                    >
+                      register Tenant
+                    </button>
 
-        < button
-          type="button"
-          onClick={openModalRate}
-          className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-        >
-          Add Water Rate
-        </button>
+                    <button
+                      type="button"
+                      onClick={openModalRate}
+                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                    >
+                      Add Water Rate
+                    </button>
 
-           <Link
-            to={`/payments/${houseId}`}
-            state={getWater}
-            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-            href="/"
-          >
-            bill water
-          </Link>
+                    <Link
+                      to={`/payments/${houseId}`}
+                      state={getWater}
+                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                      href="/"
+                    >
+                      bill water
+                    </Link>
 
-           <Link
-            to={`/addtionalPayments/${houseId}`}
-            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-            href="/"
-          >
-            additinal payments
-          </Link>
+                    <Link
+                      to={`/addtionalPayments/${houseId}`}
+                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                      href="/"
+                    >
+                      additinal payments
+                    </Link>
 
-          <button  onClick={() => toPDF()}
-            className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
-            Download
-          </button>
-        </div>
-      </nav>
-  
-    </div>
-  </div>
-</header>
-
+                    <button
+                      onClick={() => toPDF()}
+                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                    >
+                      Download
+                    </button>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </header>
 
           <table
             ref={targetRef}
@@ -432,8 +427,6 @@ function House() {
 
           {/* <AdditinalPaymants houseName={houseName}/> */}
         </div>
-  
-
       </div>
       <ToastContainer
         position="top-left"
@@ -446,8 +439,8 @@ function House() {
         draggable
         pauseOnHover
         theme="colored"
-        />
-        <Transition appear show={isOpenRate} as={Fragment}>
+      />
+      <Transition appear show={isOpenRate} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -473,37 +466,39 @@ function House() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <form onSubmit={createWater}>
-                  <div className="flex flex-col border rounded-lg w-fit  shadow-lg p-4">
-                    <label className="  text-white text-2xl gap-4 mb-4">
-                      Water Rates{" "}
-                    </label>
-                    <input
-                      type="text"
-                      className="p-2 rounded-lg w-96"
-                      placeholder="Enter water rates"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
+                  <form onSubmit={createWater}>
+                    <div className="flex flex-col  rounded-lg    p-4">
+                      <label className="  text-white text-2xl gap-4 mb-4">
+                        Water Rates{" "}
+                      </label>
+                      <input
+                        type="text"
+                        className="p-2 rounded-lg "
+                        placeholder="Enter water rates"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
 
-                    <button
-                      type="submit"
-                      className="material-symbols-outlined text-red-500 mt-4"
-                    >
-                      {" "}
-                      Add
-                    </button>
-                    <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalRate}
-                    >
-                      close
-                    </button>
-                  </div>
-                  </div>
-                </form>
+                      <button
+                        type="submit"
+                        class="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring active:text-red-500 mt-4"
+                      >
+                        {" "}
+                        <span class="block border border-current bg-green-600 px-12 py-3 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
+                          Add
+                        </span>
+                      </button>
+                      <div className="mt-4">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={closeModalRate}
+                        >
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -537,7 +532,12 @@ function House() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <RegisterTenant setIsOpen={setIsOpen} closeModal={closeModal} houseId={houseId} tenant={tenant}/>
+                  <RegisterTenant
+                    setIsOpen={setIsOpen}
+                    closeModal={closeModal}
+                    houseId={houseId}
+                    tenant={tenant}
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

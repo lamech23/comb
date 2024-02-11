@@ -15,6 +15,7 @@ import Stats from "./Stats";
 import AllHouses from "../Renting/AllHouses";
 import Category from "./Category";
 import PropertType from "./PropertType";
+import CreateUser from "./CreateUser";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
@@ -91,6 +92,27 @@ function SideNavigation() {
             onClick={() => setActiveSection("User")}
           >
             Users
+          </button>
+        </div>
+
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            add
+          </i>
+          <button
+            type="button"
+            className={` py-2 px-4 my-2   w-full text-gray-200
+          ${
+            activeSection === "registerUser"
+              ? "bg-teal-500  justify-center items-center border-r-4"
+              : ""
+          }
+          `}
+            id="link"
+            onClick={() => setActiveSection("registerUser")}
+          >
+            Register User
           </button>
         </div>
 
@@ -272,6 +294,7 @@ function SideNavigation() {
             {activeSection === "allHouses" && <AllHouses />}
             {activeSection === "category" && <Category />}
             {activeSection === "propertyType" && <PropertType />}
+            {activeSection === "registerUser" && <CreateUser />}
           </div>
         </div>
       </div>

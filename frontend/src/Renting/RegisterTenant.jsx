@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainNav from "../Admin/MainNav";
 import axios from "axios";
 import "../css/admin.css";
 

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import axios from "axios";
 import "../css/userPage.css";
 import { Link, useLocation } from "react-router-dom";

@@ -15,7 +15,6 @@ import BuyHouse from "./componets/BuyHouse";
 import Maisonette from "./componets/Maisonette";
 import BnbHouse from "./componets/BnbHouse";
 import DetailsForm from "./componets/details/DetailsForm";
-import Dashboard from "./Admin/Dashboard";
 import MoreDetails from "./componets/details/MoreDetails";
 import { useAuthContext } from "./hooks/useAuthContext";
 import AddHouse from "./Admin/AddHouse";
@@ -77,7 +76,6 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/Cards" element={<Cards />} />
-            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Checkout" element={<CheckOut />} />

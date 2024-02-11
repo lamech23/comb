@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainNav from "../Admin/MainNav";
 import "../css/admin.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";

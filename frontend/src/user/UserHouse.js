@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import UserNav from "./UserNav";
+
 
 function UserHouse() {
   const [userInfomation, setUserInformation] = useState([]);
@@ -21,64 +21,70 @@ function UserHouse() {
   } catch (error) {}
   return (
     <>
-      <div className="">
-        <div className="mt-4">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>image</th>
-                <th>title</th>
-                <th>Category</th>
-                <th>location</th>
-                <th>Description</th>
-                <th>contact</th>
-                <th>price</th>
-              </tr>
-            </thead>
 
-            {userInfomation.map((details) => (
-              <tbody key={details.id}>
-                <tr>
-                  <td>
-                    <img
-                      src={`http://localhost:4000/${details.image}`}
-                      width="100px"
-                      height="100px"
-                      style={{ borderRadius: "20px" }}
-                      alt=""
-                      id="imgAd"
-                    />
-                  </td>
-                  <td>
-                    {" "}
-                    <strong>{details.title}</strong>
-                  </td>
-                  <td>
-                    {" "}
-                    <strong>{details.category}</strong>
-                  </td>
 
-                  <td>
-                    {" "}
-                    <strong>{details.location}</strong>
-                  </td>
-                  <td>
-                    {" "}
-                    <strong>{details.description}</strong>
-                  </td>
-                  <td>
-                    {" "}
-                    <strong>{details.contact}</strong>
-                  </td>
-                  <td>
-                    <strong>{details.price}</strong>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-      </div>
+
+      <div className="card w-full p-6 bg-base-100 shadow-xl ">
+                    <p>Houses</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                    <th>image</th>
+                      <th>title</th>
+                      <th>Category</th>
+                      <th>location</th>
+                      <th>Description</th>
+                      <th>contact</th>
+                      <th>price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                  {userInfomation.map((details) => (
+                    <tr  key={details.id}>
+                      <td>
+                        <img
+                          src={`http://localhost:4000/${details.image}`}
+                          width="100px"
+                          height="100px"
+                          style={{ borderRadius: "20px" }}
+                          alt=""
+                          id="imgAd"
+                        />
+                      </td>
+                      <td>
+                        {" "}
+                        <strong>{details.title}</strong>
+                      </td>
+                      <td>
+                        {" "}
+                        <strong>{details.category}</strong>
+                      </td>
+
+                      <td>
+                        {" "}
+                        <strong>{details.location}</strong>
+                      </td>
+                      <td>
+                        {" "}
+                        <strong>{details.description}</strong>
+                      </td>
+                      <td>
+                        {" "}
+                        <strong>{details.contact}</strong>
+                      </td>
+                      <td>
+                        <strong>{details.price}</strong>
+                      </td>
+                    </tr>
+
+                ))}
+                    </tbody>
+                </table>
+            </div>
+       </div>
     </>
   );
 }

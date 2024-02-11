@@ -86,7 +86,7 @@ function Login() {
             if (isAdmin === "Admin") {
               navigate("/Dashboard");
             } else if (isAdmin === "user") {
-              navigate(`/UserNav/${id}`);
+              navigate('/account');
             } else if (isAdmin === "landowner") {
               navigate(`/LandownerDashbard`);
             } else if (isAdmin === "tenant") {

@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import UserNav from "./UserNav";
 import moment from "moment";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+const localizer = momentLocalizer(moment);
+
+
 
 function Appointment() {
   const [appointment, setAppointment] = useState([]);
@@ -26,39 +30,27 @@ function Appointment() {
       setAppointment(appointments);
     };
   } catch (error) {}
+
+  const events = appointment.map(appointments => ({
+    start: moment(appointments?.createdAt).toDate(),
+    end: moment(appointments?.createdAt).toDate(),
+    title: 'Appointment',
+  }));
+
   return (
     <>
-      <div className="split">
-        <UserNav />
+      <div className="">
 
-        <div className=" container-fluid  mt-5">
-            <div className="mt-5 row" >
-              <div
-                className="card  mb-3 shadow-lg"
-                style={{ maxWidth: "20rem" }}
-                id="cardOne"
-              >
-                <div className="display-5 text-center text-info">
-                  <i class="bi bi-calendar-event"></i>
-                </div>
-                <div className="display-6  text-center text-mute">
-                  scheduled date
-                </div>
-                {appointment.map((appointments) => (
-
-                <div className="card-body text-center">
-                  {/* <h5 className="card-title">Primary card title</h5> */}
-                  <p className="card-text text-danger fs-6" key={appointment.id}>
-                    {moment(appointments?.createdAt).format("YYYY/MM/DD   ")}{" "}
-
-                    {appointments?.time}{" "}
-
-                  </p>
-                </div>
-                ))}
+              <div style={{ height: '500px' }}>
+                <Calendar
+                  localizer={localizer}
+                  events={events}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ margin: '50px' }}
+                />
               </div>
-
-
+    
               {/* card two */}
               <div
                 className="card  mb-3 shadow-lg"
@@ -79,8 +71,6 @@ function Appointment() {
                   </p>
                 </div>
               </div>
-            </div>
-        </div>
       </div>
     </>
   );

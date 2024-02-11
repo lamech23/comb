@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import moment from "moment";
 
 function Tours() {
@@ -19,9 +17,7 @@ function Tours() {
   };
   return (
     <>
-      <MainNav />
       <div className="split">
-        <SideNavigation />
 
         <div className="mt-4">
           {/* <div>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
+
 
 function HelpCenterAdmin() {
   const [email, setEmail] = useState([]);

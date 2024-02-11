@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import "../css/admin.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,9 +21,7 @@ function AddAdmin() {
   };
   return (
     <>
-      <MainNav />
       <div className="split">
-        <SideNavigation />
         <div className="adminForm  align-center justify-content center">
           <form className="col" id="adminForm" onSubmit={handelSubmit}>
             <label htmlFor="Email" className="form-Label fw-bold">

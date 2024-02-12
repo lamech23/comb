@@ -84,7 +84,7 @@ function Login() {
             }
 
             if (isAdmin === "Admin") {
-              navigate("/Dashboard");
+              navigate("/admin");
             } else if (isAdmin === "user") {
               navigate('/account');
             } else if (isAdmin === "landowner") {
@@ -117,56 +117,63 @@ function Login() {
       )}
       <div className="container-fluid ">
         <div className=" login_page   justify-content-center items-center lg:w-fit  ">
+
           <h5 className="text-center text-info">Login </h5>
+
           <form onSubmit={handelSubmit} className="col lg:w-fit ">
+
+          <div className="mb-5">        
             <label htmlFor="Email" className="form-Label fw-bold">
               {" "}
               Email{" "}
-            </label>
-            <div className="input-group">
-              <span className="input-group-text">
+              <span className="pl-2 input-group-text">
                 <i className="bi bi-envelope"></i>
               </span>
+            </label>
+            <div className="input-group">
               <input
                 type="text"
                 name="email"
-                className="form-control"
+               class="block w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                 id="inputEmail"
                 aria-describedby="emailHelp"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            </div>
 
+            <div className="mb-10 mt-5">   
             <label htmlFor="Email" className="form-label fw-bold">
               {" "}
               Password
-            </label>
-            <div className="input-group">
-              <span className="input-group-text">
+              <span className="pl-2 input-group-text">
                 <i className="bi bi-lock"></i>
               </span>
-              <div className="flex flex-grow gap-2">
+            </label>
+            <div className="input-group">
+              <div className="relative">
                 <input
                   type="password"
                   name="password"
-                  className="form-control"
+                 class=" block w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   id="inputPassword"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <div className="absolute right-5 top-0 input-group-text w-fit">
+                  <span
+                    className=" showPasscode material-symbols-outlined text-3xl cursor-pointer text-teal-500"
+                    onClick={showPassword}
+                  >
+                    visibility_off
+                  </span>
               </div>
-              <span className="input-group-text w-fit">
-                <span
-                  className=" showPasscode material-symbols-outlined text-3xl cursor-pointer text-teal-500"
-                  onClick={showPassword}
-                >
-                  visibility_off
-                </span>
-              </span>
+              </div>
+            </div>
             </div>
 
-            <div className="form-text text-info">
+            <div className="form-text text-white">
               Don't share your password with anyone else...
             </div>
 
@@ -179,7 +186,7 @@ function Login() {
             </button>
 
             <div>
-              <p className="text-end mt-3  ">
+              <p className="text-end mt-3 text-white ">
                 Don't have an account please click here to
                 <Link
                   className="text-decoration-none fs-5 text-info"
@@ -191,7 +198,7 @@ function Login() {
                 </Link>
               </p>
             </div>
-            <div className="text-end mt-2">
+            <div className=" mt-2">
               <Link
                 className="text-decoration-none fs-5 text-info"
                 to="/ForgotPassword"

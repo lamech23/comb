@@ -22,6 +22,7 @@ const getSearch = async (req, res) => {
         category: { [Op.like]: `%${keyword}%` },
         price: { [Op.like]: `%${keyword}%` },
         location: { [Op.like]: `%${keyword}%` },
+        houseName: { [Op.like]: `%${keyword}%` },
         }
       },
       limit: limit,

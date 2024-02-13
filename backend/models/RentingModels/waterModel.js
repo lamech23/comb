@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
 const db = require("../../config/Database");
 const users = require("../UserModels");
-const houseName = require("./houseNameModel");
+const Details = require("../UploadModals");
+
 
 const water = db.define(
   "waters",
@@ -28,7 +29,7 @@ water.belongsTo(users, {
   onDelete: "cascade",
   onUpdate: "cascade",
 });
-water.belongsTo(houseName, {
+water.belongsTo(Details, {
     foreignKey: "house_id",
     as: "house",
     onDelete: "cascade",

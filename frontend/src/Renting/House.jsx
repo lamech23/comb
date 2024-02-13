@@ -1,12 +1,13 @@
-import React, { useEffect, useState , Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
+// import MainNav from "../Admin/MainNav";
+import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { usePDF } from "react-to-pdf";
 import RegisterTenant from "./RegisterTenant";
-import { Dialog, Transition } from '@headlessui/react'
-
+import { Dialog, Transition } from "@headlessui/react";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -20,21 +21,22 @@ function House() {
   const [payments, setPayments] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
+  console.log(getWater);
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   function closeModalRate() {
-    setIsOpenRate(false)
+    setIsOpenRate(false);
   }
 
   function openModalRate() {
-    setIsOpenRate(true)
+    setIsOpenRate(true);
   }
 
   // water bill total
@@ -43,9 +45,9 @@ function House() {
       return house.price;
     })
     .slice(-1)[0];
-    //houseId
-    let houseIdArray = house?.map((house) => house.id);
-    let houseId = houseIdArray ? houseIdArray[0] : null;
+  //houseId
+  let houseIdArray = house?.map((house) => house.id);
+  let houseId = houseIdArray ? houseIdArray[0] : null;
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -68,8 +70,6 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
-  console.log(tenant);
-
   // guard clause
   if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");
@@ -101,7 +101,6 @@ function House() {
         setPrice("");
         toast.success("added succesfuly");
         setIsOpen(false);
-    
       }
     } catch (error) {
       toast.error(JSON.stringify(error.message) || "field cannot be empty");
@@ -151,9 +150,9 @@ function House() {
           </div>
           <div className=" flex gap-4 text-teal-500 text-xl ">
             {" "}
-            LANDOWNER: <p className="text-red-400">
-            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
-
+            LANDOWNER:{" "}
+            <p className="text-red-400">
+              {house && house.length > 0 && <p>{house[0].houses.email}</p>}
             </p>
           </div>
         </div>
@@ -438,8 +437,8 @@ function House() {
         draggable
         pauseOnHover
         theme="colored"
-        />
-        <Transition appear show={isOpenRate} as={Fragment}>
+      />
+      <Transition appear show={isOpenRate} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -531,7 +530,12 @@ function House() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <RegisterTenant setIsOpen={setIsOpen} closeModal={closeModal} houseId={houseId} tenant={tenant}/>
+                  <RegisterTenant
+                    setIsOpen={setIsOpen}
+                    closeModal={closeModal}
+                    houseId={houseId}
+                    tenant={tenant}
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

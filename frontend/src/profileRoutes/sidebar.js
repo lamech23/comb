@@ -10,7 +10,6 @@ const submenuIconClasses = `h-5 w-5`
 
 const user = JSON.parse(localStorage.getItem("credentials"));
 let id = user.id;
-console.log(id);
 const routes = [
   {
     path: '/account/',

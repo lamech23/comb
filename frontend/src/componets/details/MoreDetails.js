@@ -159,7 +159,6 @@ function MoreDetails() {
     getTenantinfo();
   }, []);
 
-  console.log(type);
 
   function closeModal() {
     setIsOpen(false)

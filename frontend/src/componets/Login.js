@@ -84,7 +84,7 @@ function Login() {
             }
 
             if (isAdmin === "Admin") {
-              navigate("/admin");
+              navigate("/admin/analytics");
             } else if (isAdmin === "user") {
               navigate('/account');
             } else if (isAdmin === "landowner") {

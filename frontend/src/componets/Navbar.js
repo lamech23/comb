@@ -84,7 +84,6 @@ function Navbar() {
                             </>
                           )}
 
-<<<<<<< HEAD
                           {!user && (
                             <>
                               <li className="justify-between">
@@ -92,131 +91,6 @@ function Navbar() {
                               </li>
                             </>
                         )}
-=======
-          <div
-            className="   navbar-collapse justify-content-end align-center me-5 visible  "
-            id="main_navigation"
-          >
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link
-                  className={`nav-link active cursor-pointer
-                 ${
-                   activeNavLink === "/"
-                     ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
-                     : ""
-                 }`}
-                  to="/"
-                  onClick={() => setActiveNavLink("/")}
-
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link active cursor-pointer
-                    ${
-                      activeNavLink === "About"
-                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center "
-                        : ""
-                    }`}
-                  to="/About"
-                  onClick={() => setActiveNavLink("About")}
-
-                >
-                  About
-                </Link>
-              </li>
-  
-
-              {user?.Active === "active" ? (
-                <li
-                  className={`nav-item active cursor-pointer
-                ${
-                  activeNavLink === "Contacts"
-                    ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
-                    : ""
-                }`}
-                >
-                  <Link
-                    className="nav-link active cursor-pointer"
-                    to="/DetailsForm"
-                  >
-                    Post
-                  </Link>
-                </li>
-              ) : null}
-
-              {role && user ? (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Admin">
-                    Dashboard
-                  </Link>
-                </li>
-              ) : null}
-
-              {/* the logout button should display only if we have a user */}
-              {user && (
-                <div className=" card nav-item">
-                  <div
-                    className=" collapse navbar-collapse justify-content-end align-center me-5  "
-                    id="main-navbar"
-                  >
-                    <div
-                      className="collapse navbar-collapse"
-                      id="navbarSupportedContent"
-                    >
-                      <ul className="navbar-nav ms-auto mb-2 mb-lg-0 visible">
-                        <li className="nav-item dropdown  dropend ">
-                          <a
-                              className="nav-link dropdown-toggle second-text fw-bold visible "
-                              href="#"
-                              id="navbarDropdown"
-                              role="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                          >
-                            <span className="fs-5">
-                              <i class="bi bi-person-check fs-5  text-yellow-500 me-2"></i>
-                            </span>
-
-                               <span className="fs-5 text-teal-400">
-                                  {user ? <span className="icon">{user.email.charAt(0)}</span> : null}
-                                    {user ? `${user?.email.substring(1, 4)}...${user?.email.slice(-3)}` : null}
-                               </span>
-
-
-                          </a>
-                          <ul
-                              className="dropdown-menu mt-5"
-                              aria-labelledby="navbarDropdown"
-                          >
-                          <li>
-                              <Link
-                                className="dropdown-item"
-                                to='/account'
-                              >
-                                Profile
-                              </Link>
-                            </li>
-                            {/* <li>
-                              <a className="dropdown-item" href="/Settings">
-                                Settings
-                              </a>
-                            </li> */}
-                            <li>
-                              <button
-                                className=" dropdown-item  text-decoration-none text-danger fs-5"
-                                onClick={handleLogout}
-                              >
-                                {" "}
-                                logout{" "}
-                              </button>
-                            </li>
-                          </ul>
-                        </li>
->>>>>>> c8b691c87982cad10068d21bac964c43c194b665
                       </ul>
                   </div>
               </div>

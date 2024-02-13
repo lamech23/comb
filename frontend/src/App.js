@@ -66,7 +66,6 @@ function App() {
             <Route path="/DetailsForm" element={<DetailsForm />} />
             <Route path="/" element={<Home />} />
             <Route path="/About" element={<About />} />
-            <Route path="/Contacts" element={<Contacts />} />
             <Route path="/Details" element={<Details />} />
             <Route path="/Maisonette" element={<Maisonette />} />
             <Route path="/MoreDetails/:id" element={<MoreDetails />} />

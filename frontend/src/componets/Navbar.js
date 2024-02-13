@@ -141,21 +141,7 @@ function Navbar() {
                   About
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link active cursor-pointer
-               ${
-                 activeNavLink === "Contacts"
-                   ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
-                   : ""
-               }`}
-                  to="/Contacts"
-                  onClick={() => setActiveNavLink("Contacts")}
-
-                >
-                  Contacts
-                </Link>
-              </li>
+  
 
               {user?.Active === "active" ? (
                 <li
@@ -177,7 +163,7 @@ function Navbar() {
 
               {role && user ? (
                 <li className="nav-item">
-                  <Link className="nav-link" to="/Dashboard">
+                  <Link className="nav-link" to="/Admin">
                     Dashboard
                   </Link>
                 </li>
@@ -227,11 +213,11 @@ function Navbar() {
                                 Profile
                               </Link>
                             </li>
-                            <li>
+                            {/* <li>
                               <a className="dropdown-item" href="/Settings">
                                 Settings
                               </a>
-                            </li>
+                            </li> */}
                             <li>
                               <button
                                 className=" dropdown-item  text-decoration-none text-danger fs-5"

@@ -21,6 +21,7 @@ function House() {
   const [payments, setPayments] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
+  console.log(getWater);
 
   function closeModal() {
     setIsOpen(false);

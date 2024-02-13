@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 function UpdateDetails() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -70,9 +68,8 @@ function UpdateDetails() {
 
   return (
     <>
-      <MainNav />
       <div className="split">
-        <SideNavigation />
+
         <div className="container-lg">
           <div className=" row justify-content-center ">
             <div className="col-lg-6">

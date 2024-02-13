@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import MainNav from "../Admin/MainNav";
+// import MainNav from "../Admin/MainNav";
 import SideNavigation from "../Admin/SideNavigation";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -69,7 +69,6 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
-
   // guard clause
   if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");
@@ -143,34 +142,34 @@ function House() {
 
   return (
     <>
-      <div className=" flex flex-col justify-center items-center gap-20 px-80  ">
-        <div className=" text-sm mt-14 ">
-          <div className=" flex gap-4 text-teal-500 text-3xl ">
+        <div className=" text-sm mt-14 px-5">
+          <div className=" flex gap-4 text-teal-500 text-xl ">
             {" "}
             HOUSE: <p className="text-red-400">{houseName}</p>
           </div>
-          <div className=" flex gap-4 text-teal-500 text-3xl ">
+          <div className=" flex gap-4 text-teal-500 text-xl ">
             {" "}
             LANDOWNER:{" "}
             <p className="text-red-400">
               {house && house.length > 0 && <p>{house[0].houses.email}</p>}
             </p>
           </div>
+        </div>
 
-          <header className="bg-white mt-10 mb-20">
-            <div className="mx-auto flex  flex-wrap h-16 max-w-screen-xl  items-center gap-8 ">
-              <div className="flex  gap-4 flex-1 items-center justify-start md:justify-between">
-                <nav aria-label="Global" className=" md:block ">
-                  <div className="sm:flex sm:gap-4">
-                    <button
+        
+        <header className=" mt-10 mb-20">
+          
+            <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
+                <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
+                  < button
                       type="button"
                       onClick={openModal}
                       className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
                     >
-                      register Tenant
+                      Add Tenant
                     </button>
 
-                    <button
+                    < button
                       type="button"
                       onClick={openModalRate}
                       className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
@@ -178,74 +177,73 @@ function House() {
                       Add Water Rate
                     </button>
 
-                    <Link
-                      to={`/payments/${houseId}`}
-                      state={getWater}
-                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                      href="/"
-                    >
-                      bill water
-                    </Link>
+                      <Link
+                        to={`/payments/${houseId}`}
+                        state={getWater}
+                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                        href="/"
+                      >
+                        bill water
+                      </Link>
 
-                    <Link
-                      to={`/addtionalPayments/${houseId}`}
-                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                      href="/"
-                    >
-                      additinal payments
-                    </Link>
+                      <Link
+                        to={`/addtionalPayments/${houseId}`}
+                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                        href="/"
+                      >
+                        additinal payments
+                      </Link>
 
-                    <button
-                      onClick={() => toPDF()}
-                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                    >
-                      Download
-                    </button>
-                  </div>
-                </nav>
-              </div>
+                      <button  onClick={() => toPDF()}
+                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
+                        Download
+                      </button>
+                </div>
             </div>
-          </header>
+         </header>
+         
+        
+        <div className="card w-full p-6 bg-base-100 shadow-xl ">
+                    <p>Tenants</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table      ref={targetRef} className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>id </th>
+                        <th>House Number</th>
+                        <th>Tenant Name </th>
+                        <th>payable Rent</th>
+                        <th> Paid Rent</th>
 
-          <table
-            ref={targetRef}
-            className=" table-auto border-separate border-spacing-2 border border-slate-400   "
-          >
-            <thead className="">
-              <tr>
-                <th className="border border-slate-600">id </th>
-                <th className="border border-slate-600">House Number</th>
-                <th className="border border-slate-600">Tenant Name </th>
-                <th className="border border-slate-600">payable Rent</th>
-                <th className="border border-slate-600"> Paid Rent</th>
+                        <th>
+                          additinalPayments
+                          <th> date</th>
+                          <th> paymentType</th>
+                        </th>
+                        <th>Rent Deposit</th>
+                        <th>prev water reading</th>
+                        <th>
+                          current water reading
+                        </th>
+                        <th>Water units</th>
 
-                <th className="border border-slate-600 flex flex-row justify-start items-center gap-20">
-                  additinalPayments
-                  <th className=" border-slate-600"> date</th>
-                  <th className=" border-slate-600"> paymentType</th>
-                </th>
-                <th className="border border-slate-600">Rent Deposit</th>
-                <th className="border border-slate-600">prev water reading</th>
-                <th className="border border-slate-600">
-                  current water reading
-                </th>
-                <th className="border border-slate-600">Water units</th>
-
-                <th className="border border-slate-600">Water per unit</th>
-                <th className="border border-slate-600">Water Bill</th>
-                <th className="border border-slate-600">Previous Balance</th>
-                <th className="border border-slate-600">Garbage</th>
-                <th className="border border-slate-600">Phone Number</th>
-                <th className="border border-slate-600">
-                  Next_of_king_number{" "}
-                </th>
-                <th className="border border-slate-600">balance C/F</th>
-                <th className="border border-slate-600">Total</th>
-                <th> water readings</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tenant?.detailsWithTotal?.map((tenants) => (
+                        <th>Water per unit</th>
+                        <th>Water Bill</th>
+                        <th>Previous Balance</th>
+                        <th>Garbage</th>
+                        <th>Phone Number</th>
+                        <th>
+                          Next_of_king_number{" "}
+                        </th>
+                        <th>balance C/F</th>
+                        <th>Total</th>
+                        <th> water readings</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {tenant?.detailsWithTotal?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}
@@ -421,13 +419,12 @@ function House() {
                   </Link>
                 </tr>
               ))}
-              <tr></tr>
-            </tbody>
-          </table>
+                    </tbody>
+                </table>
+            </div>
+       </div>
 
-          {/* <AdditinalPaymants houseName={houseName}/> */}
-        </div>
-      </div>
+   
       <ToastContainer
         position="top-left"
         autoClose={3000}
@@ -466,39 +463,39 @@ function House() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <form onSubmit={createWater}>
-                    <div className="flex flex-col  rounded-lg    p-4">
-                      <label className="  text-white text-2xl gap-4 mb-4">
-                        Water Rates{" "}
-                      </label>
-                      <input
-                        type="text"
-                        className="p-2 rounded-lg "
-                        placeholder="Enter water rates"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
+                <form onSubmit={createWater}>
+                  <div >
+                    <label className="  text-black text-2xl gap-4 mb-4">
+                      Water Rates{" "}
+                    </label>
+                    <input
+                      type="text"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                      placeholder="Enter water rates"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
 
-                      <button
-                        type="submit"
-                        class="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring active:text-red-500 mt-4"
-                      >
-                        {" "}
-                        <span class="block border border-current bg-green-600 px-12 py-3 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
-                          Add
-                        </span>
-                      </button>
-                      <div className="mt-4">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                          onClick={closeModalRate}
-                        >
-                          close
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+   
+                    <div className="mt-4 space-x-3">
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    >
+                      {" "}
+                      Add
+                    </button>
+
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModalRate}
+                    >
+                      close
+                    </button>
+                  </div>
+                  </div>
+                </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

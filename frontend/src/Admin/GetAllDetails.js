@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 import "../css/DetailsAdmin.css";

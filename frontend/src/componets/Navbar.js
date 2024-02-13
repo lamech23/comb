@@ -60,7 +60,7 @@ function Navbar() {
     <div>
       <nav
         className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted lg:w-full "
-        id="mainNavbar"
+
       >
         <div className="container-xxl ">
         <div className="flex flex-col justify-start items-center ">
@@ -222,7 +222,7 @@ function Navbar() {
                           <li>
                               <Link
                                 className="dropdown-item"
-                                to={`/userNav/${user.id}`}
+                                to='/account'
                               >
                                 Profile
                               </Link>

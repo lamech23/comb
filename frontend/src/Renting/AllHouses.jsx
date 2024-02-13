@@ -18,21 +18,40 @@ function AllHouses() {
   }, []);
 
   return (
-    <div className=" flex flex-col gap-4  text-3xl  justify-start">
-      {house.map((item, index) => {
-        return (
-          <div key={index} value={item}>
-            <Link
-              className="no-underline text-gray-700"
-              to={`/House/${item.houseName}`}
-            >
-              {item.houseName}
-            </Link>
-        
-          </div>
-        );
-      })}
-    </div>
+    <>
+
+    <div className="card w-full p-6 bg-base-100 shadow-xl ">
+                    <p>List Of All Houses</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Houses</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {house.map((item, index) => (
+                        <tr key={index} value={item}>
+                        <td>{item.id}</td>
+                        <td>
+                          <Link
+                            className="no-underline text-gray-700"
+                            to={`/House/${item.houseName}`}
+                          >
+                            {item.houseName}
+                          </Link>
+                        </td>
+                        </tr>
+                   ))}
+                   </tbody>
+                </table>
+            </div>
+       </div>
+
+    </>
   );
 }
 

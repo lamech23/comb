@@ -78,7 +78,7 @@ function Navbar() {
                         {user && (
                             <>
                               <li className="justify-between">
-                              <Link to={'/account'}> Profile </Link>
+                              <Link to={'/account/'}> Profile </Link>
                               </li>
                             <li><a onClick={handleLogout}>Logout</a></li>
                             </>

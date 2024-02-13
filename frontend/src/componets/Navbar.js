@@ -34,16 +34,13 @@ function Navbar() {
     });
   });
 
-  const handleOpen = () => {
-    setOpen(true);
-    document.querySelector("#main_navigation").style.display = "";
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    const content = document.querySelector("#main_navigation");
-    content.style.display = "none";
-  };
+  let Links =[
+    {name:"HOME",link:"/"},
+    {name:"SERVICE",link:"/"},
+    {name:"ABOUT",link:"/"},
+    {name:"BLOG'S",link:"/"},
+    {name:"CONTACT",link:"/"},
+  ];
 
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);
@@ -58,198 +55,78 @@ function Navbar() {
 
   return (
     <div>
-      <nav
-        className="navbar navbar-expand-md  navbar-light shadow-lg bg-muted lg:w-full "
+      <header class='border-b bg-white font-sans min-h-[60px] px-10 py-3 relative'>
+        <div class='flex flex-wrap items-center max-lg:gap-y-6 max-sm:gap-x-4'>
+          
+            <a href="/">
+              <div className="w-16 h-16 mx-auto">
+                <img className="" src={logo} alt="logo" class='' />
+              </div>
+                <p className="text-md pt-3 text-blue-400 font-bold">Freyton Property Agencies</p>
+            </a>
 
-      >
-        <div className="container-xxl ">
-        <div className="flex flex-col justify-start items-center ">
-          <Link to="/">
-            {" "}
-            <img className="logo" src={logo} alt="" />
-          </Link>
-          <Link className=" no-underline text-3xl text-blue-700 font-serif ms-3   font-bold  " to="/">
-             Freyton Property Agencies
-          </Link>
-        </div>
+            <div class='flex items-center ml-auto lg:order-1'>
 
-          {open ? (
-            <button
-              className="navbar-toggler hover:bg-teal-800"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#main_navigation"
-              aria-controls="main_navigation"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              onClick={handleClose}
-            >
-              <span class="material-symbols-outlined text-red-500 text-2xl">
-                {" "}
-                close
-              </span>
-            </button>
-          ) : (
-            <button
-              className="navbar-toggler "
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#main_navigation"
-              aria-controls="main_navigation"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              onClick={handleOpen}
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          )}
-          {/* <Search/> */}
-          <Search />
+            <div className=" sticky top-0 bg-base-100  z-10  ">
+                <div className="dropdown dropdown-end ml-4">
+                      <label tabIndex={0} className="">
+                        <div className="w-10 rounded-full">
+                            <p className="cursor-pointer">Profile</p>
+                        </div>
+                      </label>
+                      <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                        {user && (
+                            <>
+                              <li className="justify-between">
+                              <Link to={'/account'}> Profile </Link>
+                              </li>
+                            <li><a onClick={handleLogout}>Logout</a></li>
+                            </>
+                          )}
 
-          <div
-            className="   navbar-collapse justify-content-end align-center me-5 visible  "
-            id="main_navigation"
-          >
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link
-                  className={`nav-link active cursor-pointer
-                 ${
-                   activeNavLink === "/"
-                     ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
-                     : ""
-                 }`}
-                  to="/"
-                  onClick={() => setActiveNavLink("/")}
-
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link active cursor-pointer
-                    ${
-                      activeNavLink === "About"
-                        ? " border-b-2 border-b-teal-800 w-fit justify-center items-center "
-                        : ""
-                    }`}
-                  to="/About"
-                  onClick={() => setActiveNavLink("About")}
-
-                >
-                  About
-                </Link>
-              </li>
-  
-
-              {user?.Active === "active" ? (
-                <li
-                  className={`nav-item active cursor-pointer
-                ${
-                  activeNavLink === "Contacts"
-                    ? " border-b-2 border-b-teal-800 w-fit justify-center items-center"
-                    : ""
-                }`}
-                >
-                  <Link
-                    className="nav-link active cursor-pointer"
-                    to="/DetailsForm"
-                  >
-                    Post
-                  </Link>
-                </li>
-              ) : null}
-
-              {role && user ? (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Dashboard">
-                    Dashboard
-                  </Link>
-                </li>
-              ) : null}
-
-              {/* the logout button should display only if we have a user */}
-              {user && (
-                <div className=" card nav-item">
-                  <div
-                    className=" collapse navbar-collapse justify-content-end align-center me-5  "
-                    id="main-navbar"
-                  >
-                    <div
-                      className="collapse navbar-collapse"
-                      id="navbarSupportedContent"
-                    >
-                      <ul className="navbar-nav ms-auto mb-2 mb-lg-0 visible">
-                        <li className="nav-item dropdown  dropend ">
-                          <a
-                              className="nav-link dropdown-toggle second-text fw-bold visible "
-                              href="#"
-                              id="navbarDropdown"
-                              role="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                          >
-                            <span className="fs-5">
-                              <i class="bi bi-person-check fs-5  text-yellow-500 me-2"></i>
-                            </span>
-
-                               <span className="fs-5 text-teal-400">
-                                  {user ? <span className="icon">{user.email.charAt(0)}</span> : null}
-                                    {user ? `${user?.email.substring(1, 4)}...${user?.email.slice(-3)}` : null}
-                               </span>
-
-
-                          </a>
-                          <ul
-                              className="dropdown-menu mt-5"
-                              aria-labelledby="navbarDropdown"
-                          >
-                          <li>
-                              <Link
-                                className="dropdown-item"
-                                to='/account'
-                              >
-                                Profile
-                              </Link>
-                            </li>
-                            {/* <li>
-                              <a className="dropdown-item" href="/Settings">
-                                Settings
-                              </a>
-                            </li> */}
-                            <li>
-                              <button
-                                className=" dropdown-item  text-decoration-none text-danger fs-5"
-                                onClick={handleLogout}
-                              >
-                                {" "}
-                                logout{" "}
-                              </button>
-                            </li>
-                          </ul>
-                        </li>
+                          {!user && (
+                            <>
+                              <li className="justify-between">
+                              <Link to="/Login">Login</Link>
+                              </li>
+                            </>
+                        )}
                       </ul>
-                    </div>
                   </div>
-                </div>
-              )}
-            </ul>
-          </div>
-          {/* only if we dont have a user we see the login icon */}
-          {!user && (
-            <div className="display-6  btn-group">
-              <Link
-                to="/Login"
-                type="button"
-                className="btn btn-warning rounded-pill my-3 me-4 fw-bold "
-              >
-                Login
-              </Link>
+              </div>
+            
+              <button onClick={()=>setOpen(!open)} id="toggle" class='lg:hidden ml-7'>
+                <svg class="w-7 h-7" fill="#000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
             </div>
-          )}
+
+            <ul  className={`absolute lg:static left-0 w-full lg:w-0  lg:flex mx-auto lg:space-x-10 max-lg:space-y-3   md:z-auto z-[99]  transition-all duration-500 ease-in ${open ? 'top-52 bg-gray-50 ':'top-[-490px]'}`}>
+              <li class='max-lg:border-b max-lg:py-2 px-5'>
+                <Link to="/" class='hover:text-[#007bff] text-[15px] text-gray-600 block font-bold'>Home</Link>
+              </li>
+              <li class='max-lg:border-b max-lg:py-2 px-5'>
+                <Link to="/About" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>About</Link>
+              </li>
+                {user?.Active === "active" ? (
+                <li class='max-lg:border-b max-lg:py-2 px-5'>
+                  <Link to="/DetailsForm" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>Post</Link>
+                </li>
+              ) : null}
+                {role && user ? (
+                <li class='max-lg:border-b max-lg:py-2 px-5'>
+                  <Link to="/Dashboard" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>
+                </li>
+                ) : null}
+            </ul>
+   
         </div>
-      </nav>
+        <Search />
+      </header>
+
 
       {/* <Search/> */}
       <ToastContainer

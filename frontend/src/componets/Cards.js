@@ -13,101 +13,45 @@ function Cards() {
 
   return (
     <div>
-      <section className="container-lg bg-light mt-5">
-        <div className="container-lg">
-          <div className="text-center">
-            <h2>Available Properties</h2>
-            <p className="lead text-muted">
-              {" "}
-              Choose a house that best suits you right
-            </p>
-          </div>
-          {/* card-1 */}
-
-          <div className="row my-5 align-items-center justify-content-center  g-0">
-            <div className="col-8 col-lg-4 col-xl-3">
-              <div className="card border-0">
-                <div className="card-body text-center py-4">
-                  <img className="img-fluid rounded" src={buy} alt="" />
-                  <h4 className="card-title">Bungalow</h4>
-                  <p className="lead card-subtitle">
-                    At kausi Housing Agency We sell houses as per your
-                    specification
-                  </p>
-                  <p className="cardtext mx-5 text-muted d-none d-lg-block">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Sit, quas.
-                  </p>
-
-                  <Link
-                    to="/BuyHouse"
-                    className="btn btn-outline-secondary btn-lg mt-3"
-                  >
-                    {" "}
-                    Buy Now
-                  </Link>
-                </div>
-              </div>
+      <div class="container mx-auto">
+    <h2 class="text-2xl font-bold text-center my-4">Categories</h2>
+    <div class="grid  grid-cols-3 gap-4">
+    <div class="relative rounded overflow-hidden shadow-md">
+     <Link to="/BnbHouse">
+      <img src="https://solverwp.com/demo/html/mingrand/assets/img/product/cat-1.png" alt="Orchard"/>
+        <div class="absolute inset-0 flex justify-center items-center">
+            <div class="px-6 py-4 text-center text-white">
+                <h3 class="font-bold text-3xl mb-2">Apartment</h3>
             </div>
-            {/* card-2 */}
-
-            <div className="col-8 col-lg-4">
-              <div className="card border-2 border-warning">
-                <div className="card header text-center text-warning">
-                  Most Popular Service
-                </div>
-                <img className="img-fluid rounded mt-2" src={mansh} alt="" />
-
-                <div className="card-body text-center py-4">
-                  <h4 className="card-title">Maisonette</h4>
-                  <p className="lead card-subtitle">
-                    {" "}
-                    Being the Most Recurrent service At kausi Housing Agency
-                    Customer Satisfaction is key
-                  </p>
-                  <p className="cardtext mx-5 text-muted d-none d-lg-block">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Sit, quas.
-                  </p>
-                  <Link to="/Maisonette">
-                    {" "}
-                    <button className="btn btn-outline-secondary btn-lg mt-3">
-                      Buy Now
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* card-3  */}
-
-            <div className="col-8 col-lg-4 col-xl-3">
-              <div className="card border-0">
-                <div className="card-body text-center py-4">
-                  <img className="img-fluid rounded" src={bnb} alt="" />
-
-                  <h4 className="card-title">Apartments </h4>
-
-                  <p className="lead card-subtitle">
-                    For those Who like everything catered for kausi got you
-                    coverd{" "}
-                  </p>
-                  <p className="cardtext mx-5 text-muted d-none d-lg-block">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Sit, quas.
-                  </p>
-                  <Link to="/BnbHouse">
-                    {" "}
-                    <button className="btn btn-outline-secondary btn-lg mt-3">
-                      Buy Now
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
+        </Link>
+     </div>
+
+     <div class="relative rounded overflow-hidden shadow-md">
+      <Link  to="/BuyHouse">
+      <img src="https://solverwp.com/demo/html/mingrand/assets/img/product/cat-1.png" alt="Orchard"/>
+        <div class="absolute inset-0 flex justify-center items-center">
+            <div class="px-6 py-4 text-center text-white">
+                <h3 class="font-bold text-3xl mb-2">Bungalow</h3>
+            </div>
+        </div>
+        </Link>
+     </div>
+     
+
+    <div class="relative rounded overflow-hidden shadow-md">
+      <Link to="/Maisonette">
+      <img src="https://solverwp.com/demo/html/mingrand/assets/img/product/cat-1.png" alt="Orchard"/>
+        <div class="absolute inset-0 flex justify-center items-center">
+            <div class="px-6 py-4 text-center text-white">
+                <h3 class="font-bold text-3xl mb-2">Maisonette</h3>
+            </div>
+        </div>
+        </Link>
+     </div>
+    </div>
+     </div>
+     
       <Details />
       <ToastContainer
         position="top-left"

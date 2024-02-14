@@ -73,99 +73,45 @@ const Details = () => {
   
   return (
     <>
-      <div className="container-fixed mb-5">
-        <div className=" d-flex align-items-center justify-content-center ">
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-10">
+           <h3 className="text-center font-bold text-3xl pb-5">Houses</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
           {isLoading ? (
-            <div className="flex justify-center">
+            <div className="flex justify-center mx-auto">
               <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
             </div>
           ) : (
-             pagination?.currentPage  && 
+            pagination?.currentPage  && 
 
             pagination?.currentPosts?.map((detail, index) => (
-              <div
-                key={index}
-                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between "
-                style={{ width: "350px" }}
-              >
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
-                  <a href="#">
-                  
-                    {detail?.images?.map(
+              
+            <div  key={index} class="border rounded-lg shadow-lg overflow-hidden">
+                  {detail?.images?.map(
                       (img, imgIndex) =>
                         imgIndex === 0 && (
-                          <img
-                            key={imgIndex}
-                            id="detsImg"
-                            className="w-fit mt-2 mb-3"
-                            src={img.image}
-                            width="250px"
-                            height="250px"
-                            style={{ borderRadius: "2px" }}
-                            alt=""
-                          />
-                        )
-                    )}
-                  </a>
-                  <div class="p-5 ">
-                    <a href="#">
-                      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white visible">
-                        {detail?.title}
-                      </h5>
-                    </a>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail.description}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {detail.contact}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail?.details?.locaton}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {detail.price}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {detail.units}
-                    </p>
-
-                    <p className="mb-3 font-normal text-red-700 dark:text-red-400">
-                      {/* <strong>
-                        {formatDistanceToNow(new Date(detail.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </strong> */}
-                    </p>
-                    <Link
-                      to={`/MoreDetails/${detail.id}`}
-                      className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Read more
-                      <svg
-                        className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 14 10"
-                      >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M1 5h12m0 0L9 1m4 4L9 9"
-                        />
-                      </svg>
-                    </Link>
-                  </div>
+               <Link to={`/MoreDetails/${detail.id}`}> <img key={imgIndex} class="w-full h-48 object-cover"  src={img.image} alt="Daily Apartment"/></Link>
+              )
+              )}
+              <div class="p-4">
+                <h3 class="text-lg font-semibold"> {detail?.title}</h3>
+                <h3 class="text-lg font-light"> {detail.description}</h3>
+                <p class="text-gray-600">{detail?.details?.locaton}</p>
+                <p class="text-gray-900 font-semibold">Ksh{detail.price}</p>
+                <div class="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2 ">
+                    <div> <span className='font-bold'>{detail.units} </span>Units</div>
+                  <div class="mx-2"></div>
+                  <div> <span className='font-bold'>{detail.contact} </span>contact</div>
+                  <div class="mx-2"></div>
                 </div>
               </div>
-            ))
-          )}
+            </div>
 
-        </div>
-      </div>
-      
+              ))
+              )}
+          </div>
+         </div>
+
 
      <div className="flex flex-row justify-center items-center">
     

@@ -41,9 +41,9 @@ function BillWater() {
           id,
           currentReadings: values.currentReadings,
           entryDate: values.entryDate,
+          house_id: values.houseId
         })
       );
-
       // Send a batch update request to the server
       const response = await axios.put(
         `http://localhost:4000/Tenant/updateWaterBill`,

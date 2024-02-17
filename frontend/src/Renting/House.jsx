@@ -51,6 +51,9 @@ function House() {
   //houseId
   let houseIdArray = house?.map((house) => house.id);
   let houseId = houseIdArray ? houseIdArray[0] : null;
+  const visitedHouseId = house?.find(
+    (house) => house?.houseName === houseName
+  )?.id;
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -59,11 +62,12 @@ function House() {
     setHouse(response.data);
     // console.log(response.data);
   };
+  console.log(visitedHouseId);
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseId}`
+          `http://localhost:4000/houseRegister/${visitedHouseId}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -80,9 +84,9 @@ function House() {
   }
 
   // creating water reading
-  const visitedHouseId = house?.find(
-    (house) => house?.houseName === houseName
-  )?.id;
+
+
+
   const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
@@ -110,15 +114,15 @@ function House() {
     }
   };
 
-  //
-  const handleWaterButton = () => {
-    if (display) {
-      document.querySelector("#content").style.display = "none";
-    } else {
-      setDisplay(true);
-      document.querySelector("#content").style.display = "block";
-    }
-  };
+  // //
+  // const handleWaterButton = () => {
+  //   if (display) {
+  //     document.querySelector("#content").style.display = "none";
+  //   } else {
+  //     setDisplay(true);
+  //     document.querySelector("#content").style.display = "block";
+  //   }
+  // };
   // getting water retes
   useEffect(() => {
     const getWaterRates = async () => {
@@ -158,15 +162,14 @@ function House() {
         const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
         return value && typeof value === "string" && value.toLowerCase().includes(months);
       });
-      console.log(matchesMonth);
       // Return true if the item matches both the search query and the selected month
       return matchesQuery || matchesMonth;
     });
     
   
 
-console.log(months);
-console.log(query);
+// console.log(months);
+// console.log(query);
 
 
 
@@ -228,6 +231,13 @@ console.log(query);
             >
               Download
             </button>
+            <Link
+            to="/report"
+            state={houseName}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              report
+            </Link>
           </div>
         </div>
       </header>
@@ -448,6 +458,7 @@ console.log(query);
                           })
                           .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
+                  
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
@@ -464,6 +475,9 @@ console.log(query);
                   </Link>
                 </tr>
               ))}
+                  <td className="border text-black border-slate-700">
+                total 
+              </td>
             </tbody>
           </table>
         </div>

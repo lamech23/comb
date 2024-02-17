@@ -45,6 +45,7 @@ import CreateHouse from "./Renting/CreateHouse";
 import AddingHouse from "./user/AddingHouse";
 import BilWater from "./Renting/BillWater";
 import AdditinalPaymants from "./Renting/AdditinalPaymants";
+import Report from "./Renting/Report";
 
 const DashLayout = lazy(() => import('./Dashboard/Layout'))
 const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -98,6 +99,7 @@ function App() {
             <Route path="/createHouse" element={<CreateHouse />} />
             <Route path="/addtionalPayments/:houseName" element={<AdditinalPaymants />} />
             <Route path="/payments/:houseName" element={<BilWater />} />
+            <Route path="/report" element={<Report/>} />
 
             <Route path="/admin/*" element={<DashLayout />} />
 

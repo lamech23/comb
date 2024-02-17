@@ -146,24 +146,27 @@ function House() {
 
 
     // Filter by keyword manually (if needed)
-    const filteredProducts = tenant?.detailsWithTotal?.filter((item) =>
-      keys.some((key) => {
-        const value = item[key]; // This line retrieves the value of the current item corresponding to the current key 
+    const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
+      // Check if the item matches the search query
+      const matchesQuery = keys.some((key) => {
+        const value = item[key];
         return value && typeof value === "string" && value.toLowerCase().includes(query);
-      })
-      
-    );
-    const filterBymonth = tenant?.detailsWithTotal?.filter((item) =>
-    month.some((key) => {
-      const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
-      return value && typeof value === "string" && value.toLowerCase().includes(months);
-    })
-  );
-  
+      });
+    
+      // Check if the item matches the selected month
+      const matchesMonth = month.some((key) => {
+        const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
+        return value && typeof value === "string" && value.toLowerCase().includes(months);
+      });
+      console.log(matchesMonth);
+      // Return true if the item matches both the search query and the selected month
+      return matchesQuery || matchesMonth;
+    });
+    
   
 
 console.log(months);
-console.log(filterBymonth);
+console.log(query);
 
 
 
@@ -233,10 +236,11 @@ console.log(filterBymonth);
         <div className="flex flex-row justify-between items-center">
         <p>Tenants</p>
 
-        <input type="text" 
+   <div className="flex flex-row gap-4">
+   <input type="text" 
         className="border p-4  rounded-lg "
             value= {months} 
-            placeholder='Search..'
+            placeholder='search by month...'
             onChange={(e) => setMonths(e.target.value)}
             />
 
@@ -247,6 +251,7 @@ console.log(filterBymonth);
             onChange={(e) => setQuery(e.target.value)}
             />
 
+   </div>
         </div>
         
         <div className="divider mt-2"></div>
@@ -283,7 +288,7 @@ console.log(filterBymonth);
               </tr>
             </thead>
             <tbody>
-              {filterBymonth && filteredProducts?.map((tenants) => (
+            { filteredProducts?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}

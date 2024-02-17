@@ -21,7 +21,10 @@ function House() {
   const [payments, setPayments] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
-  console.log(getWater);
+  const [query, setQuery]=useState("")
+  const [months, setMonths]=useState("")
+  const keys = ["tenantsName", "phoneNumber", "houseNumber"];
+  const month = ["createdAt" ];
 
   function closeModal() {
     setIsOpen(false);
@@ -141,110 +144,146 @@ function House() {
     getPayments();
   }, [tenant]);
 
+
+    // Filter by keyword manually (if needed)
+    const filteredProducts = tenant?.detailsWithTotal?.filter((item) =>
+      keys.some((key) => {
+        const value = item[key]; // This line retrieves the value of the current item corresponding to the current key 
+        return value && typeof value === "string" && value.toLowerCase().includes(query);
+      })
+      
+    );
+    const filterBymonth = tenant?.detailsWithTotal?.filter((item) =>
+    month.some((key) => {
+      const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
+      return value && typeof value === "string" && value.toLowerCase().includes(months);
+    })
+  );
+  
+  
+
+console.log(months);
+console.log(filterBymonth);
+
+
+
   return (
     <>
-        <div className=" text-sm mt-14 px-5">
-          <div className=" flex gap-4 text-teal-500 text-xl ">
-            {" "}
-            HOUSE: <p className="text-red-400">{houseName}</p>
-          </div>
-          <div className=" flex gap-4 text-teal-500 text-xl ">
-            {" "}
-            LANDOWNER:{" "}
-            <p className="text-red-400">
-              {house && house.length > 0 && <p>{house[0].houses.email}</p>}
-            </p>
+      <div className=" text-sm mt-14 px-5">
+        <div className=" flex gap-4 text-teal-500 text-xl ">
+          {" "}
+          HOUSE: <p className="text-red-400">{houseName}</p>
+        </div>
+        <div className=" flex gap-4 text-teal-500 text-xl ">
+          {" "}
+          LANDOWNER:{" "}
+          <p className="text-red-400">
+            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
+          </p>
+        </div>
+      </div>
+
+      <header className=" mt-10 mb-20">
+        <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
+          <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
+            <button
+              type="button"
+              onClick={openModal}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              Add Tenant
+            </button>
+
+            <button
+              type="button"
+              onClick={openModalRate}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              Add Water Rate
+            </button>
+
+            <Link
+              to={`/payments/${houseId}`}
+              state={getWater}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              href="/"
+            >
+              bill water
+            </Link>
+
+            <Link
+              to={`/addtionalPayments/${houseId}`}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              href="/"
+            >
+              additinal payments
+            </Link>
+
+            <button
+              onClick={() => toPDF()}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              Download
+            </button>
           </div>
         </div>
+      </header>
 
+      <div className="card w-full p-6 bg-base-100 shadow-xl ">
+        <div className="flex flex-row justify-between items-center">
+        <p>Tenants</p>
+
+        <input type="text" 
+        className="border p-4  rounded-lg "
+            value= {months} 
+            placeholder='Search..'
+            onChange={(e) => setMonths(e.target.value)}
+            />
+
+        <input type="text" 
+        className="border p-4  rounded-lg "
+            value= {query} 
+            placeholder='Search..'
+            onChange={(e) => setQuery(e.target.value)}
+            />
+
+        </div>
         
-        <header className=" mt-10 mb-20">
-          
-            <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
-                <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
-                  < button
-                      type="button"
-                      onClick={openModal}
-                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                    >
-                      Add Tenant
-                    </button>
+        <div className="divider mt-2"></div>
+        {/* Team Member list in table format loaded constant */}
+        <div className="overflow-x-auto w-full">
+          <table ref={targetRef} className="table w-full">
+            <thead>
+              <tr>
+                <th>id </th>
+                <th>House Number</th>
+                <th>Tenant Name </th>
+                <th>payable Rent</th>
+                <th> Paid Rent</th>
 
-                    < button
-                      type="button"
-                      onClick={openModalRate}
-                      className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                    >
-                      Add Water Rate
-                    </button>
+                <th className="flex flex-row">
+                  <th> additinalPayments</th>
+                  <th> date</th>
+                  <th> paymentType</th>
+                </th>
+                <th>Rent Deposit</th>
+                <th>prev water reading</th>
+                <th>current water reading</th>
+                <th>Water units</th>
 
-                      <Link
-                        to={`/payments/${houseId}`}
-                        state={getWater}
-                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                        href="/"
-                      >
-                        bill water
-                      </Link>
-
-                      <Link
-                        to={`/addtionalPayments/${houseId}`}
-                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                        href="/"
-                      >
-                        additinal payments
-                      </Link>
-
-                      <button  onClick={() => toPDF()}
-                        className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
-                        Download
-                      </button>
-                </div>
-            </div>
-         </header>
-         
-        
-        <div className="card w-full p-6 bg-base-100 shadow-xl ">
-                    <p>Tenants</p>
-            <div className="divider mt-2"></div>
-                {/* Team Member list in table format loaded constant */}
-            <div className="overflow-x-auto w-full">
-                <table      ref={targetRef} className="table w-full">
-                    <thead>
-                    <tr>
-                        <th>id </th>
-                        <th>House Number</th>
-                        <th>Tenant Name </th>
-                        <th>payable Rent</th>
-                        <th> Paid Rent</th>
-
-                        <th>
-                          additinalPayments
-                          <th> date</th>
-                          <th> paymentType</th>
-                        </th>
-                        <th>Rent Deposit</th>
-                        <th>prev water reading</th>
-                        <th>
-                          current water reading
-                        </th>
-                        <th>Water units</th>
-
-                        <th>Water per unit</th>
-                        <th>Water Bill</th>
-                        <th>Previous Balance</th>
-                        <th>Garbage</th>
-                        <th>Phone Number</th>
-                        <th>
-                          Next_of_king_number{" "}
-                        </th>
-                        <th>balance C/F</th>
-                        <th>Total</th>
-                        <th> water readings</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {tenant?.detailsWithTotal?.map((tenants) => (
+                <th>Water per unit</th>
+                <th>Water Bill</th>
+                <th>Previous Balance</th>
+                <th>Garbage</th>
+                <th>Phone Number</th>
+                <th>Next_of_king_number </th>
+                <th>balance C/F</th>
+                <th>Total</th>
+                <th> water readings</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filterBymonth && filteredProducts?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}
@@ -420,12 +459,11 @@ function House() {
                   </Link>
                 </tr>
               ))}
-                    </tbody>
-                </table>
-            </div>
-       </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-   
       <ToastContainer
         position="top-left"
         autoClose={3000}
@@ -464,39 +502,38 @@ function House() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <form onSubmit={createWater}>
-                  <div >
-                    <label className="  text-black text-2xl gap-4 mb-4">
-                      Water Rates{" "}
-                    </label>
-                    <input
-                      type="text"
-                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                      placeholder="Enter water rates"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
+                  <form onSubmit={createWater}>
+                    <div>
+                      <label className="  text-black text-2xl gap-4 mb-4">
+                        Water Rates{" "}
+                      </label>
+                      <input
+                        type="text"
+                        class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                        placeholder="Enter water rates"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
 
-   
-                    <div className="mt-4 space-x-3">
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    >
-                      {" "}
-                      Add
-                    </button>
+                      <div className="mt-4 space-x-3">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          {" "}
+                          Add
+                        </button>
 
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModalRate}
-                    >
-                      close
-                    </button>
-                  </div>
-                  </div>
-                </form>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={closeModalRate}
+                        >
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

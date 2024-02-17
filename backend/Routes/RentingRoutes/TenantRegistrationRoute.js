@@ -18,5 +18,7 @@ router.post('/registerPayment',  paymentsCreations)
 router.patch('/change/:id',requireAuth, tentantUpdating)
 router.put('/updateWaterBill',  updateWaterBill)
 router.get('/fetchPayment/',  getPayments)
+router.get('/fetchPayment/',  getPayments)
+
 
 module.exports= router ;

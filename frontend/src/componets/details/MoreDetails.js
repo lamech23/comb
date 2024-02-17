@@ -252,18 +252,18 @@ function MoreDetails() {
                 : "bg-green-500"
             }`}
           >
+            <p>
+                  {/* {
+                } */}
+                  a-
+                </p>
+                <p>{digit}</p>
             <div className="w-20 h-20  relative">
               <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
               <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
               <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
               <div className=" flex flex-row justify-center items-center h-9 text-3xl text-white">
-                <p>
-                  {/* {
-                  tenant?.map((symbol)=> symbol.houseNumber.slice(0, 1) )
-                } */}
-                  a-
-                </p>
-                <p>{digit}</p>
+                
               </div>
             </div>
           </div>

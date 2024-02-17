@@ -98,7 +98,7 @@ const tentantUpdating = async (req, res) => {
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
       user_id: user_id,
-      tenant_id: req.body.tenant_id, // Access the id property from the updatedTenant
+      tenant_id: req.body.tenant_id, 
       house_id: req.body.house_id,
     };
     // console.log(waterBackupDetails);

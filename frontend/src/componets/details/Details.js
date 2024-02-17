@@ -21,8 +21,7 @@ const Details = () => {
   const [details, setDetails] = useState([]);
   const [query, setQuery] = useState("");
   const [pagination, setPagination] =useState({})
-  console.log(pagination);
-  console.log(pagination);
+
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));

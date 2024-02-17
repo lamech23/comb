@@ -118,7 +118,7 @@ function Navbar() {
               ) : null}
                 {role && user ? (
                 <li class='max-lg:border-b max-lg:py-2 px-5'>
-                  <Link to="/Dashboard" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>
+                  <Link to="/admin" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>
                 </li>
                 ) : null}
             </ul>

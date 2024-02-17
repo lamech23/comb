@@ -62,7 +62,6 @@ function House() {
     setHouse(response.data);
     // console.log(response.data);
   };
-  console.log(visitedHouseId);
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -475,9 +474,7 @@ function House() {
                   </Link>
                 </tr>
               ))}
-                  <td className="border text-black border-slate-700">
-                total 
-              </td>
+                
             </tbody>
           </table>
         </div>

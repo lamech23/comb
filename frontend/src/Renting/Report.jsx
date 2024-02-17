@@ -47,10 +47,10 @@ function Report() {
     }
   };
 
+
   useEffect(() => {
     getTenantinfo();
     getHouse();
-    getWaterRates();
     if (visitedHouseId) {
       getPayments(visitedHouseId);
     }
@@ -77,16 +77,20 @@ function Report() {
 
   const totalRentPaid = totalRent + allRent;
 
-  const getWaterRates = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:4000/water/fetchWater/${houseId}`
-      );
-      setGetWater(res.data?.getWater);
-    } catch (error) {
-      toast.error("water rates not found " || error.massage);
-    }
-  };
+  useEffect(()=>{
+    const getWaterRates = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        );
+        setGetWater(res.data?.getWater);
+      } catch (error) {
+        toast.error("water rates not found " || error.massage);
+      }
+    };
+    getWaterRates();
+  
+  },[])
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;
@@ -99,7 +103,7 @@ function Report() {
     .reduce((prev, next) => prev + next, 0);
 
   const totaWaterBil = waterUnits * totalWater;
-  // console.log(totaWaterBil);
+  console.log(totaWaterBil);
 
   //garbage
   const totalGarbage = tenant?.detailsWithTotal

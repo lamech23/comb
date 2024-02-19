@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../componets/images/logo.jpg";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function Report() {
   const [house, setHouse] = useState([]);

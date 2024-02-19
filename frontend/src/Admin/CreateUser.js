@@ -90,7 +90,7 @@ function CreateUser() {
           <main class="px-8 py-8 sm:px-12 lg:col-span- lg:px-16 lg:py-12 xl:col-span-12">
             <div class="max-w-xl lg:max-w-3xl">
               <form  onSubmit={handleSubmit} class="mt-8 grid grid-cols- gap-6">
-                <div class="col-spa sm:col-span-8">
+              <div class="sm:col-span-3">
                   <label
                     for="FirstName"
                     class="block text-sm font-medium text-gray-700"
@@ -102,12 +102,13 @@ function CreateUser() {
                     type="email"
                     id="FirstName"
                     name="first_name"
-                    class="mt-1 w-full rounded-md border-gray-600 bg-white text-sm text-gray-700 shadow-sm"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={email} onChange={(e) => setEmail(e.target.value)} 
                   />
                 </div>
 
-                <div class="col-span-6 sm:col-span-8">
+
+                <div class="sm:col-span-3">
                   <label
                     for="LastName"
                     class="block text-sm font-medium text-gray-700"
@@ -118,13 +119,13 @@ function CreateUser() {
                   <input
                     type="text"
                     name="last_name"
-                    class="mt-1 w-full rounded-md border-gray-400 bg- text-sm text-gray-700 shadow-sm"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={userName} onChange={(e) => setUserName(e.target.value)} 
 
                   />
                 </div>
 
-                <div class="col-span-8">
+                <div class="sm:col-span-3">
                   <label
                     for="Email"
                     class="block text-sm font-medium text-gray-700"
@@ -137,14 +138,14 @@ function CreateUser() {
                     type="number"
                     id="Email"
                     name="email"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} 
 
 
                   />
                 </div>
 
-                <div class="col-span- sm:col-span-8">
+                <div class="sm:col-span-3">
                   <label
                     for="Password"
                     class="block text-sm font-medium text-gray-700"
@@ -156,13 +157,13 @@ function CreateUser() {
                   <input
                     type="text"
                     name="password"
-                    class="mt-1 w-full  rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={location} onChange={(e) => setLocation(e.target.value)} 
 
                   />
                 </div>
 
-                <div class="col-span- sm:col-span-8">
+                <div class="sm:col-span-3">
                   <label
                     for="Password"
                     class="block text-sm font-medium text-gray-700"
@@ -174,11 +175,12 @@ function CreateUser() {
                   <input
                     type="number"
                     name="password"
-                    class="mt-1 w-full  rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={idNumber} onChange={(e) => setIdNumber(e.target.value)} 
 
                   />
                 </div>
+
 
                 {/* <div className="sm:col-span-8">
                   <label
@@ -205,7 +207,7 @@ function CreateUser() {
                   </select>
                 </div> */}
 
-                <div class="col-span-6 sm:col-span-8">
+               <div class="sm:col-span-3">
                   <label
                     for="PasswordConfirmation"
                     class="block text-sm font-medium text-gray-700"
@@ -217,7 +219,7 @@ function CreateUser() {
                     type="password"
                     id="PasswordConfirmation"
                     name="password_confirmation"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={password} onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>

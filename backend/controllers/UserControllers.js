@@ -78,11 +78,14 @@ const signupUser = async (req, res) => {
 
     const User = await users.create({
       email,
+      userName,
+      location,
+      phoneNumber,
+      idNumber,
       password: hash,
       role: "user",
     });
 
-    //create a token,
     const token = createToken([
       User.id,
       User.email,
@@ -90,7 +93,6 @@ const signupUser = async (req, res) => {
       User.isAdmin,
       User.Active,
     ]);
-    // res.status(200).json(User)
 
     // pass the token as a response instead of the user
     res.status(200).json({

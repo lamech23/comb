@@ -10,11 +10,22 @@ const users = db.define(
       unique: true,
     },
 
+    userName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    idNumber: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-
     role: {
       type: DataTypes.STRING,
     },
@@ -39,5 +50,7 @@ db.sync()
   .catch((error) => {
     console.log("Unable to create users table", error);
   });
+
+  
 
 module.exports = users;

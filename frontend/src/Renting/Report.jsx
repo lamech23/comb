@@ -103,7 +103,6 @@ function Report() {
     .reduce((prev, next) => prev + next, 0);
 
   const totaWaterBil = waterUnits * totalWater;
-  console.log(totaWaterBil);
 
   //garbage
   const totalGarbage = tenant?.detailsWithTotal

@@ -36,6 +36,7 @@ function MoreDetails() {
   const [requestTour, setRequestTour] = useState("");
   const [reason, setReason] = useState("");
   const [type, setType] = useState("");
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const setDate = (date) => {
@@ -225,7 +226,7 @@ function MoreDetails() {
                 </div>
 
                   <div>
-                  {type == 'renting' ? (
+                  {type == 'renting' ? null : (
                       <div className="flex-1">
                           <div className="flex flex-col items-center gap-10">
                               <a onClick={openModal} className="block cursor-pointer no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700">
@@ -233,7 +234,7 @@ function MoreDetails() {
                                </a>
                           </div>
                       </div>
-                    ): null}
+                    )}
                   </div>
 
             </div>

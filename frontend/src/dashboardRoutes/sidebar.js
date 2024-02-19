@@ -21,6 +21,11 @@ const routes = [
     name: 'Analytic',
   },
   {
+    path: '/admin/createUser',
+    icon: <UsersIcon className={iconClasses}/>, 
+    name: 'Create User ',
+  },
+  {
     path: '/admin/user',
     icon: <UsersIcon className={iconClasses}/>, 
     name: 'Users',

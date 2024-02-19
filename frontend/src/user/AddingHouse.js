@@ -123,6 +123,7 @@ function AddingHouse() {
     const response = await axios.get("http://localhost:4000/type/fetch");
     setPropertyType(response.data);
   };
+
   return (
     <>
       <form onSubmit={handelSubmit}>
@@ -314,7 +315,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" && (
+              {type === "renting" ?(
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -335,9 +336,9 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              )}
+              ): null }
 
-              {type === "renting" && (
+              {type == "renting" ?  (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -358,7 +359,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              )}
+              ):null}
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

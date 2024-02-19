@@ -11,6 +11,7 @@ const AllHouses = lazy(() => import('../Renting/AllHouses'))
 const AddHouses = lazy(() => import('../Admin/AddHouse'))
 const Status = lazy(() => import('../Admin/Stats'))
 const User = lazy(() => import('../Admin/User'))
+const CreateUser = lazy(() => import('../Admin/CreateUser'))
 
 
 
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/User',
     component: User,
+  },
+  {
+    path: '/createUser',
+    component: CreateUser
   },
   {
     path: '/Category',

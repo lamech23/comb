@@ -66,7 +66,8 @@ const loginUser = async (req, res) => {
 };
 
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, location, phoneNumber, idNumber, userName } =
+    req.body;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });

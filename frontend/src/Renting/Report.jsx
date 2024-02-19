@@ -102,7 +102,7 @@ function Report() {
     })
     .reduce((prev, next) => prev + next, 0);
 
-  const totaWaterBil = waterUnits * totalWater;
+  const totaWaterBil = waterUnits * totalWater || 0;
 
   //garbage
   const totalGarbage = tenant?.detailsWithTotal
@@ -114,7 +114,7 @@ function Report() {
   const subTotal = totalRentPaid + totaWaterBil + totalGarbage;
 
   const expectedAmount = 700000;
-  const balance = subTotal - expectedAmount;
+  const balance = subTotal - expectedAmount || 0;
   return (
     <>
       <section className="py-20 bg-gray-200">

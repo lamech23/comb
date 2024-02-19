@@ -32,12 +32,6 @@ db.sync()
     onUpdate: "cascade"
 
   })
-  Details.belongsTo(agentManagmentTable, {
-    foreignKey: "details_id",
-    as: "details",
-    onUpdate: "cascade",
-  });
-  
 
   agentManagmentTable.hasMany(Details,{
     foreignKey:"houseId",

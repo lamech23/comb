@@ -147,7 +147,9 @@ function User() {
                       <option value="">Select house ...</option>
                       {
                         house && house?.map((h, index)=>(
-                          <option key={index} value={h.id}>{h.houseName}</option>
+                          !allUsers?.agent[0]?.house?.houseName.includes(h.houseName) && ( 
+                            <option key={index} value={h.id}>{h.houseName}</option>
+                          )
 
                         ))
                       }

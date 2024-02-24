@@ -293,9 +293,17 @@ const managment = async (req, res) => {
 
   try {
     // Check if the user and house exist
-    const user = await users.findByPk(agentId);
+    const user = await users.findByPk(agentId,{
+      where:{
+        role: 'agent'
+      }
+    });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ 
+        success: false,
+        message:"User not found!",
+        error:error.message
+       });
     }
 
     const house = await Details.findByPk(houseId);

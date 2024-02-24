@@ -8,7 +8,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Calendar } from "primereact/calendar";
 
 function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
-  console.log(houseId);
 
   
   const state = useLocation().state; // am  using one for to create and update
@@ -96,7 +95,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
             previousBalance: previousBalance,
             prevReadings: prevReadings,
             currentReadings: currentReadings,
-            house_id: houseId,
+            houseId: houseId,
             tenant_id: id,
             
           },

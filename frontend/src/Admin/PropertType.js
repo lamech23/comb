@@ -13,6 +13,7 @@ function PropertType() {
     });
     if (response) {
       setType("");
+      fetchPropertyType()
     }
   };
 

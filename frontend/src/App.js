@@ -75,7 +75,6 @@ function App() {
             <Route path="/BnbHouse" element={<BnbHouse />} />
 
             <Route path="/Login" element={<Login />} />
-            <Route path="/SignUp" element={<SignUp />} />
             <Route path="/Cards" element={<Cards />} />
             <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
             <Route path="/Settings" element={<Settings />} />

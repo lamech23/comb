@@ -185,7 +185,7 @@ function Login() {
               Submit
             </button>
 
-            <div>
+            {/* <div>
               <p className="text-end mt-3 text-white ">
                 Don't have an account please click here to
                 <Link
@@ -197,7 +197,7 @@ function Login() {
                   Register
                 </Link>
               </p>
-            </div>
+            </div> */}
             <div className=" mt-2">
               <Link
                 className="text-decoration-none fs-5 text-info"

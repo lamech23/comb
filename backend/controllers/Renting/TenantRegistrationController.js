@@ -54,7 +54,7 @@ const tenatRegistration = async (req, res) => {
         nextOfKingNumber,
         prevReadings,
         payableRent,
-        houseId: req.params.houseId,
+        houseId: req.body.houseId,
       });
       res.status(200).json(TenantsData);
     }

@@ -1,10 +1,12 @@
 // const { json } = require('sequelize/types/sequelize.js')
 const users = require("../models/UserModels.js");
 const Details = require("../models/UploadModals.js");
+const agentManagements = require("../models/agentManagment.js");
 const sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const agentManagmentTable = require("../models/agentManagment.js");
 
 const createToken = ([id, role]) => {
   return jwt.sign(
@@ -110,7 +112,16 @@ const signupUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const user = await users.findAll({});
+  const user = await users.findAll({
+    include:{
+      model: agentManagmentTable,
+      as: 'agent',
+      include:{
+        model: Details,
+        as: 'house'
+      }
+    }
+  });
   res.status(200).json(user);
 };
 
@@ -272,6 +283,93 @@ const logout = async (req, res) => {
     .json({ error: "successfully  logged out" });
 };
 
+// const managment = async (req, res) => {
+
+//   const id = req.params.id;
+//   const managedHouse = []
+//   try {
+//     const agent = await users.findOne({ where: { role: "agent" } });
+//     if (!agent) {
+//       throw new Error("No agent found");
+//     }
+
+//     const house = await Details.findAll({});
+//     if (!house) {
+//       throw new Error("House not found");
+//     }
+
+//     const create = await agentManagements.create({
+//       agentId: agent.id,
+//       houseId: house.id,
+//     });
+
+//     for (let i = 0; i < house.length; i++) {
+//       const agentHouse = await agentManagements.create({
+//         agentId: agent.id,
+//       houseId: house.id,
+//       });
+  
+//       managedHouse.push(agentHouse);
+//     }
+  
+
+//     res.status(201).send(create);
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+
+
+const managment = async (req, res) => {
+  const { userId, houseId } = req.body; 
+
+  try {
+    // Check if the user and house exist
+    const user = await users.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const house = await Details.findByPk(houseId);
+    if (!house) {
+      return res.status(404).json({ error: 'House not found' });
+    }
+
+    const association = await agentManagements.create({
+      agentId: userId,
+      houseId: houseId,
+    });
+
+    res.status(201).json(association);
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const getManagemts = async (req, res) => {
+  try {
+    const getAgent = await agentManagements.findAll({
+      include: [
+        { model: users, as: "agent" },
+        { model: Details, as: "house" },
+      ],
+    });
+
+    res.status(200).json({getAgent});
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+
+    })
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   loginUser,
   signupUser,
@@ -284,4 +382,6 @@ module.exports = {
   getUserInfo,
   deactivate,
   logout,
+  managment,
+  getManagemts,
 };

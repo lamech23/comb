@@ -144,7 +144,9 @@ function House() {
         setPayments(response.data?.totalAdditionalPayments);
       } catch (error) {}
     };
-    getPayments();
+    if(visitedHouseId){
+      getPayments(visitedHouseId)
+    }
   }, [tenant]);
 
 

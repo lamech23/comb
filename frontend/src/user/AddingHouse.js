@@ -21,6 +21,7 @@ function AddingHouse() {
   const [houseName, setHouseName] = useState("");
   const [type, setType] = useState("");
   const [units, setUnits] = useState("");
+  console.log(type);
 
   const handleCancle = () => {
     setStatus(false);
@@ -269,7 +270,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" ? null : (
+              {type === "renting" ? null :
                 <div class="sm:col-span-3">
                   <label
                     for="price"
@@ -289,7 +290,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              )}
+              }
 
               <div class="sm:col-span-3">
                 <label
@@ -315,7 +316,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" ?(
+              {type == "renting" ?(
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"

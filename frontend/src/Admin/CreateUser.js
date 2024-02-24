@@ -85,9 +85,9 @@ function CreateUser() {
   };
   return (
     <>
-      <section class= " bg-white ">
+      <section class= " bg-white w-fit items-center justify-items-start ">
         <div class="lg:grid lg:grid-cols-2">
-          <main class="px-8 py-8 sm:px-12 lg:col-span- lg:px-16 lg:py-12 xl:col-span-12">
+          <main class="px-8 py-8 sm:px-12 lg:col-span-2 lg:px-16 lg:py-12 xl:col-span-12">
             <div class="max-w-xl lg:max-w-3xl">
               <form  onSubmit={handleSubmit} class="mt-8 grid grid-cols- gap-6">
               <div class="sm:col-span-3">

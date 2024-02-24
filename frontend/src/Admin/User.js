@@ -23,6 +23,7 @@ function User() {
   const fetchUsers = async () => {
     const response = await axios.get("http://localhost:4000/Users/all");
     setUsers(response.data);
+    console.log(response.data.agent);
   };
 
   useEffect(() => {
@@ -94,6 +95,7 @@ function User() {
                     <th>id</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>House Managing </th>
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>status</th>
@@ -105,6 +107,7 @@ function User() {
                        <td>{allUsers.id}</td>
                       <td>{allUsers.email}</td>
                       <td>{allUsers.role}</td>
+                      <td>{allUsers?.agent[0]?.house?.houseName}</td>
                        <td>
                 <Link
                   to={`/UpdateUser/${allUsers.id}`}

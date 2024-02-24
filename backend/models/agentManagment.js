@@ -9,7 +9,7 @@ const agentManagmentTable = db.define(
     houseId: {
       type: DataTypes.INTEGER,
     },
-    userId: {
+    agentId: {
       type: DataTypes.INTEGER,
     },
   },
@@ -17,6 +17,35 @@ const agentManagmentTable = db.define(
     freezeTablesName: true,
   }
 );
+
+
+agentManagmentTable.belongsTo(Details,{
+  foreignKey:"houseId",
+  as: 'house',
+  onUpdate: "cascade"
+
+})
+Details.hasMany(agentManagmentTable,{
+  foreignKey:"houseId",
+  as: 'agent',
+  onUpdate: "cascade"
+
+})
+
+agentManagmentTable.belongsTo(users,{
+  foreignKey:"agentId",
+  as: 'agent',
+  onUpdate: "cascade"
+
+})
+
+users.hasMany(agentManagmentTable,{
+  foreignKey:"agentId",
+  as: 'agent',
+  onUpdate: "cascade"
+
+})
+
 
 db.sync()
   .then(() => {
@@ -26,19 +55,7 @@ db.sync()
     console.log("Unable to create agentManagmentTable table", error);
   });
 
-  Details.belongTo(users,{
-    foreignKey:"userId",
-    as: 'user',
-    onUpdate: "cascade"
-
-  })
-
-  agentManagmentTable.hasMany(Details,{
-    foreignKey:"houseId",
-    as: 'details',
-    onUpdate: "cascade"
-
-  })
+ 
 
 
 module.exports = agentManagmentTable;

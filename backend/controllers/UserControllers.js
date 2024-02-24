@@ -283,51 +283,17 @@ const logout = async (req, res) => {
     .json({ error: "successfully  logged out" });
 };
 
-// const managment = async (req, res) => {
 
-//   const id = req.params.id;
-//   const managedHouse = []
-//   try {
-//     const agent = await users.findOne({ where: { role: "agent" } });
-//     if (!agent) {
-//       throw new Error("No agent found");
-//     }
-
-//     const house = await Details.findAll({});
-//     if (!house) {
-//       throw new Error("House not found");
-//     }
-
-//     const create = await agentManagements.create({
-//       agentId: agent.id,
-//       houseId: house.id,
-//     });
-
-//     for (let i = 0; i < house.length; i++) {
-//       const agentHouse = await agentManagements.create({
-//         agentId: agent.id,
-//       houseId: house.id,
-//       });
-  
-//       managedHouse.push(agentHouse);
-//     }
-  
-
-//     res.status(201).send(create);
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 
 
 const managment = async (req, res) => {
-  const { userId, houseId } = req.body; 
+  const { agentId, houseId } = req.body; 
+  
 
   try {
     // Check if the user and house exist
-    const user = await users.findByPk(userId);
+    const user = await users.findByPk(agentId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -338,7 +304,7 @@ const managment = async (req, res) => {
     }
 
     const association = await agentManagements.create({
-      agentId: userId,
+      agentId: agentId,
       houseId: houseId,
     });
 
@@ -369,6 +335,8 @@ const getManagemts = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
 
 module.exports = {
   loginUser,

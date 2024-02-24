@@ -3,15 +3,19 @@ import axios from "axios";
 import "../css/userPage.css";
 import { Link, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function User() {
   const [socket, setSocket] = useState(null);
   const newSocket = io(ServerUrl);
   const [users, setUsers] = useState([]);
+  const [house, setHouse]=useState([])
+  const [agent, setAgent]=useState("")
+  console.log(agent);
 
   useEffect(() => {
     setSocket(newSocket);
@@ -20,14 +24,46 @@ function User() {
     };
   }, []);
 
+
+  // get the instance  of the two  userId and  houseId
+  const handleHouseSelection = (agentId, houseId) => {
+
+    setAgent({
+      agentId,
+      houseId: Number(houseId)
+    })
+    
+  }
+
+  const handleSave = async(e)=>{
+    e.preventDefault()
+
+   try {
+    const response = await axios.post('http://localhost:4000/users/assing',
+    agent
+    )
+    if(response){
+      toast.success("assigned  successfully");
+    }
+   } catch (error) {
+    console.log(error);
+   }
+  }
+
+  const fetchHouse = async()=>{
+    const response = await axios.get("http://localhost:4000/Details/fetchHousesByName");
+    setHouse(response.data)
+
+  }
+
   const fetchUsers = async () => {
     const response = await axios.get("http://localhost:4000/Users/all");
     setUsers(response.data);
-    console.log(response.data.agent);
   };
 
   useEffect(() => {
     fetchUsers();
+    fetchHouse()
 
     if (socket === null) return;
 
@@ -35,24 +71,24 @@ function User() {
 
     socket.on("getAllUsers", (res) => {
       console.log(res);
-      setUsers(res)
+      setUsers(res);
     });
 
     fetchUsers();
 
-    return ()=>{
+    return () => {
       // component is being unmounted
-      socket.off("disconnect")
-    }
+      socket.off("disconnect");
+    };
   }, [socket]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (socket === null) return;
     // socket.emit("updating", id, state);
     socket.on("updatingUser", (res) => {
-    updateStatus(res)
-  })
-  },[])
+      updateStatus(res);
+    });
+  }, []);
 
   const updateStatus = async (id, state) => {
     const response = await axios.patch(
@@ -63,7 +99,6 @@ function User() {
   const deactivate = (id) => {
     let state = "inActive";
     updateStatus(id, state);
- 
   };
 
   const activate = (id) => {
@@ -82,82 +117,113 @@ function User() {
   }, [socket]);
 
   return (
-     <>
-
+    <>
       <div className="card w-full p-6 bg-base-100 shadow-xl ">
-                    <p>Help Center</p>
-            <div className="divider mt-2"></div>
-                {/* Team Member list in table format loaded constant */}
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    <thead>
-                    <tr>
-                    <th>id</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>House Managing </th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    <th>status</th>
-                    </tr>
-                    </thead>
-                    {users.map((allUsers) => (
-                    <tbody key={allUsers.id}>
-                       <tr>
-                       <td>{allUsers.id}</td>
-                      <td>{allUsers.email}</td>
-                      <td>{allUsers.role}</td>
-                      <td>{allUsers?.agent[0]?.house?.houseName}</td>
-                       <td>
-                <Link
-                  to={`/UpdateUser/${allUsers.id}`}
-                  type="button"
-                  className="material-symbols-outlined text-decoration-none text-green-700"
-                >
-                  edit
-                </Link>
-              </td>
+        <p>Help Center</p>
+        <div className="divider mt-2"></div>
+        {/* Team Member list in table format loaded constant */}
+        <div className="overflow-x-auto w-full">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>House Managing </th>
+                <th>Assign House</th>
+                <th>Actions</th>
+                
+              </tr>
+            </thead>
+            {users.map((allUsers) => (
+              <tbody key={allUsers.id}>
+                <tr>
+                  <td>{allUsers.id}</td>
+                  <td>{allUsers.email}</td>
+                  <td>{allUsers.role}</td>
+                  <td>{allUsers?.agent[0]?.house?.houseName}</td>
+                  <td>
+                  <select className="p-2 rounded-md" onChange={(e) => handleHouseSelection(allUsers.id, e.target.value)}>
+                      <option value="">Select house ...</option>
+                      {
+                        house && house?.map((h, index)=>(
+                          <option key={index} value={h.id}>{h.houseName}</option>
 
-              <td>
-                <span
-                  onClick={handelDelete}
-                  type="button"
-                  className="material-symbols-outlined"
-                  style={{ color: "red" }}
-                >
-                  delete
-                </span>
-              </td>
+                        ))
+                      }
+                    </select>
+                  </td>
 
-              <td>
-                {" "}
-                <span>
-                  {allUsers.Active === "active" ? (
-                    <button
+                 
+
+                  <td className="flex gap-2">
+                  <button
+                  onClick={handleSave}
+                  type="submit"
+                  className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
+                  >
+                    Assign
+
+                  </button>
+                    <Link
+                      to={`/UpdateUser/${allUsers.id}`}
                       type="button"
-                      className={"whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 text-sm text-green-700"}
-                      onClick={() => deactivate(allUsers.id)}
+                      className="material-symbols-outlined text-decoration-none text-green-700"
                     >
-                      active
-                    </button>
-                  ) : allUsers.Active === "inActive" ? (
-                    <button
-                      type="button"
-                      onClick={() => activate(allUsers.id)}
-                      className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700"
-                    >
-                      inActive
-                    </button>
-                  ) : null}
-                </span>
-              </td>
-                      </tr>        
-                    </tbody>
-                ))}
-                </table>
-            </div>
-       </div>
+                      edit
+                    </Link>
 
+                    <span
+                      onClick={handelDelete}
+                      type="button"
+                      className="material-symbols-outlined"
+                      style={{ color: "red" }}
+                    >
+                      delete
+                    </span>
+
+                    {" "}
+                    <span>
+                      {allUsers.Active === "active" ? (
+                        <button
+                          type="button"
+                          className={
+                            "whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
+                          }
+                          onClick={() => deactivate(allUsers.id)}
+                        >
+                          active
+                        </button>
+                      ) : allUsers.Active === "inActive" ? (
+                        <button
+                          type="button"
+                          onClick={() => activate(allUsers.id)}
+                          className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700"
+                        >
+                          inActive
+                        </button>
+                      ) : null}
+                    </span>
+                  </td>
+               
+                </tr>
+              </tbody>
+            ))}
+          </table>
+        </div>
+      </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      /> 
     </>
   );
 }

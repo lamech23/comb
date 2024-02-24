@@ -60,10 +60,6 @@ const Details = () => {
 
     setIsLoading(false);
   };
-  console.log(details);
-
-  
-
   const handleChangePage = (pageNumber)=>{
     setPagination(pageNumber);
 

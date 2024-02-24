@@ -85,10 +85,11 @@ function CreateUser() {
   };
   return (
     <>
-      <section class= " bg-white w-fit items-center justify-items-start ">
-        <div class="lg:grid lg:grid-cols-12">
-          <main class="px-8 py-8 sm:px-12 lg:col-span-6 lg:px-16 lg:py-12 xl:col-span-12">
-            <div class="max-w-xl lg:max-w-3xl">
+      <section class= " bg-white  ">
+        <div class="lg:grid lg:grid-cols-1">
+
+          <main class="px-8 py-8">
+        <p className="text-lg font-serif text-teal-500   "> Create Account  </p>
               <form  onSubmit={handleSubmit} class="mt-8 grid grid-cols- gap-6">
               <div class="sm:col-span-3">
                   <label
@@ -182,30 +183,6 @@ function CreateUser() {
                 </div>
 
 
-                {/* <div className="sm:col-span-8">
-                  <label
-                    for="HeadlineAct"
-                    class="block text-sm font-medium text-gray-900"
-                  >
-                    {" "}
-                    Headliner{" "}
-                  </label>
-
-                  <select
-                    name="HeadlineAct"
-                    id="HeadlineAct"
-                    class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
-                  >
-                    <option value="">Please select</option>
-                    <option value="JM">John Mayer</option>
-                    <option value="SRV">Stevie Ray Vaughn</option>
-                    <option value="JH">Jimi Hendrix</option>
-                    <option value="BBK">B.B King</option>
-                    <option value="AK">Albert King</option>
-                    <option value="BG">Buddy Guy</option>
-                    <option value="EC">Eric Clapton</option>
-                  </select>
-                </div> */}
 
                <div class="sm:col-span-3">
                   <label
@@ -232,7 +209,6 @@ function CreateUser() {
                   </button>
                 </div>
               </form>
-            </div>
           </main>
         </div>
       </section>

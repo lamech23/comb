@@ -83,9 +83,6 @@ function House() {
   }
 
   // creating water reading
-
-
-
   const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
@@ -113,15 +110,6 @@ function House() {
     }
   };
 
-  // //
-  // const handleWaterButton = () => {
-  //   if (display) {
-  //     document.querySelector("#content").style.display = "none";
-  //   } else {
-  //     setDisplay(true);
-  //     document.querySelector("#content").style.display = "block";
-  //   }
-  // };
   // getting water retes
   useEffect(() => {
     const getWaterRates = async () => {
@@ -150,7 +138,6 @@ function House() {
   }, [tenant]);
 
 
-    // Filter by keyword manually (if needed)
     const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
       // Check if the item matches the search query
       const matchesQuery = keys.some((key) => {
@@ -160,10 +147,9 @@ function House() {
     
       // Check if the item matches the selected month
       const matchesMonth = month.some((key) => {
-        const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
+        const value = key == 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
         return value && typeof value === "string" && value.toLowerCase().includes(months);
       });
-      // Return true if the item matches both the search query and the selected month
       return matchesQuery || matchesMonth;
     });
     

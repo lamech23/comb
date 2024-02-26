@@ -88,13 +88,13 @@ function CreateUser() {
       <section class= " bg-white  ">
         <div class="lg:grid lg:grid-cols-1">
 
-          <main class="px-8 py-8">
+          <main class="lg:px-40  py-20">
         <p className="text-lg font-serif text-teal-500   "> Create Account  </p>
               <form  onSubmit={handleSubmit} class="mt-8 grid grid-cols- gap-6">
-              <div class="sm:col-span-3">
+              <div class="sm:col-span-3 space-y-2">
                   <label
                     for="FirstName"
-                    class="block text-sm font-medium text-gray-700"
+                    class="block text-sm font-medium text-gray-700 "
                   >
                     Email 
                   </label>
@@ -109,7 +109,7 @@ function CreateUser() {
                 </div>
 
 
-                <div class="sm:col-span-3">
+                <div class="sm:col-span-3 space-y-2">
                   <label
                     for="LastName"
                     class="block text-sm font-medium text-gray-700"
@@ -126,7 +126,7 @@ function CreateUser() {
                   />
                 </div>
 
-                <div class="sm:col-span-3">
+                <div class="sm:col-span-3 space-y-2">
                   <label
                     for="Email"
                     class="block text-sm font-medium text-gray-700"
@@ -146,7 +146,7 @@ function CreateUser() {
                   />
                 </div>
 
-                <div class="sm:col-span-3">
+                <div class="sm:col-span-3 space-y-2">
                   <label
                     for="Password"
                     class="block text-sm font-medium text-gray-700"
@@ -164,7 +164,7 @@ function CreateUser() {
                   />
                 </div>
 
-                <div class="sm:col-span-3">
+                <div class="sm:col-span-3 space-y-2">
                   <label
                     for="Password"
                     class="block text-sm font-medium text-gray-700"
@@ -184,7 +184,7 @@ function CreateUser() {
 
 
 
-               <div class="sm:col-span-3">
+               <div class="sm:col-span-3 space-y-2">
                   <label
                     for="PasswordConfirmation"
                     class="block text-sm font-medium text-gray-700"

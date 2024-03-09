@@ -36,8 +36,7 @@ function SignUp() {
       } else if (!poorPassword) {
         return toast.error(" Weak password special Character required ");
       } else if(!validEmail){
-        return toast.error("invalid email please check your format");
-      }
+        return toast.error("invalid email please check your format");      }
       else {
        
         const response = await axios.post(

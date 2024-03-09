@@ -17,6 +17,7 @@ function Navbar() {
   const { dispatch } = useAuthContext();
   const { user } = useAuthContext();
   const role = useIsAdmin();
+  console.log(role);
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
   const [activeNavLink, setActiveNavLink] = useState("/");
@@ -34,13 +35,13 @@ function Navbar() {
     });
   });
 
-  let Links =[
-    {name:"HOME",link:"/"},
-    {name:"SERVICE",link:"/"},
-    {name:"ABOUT",link:"/"},
-    {name:"BLOG'S",link:"/"},
-    {name:"CONTACT",link:"/"},
-  ];
+  // let Links =[
+  //   {name:"HOME",link:"/"},
+  //   {name:"SERVICE",link:"/"},
+  //   {name:"ABOUT",link:"/"},
+  //   {name:"BLOG'S",link:"/"},
+  //   {name:"CONTACT",link:"/"},
+  // ];
 
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);

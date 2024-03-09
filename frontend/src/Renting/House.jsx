@@ -138,6 +138,7 @@ function House() {
   }, [tenant]);
 
 
+
     const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
       // Check if the item matches the search query
       const matchesQuery = keys.some((key) => {
@@ -278,7 +279,7 @@ function House() {
                 <th>Previous Balance</th>
                 <th>Garbage</th>
                 <th>Phone Number</th>
-                <th>Next_of_king_number </th>
+                <th>Next_of_kin </th>
                 <th>balance C/F</th>
                 <th>Total</th>
                 <th> water readings</th>

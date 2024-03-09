@@ -4,11 +4,13 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "../../css/moreDetails.css";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Dialog, Transition } from '@headlessui/react'
+import { Calendar } from "primereact/calendar";
+
 
 function MoreDetails() {
   const { user } = useAuthContext();
@@ -461,7 +463,8 @@ function MoreDetails() {
                           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Pick A Date</label>
                           <div class="mt-2">
                             <Calendar
-                              onChange={setDate}
+                              // onChange={setDate}
+                              className="border p-2 rounded-lg"
                                value={selectedDate}
                              />
                           </div>

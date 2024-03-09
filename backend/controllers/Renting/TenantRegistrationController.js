@@ -129,7 +129,7 @@ const paymentsCreations = async (req, res) => {
       const { id, amount, paymentType, dateTime } = tenantUpdate;
 
       // Create a payment for the current user
-      const createPayment = await payments.create({
+      await payments.create({
         amount: amount,
         paymentType: paymentType,
         dateTime: dateTime,

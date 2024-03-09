@@ -158,6 +158,11 @@ function House() {
 
 // console.log(months);
 // console.log(query);
+const monthsShort = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
 
 
 
@@ -325,24 +330,25 @@ function House() {
                                 (matchingObject, innerIndex) => (
                                   <tr
                                     key={`${index}-${innerIndex}`}
-                                    className="flex flex-row justify-around items-center "
+                                    className="flex flex-row justify-center items-center  "
                                   >
-                                    <td className="border text-black border-slate-700 p-2">
-                                      Payment {innerIndex + 1}:{" "}
+                                    <td className=" text-black border-slate-700 p-2">
+                                    {monthsShort[new Date(matchingObject.createdAt).getMonth()]} {innerIndex + 1}:{" "}
                                       {matchingObject.amount}
                                     </td>
-                                    <td className="border text-black border-slate-700">
+                                    <td className=" text-black border-slate-700">
                                       {matchingObject.dateTime}
                                     </td>
-                                    <td className="border text-black border-slate-700">
+                                    <td className=" text-black border-slate-700">
                                       {matchingObject.paymentType}
                                     </td>
+                                    
                                   </tr>
                                 )
                               )}
-                              <tr key={`total-${index}`}>
-                                <td className="border  border-slate-700  text-green-600">
-                                  Total Rent:{" "}
+                              <tr className="flex flex-row justify-around  items-center" >
+                                <td className="  border-slate-700  text-green-600">
+                                  New Rent:{" "}
                                   {totalAmount + Number(tenants.rent)}
                                 </td>
                               </tr>

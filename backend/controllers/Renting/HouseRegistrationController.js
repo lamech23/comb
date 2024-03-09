@@ -56,6 +56,7 @@ const getAllHouses = async (req, res) => {
   }
 };
 
+
 const subtotal = async (req, res) => {
   const { id } = req.params;
   try {

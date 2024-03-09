@@ -330,11 +330,11 @@ const monthsShort = [
                                 (matchingObject, innerIndex) => (
                                   <tr
                                     key={`${index}-${innerIndex}`}
-                                    className="flex flex-row justify-center items-center  "
+                                    className="flex flex-row justify-center items-center   "
                                   >
-                                    <td className=" text-black border-slate-700 p-2">
-                                    {monthsShort[new Date(matchingObject.createdAt).getMonth()]} {innerIndex + 1}:{" "}
-                                      {matchingObject.amount}
+                                    <td className="flex flex-row gap-2 text-black border-slate-700 p-2">
+                                    <p className= "whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-rose-200 text-sm text-rose-700">  {monthsShort[new Date(matchingObject.createdAt).getMonth()]}-{innerIndex + 1} {" "}</p>                                    
+                                      <p className="text-green-400">{matchingObject.amount}</p>
                                     </td>
                                     <td className=" text-black border-slate-700">
                                       {matchingObject.dateTime}

@@ -21,10 +21,11 @@ function House() {
   const [payments, setPayments] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
-  const [query, setQuery]=useState("")
-  const [months, setMonths]=useState("")
+  const [query, setQuery] = useState("");
+  const [months, setMonths] = useState("");
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
-  const month = ["createdAt" ];
+  const month = ["createdAt"];
+  const [reportData, setReportData] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -132,38 +133,99 @@ function House() {
         setPayments(response.data?.totalAdditionalPayments);
       } catch (error) {}
     };
-    if(visitedHouseId){
-      getPayments(visitedHouseId)
+    if (visitedHouseId) {
+      getPayments(visitedHouseId);
     }
   }, [tenant]);
 
-
-
-    const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
-      // Check if the item matches the search query
-      const matchesQuery = keys.some((key) => {
-        const value = item[key];
-        return value && typeof value === "string" && value.toLowerCase().includes(query);
-      });
-    
-      // Check if the item matches the selected month
-      const matchesMonth = month.some((key) => {
-        const value = key == 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
-        return value && typeof value === "string" && value.toLowerCase().includes(months);
-      });
-      return matchesQuery || matchesMonth;
+  const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
+    // Check if the item matches the search query
+    const matchesQuery = keys.some((key) => {
+      const value = item[key];
+      return (
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(query)
+      );
     });
-    
-  
 
-// console.log(months);
-// console.log(query);
-const monthsShort = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
+    // Check if the item matches the selected month
+    const matchesMonth = month.some((key) => {
+      const value =
+        key == "createdAt" ? months[new Date(item[key]).getMonth()] : item;
+      return (
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(months)
+      );
+    });
+    return matchesQuery || matchesMonth;
+  });
 
+  // console.log(months);
+  // console.log(query);
+  const monthsShort = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
+  const finalReport = filteredProducts?.map((tenants) => {
+    // Initialize total amount for the current tenant
+    let totalAmountForTenant = 0;
+
+    let totalAmountsObj = {};
+
+    payments &&
+      Object.values(payments).map((paymentData, index) => {
+        const matchingObjects = Object.values(paymentData).filter(
+          (obj) => obj.userId === tenants.id
+        );
+
+        if (matchingObjects.length > 0) {
+          totalAmountForTenant = matchingObjects.reduce(
+            (sum, obj) => sum + Number(obj.amount),
+            0
+          );
+
+          // Map amount values from
+          const amountValues = matchingObjects.map(
+            (matchObj) => matchObj.amount
+          );
+
+          return amountValues;
+        }
+
+        totalAmountsObj[tenants.id] = 0;
+      });
+
+    if (!totalAmountForTenant) {
+      totalAmountForTenant = Number(tenants.rent);
+    } else {
+      totalAmountForTenant += Number(tenants.rent);
+    }
+    const totalBalance =
+      Number(tenants.balance) + totalAmountForTenant - tenants.rent;
+    let water_bill =
+      tenants?.totalWaterReadings * waterUnits <= 0
+        ? 0
+        : tenants?.totalWaterReadings * waterUnits;
+    return {
+      ...tenants,
+      totalAmount: totalAmountForTenant,
+      totalBalance: totalBalance,
+      water_bill: water_bill,
+    };
+  });
 
 
   return (
@@ -181,7 +243,6 @@ const monthsShort = [
           </p>
         </div>
       </div>
-
       <header className=" mt-10 mb-20">
         <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
           <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
@@ -217,6 +278,21 @@ const monthsShort = [
             >
               additinal payments
             </Link>
+            <Link
+              to={`/final-report`}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              onClick={reportData}
+            >
+              Generate House Report
+            </Link>
+
+            <Link
+              to={`/addtionalPayments/${houseId}`}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              href="/"
+            >
+              Water Report
+            </Link>
 
             <button
               onClick={() => toPDF()}
@@ -225,8 +301,8 @@ const monthsShort = [
               Download
             </button>
             <Link
-            to="/report"
-            state={houseName}
+              to="/report"
+              state={houseName}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             >
               report
@@ -234,29 +310,29 @@ const monthsShort = [
           </div>
         </div>
       </header>
-
       <div className="card w-full p-6 bg-base-100 shadow-xl ">
         <div className="flex flex-row justify-between items-center">
-        <p>Tenants</p>
+          <p>Tenants</p>
 
-   <div className="flex flex-row gap-4">
-   <input type="text" 
-        className="border p-4  rounded-lg "
-            value= {months} 
-            placeholder='search by month...'
-            onChange={(e) => setMonths(e.target.value)}
+          <div className="flex flex-row gap-4">
+            <input
+              type="text"
+              className="border p-4  rounded-lg "
+              value={months}
+              placeholder="search by month..."
+              onChange={(e) => setMonths(e.target.value)}
             />
 
-        <input type="text" 
-        className="border p-4  rounded-lg "
-            value= {query} 
-            placeholder='Search..'
-            onChange={(e) => setQuery(e.target.value)}
+            <input
+              type="text"
+              className="border p-4  rounded-lg "
+              value={query}
+              placeholder="Search.."
+              onChange={(e) => setQuery(e.target.value)}
             />
-
-   </div>
+          </div>
         </div>
-        
+
         <div className="divider mt-2"></div>
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
@@ -291,7 +367,7 @@ const monthsShort = [
               </tr>
             </thead>
             <tbody>
-            { filteredProducts?.map((tenants) => (
+              {filteredProducts?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}
@@ -333,8 +409,20 @@ const monthsShort = [
                                     className="flex flex-row justify-center items-center   "
                                   >
                                     <td className="flex flex-row gap-2 text-black border-slate-700 p-2">
-                                    <p className= "whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-rose-200 text-sm text-rose-700">  {monthsShort[new Date(matchingObject.createdAt).getMonth()]}-{innerIndex + 1} {" "}</p>                                    
-                                      <p className="text-green-400">{matchingObject.amount}</p>
+                                      <p className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-rose-200 text-sm text-rose-700">
+                                        {" "}
+                                        {
+                                          monthsShort[
+                                            new Date(
+                                              matchingObject.createdAt
+                                            ).getMonth()
+                                          ]
+                                        }
+                                        -{innerIndex + 1}{" "}
+                                      </p>
+                                      <p className="text-green-400">
+                                        {matchingObject.amount}
+                                      </p>
                                     </td>
                                     <td className=" text-black border-slate-700">
                                       {matchingObject.dateTime}
@@ -342,14 +430,12 @@ const monthsShort = [
                                     <td className=" text-black border-slate-700">
                                       {matchingObject.paymentType}
                                     </td>
-                                    
                                   </tr>
                                 )
                               )}
-                              <tr className="flex flex-row justify-around  items-center" >
+                              <tr className="flex flex-row justify-around  items-center">
                                 <td className="  border-slate-700  text-green-600">
-                                  New Rent:{" "}
-                                  {totalAmount + Number(tenants.rent)}
+                                  New Rent: {totalAmount + Number(tenants.rent)}
                                 </td>
                               </tr>
                             </React.Fragment>
@@ -452,7 +538,7 @@ const monthsShort = [
                           })
                           .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
-                  
+
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
@@ -469,12 +555,11 @@ const monthsShort = [
                   </Link>
                 </tr>
               ))}
-                
             </tbody>
           </table>
         </div>
       </div>
-
+      totalAmountForTenant
       <ToastContainer
         position="top-left"
         autoClose={3000}
@@ -551,7 +636,6 @@ const monthsShort = [
           </div>
         </Dialog>
       </Transition>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child

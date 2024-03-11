@@ -19,7 +19,7 @@ function Navbar() {
   const role = useIsAdmin();
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-  const [activeNavLink, setActiveNavLink] = useState("/");
+  // const [activeNavLink, setActiveNavLink] = useState("/");
 
   document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", function () {
@@ -62,7 +62,7 @@ function Navbar() {
               <div className="w-16 h-16 mx-auto">
                 <img className="" src={logo} alt="logo" class='' />
               </div>
-                <p className="text-md pt-3 text-blue-400 font-bold">Freyton Property Agencies</p>
+                <p className="text-md pt-3 text-blue-400 text-2xl font-bold">Freyton Property Agencies</p>
             </a>
 
             <div class='flex items-center ml-auto lg:order-1'>

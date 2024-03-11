@@ -48,6 +48,7 @@ import AdditinalPaymants from "./Renting/AdditinalPaymants";
 import Report from "./Renting/Report";
 import CreateUser from "./Admin/CreateUser";
 import FinalReport from "./Renting/finalReport";
+import Team from "./componets/Team";
 
 const DashLayout = lazy(() => import('./Dashboard/Layout'))
 const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -103,6 +104,7 @@ function App() {
             <Route path="/report" element={<Report/>} />
             <Route path="/createUser" element={<CreateUser/>} />
             <Route path="/final-report" element={<FinalReport/>} />
+            <Route path="/our-team" element={<Team/>} />
 
             <Route path="/admin/*" element={<DashLayout />} />
 

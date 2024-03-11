@@ -8,13 +8,12 @@ import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 import { ToastContainer, toast } from "react-toastify";
 
-
 function User() {
   const [socket, setSocket] = useState(null);
   const newSocket = io(ServerUrl);
   const [users, setUsers] = useState([]);
-  const [house, setHouse]=useState([])
-  const [agent, setAgent]=useState("")
+  const [house, setHouse] = useState([]);
+  const [agent, setAgent] = useState("");
   console.log(agent);
 
   useEffect(() => {
@@ -24,37 +23,37 @@ function User() {
     };
   }, []);
 
-
   // get the instance  of the two  userId and  houseId
   const handleHouseSelection = (agentId, houseId) => {
-
     setAgent({
       agentId,
-      houseId: Number(houseId)
-    })
-    
-  }
+      houseId: Number(houseId),
+    });
+  };
 
-  const handleSave = async(e)=>{
-    e.preventDefault()
+  const handleSave = async (e) => {
+    e.preventDefault();
 
-   try {
-    const response = await axios.post('http://localhost:4000/users/assing',
-    agent
-    )
-    if(response){
-      toast.success("assigned  successfully");
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/users/assing",
+        agent
+      );
+
+      if (response) {
+        toast.success("assigned  successfully");
+      }
+    } catch (error) {
+      console.log(error);
     }
-   } catch (error) {
-    console.log(error);
-   }
-  }
+  };
 
-  const fetchHouse = async()=>{
-    const response = await axios.get("http://localhost:4000/Details/fetchHousesByName");
-    setHouse(response.data)
-
-  }
+  const fetchHouse = async () => {
+    const response = await axios.get(
+      "http://localhost:4000/Details/fetchHousesByName"
+    );
+    setHouse(response.data);
+  };
 
   const fetchUsers = async () => {
     const response = await axios.get("http://localhost:4000/Users/all");
@@ -63,7 +62,7 @@ function User() {
 
   useEffect(() => {
     fetchUsers();
-    fetchHouse()
+    fetchHouse();
 
     if (socket === null) return;
 
@@ -132,7 +131,6 @@ function User() {
                 <th>House Managing </th>
                 <th>Assign House</th>
                 <th>Actions</th>
-                
               </tr>
             </thead>
             {users.map((allUsers) => (
@@ -143,30 +141,35 @@ function User() {
                   <td>{allUsers.role}</td>
                   <td>{allUsers?.agent[0]?.house?.houseName}</td>
                   <td>
-                  <select className="p-2 rounded-md" onChange={(e) => handleHouseSelection(allUsers.id, e.target.value)}>
-                      <option value="">Select house ...</option>
-                      {
-                        house && house?.map((h, index)=>(
-                          !allUsers?.agent[0]?.house?.houseName.includes(h.houseName) && ( 
-                            <option key={index} value={h.id}>{h.houseName}</option>
-                          )
-
-                        ))
+                    <select
+                      className="p-2 rounded-md"
+                      onChange={(e) =>
+                        handleHouseSelection(allUsers.id, e.target.value)
                       }
+                    >
+                      <option value="">Select house ...</option>
+                      {house &&
+                        house?.map(
+                          (h, index) =>
+                            !allUsers?.agent[0]?.house?.houseName.includes(
+                              h.houseName
+                            ) && (
+                              <option key={index} value={h.id}>
+                                {h.houseName}
+                              </option>
+                            )
+                        )}
                     </select>
                   </td>
 
-                 
-
                   <td className="flex gap-2">
-                  <button
-                  onClick={handleSave}
-                  type="submit"
-                  className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
-                  >
-                    Assign
-
-                  </button>
+                    <button
+                      onClick={handleSave}
+                      type="submit"
+                      className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
+                    >
+                      Assign
+                    </button>
                     <Link
                       to={`/UpdateUser/${allUsers.id}`}
                       type="button"
@@ -174,7 +177,6 @@ function User() {
                     >
                       edit
                     </Link>
-
                     <span
                       onClick={handelDelete}
                       type="button"
@@ -182,9 +184,7 @@ function User() {
                       style={{ color: "red" }}
                     >
                       delete
-                    </span>
-
-                    {" "}
+                    </span>{" "}
                     <span>
                       {allUsers.Active === "active" ? (
                         <button
@@ -207,7 +207,6 @@ function User() {
                       ) : null}
                     </span>
                   </td>
-               
                 </tr>
               </tbody>
             ))}
@@ -225,7 +224,7 @@ function User() {
         draggable
         pauseOnHover
         theme="colored"
-      /> 
+      />
     </>
   );
 }

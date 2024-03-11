@@ -50,7 +50,9 @@ function House() {
     .slice(-1)[0];
   //houseId
   let houseIdArray = house?.map((house) => house.id);
-  let houseId = houseIdArray ? houseIdArray[0] : null;
+  let houseId = houseIdArray 
+  console.log(houseId);
+  
   const visitedHouseId = house?.find(
     (house) => house?.houseName === houseName
   )?.id;

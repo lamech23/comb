@@ -25,7 +25,6 @@ function House() {
   const [months, setMonths] = useState("");
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
-  const [reportData, setReportData] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -281,7 +280,7 @@ function House() {
             <Link
               to={`/final-report`}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-              onClick={reportData}
+              state={finalReport}
             >
               Generate House Report
             </Link>
@@ -559,7 +558,6 @@ function House() {
           </table>
         </div>
       </div>
-      totalAmountForTenant
       <ToastContainer
         position="top-left"
         autoClose={3000}

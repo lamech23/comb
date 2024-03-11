@@ -19,6 +19,8 @@ function House() {
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
+
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
   const [query, setQuery] = useState("");
@@ -49,9 +51,12 @@ function House() {
     })
     .slice(-1)[0];
   //houseId
-  let houseIdArray = house?.map((house) => house.id);
-  let houseId = houseIdArray 
-  console.log(houseId);
+ 
+
+    let houseIdArray = house?.map((house) => house.id);
+  let houseId = houseIdArray ? houseIdArray[0] : null;
+
+ 
   
   const visitedHouseId = house?.find(
     (house) => house?.houseName === houseName
@@ -137,7 +142,36 @@ function House() {
     if (visitedHouseId) {
       getPayments(visitedHouseId);
     }
-  }, [tenant]);
+  }, []);  
+
+
+  useEffect(() => {
+    const getWaterRates = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        );
+        setGetWater(res.data?.getWater);
+      } catch (error) {
+        toast.error("water rates not found " || error.massage);
+      }
+    };
+    getWaterRates();
+
+    const getPayments = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
+        );
+        setPayments(response.data?.totalAdditionalPayments);
+      } catch (error) {}
+    };
+    if (visitedHouseId) {
+      getPayments(visitedHouseId);
+    }
+  }, [visitedHouseId]);
+
+  
 
   const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
     // Check if the item matches the search query
@@ -227,7 +261,10 @@ function House() {
       water_bill: water_bill,
     };
   });
+useEffect(()=>{
 
+
+},[finalReport])
 
   return (
     <>
@@ -264,7 +301,7 @@ function House() {
             </button>
 
             <Link
-              to={`/payments/${houseId}`}
+              to={`/payments/${visitedHouseId}`}
               state={getWater}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
@@ -273,7 +310,7 @@ function House() {
             </Link>
 
             <Link
-              to={`/addtionalPayments/${houseId}`}
+              to={`/addtionalPayments/${visitedHouseId}`}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
             >
@@ -665,7 +702,7 @@ function House() {
                   <RegisterTenant
                     setIsOpen={setIsOpen}
                     closeModal={closeModal}
-                    houseId={houseId}
+                    visitedHouseId={visitedHouseId}
                     tenant={tenant}
                   />
                 </Dialog.Panel>

@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Calendar } from "primereact/calendar";
 
-function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
-  console.log(houseId);
+function RegisterTenant({ visitedHouseId, tenant, closeModal,setIsOpen }) {
+  console.log(visitedHouseId);
 
   
   const state = useLocation().state; // am  using one for to create and update
@@ -96,7 +96,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
             previousBalance: previousBalance,
             prevReadings: prevReadings,
             currentReadings: currentReadings,
-            houseId: houseId,
+            houseId: visitedHouseId,
             tenant_id: id,
             
           },
@@ -130,7 +130,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
           previousBalance: previousBalance,
           prevReadings: prevReadings,
           payableRent: payableRent,
-          houseId: houseId,
+          houseId: visitedHouseId,
           date: date
         }
       );
@@ -153,7 +153,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
       toast.success("Succesfully registerd tenant");
     } catch (error) {
       // Handle errors here
-      console.error("Error occurred:", error.message);
+      console.log("Error occurred:", error);
       toast.error("An error occurred. Please try again later.");
     }
   };

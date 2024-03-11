@@ -8,17 +8,17 @@ const UserGraph = ({ users }) => {
   function generateMonthLabels(monthCount) {
     const labels = [];
     const currentDate = new Date();
+    currentDate.setMonth(0); // Set the month to January (month index is zero-based)
 
     for (let i = 0; i < monthCount; i++) {
-      const date = new Date();
-      date.setMonth(currentDate.getMonth() + i); // Subtract months to go back in time
-      const monthLabel = date.toLocaleDateString("default", { month: "short" });
-      labels.push(monthLabel);
+        const date = new Date(currentDate); // Create a new date object to avoid modifying the original date
+        date.setMonth(date.getMonth() + i); // Add months to go forward in time
+        const monthLabel = date.toLocaleDateString("default", { month: "short" });
+        labels.push(monthLabel);
     }
 
     return labels;
-  }
-
+}
   function countUsers(users) {
     const userCountByMonth = {
       Jan: 0,
@@ -38,7 +38,7 @@ const UserGraph = ({ users }) => {
       const month = new Date(user.createdAt).toLocaleString("default", {
         month: "short",
       });
-      Math.floor(userCountByMonth[month] += 1)
+      Math.floor(userCountByMonth[month] +=1);
     });
     return Object.values(userCountByMonth);
   }
@@ -57,7 +57,7 @@ const UserGraph = ({ users }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "line",
+        type: "bar",
         data: {
           labels: labels,
           datasets: [

@@ -14,7 +14,7 @@ function Cards() {
   return (
     <div>
       <div class="container mx-auto">
-    <h2 class="text-2xl font-bold text-center my-4">Categories</h2>
+    <h2 class="text-3xl font-bold text-center my-4">House Categories</h2>
     <div class="grid  grid-cols-3 gap-4">
     <div class="relative rounded overflow-hidden shadow-md">
      <Link to="/BnbHouse">

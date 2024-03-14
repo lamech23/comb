@@ -96,7 +96,7 @@ const Details = () => {
                 <div class="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2 ">
                     <div> <span className='font-bold'>{detail.units} </span>Units</div>
                   <div class="mx-2"></div>
-                  <div> <span className='font-bold'>{detail.contact} </span>contact</div>
+                  <div> <span className='font-bold  blur'>{detail.contact} </span>contact</div>
                   <div class="mx-2"></div>
                 </div>
               </div>

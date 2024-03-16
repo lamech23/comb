@@ -12,7 +12,8 @@ const {
     grtDetailsById,
     getAllHouses,
     getAllTours ,
-    getAllHousesByName
+    getAllHousesByName,
+    getProductsInCategory
     
     
 }=require('../controllers/Details')
@@ -37,6 +38,8 @@ router.post('/',requireAuth, imageUpload, createDetails)
  router.get('/Maisonette',  RentalHouse)
  router.get('/Apartments',  BnBHouse)
  router.get('/TourRequest',  getAllTours )
+ router.get('/fetchDetailsCategory/:category', getProductsInCategory);
+
 // 
  
  //Get a single upload 

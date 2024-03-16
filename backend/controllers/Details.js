@@ -3,10 +3,7 @@ const Tours = require("../models/TourRequestModel.js");
 const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
-const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
-const tty = require("tty");
-const { getAll } = require("./Renting/HouseRegistrationController");
 // for landing page
 
 const getAllHouses = async (req, res) => {
@@ -326,6 +323,25 @@ const updateDetails = async (req, res) => {
   res.status(200).json(details);
 };
 
+const getProductsInCategory = async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    const getCategory = await Details.findAll({
+      where: { category },
+      include: [{ model: imageUrl, as: "images" }],
+    });
+    if (getCategory) {
+      res.status(200).json(getCategory);
+    }
+  } catch (error) {
+    res.status(403).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createDetails,
   getSingelDetails,
@@ -340,4 +356,5 @@ module.exports = {
   RequstingAtour,
   getAllTours,
   getAllHousesByName,
+  getProductsInCategory,
 };

@@ -20,7 +20,6 @@ function House() {
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
 
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
   const [query, setQuery] = useState("");
@@ -51,13 +50,10 @@ function House() {
     })
     .slice(-1)[0];
   //houseId
- 
 
-    let houseIdArray = house?.map((house) => house.id);
+  let houseIdArray = house?.map((house) => house.id);
   let houseId = houseIdArray ? houseIdArray[0] : null;
 
- 
-  
   const visitedHouseId = house?.find(
     (house) => house?.houseName === houseName
   )?.id;
@@ -142,8 +138,7 @@ function House() {
     if (visitedHouseId) {
       getPayments(visitedHouseId);
     }
-  }, []);  
-
+  }, []);
 
   useEffect(() => {
     const getWaterRates = async () => {
@@ -170,8 +165,6 @@ function House() {
       getPayments(visitedHouseId);
     }
   }, [visitedHouseId]);
-
-  
 
   const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
     // Check if the item matches the search query
@@ -261,10 +254,14 @@ function House() {
       water_bill: water_bill,
     };
   });
-useEffect(()=>{
 
+//   const TotalsForReports = finalReport?.map((data) => {
+//     const TotalRentCollected = data.totalAmount
+// console.log(TotalRentCollected);
 
-},[finalReport])
+//   });
+
+  useEffect(() => {}, [finalReport]);
 
   return (
     <>

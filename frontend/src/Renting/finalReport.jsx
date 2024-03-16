@@ -8,7 +8,9 @@ function FinalReport() {
     <>
       <div className="px-40 mt-20">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-          <table className="w-full text-sm text-left rtl:text-right text-black dark:text-gray-400 ">
+        <div class="px-4 py-5 flex-auto">
+
+          <table className=" w-full text-sm text-left rtl:text-right text-black dark:text-gray-400 ">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-100 dark:text-black">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -57,7 +59,39 @@ function FinalReport() {
                   </tr>
                 </tbody>
               ))}
+
+           <tfoot  className="text-right  items-end ">
+           <tr class="mt-4">
+              <th class="border-b-0 p-3 border-t">
+                <p class="text-lg font-semibold pt-2">Total Rent Collected</p>
+              </th>
+
+              <th class="border-b-0 p-3 border-t" colspan="3">
+                <p class="text-right text-lg font-semibold pt-2"> Ksh 3000</p>
+              </th>
+            </tr>
+
+            <tr class="mt-4">
+              <th class="border-b-0 p-3 border-t">
+                <p class="text-lg font-semibold pt-2">Total Water Bill Collected </p>
+              </th>
+
+              <th class="border-b-0 p-3 border-t" colspan="3">
+                <p class="text-right text-lg font-semibold pt-2"> Ksh 3000</p>
+              </th>
+            </tr>
+            <tr class="mt-4">
+              <th class="border-b-0 p-3 border-t">
+                <p class="text-lg font-semibold pt-2">Total Balance </p>
+              </th>
+
+              <th class="border-b-0 p-3 border-t" colspan="3">
+                <p class="text-right text-lg font-semibold pt-2"> Ksh 3000</p>
+              </th>
+            </tr>
+           </tfoot>
           </table>
+        </div>
         </div>
       </div>
     </>

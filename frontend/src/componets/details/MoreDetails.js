@@ -39,6 +39,8 @@ function MoreDetails() {
   const [type, setType] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
+  
+  console.log(isOpen);
 
   const setDate = (date) => {
     if (date < new Date()) {
@@ -166,6 +168,7 @@ function MoreDetails() {
   }
 
   function openModal() {
+    console.log("clicked");
     setIsOpen(true);
   }
 
@@ -186,161 +189,134 @@ function MoreDetails() {
               ))}
             </Carousel>
           </div>
-
-          <div className=" w-full lg:w-5/12 flex justify-center items-center">
-            <div className=" mt-4 lg:mt-0 ">
-              <h3 className="font-bold pb-3">House Information</h3>
-              <div className="text-center sm:text-left">
-                <p className="text-lg lg:text-xl">
-                  Category: <span className="font-bold">{category}</span>{" "}
+          <div class="w-full lg:w-5/12 flex justify-center items-center">
+            <div class="mt-4 lg:mt-0 p-6 bg-white rounded-lg shadow-xl">
+              <h3 class="font-bold text-xl lg:text-2xl pb-3">
+                House Information
+              </h3>
+              <div class="text-left">
+                <p class="text-lg lg:text-xl">
+                  Category: <span class="font-bold">{category}</span>
                 </p>
-                <p className="text-lg lg:text-xl">
-                  Features: <span className="font-bold">{title}</span>{" "}
+                <p class="text-lg lg:text-xl">
+                  Features: <span class="font-bold">{title}</span>
                 </p>
-                <p className="text-lg">
-                  Description: <span className="font-bold">{description}</span>
+                <p class="text-lg">
+                  Description: <span class="font-bold">{description}</span>
                 </p>
                 {type === "renting" ? null : (
-                  <p className="text-lg">
-                    <strong className="text-red-500">Ksh: {price}</strong>
+                  <p class="text-lg">
+                    <strong class="text-red-500">Ksh: {price}</strong>
                   </p>
                 )}
               </div>
 
-              <div>
-                {type === "renting" && (
-                  <div className="flex flex-row pt-10 sm:mt-0 gap-7 mb-10">
-                    <div className="flex flex-col items-center">
-                      <p className="text-lg text-[2.4rem] text-teal-400">
-                        Occupied
-                      </p>
-                      <div className="w-20 h-20 bg-red-600 relative">
-                        <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
-                        <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
-                        <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col items-center">
-                      <p className="text-lg text-[2.4rem] text-teal-400">
-                        Vacant
-                      </p>
-                      <div className="w-20 h-20 bg-green-500 relative">
-                        <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
-                        <div className="top-6 bottom-0 left-0 right-0 bg-gray-500 "></div>
-                        <div className="bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-brown-600"></div>
-                      </div>
-                    </div>
+              {type === "renting" && (
+                <div class="flex justify-between pt-8">
+                  <div class="flex flex-col items-center">
+                    <p class="text-lg text-teal-400">Occupied</p>
+                    <div class="w-20 h-20 bg-red-600 rounded-full relative"></div>
                   </div>
-                )}
-              </div>
-
-              <div>
-                {type == "renting" ? null : (
-                  <div className="flex-1">
-                    <div className="flex flex-col items-center gap-10">
-                      <a
-                        onClick={openModal}
-                        className="block cursor-pointer no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                      >
-                        Contact Agent
-                      </a>
-                    </div>
+                  <div class="flex flex-col items-center">
+                    <p class="text-lg text-teal-400">Vacant</p>
+                    <div class="w-20 h-20 bg-green-500 rounded-full relative"></div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {type !== "renting" && (
+                <div class="pt-8">
+                  <div class="flex flex-col items-center gap-4">
+                    <button
+                    type="submit"
+                      onClick={openModal}
+                      class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                    >
+                      Contact Agent
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-
       <div className="flex flex-wrap justify-center items-center">
         {breakNumberIntoDigits(Number(units)).map((digit, digitIndex) => (
           <div
             key={digitIndex}
-            className={`flex flex-row justify-center items-center border m-2 ${
+            className={`relative flex justify-center items-center border m-2 rounded-full overflow-hidden shadow-lg ${
               tenant?.some((t) => Number(t.houseNumber.slice(2)) === digit)
                 ? "bg-red-600"
                 : "bg-green-500"
             }`}
+            style={{ width: "100px", height: "100px" }}
           >
-            <p>
-              {}
-              a-
-            </p>
-            <p>{digit}</p>
-            <div className="w-20 h-20  relative">
-              <div className="top-0 left-0 w-full h-6 bg-blue-500"></div>
+            <div className="flex justify-center items-center w-full h-full">
+              <p className="text-lg text-white font-bold">a-</p>
+              <p className="text-lg text-white font-bold">{digit}</p>
             </div>
+            <div className="absolute top-0 left-0 right-0 h-6 bg-teal-800 rounded-full"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-6 bg-teal-800 rounded-full"></div>
           </div>
         ))}
       </div>
 
-   
-
-      <div className="text-center mt-5 fs-3 text-danger fw-bold">
+      <div className="text-center mt-20 text-red-300 font-bold text-4xl">
         Related House
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto mt-5 px-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto mt-5 px-20">
         {details.map((detail) => (
           <div
             key={detail.id}
-            className="justify-self-center col-span-1 justify-items-center mb-5 p-5 bg-white rounded-lg shadow-lg"
+            className=" mb-5 p-5 bg-white rounded-lg shadow-xl shadow-indigo-100 "
           >
-            <Link to={`/MoreDetails/${detail.id}`}>
-              <img
-                className="mx-auto my-5 "
-                src={`http://localhost:4000/${detail.image}`}
-                width="250px"
-                height="250px"
-                style={{ borderRadius: "20px" }}
-                alt=""
-              />
-            </Link>
+            {detail?.images?.map(
+              (img, imgIndex) =>
+                imgIndex === 0 && (
+                  <Link to={`/MoreDetails/${detail.id}`}>
+                    <img
+                      className="mx-auto my-5 rounded-lg"
+                      src={img.image}
+                      width="250px"
+                      height="250px"
+                      alt=""
+                    />
+                  </Link>
+                )
+            )}
+
             <div className="truncate">
-              <p className="text-center">
-                <strong>{detail.title}</strong>
-                <br />
-                <p>{detail.location}</p>
-                <p>{detail.description}</p>
-                <p>{detail.contact}</p>
-                <p>{detail.price}</p>
+              <p className="text-center font-semibold">{detail.title}</p>
+              <p className="text-center text-sm text-gray-600 mb-2">
+                {detail.location}
+              </p>
+              <p className="text-center text-gray-700 mb-4">
+                {detail.description}
+              </p>
+              <p className="text-center mb-4">
+                <span className="font-semibold">Contact:</span> {detail.contact}
+              </p>
+              <p className="text-center text-lg font-semibold">
+                Price: {detail.price}
               </p>
             </div>
-            <p className="text-center mt-2 text-lg">
+            <p className="text-center mt-2 text-lg text-gray-600">
               {formatDistanceToNow(new Date(detail.createdAt), {
                 addSuffix: true,
               })}
             </p>
-            <Link
-              to={`/DetailsInfo/${detail.id}`}
-              className="block w-full mt-2"
-            >
-              <button className="btn-outline-secondary btn-lg w-full">
-                Buy Now
-              </button>
-            </Link>
-
-            <div class="mt-6 flex items-center justify-end gap-x-6">
+            <div className="flex items-center justify-center mt-4 gap-6">
               <Link to={`/DetailsInfo/${detail.id}`}>
-                <button
-                  onClick={closeModal}
-                  type="button"
-                  class="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  See more...
-                </button>
+                <button className="btn btn-outline-secondary">See more</button>
               </Link>
+              {type === "selling" && (
 
-              <button
-                type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                <Link className="text-white" to={`/DetailsInfo/${detail.id}`}>
-                  Buy Now
-                </Link>
-              </button>
+              <Link to={`/DetailsInfo/${detail.id}`}>
+                <button className="btn btn-primary">Buy Now</button>
+              </Link>
+              )}
             </div>
           </div>
         ))}
@@ -566,13 +542,11 @@ function MoreDetails() {
                             >
                               Pick A Date
                             </label>
-                            <div class="mt-2">
-                              <Calendar
-                                // onChange={setDate}
-                                className="border p-2 rounded-lg"
-                                value={selectedDate}
-                              />
-                            </div>
+                            <input
+                                  name="push-notifications"
+                                  type="date"
+                                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                                  />
                           </div>
                         </div>
 

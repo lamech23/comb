@@ -28,7 +28,7 @@ function HelpCenter() {
     <>
      
      <div class="container mx-auto px-4 flex flex-col justify-center items-center gap-5 py-10">
-    <div class="w-full md:w-3/4 lg:w-2/3 xl:w-1/2 shadow-lg p-10 bg-white rounded-lg">
+    <div class="w-full md:w-3/4 lg:w-2/3 xl:w-1/2 shadow-xl shadow-indigo-100 p-10 bg-white rounded-lg">
         <div class="text-center">
             <span class="text-5xl text-info">
                 <i class="bi bi-headset"></i>

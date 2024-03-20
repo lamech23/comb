@@ -26,7 +26,7 @@ function Cards() {
     <div>
       <div class="container mx-auto">
         <h2 class="text-3xl font-bold text-center my-4">House Categories</h2>
-        <div class="grid  grid-cols-3 gap-4">
+        <div class="grid grid-flow-row-dense  lg:grid-cols-3 gap-4">
           {category &&
             category.map((data) => (
               <div key={data.id} class="relative rounded overflow-hidden ">

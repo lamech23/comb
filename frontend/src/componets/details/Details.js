@@ -20,8 +20,8 @@ const Details = () => {
   const [postsPerPage] = useState(4);
   const [details, setDetails] = useState([]);
   const [query, setQuery] = useState("");
-  const [pagination, setPagination] =useState({})
-
+  const [pagination, setPagination] = useState({});
+  const [pageNum , setPageNum]=useState(1)
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));
@@ -54,72 +54,100 @@ const Details = () => {
   // }, [query]);
 
   const fetchDetails = async () => {
-    const response = await axios.get("http://localhost:4000/Details/allHouses");
+    const response = await axios.get(`http://localhost:4000/Details/allHouses/`);
     setDetails(response.data.allHousesWithImage);
-    setPagination(response.data?.pagination );
+    setPagination(response.data?.pagination);
 
     setIsLoading(false);
   };
-  const handleChangePage = (pageNumber)=>{
-    setPagination(pageNumber);
+  const handleNext = () => {
+   let num = pagination.currentPage +1
+   setPageNum(num)
+   console.log(pagination?.currentPosts);
 
-  }
+    // setPagination();
+  };
 
-  
+  const handleprev = () => {
+    let num = pageNum -1
+    setPageNum(num)
+
+    console.log(num);
+ 
+     // setPagination();
+   };
+  // console.log("this paginstion ",pagination);
+
   return (
     <>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-10">
-           <h3 className="text-center font-bold text-3xl pb-5">Houses</h3>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+      <div class="max-w-7xl mx-auto  py-6 pt-10">
+        <h3 className="text-center font-bold text-3xl pb-5">Houses</h3>
+        <div class="grid grid-flow-row-dense lg:grid-cols-4 gap-4 ">
           {isLoading ? (
             <div className="flex justify-center mx-auto">
               <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
             </div>
           ) : (
-            pagination?.currentPage  && 
-
+            pagination?.currentPage &&
             pagination?.currentPosts?.map((detail, index) => (
-              
-            <div  key={index} class="border rounded-lg shadow-lg overflow-hidden">
-                  {detail?.images?.map(
-                      (img, imgIndex) =>
-                        imgIndex === 0 && (
-               <Link to={`/MoreDetails/${detail.id}`}> <img key={imgIndex} class="w-full h-48 object-cover"  src={img.image} alt="Daily Apartment"/></Link>
-              )
-              )}
-              <div class="p-4">
-                <h3 class="text-lg font-semibold"> {detail?.title}</h3>
-                <h3 class="text-lg font-light"> {detail.description}</h3>
-                <p class="text-gray-600">{detail?.details?.locaton}</p>
-                <p class="text-gray-900 font-semibold">Ksh{detail.price}</p>
-                <div class="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2 ">
-                    <div> <span className='font-bold'>{detail.units} </span>Units</div>
-                  <div class="mx-2"></div>
-                  <div> <span className='font-bold  blur'>{detail.contact} </span>contact</div>
-                  <div class="mx-2"></div>
+              <div
+                key={index}
+                class=" col-span- border rounded-lg shadow-lg overflow-hidden"
+              >
+                {detail?.images?.map(
+                  (img, imgIndex) =>
+                    imgIndex === 0 && (
+                      <Link to={`/MoreDetails/${detail.id}`}>
+                        {" "}
+                        <img
+                          key={imgIndex}
+                          class="w-full h-48 object-cover"
+                          src={img.image}
+                          alt="Daily Apartment"
+                        />
+                      </Link>
+                    )
+                )}
+                <div class=" p-4">
+                  <h3 class="text-lg font-semibold"> {detail?.title}</h3>
+                  <h3 class="text-lg font-light"> {detail.description}</h3>
+                  <p class="text-gray-600">{detail?.details?.locaton}</p>
+                  <p class="text-gray-900 font-semibold">Ksh{detail.price}</p>
+                  <div class="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2 ">
+                    <div>
+                      {" "}
+                      <span className="font-bold">{detail.units} </span>Units
+                    </div>
+                    <div class="mx-2"></div>
+                    <div>
+                      {" "}
+                      <span className="font-bold  blur">{detail.contact} </span>
+                      contact
+                    </div>
+                    <div class="mx-2"></div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))
+          )}
+        </div>
+      </div>
+      <div className="flex flex-row justify-center items-center  gap-4">
+      <button className="border p-2 " onClick={handleprev}>prev</button>
 
-              ))
-              )}
-          </div>
-         </div>
-
-
-     <div className="flex flex-row justify-center items-center">
-    
-         { 
-        pagination?.pageNumbers?.map((number) => (
+      <div className="flex flex-row justify-center items-center">
+        {pagination?.pageNumbers?.map((number) => (
           <div key={number} className="">
-            <a onClick={() => handleChangePage(number)} className="page-link ">
-              {number}
-             </a> 
-          </div> 
+            <a onClick={() => handleChangePage()} className="page-link ">
+            <p className={`flex flex-row gap-4 border p-2 cursor-pointer ${pageNum == number ? 'bg-teal-600' : 'bg-white'}
+              `}> {number}</p>
+            </a>
+          </div>
         ))}
+      </div>
 
-     </div>
+      <button className="border p-2" onClick={handleNext}>next</button>
+    </div>
 
       <ToastContainer
         position="bottom-center"

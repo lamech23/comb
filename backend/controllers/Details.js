@@ -38,12 +38,14 @@ const getAllHouses = async (req, res) => {
       pageNumbers.push(i);
     }
 
+
     res.status(200).json({
       allHousesWithImage,
       pagination: {
         pageNumbers,
-        currentPosts,
+        currentPosts ,
         currentPage,
+      
       },
     });
   } catch (error) {

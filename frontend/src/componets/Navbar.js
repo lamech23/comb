@@ -67,7 +67,7 @@ function Navbar() {
 
             <div class='flex items-center ml-auto lg:order-1'>
 
-            <div className=" sticky top-0 bg-base-100  z-10  ">
+            <div className=" sticky top-0 bg-base-100  z-40  ">
                 <div className="dropdown dropdown-end ml-4">
                       <label tabIndex={0} className="">
                         <div className="w-10 rounded-full">
@@ -104,7 +104,7 @@ function Navbar() {
               </button>
             </div>
 
-            <ul  className={`absolute lg:static left-0 w-full lg:w-0  lg:flex mx-auto lg:space-x-10 max-lg:space-y-3   md:z-auto z-[99]  transition-all duration-500 ease-in ${open ? 'top-52 bg-gray-50 ':'top-[-490px]'}`}>
+            <ul  className={`absolute lg:static left-0 w-full lg:w-0  lg:flex mx-auto lg:space-x-10 max-lg:space-y-3   md:z-auto z-40  transition-all duration-500 ease-in ${open ? 'top-52 bg-gray-50 z-40 ':'top-[-490px]'}`}>
               <li class='max-lg:border-b max-lg:py-2 px-5'>
                 <Link to="/" class='hover:text-[#007bff] text-[15px] text-gray-600 block font-bold'>Home</Link>
               </li>

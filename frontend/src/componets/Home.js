@@ -8,7 +8,7 @@ import Cards from './Cards'
  import GetInTouch from '../componets/GetInTouch';
 import Footer from './Footer'
 import Services from './Services'
-
+import header from "./images/header.png";
 
 
 
@@ -33,7 +33,7 @@ function Home() {
                   <div class="flex flex-col lg:flex-row justify-center lg:justify-between gap-5">
                       <div class="lg:w-5/12 lg:order-last">
                           <div class="thumb text-center mb-4 lg:mb-0 lg:text-right">
-                              <img src="https://img.freepik.com/premium-photo/charming-blue-twostory-house-with-cozy-porch-residential-area-real-estate-marketing_817921-834.jpg?w=740" class="" alt="img"/>
+                              <img src={header} class="" alt="img"/>
                           </div>
                       </div>
                       <div class="lg:w-1/2 lg:order-first lg:self-center">

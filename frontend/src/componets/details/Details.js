@@ -60,23 +60,34 @@ const Details = () => {
 
     setIsLoading(false);
   };
-  const handleNext = () => {
-   let num = pagination.currentPage +1
-   setPageNum(num)
-   console.log(pagination?.currentPosts);
 
-    // setPagination();
+
+  const handleNext = async () => {
+    const nextPage = pagination.currentPage + 1;
+    setPageNum(nextPage);
+  
+    try {
+      // Fetch data for the next page
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${nextPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error as needed
+    }
   };
-
-  const handleprev = () => {
-    let num = pageNum -1
-    setPageNum(num)
-
-    console.log(num);
- 
-     // setPagination();
-   };
-  // console.log("this paginstion ",pagination);
+  
+  const handleprev = async () => {
+    const prevPage = pagination.currentPage - 1;
+    setPageNum(prevPage);
+  
+    try {
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${prevPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -136,9 +147,9 @@ const Details = () => {
       <button className="border p-2 " onClick={handleprev}>prev</button>
 
       <div className="flex flex-row justify-center items-center">
-        {pagination?.pageNumbers?.map((number) => (
+        {pagination?.totalPages?.map((number) => (
           <div key={number} className="">
-            <a onClick={() => handleChangePage()} className="page-link ">
+            <a  className="page-link ">
             <p className={`flex flex-row gap-4 border p-2 cursor-pointer ${pageNum == number ? 'bg-teal-600' : 'bg-white'}
               `}> {number}</p>
             </a>

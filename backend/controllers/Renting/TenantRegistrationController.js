@@ -3,6 +3,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 const users = require("../../models/UserModels");
 const waterStore = require("../../models/RentingModels/waterBackupModel");
 const payments = require("../../models/RentingModels/additionalPaymentsModel");
+const lease = require("./tenantIncoince");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -28,15 +29,16 @@ const tenatRegistration = async (req, res) => {
     const findUser = await users.findOne({ where: { email: email } });
     if (!findUser) return res.status(401).json({ msg: "Invalid User" });
 
-    //checking the user is already registered or not
+    // Checking if the user is already registered as a tenant
     let checkUser = await tenantRegistration.findOne({
       where: { userId: findUser.id },
     });
 
     if (checkUser) {
-      return res.status(409).send({ error: `${checkUser.email} is  already a Tenant!` });
+      return res.status(409).send({ error: `${checkUser.email} is already a Tenant!` });
     } else {
-      const TenantsData = await tenantRegistration.create({
+      // Create a new tenant registration entry
+      const newTenantData = {
         userId: findUser.id,
         tenantsName,
         houseNumber,
@@ -55,12 +57,22 @@ const tenatRegistration = async (req, res) => {
         prevReadings,
         payableRent,
         houseId: req.body.houseId,
-      });
-      res.status(200).json(TenantsData);
+      };
+
+      const createdTenant = await tenantRegistration.create(newTenantData);
+
+      // Send lease email using raw tenant data
+  
+
+      res.status(200).json(createdTenant);
+        lease(newTenantData);
+        
+
+
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ error: error.message });
+    console.error(error.message);
+    // res.status(400).json({ error: error.message });
   }
 };
 

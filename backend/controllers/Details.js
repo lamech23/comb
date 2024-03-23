@@ -58,6 +58,7 @@ const imageUrl = require("../models/imageModel.js");
 // };
 
 
+
 const getAllHouses = async (req, res) => {
   const page_size = 4;
   try {

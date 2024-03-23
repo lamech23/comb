@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
+
 const lease = async(tenant) => {
-    console.log("this tenant ->",tenant);
  
     const companyName = "Freyton Property Agencies";
     const companyAddress = "531 Main Street, Nairobi, Ruai";

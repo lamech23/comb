@@ -138,7 +138,7 @@ function FinalReport() {
                 </tr>
                 <tr class="mt-4">
                   <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">Commission % </p>
+                    <p class="text-lg font-semibold pt-2">Commission 10%</p>
                   </th>
 
                   <th class="border-b-0 p-3 border-t" colspan="3">

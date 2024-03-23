@@ -33,6 +33,8 @@ function AllHouses() {
                     </thead>
                     <tbody >
                     {house.map((item, index) => (
+
+                         item?.type== "renting"?
                         <tr key={index} value={item}>
                         <td>{item.id}</td>
                         <td>
@@ -42,8 +44,10 @@ function AllHouses() {
                           >
                             {item.houseName}
                           </Link>
+
                         </td>
                         </tr>
+                        : null
                    ))}
                    </tbody>
                 </table>

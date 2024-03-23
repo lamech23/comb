@@ -6,59 +6,6 @@ const fs = require("fs");
 const imageUrl = require("../models/imageModel.js");
 // for landing page
 
-// const getAllHouses = async (req, res) => {
-//   const page_size = 100;
-//   try {
-//     const offset = req.query.page ? (req.query.page - 1) * page_size : 0;
-//     const allHousesWithImage = await Details.findAll({
-//       offset: offset,
-//       limit: page_size,
-//       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-//       include: {
-//         model: imageUrl,
-//         as: "images",
-//       },
-//     });
-//     const pageNumbers = [];
-
-//     const totalCount = await Details.count();
-//     const currentPage = req.query.page || 1;
-//     const postPerPage = 4;
-//     const totalPages = Math.ceil(totalCount / postPerPage);
-//     console.log("this count ",totalPages);
-
-
-//     const indexOfLastPost = currentPage * postPerPage;
-//     const indexOfFirstPost = indexOfLastPost - postPerPage;
- 
-//     const currentPosts = allHousesWithImage?.slice(
-//       indexOfFirstPost,
-//       indexOfLastPost
-//     );
-
-//     // console.log(currentPosts);
-//     for (let i = 1; i <= totalPages; i++) {
-//       pageNumbers.push(i);
-//     }
-
-
-//     res.status(200).json({
-//       pagination: {
-//       ...allHousesWithImage,
-//         pageNumbers,
-//         currentPosts ,
-//         currentPage,
-      
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
-
-
 const getAllHouses = async (req, res) => {
   const page_size = 4;
   try {
@@ -113,7 +60,7 @@ const getAllHousesByName = async (req, res) => {
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
-    const user_id = 1;
+    const user_id = req.query.user_id ;
     const details = await Details.findAll({
       where: {
         user_id: user_id,
@@ -222,7 +169,8 @@ const createDetails = async (req, res) => {
       data: details,
     });
 
-    await users.findOne({ where: { id: id } });
+   const userInfo =  await users.findOne({ where: { id: id } });
+   
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -237,7 +185,7 @@ const createDetails = async (req, res) => {
       subject: "Post Alert ",
       html:
         " Hello Admin\n\n" +
-        `<p>You are reciving this email because ${users?.email}  who's role is ${users?.role}  has posted a house at kausi property.</p> :\n`,
+        `<p>You are reciving this email because ${userInfo?.email}  who's role is ${userInfo?.role}  has posted a house at kausi property.</p> :\n`,
     };
     // end of else
 
@@ -254,6 +202,11 @@ const createDetails = async (req, res) => {
     console.log("something went wrong", error);
   }
 };
+
+
+
+
+
 
 const RequstingAtour = async (req, res) => {
   const id = req.params;

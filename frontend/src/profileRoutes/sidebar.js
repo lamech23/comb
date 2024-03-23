@@ -12,6 +12,7 @@ const submenuIconClasses = `h-5 w-5`
 
 const user = JSON.parse(localStorage.getItem("credentials"));
 let id = user.id;
+let status = user.Active;
 const routes = [
   {
     path: '/account/',
@@ -28,17 +29,17 @@ const routes = [
     icon: <Squares2X2Icon className={iconClasses}/>, 
     name: 'Appointment',
   },
-
   {
     path: '/account/post',
     icon: <HomeIcon className={iconClasses}/>, 
     name: 'Post',
   },
+  
   {
     path: '/account/houses',
     icon: <HomeIcon className={iconClasses}/>, 
     name: 'Houses',
-  },  
+  }
 ]
 
 export default routes

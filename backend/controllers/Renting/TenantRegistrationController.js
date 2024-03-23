@@ -3,7 +3,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 const users = require("../../models/UserModels");
 const waterStore = require("../../models/RentingModels/waterBackupModel");
 const payments = require("../../models/RentingModels/additionalPaymentsModel");
-const lease = require("./tenantIncoince");
+const {lease} = require("./tenantIncoince");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -60,14 +60,10 @@ const tenatRegistration = async (req, res) => {
       };
 
       const createdTenant = await tenantRegistration.create(newTenantData);
-
-      // Send lease email using raw tenant data
-  
-
       res.status(200).json(createdTenant);
-        lease(newTenantData);
-        
-
+        let leaseInfo =  await lease(newTenantData);
+        console.log("this lease ->",leaseInfo);
+      
 
     }
   } catch (error) {

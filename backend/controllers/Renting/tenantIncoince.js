@@ -1,8 +1,8 @@
 const nodemailer = require("nodemailer");
 
-const lease = (tenant) => {
+const lease = async(tenant) => {
+    console.log("this tenant ->",tenant);
  
-
     const companyName = "Freyton Property Agencies";
     const companyAddress = "531 Main Street, Nairobi, Ruai";
     const companyPhone = "+123 456 7890";
@@ -19,7 +19,7 @@ const lease = (tenant) => {
 
     const mailOptions = {
         to: `lamechcruze@gmail.com`,
-        subject: "Lease Agreement",
+        subject: "Lease Agreement ",
         html: `
             <div class="font-sans max-w-2xl mx-auto p-8">
                 <img src="${companyLogoUrl}" alt="${companyName}" class="mx-auto max-w-xs mb-8">
@@ -31,7 +31,7 @@ const lease = (tenant) => {
                 <ul class="list-disc pl-4 mt-2">
                     <li><strong>Monthly Rent:</strong> $${tenant.rent}</li>
                     <li><strong>Rent Deposit:</strong> $${tenant.rentDeposit}</li>
-                    <li><strong>Water Reading:</strong> ${waterReading}</li>
+                    <li><strong>Water Reading:</strong> ${tenant.waterReading}</li>
                     <li><strong>Water Bill:</strong> $${tenant.waterBill}</li>
                     <li><strong>Garbage Fee:</strong> $${tenant.garbage}</li>
                     <li><strong>Rent Payment Date:</strong> ${tenant.rentPaymentDate}</li>
@@ -39,7 +39,7 @@ const lease = (tenant) => {
                     <li><strong>Phone Number:</strong> ${tenant.phoneNumber}</li>
                     <li><strong>Next of Kin Number:</strong> ${tenant.nextOfKingNumber}</li>
                     <li><strong>Previous Readings:</strong> ${tenant.prevReadings}</li>
-                    <li><strong>Payable Rent:</strong> $${tenant.payableRent}</li>
+                    <li><strong>Payable Rent:</strong> $${tenant.payableRent}</li>lease
                 </ul>
                 <p class="mt-8">Please review the lease terms carefully. If you have any questions or concerns, feel free to contact us.</p>
                 <hr class="my-8">
@@ -52,7 +52,7 @@ const lease = (tenant) => {
         `,
     };
 
-    transporter.sendMail(mailOptions, (err, response) => {
+   await transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
             console.log("There was an error", err);
         } else {
@@ -60,7 +60,6 @@ const lease = (tenant) => {
         }
     });
     
-    console.log(transporter);
 };
 
-module.exports ={lease} 
+module.exports = {lease}

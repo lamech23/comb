@@ -33,7 +33,7 @@ router.post('/',requireAuth, imageUpload, createDetails)
  // GET all uploads 
  router.get('/allHouses', getAllHouses)
  router.get('/fetchHousesByName', getAllHousesByName)
- router.get('/', getAllDetails)
+ router.get('/byUserId', getAllDetails)
  router.get('/Bungalow',  ownCompound)
  router.get('/Maisonette',  RentalHouse)
  router.get('/Apartments',  BnBHouse)

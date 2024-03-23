@@ -1,6 +1,8 @@
 // All components mapping with path for internal routes
 
-import { lazy } from 'react'
+import { lazy, useEffect } from 'react'
+import { useAuthContext } from "../hooks/useAuthContext";
+
 
 
 const Account = lazy(() => import('../user/UserProfile'))
@@ -21,10 +23,12 @@ const routes = [
     path: '/profile/:id',
     component: Profile,
   },
+
   {
     path: '/appointment/:id',
     component: Appointment,
   },
+
   {
     path: '/post',
     component: Post,

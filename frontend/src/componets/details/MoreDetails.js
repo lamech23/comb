@@ -308,7 +308,7 @@ function MoreDetails() {
               })}
             </p>
             <div className="flex items-center justify-center mt-4 gap-6">
-              <Link to={`/DetailsInfo/${detail.id}`}>
+              <Link to={`/MoreDetails/${detail.id}`}>
                 <button className="btn btn-outline-secondary">See more</button>
               </Link>
               {type === "selling" && (

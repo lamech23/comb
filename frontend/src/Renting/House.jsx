@@ -225,7 +225,6 @@ function House() {
             0
           );
 
-          // Map amount values from
           const amountValues = matchingObjects.map(
             (matchObj) => matchObj.amount
           );

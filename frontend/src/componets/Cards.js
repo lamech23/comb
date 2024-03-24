@@ -26,18 +26,19 @@ function Cards() {
     <div>
       <div class="container mx-auto">
         <h2 class="text-3xl font-bold text-center my-4">House Categories</h2>
-        <div class="grid grid-flow-row-dense  lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 p-0 sm:5 md:p-0  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto">
           {category &&
             category.map((data) => (
-              <div key={data.id} class="relative rounded overflow-hidden ">
+              <div key={data.id} class="relative rounded overflow-hidden mx-auto">
                 <Link to={`/houseCategory/${data.name}`}>
                   <img
                     src="https://solverwp.com/demo/html/mingrand/assets/img/product/cat-1.png"
-                    alt="Orchard"
+                    alt="Orchard" className="w-auto"
                   />
+               
                   <div class="absolute inset-0 flex justify-center items-center">
                     <div class="px-6 py-4 text-center text-white">
-                      <h3 class="font-bold text-3xl mb-2">{data.name}</h3>
+                      <h3 class="font-bold text-3xl mb-2 capitalize">{data.name}</h3>
                     </div>
                   </div>
                 </Link>

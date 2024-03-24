@@ -62,13 +62,6 @@ const Details = () => {
 
     setIsLoading(false);
   };
-<<<<<<< HEAD
-  const handleNext = () => {
-    let num = pagination.currentPage + 1;
-    setPageNum(num);
-    console.log(pagination?.currentPosts);
-=======
->>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
 
 
   const handleNext = async () => {
@@ -84,18 +77,6 @@ const Details = () => {
       // Handle error as needed
     }
   };
-<<<<<<< HEAD
-
-  const handleprev = () => {
-    let num = pageNum - 1;
-    setPageNum(num);
-
-    console.log(num);
-
-    // setPagination();
-  };
-  // console.log("this paginstion ",pagination);
-=======
   
   const handleprev = async () => {
     const prevPage = pagination.currentPage - 1;
@@ -109,7 +90,6 @@ const Details = () => {
     }
   };
   
->>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
 
   return (
     <>
@@ -171,29 +151,6 @@ const Details = () => {
           prev
         </button>
 
-<<<<<<< HEAD
-        <div className="flex flex-row justify-center items-center">
-          {pagination?.pageNumbers?.map((number) => (
-            <div key={number} className="">
-              <a onClick={() => handleChangePage()} className="page-link ">
-                <p
-                  className={`flex flex-row gap-4 border p-2 cursor-pointer ${
-                    pageNum == number ? "bg-teal-600" : "bg-white"
-                  }
-              `}
-                >
-                  {" "}
-                  {number}
-                </p>
-              </a>
-            </div>
-          ))}
-        </div>
-
-        <button className="border p-2" onClick={handleNext}>
-          next
-        </button>
-=======
       <div className="flex flex-row justify-center items-center">
         {pagination?.totalPages?.map((number) => (
           <div key={number} className="">
@@ -203,7 +160,7 @@ const Details = () => {
             </a>
           </div>
         ))}
->>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
+      </div>
       </div>
 
       <ToastContainer

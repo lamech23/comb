@@ -18,7 +18,7 @@ const lease = async(tenant) => {
     });
 
     const mailOptions = {
-        to: `lamechcruze@gmail.com`,
+        to: tenant.email,
         subject: "Lease Agreement ",
         html: `
             <div class="font-sans max-w-2xl mx-auto p-8">

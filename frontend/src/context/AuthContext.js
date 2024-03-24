@@ -24,7 +24,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));
 
-    //this is to check if the user exist on the localstorage and update the authContext so as to maaintain the loging so as to avoid logging out the credentials
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
     }

@@ -265,7 +265,7 @@ function House() {
 
   return (
     <>
-      <div className=" text-sm mt-14 px-5">
+      <div className=" text-sm mt-14 px-5  ">
         <div className=" flex gap-4 text-teal-500 text-xl ">
           {" "}
           HOUSE: <p className="text-red-400">{houseName}</p>
@@ -345,8 +345,8 @@ function House() {
           </div>
         </div>
       </header>
-      <div className="card w-full p-6 bg-base-100 shadow-xl ">
-        <div className="flex flex-row justify-between items-center">
+      <div className="card w-full p-6 bg-base-100  ">
+        <div className="flex flex-row justify-between items-center ">
           <p>Tenants</p>
 
           <div className="flex flex-row gap-4">

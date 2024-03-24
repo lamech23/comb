@@ -8,11 +8,11 @@ const UserGraph = ({ users }) => {
   function generateMonthLabels(monthCount) {
     const labels = [];
     const currentDate = new Date();
-    currentDate.setMonth(0); // Set the month to January (month index is zero-based)
+    currentDate.setMonth(0);
 
     for (let i = 0; i < monthCount; i++) {
-        const date = new Date(currentDate); // Create a new date object to avoid modifying the original date
-        date.setMonth(date.getMonth() + i); // Add months to go forward in time
+        const date = new Date(currentDate); 
+        date.setMonth(date.getMonth() + i);
         const monthLabel = date.toLocaleDateString("default", { month: "short" });
         labels.push(monthLabel);
     }
@@ -50,7 +50,6 @@ const UserGraph = ({ users }) => {
     const data = userCounts
 
     if (chartRef.current) {
-      // If a chart instance exists, destroy it to prevent duplicates.
       if (chartRef.current.chart) {
         chartRef.current.chart.destroy();
       }

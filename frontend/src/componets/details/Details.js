@@ -62,13 +62,29 @@ const Details = () => {
 
     setIsLoading(false);
   };
+<<<<<<< HEAD
   const handleNext = () => {
     let num = pagination.currentPage + 1;
     setPageNum(num);
     console.log(pagination?.currentPosts);
+=======
+>>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
 
-    // setPagination();
+
+  const handleNext = async () => {
+    const nextPage = pagination.currentPage + 1;
+    setPageNum(nextPage);
+  
+    try {
+      // Fetch data for the next page
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${nextPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error as needed
+    }
   };
+<<<<<<< HEAD
 
   const handleprev = () => {
     let num = pageNum - 1;
@@ -79,6 +95,21 @@ const Details = () => {
     // setPagination();
   };
   // console.log("this paginstion ",pagination);
+=======
+  
+  const handleprev = async () => {
+    const prevPage = pagination.currentPage - 1;
+    setPageNum(prevPage);
+  
+    try {
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${prevPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+>>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
 
   return (
     <>
@@ -140,6 +171,7 @@ const Details = () => {
           prev
         </button>
 
+<<<<<<< HEAD
         <div className="flex flex-row justify-center items-center">
           {pagination?.pageNumbers?.map((number) => (
             <div key={number} className="">
@@ -161,6 +193,17 @@ const Details = () => {
         <button className="border p-2" onClick={handleNext}>
           next
         </button>
+=======
+      <div className="flex flex-row justify-center items-center">
+        {pagination?.totalPages?.map((number) => (
+          <div key={number} className="">
+            <a  className="page-link ">
+            <p className={`flex flex-row gap-4 border p-2 cursor-pointer ${pageNum == number ? 'bg-teal-600' : 'bg-white'}
+              `}> {number}</p>
+            </a>
+          </div>
+        ))}
+>>>>>>> a43a7fb474d2386a6b97218ad8266e5464251354
       </div>
 
       <ToastContainer

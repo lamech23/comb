@@ -17,10 +17,18 @@ const getAllHouses = async (req, res) => {
       offset: offset,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-      include: {
+      include:
+      [
+      
+       {
         model: imageUrl,
         as: "images",
       },
+      {
+        model: users,
+        as: "houses",
+      },
+    ]
     });
     
 
@@ -31,6 +39,7 @@ const getAllHouses = async (req, res) => {
           }
 
     res.status(200).json({
+      allHousesWithImage,
       pagination: {
         totalItems: allHousesWithImage.count,
         totalPages: pageNumbers,

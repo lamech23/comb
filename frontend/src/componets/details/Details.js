@@ -121,22 +121,20 @@ const Details = () => {
                       )
                   )}
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold">{detail?.title}</h3>
-                    <h3 className="text-lg font-light">{detail.description}</h3>
-                    <p className="text-gray-600">{detail?.details?.locaton}</p>
-                    <p className="text-gray-900 font-semibold">
-                      Ksh{detail.price}
-                    </p>
+                    <h3 className="text-md font-semibold  text-center">{detail?.title}</h3>
+                    <h3 className="text-md">{detail.description}</h3>
+                    <p className="text-gray-600 pb-2">{detail?.details?.locaton}</p>
                     <div className="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2">
                       <div>
-                        <span className="font-bold">{detail.units}</span> Units
+                       <span className="text-gray-600 font-bold text-sm">Units :</span>
+                        <span className="font-bold">{detail.units}</span>
                       </div>
-                      <div className="mx-2"></div>
                       <div>
-                        <span className="font-bold blur">{detail.contact}</span>{" "}
-                        contact
+                      <p>
+                       <span className="text-gray-600 font-bold text-sm"> Price :</span> 
+                       <span className="text-gray-500 text-sm"> Ksh{detail.price}</span>
+                        </p>
                       </div>
-                      <div className="mx-2"></div>
                     </div>
                   </div>
                 </div>

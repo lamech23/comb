@@ -27,7 +27,7 @@ function FinalReport() {
   return (
     <>
       <div className="px-40 mt-20">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-20">
           <div class="px-4 py-5 flex-auto">
             <table className=" w-full text-sm text-left rtl:text-right text-black dark:text-gray-400 ">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-100 dark:text-black">
@@ -78,92 +78,138 @@ function FinalReport() {
                     </tr>
                   </tbody>
                 ))}
+            </table>            
+          </div>
+        </div>
 
-              <tfoot className="text-right  items-end ">
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">
-                      Total Rent Collected
-                    </p>
+    
+
+        <table className=" w-full border text-sm text-left rtl:text-right mb-40 text-black dark:text-gray-400 ">
+              <thead className="">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    
                   </th>
-
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p class="text-right text-lg font-semibold pt-2">
-                      {" "}
-                      {finalRentSum}
-                    </p>
+                  <th scope="col" className="px-6 py-3">
+        
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+               
                   </th>
                 </tr>
+              </thead>
+           
+                  <tbody>
+                    <tr className=" ">
+                    <td class="border-b-0 p-3 text-center  text-lg font-semibold pt-2">
+                       Total Rent Collected
+                      </td>
 
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">
+                      <td class="border-b-0 p-3  text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3  text-black text-lg font-semibold  pt-2">
+                      {" "}
+                       {finalRentSum}
+                    </td>
+                    </tr>
+
+                    <tr className=" ">
+                    <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
                       Total Water Bill Collected{" "}
-                    </p>
-                  </th>
+                      </td>
 
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p class="text-right text-lg font-semibold pt-2">
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
                       {" "}
-                      {finalWaterBillSum}
-                    </p>
-                  </th>
-                </tr>
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">Total Balance </p>
-                  </th>
+                       {finalWaterBillSum}
+                    </td>
+                    </tr>
 
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p
-                      class={`text-right text-lg font-semibold pt-2 ${
+                    <tr className=" ">
+                    <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
+                       Total Balance
+                      </td>
+
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class={`text-lg font-semibold border-b-0 p-3 border-t  ${
                         finalBalanceSum < 0 ? "text-red-600" : "text-green-600"
                       } `}
                     >
+                      {" "}
                       {finalBalanceSum}
-                    </p>
-                  </th>
-                </tr>
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">Total Collection </p>
-                  </th>
+                    </td>
+                    </tr>
 
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p class="text-right text-lg font-semibold pt-2">
+                    <tr className=" ">
+                    <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
+                      Total Water Bill Collected{" "}
+                      </td>
+
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
+                      {" "}
+                       {finalWaterBillSum}
+                    </td>
+                    </tr>
+
+                    <tr className=" ">
+                     <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
+                       Total Collection{" "}
+                      </td>
+
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
                       {" "}
                       {totalSum}
-                    </p>
-                  </th>
-                </tr>
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">Commission 10%</p>
-                  </th>
+                    </td>
+                    </tr>
 
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p class="text-right text-lg font-semibold pt-2">
+
+                    <tr className=" ">
+                     <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
+                       Commission 10%{" "}
+                      </td>
+
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
                       {" "}
                       {totalSumWithCommision}
-                    </p>
-                  </th>
-                </tr>
-                <tr class="mt-4">
-                  <th class="border-b-0 p-3 border-t">
-                    <p class="text-lg font-semibold pt-2">Net Total </p>
-                  </th>
+                    </td>
+                    </tr>
 
-                  <th class="border-b-0 p-3 border-t" colspan="3">
-                    <p class="text-right text-lg font-semibold pt-2">
+                    <tr className=" ">
+                    <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
+                       Net Total{" "}
+                      </td>
+
+                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
+                         =
+                      </td>
+
+                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
                       {" "}
                       {netTotal}
-                    </p>
-                  </th>
-                </tr>
-              </tfoot>
+                    </td>
+                    </tr>
+                  </tbody>
             </table>
-          </div>
-        </div>
       </div>
     </>
   );

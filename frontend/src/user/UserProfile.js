@@ -12,7 +12,7 @@ function UserProfile() {
       <section class="py-40 bg-gray-100  bg-opacity-50 h-screen">
       <div class="mx-auto container max-w-2xl md:w-3/4 shadow-md">
         <div class="bg-white space-y-6">
-           <h2 className="pt-3">Account Details</h2>
+           <h2 className="pt-3 pl-10">Account Details</h2>
 
           <hr/>
           <div class="md:inline-flex space-y-4 md:space-y-0 w-full p-4 text-gray-500 items-center">

@@ -118,6 +118,7 @@ function User() {
   };
 
   const handelDelete = async (id) => {
+    console.log(id);
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
   };
@@ -190,9 +191,9 @@ function User() {
                       edit
                     </Link>
                     <span
-                      onClick={handelDelete}
+                      onClick={()=>handelDelete(allUsers.id)}
                       type="button"
-                      className="material-symbols-outlined"
+                      className="material-symbols-outlined cursor-pointer"
                       style={{ color: "red" }}
                     >
                       delete

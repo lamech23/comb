@@ -77,7 +77,13 @@ const tenantRegistration = db.define(
     timestamps: true,
   }
 );
-tenantRegistration.belongsTo(users, { foreignKey: 'userId' });
+tenantRegistration.belongsTo(users,
+   { 
+    foreignKey: 'userId',
+    onDelete: "cascade",
+    onUpdate: "cascade",
+    
+  });
 tenantRegistration.belongsTo(Details, {
   foreignKey: "houseId",
   as: "tenentHouse",

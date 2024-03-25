@@ -35,7 +35,8 @@ Details.hasMany(agentManagmentTable,{
 agentManagmentTable.belongsTo(users,{
   foreignKey:"agentId",
   as: 'agent',
-  onUpdate: "cascade"
+  onUpdate: "cascade",
+  onDelete: "cascade"
 
 })
 

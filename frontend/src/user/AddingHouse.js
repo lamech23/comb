@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+
 function AddingHouse() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -21,7 +22,8 @@ function AddingHouse() {
   const [houseName, setHouseName] = useState("");
   const [type, setType] = useState("");
   const [units, setUnits] = useState("");
-  console.log(type);
+
+  // console.log(user);
 
   const handleCancle = () => {
     setStatus(false);
@@ -34,6 +36,7 @@ function AddingHouse() {
     setCategory("");
   };
 
+ 
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
@@ -64,6 +67,7 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
+
         const response = await axios.post(
           "http://localhost:4000/Details",
           formData,
@@ -77,20 +81,20 @@ function AddingHouse() {
           }
         );
 
+      
         setStatus(false);
         toast.success("Added succesfuly ");
         {
           navigate("/");
         }
 
-        // const json = await response.json()
+
 
         if (!response) {
           setError(error);
         }
 
         if (response) {
-          //here am reseting the form
           setImage("");
           setTitle("");
           setLocation("");
@@ -107,10 +111,15 @@ function AddingHouse() {
       }
 
       if (error.response?.status === 403) {
-        return toast.error(" you are  not authorized to perform this action  ");
-      }
+        
+        navigate(error.response?.data?.redirect)
+        const errorMessage = error.response.data.error;
+        
+
+        toast.error(`${errorMessage}`)      }
     }
   };
+
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.get("http://localhost:4000/cat/fetch");
@@ -270,7 +279,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type === "renting" ? null :
+              {type === "renting" ? null : (
                 <div class="sm:col-span-3">
                   <label
                     for="price"
@@ -290,7 +299,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              }
+              )}
 
               <div class="sm:col-span-3">
                 <label
@@ -316,7 +325,7 @@ function AddingHouse() {
                 </div>
               </div>
 
-              {type == "renting" ?(
+              {type == "renting" ? (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -337,9 +346,9 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              ): null }
+              ) : null}
 
-              {type == "renting" ?  (
+              {type == "renting" ? (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -360,7 +369,7 @@ function AddingHouse() {
                     />
                   </div>
                 </div>
-              ):null}
+              ) : null}
               <div class="sm:col-span-6 ">
                 <label
                   for="email"

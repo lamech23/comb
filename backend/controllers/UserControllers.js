@@ -142,6 +142,22 @@ const deactivate = async (req, res) => {
   }
 };
 
+const verifyUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const userStatus = { isAdmin: req.query.isAdmin };
+
+    const userEmail = await users.update(userStatus, { where: { id: id } });
+    if (userEmail === 0) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(200).json(userEmail);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
 //deleting a user
 const deleteUser = async (req, res) => {
   const { id } = req.params;
@@ -360,4 +376,5 @@ module.exports = {
   logout,
   managment,
   getManagemts,
+  verifyUser
 };

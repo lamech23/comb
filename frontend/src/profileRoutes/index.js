@@ -10,6 +10,7 @@ const Profile = lazy(() => import('../user/ChangeProfile'))
 const Appointment = lazy(() => import('../user/Appointment'))
 const Post = lazy(() => import('../user/AddingHouse'))
 const Houses = lazy(() => import('../user/UserHouse'))
+const AboutUser = lazy(() => import('../user/MoreAboutUser'))
 
 
 
@@ -36,6 +37,10 @@ const routes = [
   {
     path: '/houses',
     component: Houses,
+  },
+  {
+    path: '/userVerification',
+    component: AboutUser,
   },
 ]
 

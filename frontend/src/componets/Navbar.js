@@ -21,18 +21,18 @@ function Navbar() {
   let navigate = useNavigate();
   // const [activeNavLink, setActiveNavLink] = useState("/");
 
-  document.addEventListener("DOMContentLoaded", function () {
-    window.addEventListener("scroll", function () {
-      if (window.scrollY) {
-        document.querySelector("#mainNavbar").classList.add("fixed-top");
-        const navbar_height = document.querySelector(".navbar").offSetHeight;
-        document.body.style.paddingTop = navbar_height + "px";
-      } else {
-        document.querySelector("#mainNavbar").classList.remove("fixed-top");
-        document.body.style.paddingTop = "0";
-      }
-    });
-  });
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   window.addEventListener("scroll", function () {
+  //     if (window.scrollY) {
+  //       document.querySelector("#mainNavbar").classList.add("fixed-top");
+  //       const navbar_height = document.querySelector(".navbar").offSetHeight;
+  //       document.body.style.paddingTop = navbar_height + "px";
+  //     } else {
+  //       document.querySelector("#mainNavbar").classList.remove("fixed-top");
+  //       document.body.style.paddingTop = "0";
+  //     }
+  //   });
+  // });
 
   // let Links =[
   //   {name:"HOME",link:"/"},
@@ -111,11 +111,7 @@ function Navbar() {
               <li class='max-lg:border-b max-lg:py-2 px-5'>
                 <Link to="/About" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>About</Link>
               </li>
-                {user?.Active === "active" ? (
-                <li class='max-lg:border-b max-lg:py-2 px-5'>
-                  <Link to="/DetailsForm" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>Post</Link>
-                </li>
-              ) : null}
+             
                 {role && user ? (
                 <li class='max-lg:border-b max-lg:py-2 px-5'>
                   <Link to="/admin" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>

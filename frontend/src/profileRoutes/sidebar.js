@@ -39,6 +39,11 @@ const routes = [
     path: '/account/houses',
     icon: <HomeIcon className={iconClasses}/>, 
     name: 'Houses',
+  },
+  {
+    path: '/account/userVerification',
+    icon: <HomeIcon className={iconClasses}/>, 
+    name: 'Verify',
   }
 ]
 

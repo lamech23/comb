@@ -95,6 +95,13 @@ function User() {
     );
   };
 
+
+  const verifyingUser = async (id, isAdmin) => {
+    const response = await axios.patch(
+      `http://localhost:4000/Users/verifyUser/${id}?isAdmin=` + isAdmin
+    );
+  };
+
   const deactivate = (id) => {
     let state = "inActive";
     updateStatus(id, state);
@@ -103,6 +110,11 @@ function User() {
   const activate = (id) => {
     let state = "active";
     updateStatus(id, state);
+  };
+
+  const Verify = (id) => {
+    let isAdmin = 1
+    verifyingUser(id, isAdmin);
   };
 
   const handelDelete = async (id) => {
@@ -206,6 +218,13 @@ function User() {
                         </button>
                       ) : null}
                     </span>
+                    <button
+                  type="button "
+                  onClick={()=>Verify(allUsers.id)}
+                  class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                  Verify
+                </button>{" "}
                   </td>
                 </tr>
               </tbody>

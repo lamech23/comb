@@ -160,6 +160,14 @@ const createDetails = async (req, res) => {
   };
 
   try {
+   const userInfo =  await users.findOne({ where: { id: user_id } });
+
+   if (userInfo.isAdmin == false) {
+    return res.status(403).json({ 
+      error:  'Your Account is not verified ',
+      redirect: '/account/userVerification'
+    }); 
+     }else{
     const details = await Details.create(info);
 
     for (let i = 0; i < req.files.length; i++) {
@@ -178,7 +186,6 @@ const createDetails = async (req, res) => {
       data: details,
     });
 
-   const userInfo =  await users.findOne({ where: { id: id } });
    
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -206,6 +213,8 @@ const createDetails = async (req, res) => {
         res.status(200).json(" email sent ");
       }
     });
+   }
+
   } catch (error) {
     res.status(400).json({ mssg: error.message });
     console.log("something went wrong", error);

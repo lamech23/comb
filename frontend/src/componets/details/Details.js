@@ -161,6 +161,10 @@ const Details = () => {
           </div>
         ))}
       </div>
+
+      <button className="border p-2 " onClick={handleNext}>
+          next
+        </button>
       </div>
 
       <ToastContainer

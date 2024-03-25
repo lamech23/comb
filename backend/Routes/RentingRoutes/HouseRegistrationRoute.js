@@ -15,6 +15,7 @@ const{
 
 const {requireAuth, isAdmin, checkIfOwner} =require('../../middlleware/requireAuth')
 
+
 router.post('/', RegisteringHouse)
 router.get('/specific/', requireAuth,getTenants)
 router.get('/houseNames/', getTenantForTenantRegistration)

@@ -66,7 +66,7 @@ function App() {
     <>
       <BrowserRouter>
         <div>
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
             {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
             <Route path="/DetailsForm" element={<DetailsForm />} />

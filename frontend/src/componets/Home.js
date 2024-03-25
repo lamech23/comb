@@ -9,6 +9,7 @@ import Cards from './Cards'
 import Footer from './Footer'
 import Services from './Services'
 import header from "./images/header.png";
+import Navbar from './Navbar'
 
 
 
@@ -26,7 +27,7 @@ function Home() {
 
   return (
     <>
-        
+        <Navbar/>
         <div class="banner-area banner-area-5 flex flex-col lg:flex-row items-center">
           <div class="container mx-auto">
               <div class="banner-area-inner py-16 relative z-10">

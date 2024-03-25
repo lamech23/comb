@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function HouseCategory() {
   const [category, setCategory] = useState([]);
@@ -18,6 +19,8 @@ function HouseCategory() {
   }, []);
   return (
     <>
+    <Navbar/>
+    
       {category.length === 0 ? (
         <div class="flex justify-center items-center h-screen place-content-center bg-white ">
           <div class="text-center">

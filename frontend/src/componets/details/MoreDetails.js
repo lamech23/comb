@@ -10,6 +10,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { Dialog, Transition } from "@headlessui/react";
 import { Calendar } from "primereact/calendar";
+import Navbar from "../Navbar";
 
 function MoreDetails() {
   const { user } = useAuthContext();
@@ -174,6 +175,8 @@ function MoreDetails() {
 
   return (
     <>
+    <Navbar/>
+    
       <div className="container mx-auto mb-10">
         <div className="flex flex-wrap lg:flex-row justify-between items-center mt-4">
           <div className="w-full lg:w-7/12">

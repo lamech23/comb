@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./form.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
+import Navbar from "../Navbar";
 function DetailsForm() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -146,9 +147,9 @@ function DetailsForm() {
   };
 
   return (
-    <div className="px-5">
-     
-        
+    <>
+         <Navbar/>
+    <div className="px-5">        
         <form onSubmit={handelSubmit}>
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
@@ -445,6 +446,8 @@ function DetailsForm() {
 
       
     </div>
+
+    </>
   );
 }
 

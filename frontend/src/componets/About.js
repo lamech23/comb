@@ -3,12 +3,14 @@ import GetInTouch from '../componets/GetInTouch'
 import Footer from './Footer'
 import '../css/about.css'
 import Team from './Team'
+import Navbar from './Navbar'
 
 
 function About() {
   return (
     <div>      
-      
+      <Navbar/>
+
     <div className='about  mb-4'>
     <p className=' fs-4 text-white  'id='abts'> About us </p>
        </div>

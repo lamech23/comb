@@ -3,6 +3,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 const users = require("../../models/UserModels");
 const waterStore = require("../../models/RentingModels/waterBackupModel");
 const payments = require("../../models/RentingModels/additionalPaymentsModel");
+const {lease} = require("./tenantIncoince");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -21,23 +22,23 @@ const tenatRegistration = async (req, res) => {
     nextOfKingNumber,
     prevReadings,
     payableRent,
-    houseId,
-    rentPaymentDate
+    rentPaymentDate,
   } = req.body;
 
   try {
-    const findUser = await  users.findOne({ where: { email: email } });
+    const findUser = await users.findOne({ where: { email: email } });
     if (!findUser) return res.status(401).json({ msg: "Invalid User" });
 
-    //checking the user is already registered or not
+    // Checking if the user is already registered as a tenant
     let checkUser = await tenantRegistration.findOne({
       where: { userId: findUser.id },
     });
 
     if (checkUser) {
-      return res.status(409).send({ error: "You are already a Tenant!" });
+      return res.status(409).send({ error: `${checkUser.email} is already a Tenant!` });
     } else {
-      const TenantsData = await tenantRegistration.create({
+      // Create a new tenant registration entry
+      const newTenantData = {
         userId: findUser.id,
         tenantsName,
         houseNumber,
@@ -49,18 +50,25 @@ const tenatRegistration = async (req, res) => {
         garbage,
         userName,
         houseName,
+        rentPaymentDate,
         previousBalance,
         phoneNumber,
         nextOfKingNumber,
         prevReadings,
         payableRent,
-        houseId: req.params.houseId,
-      });
-      res.status(200).json(TenantsData);
+        houseId: req.body.houseId,
+      };
+
+      const createdTenant = await tenantRegistration.create(newTenantData);
+      res.status(200).json(createdTenant);
+        let leaseInfo =  await lease(newTenantData);
+        console.log("this lease ->",leaseInfo);
+      
+
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ error: error.message });
+    console.error(error.message);
+    // res.status(400).json({ error: error.message });
   }
 };
 
@@ -98,7 +106,7 @@ const tentantUpdating = async (req, res) => {
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
       user_id: user_id,
-      tenant_id: req.body.tenant_id, 
+      tenant_id: req.body.tenant_id,
       house_id: req.body.house_id,
     };
     // console.log(waterBackupDetails);
@@ -129,7 +137,7 @@ const paymentsCreations = async (req, res) => {
       const { id, amount, paymentType, dateTime } = tenantUpdate;
 
       // Create a payment for the current user
-      const createPayment = await payments.create({
+      await payments.create({
         amount: amount,
         paymentType: paymentType,
         dateTime: dateTime,
@@ -208,22 +216,29 @@ const updateWaterBill = async (req, res) => {
       const tenantRecord = await tenantRegistration.findByPk(id);
 
       if (!tenantRecord) {
-        return res.status(404).json({ error: `Tenant with ID ${id} not found` });
+        return res
+          .status(404)
+          .json({ error: `Tenant with ID ${id} not found` });
       }
 
       // Update the waterStore entry
-      let waterStoreEntry = await waterStore.findOne({ where: { tenant_id: id } });
+      let waterStoreEntry = await waterStore.findOne({
+        where: { tenant_id: id },
+      });
 
       if (!waterStoreEntry) {
         // If the entry doesn't exist, create a new one
         waterStoreEntry = await waterStore.create({
           currentReadings,
           tenant_id: id,
-          house_id: req.body.house_id
+          house_id: req.body.house_id,
         });
       } else {
         // If the entry exists, update it
-        await waterStore.update({ currentReadings }, { where: { tenant_id: id } });
+        await waterStore.update(
+          { currentReadings },
+          { where: { tenant_id: id } }
+        );
       }
 
       // Update the fields in the tenantRegistration table
@@ -243,8 +258,7 @@ const updateWaterBill = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
-
+};
 
 module.exports = {
   tenatRegistration,

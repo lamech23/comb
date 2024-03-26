@@ -6,7 +6,7 @@ import About from "./componets/About";
 import Contacts from "./componets/Contacts";
 import Navbar from "./componets/Navbar";
 import Footer from "./componets/Footer";
-import Login from "./componets/Login";
+import Login from "./Auth/Login";
 import { ModuleLoginContext } from "./context/ModuleLogInContext";
 import { useEffect, useState } from "react";
 import { ModalSignUpContext } from "./context/ModalSignUpContext";
@@ -45,6 +45,12 @@ import CreateHouse from "./Renting/CreateHouse";
 import AddingHouse from "./user/AddingHouse";
 import BilWater from "./Renting/BillWater";
 import AdditinalPaymants from "./Renting/AdditinalPaymants";
+import Report from "./Renting/Report";
+import CreateUser from "./Admin/CreateUser";
+import FinalReport from "./Renting/finalReport";
+import Team from "./componets/Team";
+import HouseCategory from "./componets/HouseCategory";
+import WaterBill from "./Renting/WaterBill";
 
 const DashLayout = lazy(() => import('./Dashboard/Layout'))
 const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -60,7 +66,7 @@ function App() {
     <>
       <BrowserRouter>
         <div>
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
             {/* <Route path='/' element={user ?<Home/> :<Navigate to='/Login'/>}/> */}
             <Route path="/DetailsForm" element={<DetailsForm />} />
@@ -73,7 +79,6 @@ function App() {
             <Route path="/BnbHouse" element={<BnbHouse />} />
 
             <Route path="/Login" element={<Login />} />
-            <Route path="/SignUp" element={<SignUp />} />
             <Route path="/Cards" element={<Cards />} />
             <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
             <Route path="/Settings" element={<Settings />} />
@@ -98,6 +103,12 @@ function App() {
             <Route path="/createHouse" element={<CreateHouse />} />
             <Route path="/addtionalPayments/:houseName" element={<AdditinalPaymants />} />
             <Route path="/payments/:houseName" element={<BilWater />} />
+            <Route path="/report" element={<Report/>} />
+            <Route path="/createUser" element={<CreateUser/>} />
+            <Route path="/final-report" element={<FinalReport/>} />
+            <Route path="/our-team" element={<Team/>} />
+            <Route path="/HouseCategory/:category" element={<HouseCategory/>} />
+            <Route path="/waterBill" element={<WaterBill/>} />
 
             <Route path="/admin/*" element={<DashLayout />} />
 

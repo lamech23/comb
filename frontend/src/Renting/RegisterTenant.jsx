@@ -7,13 +7,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Calendar } from "primereact/calendar";
 
-function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
-  console.log(houseId);
-
-  
+function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
-  // const user = document.cookie
   const { user } = useAuthContext();
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
@@ -40,20 +36,23 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
   const [previousBalance, setPreviousBalance] = useState(
     state?.previousBalance || ""
   );
-  
+
   const [house, setHouse] = useState([]);
   // const [house_id, setHouse_id] = useState("")
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [payableRent, setPaybleRent] = useState(state?.payableRent || "");
-  const [date, setDate] = useState(state?.date || null);
+  const [rentPaymentDate, setRentPaymentDate] = useState(state?.date || null);
   // console.log(payableRent);
-  const  selectedTenantId = tenant?.detailsWithTotal?.find((tenant)=> tenant.email)
-
+  const selectedTenantId = tenant?.detailsWithTotal?.find(
+    (tenant) => tenant.email
+  );
 
   const tenantInfo = [...users];
 
-  const  registeredTenants = tenant?.detailsWithTotal?.map((tenant)=> tenant.email)
+  const registeredTenants = tenant?.detailsWithTotal?.map(
+    (tenant) => tenant.email
+  );
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
@@ -71,7 +70,6 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
     fetchUsers();
   }, []);
   const tenants = tenantInfo.filter((tenant) => tenant.role === "tenant");
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,9 +94,8 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
             previousBalance: previousBalance,
             prevReadings: prevReadings,
             currentReadings: currentReadings,
-            house_id: houseId,
+            houseId: visitedHouseId,
             tenant_id: id,
-            
           },
           {
             headers: {
@@ -130,8 +127,8 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
           previousBalance: previousBalance,
           prevReadings: prevReadings,
           payableRent: payableRent,
-          houseId: houseId,
-          date: date
+          houseId: visitedHouseId,
+          rentPaymentDate: rentPaymentDate,
         }
       );
       if (response) {
@@ -153,8 +150,12 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
       toast.success("Succesfully registerd tenant");
     } catch (error) {
       // Handle errors here
-      console.error("Error occurred:", error.message);
-      toast.error("An error occurred. Please try again later.");
+      if (error.response?.status === 409) {
+        const errorMessage = error.response.data.error;
+        toast.error(`${errorMessage}`)
+      }
+
+      console.log("Error occurred:", error);
     }
   };
 
@@ -162,7 +163,14 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
     <>
       <div className=" mt-40">
         <div className="space-y-12">
-          <h3 className=" flex flex-row justify-center   text-center mt-4 "> Tenants Details for  <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">  {email}</p></h3>
+          <h3 className=" flex flex-row justify-center   text-center mt-4 ">
+            {" "}
+            Tenants Details for{" "}
+            <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
+              {" "}
+              {email}
+            </p>
+          </h3>
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
@@ -174,13 +182,14 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="houseName"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 >
                   <option value=""> select email </option>
-                  {tenants.map((client) => (
+                  {tenants.map(
+                    (client) =>
                       !registeredTenants?.includes(client.email) && (
                         <option
                           className="text-red visible"
@@ -190,7 +199,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                           {client.email}
                         </option>
                       )
-                  ))}
+                  )}
                 </select>
               </div>
 
@@ -203,7 +212,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="tenantName"
                   id="house_name"
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={tenantsName}
                   onChange={(e) => setTenantsName(e.target.value)}
@@ -218,7 +227,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="houseNumber"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={houseNumber}
                   onChange={(e) => setHouseNumber(e.target.value)}
@@ -233,7 +242,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rent"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={payableRent}
                   onChange={(e) => setPaybleRent(e.target.value)}
@@ -247,26 +256,27 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rent"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={rent}
                   onChange={(e) => setRent(e.target.value)}
                 />
               </div>
 
-              {rent.length  >= 5 ? 
+              {rent.length >= 5 ? (
                 <div class="sm:col-span-3 ">
                   <label for="" className="form-label">
                     paid Date
                   </label>
                   <div className="border">
                     <Calendar
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
+                      value={rentPaymentDate}
+                      
+                      onChange={(e) => setRentPaymentDate(e.target.value)}
                     />
                   </div>
-                </div> : null
-              }
+                </div>
+              ) : null}
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   Rent Deposit
@@ -275,7 +285,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="rentDeposit"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={rentDeposit}
                   onChange={(e) => setRentDeposit(e.target.value)}
@@ -290,7 +300,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="waterReading"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={waterReading}
                   onChange={(e) => setWaterReadiing(e.target.value)}
@@ -305,7 +315,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="waterBill"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={waterBill}
                   onChange={(e) => setWaterBill(e.target.value)}
@@ -320,7 +330,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="previousBalance"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={previousBalance}
                   onChange={(e) => setPreviousBalance(e.target.value)}
@@ -335,7 +345,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="garbage"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={garbage}
                   onChange={(e) => setGarbage(e.target.value)}
@@ -349,7 +359,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="userName"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
@@ -364,7 +374,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="phoneNumber"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -378,7 +388,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="number"
                   name="nextOfKingNumber"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={nextOfKingNumber}
                   onChange={(e) => setNextOfKingNumber(e.target.value)}
@@ -393,7 +403,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   type="text"
                   name="prevReading"
                   id=""
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                   value={prevReadings}
                   onChange={(e) => setPrevReadings(e.target.value)}
@@ -409,7 +419,7 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                       type="text"
                       name="currentReadings"
                       id=""
-                       class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                       placeholder=""
                       value={currentReadings}
                       onChange={(e) => setCurrentReadings(e.target.value)}
@@ -433,8 +443,6 @@ function RegisterTenant({ houseId, tenant, closeModal,setIsOpen }) {
                   create
                 </button>
               )}
-
-                  
             </section>
           </form>
         </div>

@@ -12,7 +12,8 @@ const {
     grtDetailsById,
     getAllHouses,
     getAllTours ,
-    getAllHousesByName
+    getAllHousesByName,
+    getProductsInCategory
     
     
 }=require('../controllers/Details')
@@ -32,11 +33,13 @@ router.post('/',requireAuth, imageUpload, createDetails)
  // GET all uploads 
  router.get('/allHouses', getAllHouses)
  router.get('/fetchHousesByName', getAllHousesByName)
- router.get('/', getAllDetails)
+ router.get('/byUserId', getAllDetails)
  router.get('/Bungalow',  ownCompound)
  router.get('/Maisonette',  RentalHouse)
  router.get('/Apartments',  BnBHouse)
  router.get('/TourRequest',  getAllTours )
+ router.get('/fetchDetailsCategory/:category', getProductsInCategory);
+
 // 
  
  //Get a single upload 
@@ -49,6 +52,6 @@ router.get('/:id', getSingelDetails)
  // get images by id
  router.get('/:id',grtDetailsById)
  //UPDATE a workout
- router.patch('/:id', checkIfOwner,imageUpload,updateDetails)    
+ router.patch('/:id', checkIfOwner,imageUpload,updateDetails)
 
 module.exports = router

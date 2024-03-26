@@ -1,21 +1,15 @@
 // const { json } = require('sequelize/types/sequelize.js')
 const users = require("../models/UserModels.js");
 const Details = require("../models/UploadModals.js");
+const agentManagements = require("../models/agentManagment.js");
 const sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const agentManagmentTable = require("../models/agentManagment.js");
+const { issueAccessToken} = require("../middlleware/token");
 
-const createToken = ([id, role]) => {
-  return jwt.sign(
-    {
-      id: id,
-      role: role,
-    },
-    process.env.SECRET,
-    { expiresIn: 10000 }
-  );
-};
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -23,50 +17,56 @@ const loginUser = async (req, res) => {
     const user = await users.findOne({ where: { email: email } });
 
     if (!user) {
-      // the reason why throw is being used is because we dont have acces to the json
-      res.status(400).json({ succes: false, error: "invalid email" });
+      // Return an error response if the user does not exist
+      return res.status(400).json({ success: false, error: "Invalid email" });
     }
 
-    if (user.active == "active ") {
-      // check the status of the user if he or she is inActive he is consider a forbiden user
-      return res.status(403).json({ error: "your account is not activated" });
+    if (user.active === "inactive") {
+      // Check if the user's account is inactive
+      return res.status(403).json({ error: "Your account is not activated" });
     }
-    // trying to compare the password N/B :user.password is the hased password
+
+    // Compare the provided password with the hashed password stored in the database
     const match = await bcrypt.compare(password, user.password);
-    if (!match)
+    if (!match) {
+      // Return an error response if the passwords do not match
       return res.status(400).json({
-        succes: false,
-        error: "invalid password",
+        success: false,
+        error: "Invalid password",
       });
+    }
 
-    const token = createToken([
-      user.id,
-      user.email,
-      user.role,
-      user.isAdmin,
-      user.Active,
-    ]);
+    // Create data object containing user information
+    const data = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      isAdmin: user.isAdmin,
+      active: user.active,
+    };
 
+    // Issue access token
+    const token = issueAccessToken(data);
+
+    // Set access token as a cookie in the response
     res.cookie("access_token", JSON.stringify(token), {
       httpOnly: true,
       secure: true,
       sameSite: "none",
     });
-    res.status(201).send({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-      isAdmin: user.isAdmin,
-      Active: user.Active,
-      token,
-    });
+
+    // Return success response with the token
+    res.status(201).send({ token });
   } catch (error) {
-    //  json({ error: error.message });
+    // Return an error response if an exception occurs
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
+
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, location, phoneNumber, idNumber, userName } =
+    req.body;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });
@@ -78,11 +78,14 @@ const signupUser = async (req, res) => {
 
     const User = await users.create({
       email,
+      userName,
+      location,
+      phoneNumber,
+      idNumber,
       password: hash,
       role: "user",
     });
 
-    //create a token,
     const token = createToken([
       User.id,
       User.email,
@@ -90,7 +93,6 @@ const signupUser = async (req, res) => {
       User.isAdmin,
       User.Active,
     ]);
-    // res.status(200).json(User)
 
     // pass the token as a response instead of the user
     res.status(200).json({
@@ -107,8 +109,18 @@ const signupUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const user = await users.findAll({});
-  res.status(200).json(user);
+
+  const user = await users.findAll({
+    include:{
+      model: agentManagmentTable,
+      as: 'agent',
+      include:{
+        model: Details,
+        as: 'house'
+      }
+    }
+  });
+  res.status(200).json({user});
 };
 
 //activating and deactivating auser
@@ -117,6 +129,22 @@ const deactivate = async (req, res) => {
     const id = req.params.id;
 
     const userStatus = { Active: req.query.Active };
+
+    const userEmail = await users.update(userStatus, { where: { id: id } });
+    if (userEmail === 0) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(200).json(userEmail);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+const verifyUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const userStatus = { isAdmin: req.query.isAdmin };
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
     if (userEmail === 0) {
@@ -269,6 +297,69 @@ const logout = async (req, res) => {
     .json({ error: "successfully  logged out" });
 };
 
+
+
+
+
+const managment = async (req, res) => {
+  const { agentId, houseId } = req.body; 
+  
+
+  try {
+    // Check if the user and house exist
+    const user = await users.findByPk(agentId,{
+      where:{
+        role: 'agent'
+      }
+    });
+    if (!user) {
+      return res.status(404).json({ 
+        success: false,
+        message:"User not found!",
+        error:error.message
+       });
+    }
+
+    const house = await Details.findByPk(houseId);
+    if (!house) {
+      return res.status(404).json({ error: 'House not found' });
+    }
+
+    const association = await agentManagements.create({
+      agentId: agentId,
+      houseId: houseId,
+    });
+
+    res.status(201).json(association);
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const getManagemts = async (req, res) => {
+  try {
+    const getAgent = await agentManagements.findAll({
+      include: [
+        { model: users, as: "agent" },
+        { model: Details, as: "house" },
+      ],
+    });
+
+    res.status(200).json({getAgent});
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+
+    })
+    console.log(error.message);
+  }
+};
+
+
+
 module.exports = {
   loginUser,
   signupUser,
@@ -281,4 +372,7 @@ module.exports = {
   getUserInfo,
   deactivate,
   logout,
+  managment,
+  getManagemts,
+  verifyUser
 };

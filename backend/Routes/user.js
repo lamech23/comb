@@ -10,16 +10,19 @@ const {
     updateUserEmail,
     getUserById,
     deactivate,
-    logout
+    logout,
+    managment,
+    getManagemts,
+    verifyUser
 
 }=require('../controllers/UserControllers')
-// const isAdmin = require("../middlleware/requireAuth")
-const {requireAuth, isAdmin, checkIfOwner} =require('../middlleware/requireAuth')
 
+const { verifyToken } = require("../middlleware/token");
+const { hasAdmin } = require("../middlleware/checkRoles");
 
 router.post('/login',loginUser)
 router.post('/logout',logout)
-router.get('/all', getAllUsers)
+router.get('/all',verifyToken,hasAdmin, getAllUsers)
 router.post('/signup', signupUser)
 router.post('/forgotPassword', forgotPassword)
 router.put('/reset/:id', reset)
@@ -27,6 +30,9 @@ router.put('/userUpdate/:id', updateUserEmail)
 router.delete('/:id', deleteUser)
 router.get('/specificUser/:id', getUserById, )
 router.patch('/userStatus/:id', deactivate)
+router.patch('/verifyUser/:id', verifyUser)
+router.post('/assing', managment)
+router.get('/fetchAgent', getManagemts)
 
 module.exports = router
 

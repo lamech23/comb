@@ -25,6 +25,6 @@ db.sync()
   })
   .catch((error) => {
     console.log("Unable to create Tours table", error);
-});
+  });
 
 module.exports = Tours;

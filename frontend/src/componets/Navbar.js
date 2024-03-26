@@ -19,28 +19,30 @@ function Navbar() {
   const role = useIsAdmin();
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-  const [activeNavLink, setActiveNavLink] = useState("/");
 
-  document.addEventListener("DOMContentLoaded", function () {
-    window.addEventListener("scroll", function () {
-      if (window.scrollY) {
-        document.querySelector("#mainNavbar").classList.add("fixed-top");
-        const navbar_height = document.querySelector(".navbar").offSetHeight;
-        document.body.style.paddingTop = navbar_height + "px";
-      } else {
-        document.querySelector("#mainNavbar").classList.remove("fixed-top");
-        document.body.style.paddingTop = "0";
-      }
-    });
-  });
 
-  let Links =[
-    {name:"HOME",link:"/"},
-    {name:"SERVICE",link:"/"},
-    {name:"ABOUT",link:"/"},
-    {name:"BLOG'S",link:"/"},
-    {name:"CONTACT",link:"/"},
-  ];
+  // const [activeNavLink, setActiveNavLink] = useState("/");
+
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   window.addEventListener("scroll", function () {
+  //     if (window.scrollY) {
+  //       document.querySelector("#mainNavbar").classList.add("fixed-top");
+  //       const navbar_height = document.querySelector(".navbar").offSetHeight;
+  //       document.body.style.paddingTop = navbar_height + "px";
+  //     } else {
+  //       document.querySelector("#mainNavbar").classList.remove("fixed-top");
+  //       document.body.style.paddingTop = "0";
+  //     }
+  //   });
+  // });
+
+  // let Links =[
+  //   {name:"HOME",link:"/"},
+  //   {name:"SERVICE",link:"/"},
+  //   {name:"ABOUT",link:"/"},
+  //   {name:"BLOG'S",link:"/"},
+  //   {name:"CONTACT",link:"/"},
+  // ];
 
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);
@@ -62,12 +64,12 @@ function Navbar() {
               <div className="w-16 h-16 mx-auto">
                 <img className="" src={logo} alt="logo" class='' />
               </div>
-                <p className="text-md pt-3 text-blue-400 font-bold">Freyton Property Agencies</p>
+                <p className="text-md pt-3 text-blue-400 text-2xl font-bold">Freyton Property Agencies</p>
             </a>
 
             <div class='flex items-center ml-auto lg:order-1'>
 
-            <div className=" sticky top-0 bg-base-100  z-10  ">
+            <div className=" sticky top-0 bg-base-100  z-40  ">
                 <div className="dropdown dropdown-end ml-4">
                       <label tabIndex={0} className="">
                         <div className="w-10 rounded-full">
@@ -104,18 +106,14 @@ function Navbar() {
               </button>
             </div>
 
-            <ul  className={`absolute lg:static left-0 w-full lg:w-0  lg:flex mx-auto lg:space-x-10 max-lg:space-y-3   md:z-auto z-[99]  transition-all duration-500 ease-in ${open ? 'top-52 bg-gray-50 ':'top-[-490px]'}`}>
+            <ul  className={`absolute lg:static left-0 w-full lg:w-0  lg:flex mx-auto lg:space-x-10 max-lg:space-y-3   md:z-auto z-40  transition-all duration-500 ease-in ${open ? 'top-52 bg-gray-50 z-40 ':'top-[-490px]'}`}>
               <li class='max-lg:border-b max-lg:py-2 px-5'>
                 <Link to="/" class='hover:text-[#007bff] text-[15px] text-gray-600 block font-bold'>Home</Link>
               </li>
               <li class='max-lg:border-b max-lg:py-2 px-5'>
                 <Link to="/About" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>About</Link>
               </li>
-                {user?.Active === "active" ? (
-                <li class='max-lg:border-b max-lg:py-2 px-5'>
-                  <Link to="/DetailsForm" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>Post</Link>
-                </li>
-              ) : null}
+             
                 {role && user ? (
                 <li class='max-lg:border-b max-lg:py-2 px-5'>
                   <Link to="/admin" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>

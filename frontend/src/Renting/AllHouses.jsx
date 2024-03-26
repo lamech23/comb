@@ -10,7 +10,6 @@ function AllHouses() {
       `http://localhost:4000/Details/fetchHousesByName/`
     );
     setHouse(response.data);
-    console.log(response.data);
   };
   useEffect(() => {
     // getSpecificHouse();
@@ -34,6 +33,8 @@ function AllHouses() {
                     </thead>
                     <tbody >
                     {house.map((item, index) => (
+
+                         item?.type== "renting"?
                         <tr key={index} value={item}>
                         <td>{item.id}</td>
                         <td>
@@ -43,8 +44,10 @@ function AllHouses() {
                           >
                             {item.houseName}
                           </Link>
+
                         </td>
                         </tr>
+                        : null
                    ))}
                    </tbody>
                 </table>

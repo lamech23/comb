@@ -19,12 +19,13 @@ function House() {
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
-  const [query, setQuery]=useState("")
-  const [months, setMonths]=useState("")
+  const [query, setQuery] = useState("");
+  const [months, setMonths] = useState("");
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
-  const month = ["createdAt" ];
+  const month = ["createdAt"];
 
   function closeModal() {
     setIsOpen(false);
@@ -49,8 +50,13 @@ function House() {
     })
     .slice(-1)[0];
   //houseId
+
   let houseIdArray = house?.map((house) => house.id);
   let houseId = houseIdArray ? houseIdArray[0] : null;
+
+  const visitedHouseId = house?.find(
+    (house) => house?.houseName === houseName
+  )?.id;
 
   const getHouse = async () => {
     const response = await axios.get(
@@ -63,7 +69,7 @@ function House() {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseId}`
+          `http://localhost:4000/houseRegister/${visitedHouseId}`
         );
         setTenant(response.data);
       } catch (error) {
@@ -80,9 +86,6 @@ function House() {
   }
 
   // creating water reading
-  const visitedHouseId = house?.find(
-    (house) => house?.houseName === houseName
-  )?.id;
   const createWater = async (e) => {
     e.preventDefault();
     const waterDetails = {
@@ -110,15 +113,6 @@ function House() {
     }
   };
 
-  //
-  const handleWaterButton = () => {
-    if (display) {
-      document.querySelector("#content").style.display = "none";
-    } else {
-      setDisplay(true);
-      document.querySelector("#content").style.display = "block";
-    }
-  };
   // getting water retes
   useEffect(() => {
     const getWaterRates = async () => {
@@ -141,38 +135,137 @@ function House() {
         setPayments(response.data?.totalAdditionalPayments);
       } catch (error) {}
     };
-    getPayments();
-  }, [tenant]);
+    if (visitedHouseId) {
+      getPayments(visitedHouseId);
+    }
+  }, []);
 
+  useEffect(() => {
+    const getWaterRates = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        );
+        setGetWater(res.data?.getWater);
+      } catch (error) {
+        toast.error("water rates not found " || error.massage);
+      }
+    };
+    getWaterRates();
 
-    // Filter by keyword manually (if needed)
-    const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
-      // Check if the item matches the search query
-      const matchesQuery = keys.some((key) => {
-        const value = item[key];
-        return value && typeof value === "string" && value.toLowerCase().includes(query);
-      });
-    
-      // Check if the item matches the selected month
-      const matchesMonth = month.some((key) => {
-        const value = key === 'createdAt' ? months[new Date(item[key]).getMonth()] : item;
-        return value && typeof value === "string" && value.toLowerCase().includes(months);
-      });
-      console.log(matchesMonth);
-      // Return true if the item matches both the search query and the selected month
-      return matchesQuery || matchesMonth;
+    const getPayments = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
+        );
+        setPayments(response.data?.totalAdditionalPayments);
+      } catch (error) {}
+    };
+    if (visitedHouseId) {
+      getPayments(visitedHouseId);
+    }
+  }, [visitedHouseId]);
+
+  const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
+    // Check if the item matches the search query
+    const matchesQuery = keys.some((key) => {
+      const value = item[key];
+      return (
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(query)
+      );
     });
-    
-  
 
-console.log(months);
-console.log(query);
+    // Check if the item matches the selected month
+    const matchesMonth = month.some((key) => {
+      const value =
+        key == "createdAt" ? months[new Date(item[key]).getMonth()] : item;
+      return (
+        value &&
+        typeof value === "string" &&
+        value.toLowerCase().includes(months)
+      );
+    });
+    return matchesQuery || matchesMonth;
+  });
 
+  // console.log(months);
+  // console.log(query);
+  const monthsShort = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
+  const finalReport = filteredProducts?.map((tenants) => {
+    // Initialize total amount for the current tenant
+    let totalAmountForTenant = 0;
+
+    let totalAmountsObj = {};
+
+    payments &&
+      Object.values(payments).map((paymentData, index) => {
+        const matchingObjects = Object.values(paymentData).filter(
+          (obj) => obj.userId === tenants.id
+        );
+
+        if (matchingObjects.length > 0) {
+          totalAmountForTenant = matchingObjects.reduce(
+            (sum, obj) => sum + Number(obj.amount),
+            0
+          );
+
+          // Map amount values from
+          const amountValues = matchingObjects.map(
+            (matchObj) => matchObj.amount
+          );
+
+          return amountValues;
+        }
+
+        totalAmountsObj[tenants.id] = 0;
+      });
+
+    if (!totalAmountForTenant) {
+      totalAmountForTenant = Number(tenants.rent);
+    } else {
+      totalAmountForTenant += Number(tenants.rent);
+    }
+    const totalBalance =
+      Number(tenants.balance) + totalAmountForTenant - tenants.rent;
+    let water_bill =
+      tenants?.totalWaterReadings * waterUnits <= 0
+        ? 0
+        : tenants?.totalWaterReadings * waterUnits;
+    return {
+      ...tenants,
+      totalAmount: totalAmountForTenant,
+      totalBalance: totalBalance,
+      water_bill: water_bill,
+    };
+  });
+
+//   const TotalsForReports = finalReport?.map((data) => {
+//     const TotalRentCollected = data.totalAmount
+// console.log(TotalRentCollected);
+
+//   });
+
+  useEffect(() => {}, [finalReport]);
 
   return (
     <>
-      <div className=" text-sm mt-14 px-5">
+      <div className=" text-sm mt-14 px-5  ">
         <div className=" flex gap-4 text-teal-500 text-xl ">
           {" "}
           HOUSE: <p className="text-red-400">{houseName}</p>
@@ -185,7 +278,6 @@ console.log(query);
           </p>
         </div>
       </div>
-
       <header className=" mt-10 mb-20">
         <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
           <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
@@ -206,7 +298,7 @@ console.log(query);
             </button>
 
             <Link
-              to={`/payments/${houseId}`}
+              to={`/payments/${visitedHouseId}`}
               state={getWater}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
@@ -215,11 +307,26 @@ console.log(query);
             </Link>
 
             <Link
-              to={`/addtionalPayments/${houseId}`}
+              to={`/addtionalPayments/${visitedHouseId}`}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
             >
               additinal payments
+            </Link>
+            <Link
+              to={`/final-report`}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              state={finalReport}
+            >
+              Generate House Report
+            </Link>
+
+            <Link
+              to={`/addtionalPayments/${houseId}`}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+              href="/"
+            >
+              Water Report
             </Link>
 
             <button
@@ -228,32 +335,39 @@ console.log(query);
             >
               Download
             </button>
+            <Link
+              to="/report"
+              state={houseName}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              report
+            </Link>
           </div>
         </div>
       </header>
+      <div className="card w-full p-6 bg-base-100  ">
+        <div className="flex flex-row justify-between items-center ">
+          <p>Tenants</p>
 
-      <div className="card w-full p-6 bg-base-100 shadow-xl ">
-        <div className="flex flex-row justify-between items-center">
-        <p>Tenants</p>
-
-   <div className="flex flex-row gap-4">
-   <input type="text" 
-        className="border p-4  rounded-lg "
-            value= {months} 
-            placeholder='search by month...'
-            onChange={(e) => setMonths(e.target.value)}
+          <div className="flex flex-row gap-4">
+            <input
+              type="text"
+              className="border p-4  rounded-lg "
+              value={months}
+              placeholder="search by month..."
+              onChange={(e) => setMonths(e.target.value)}
             />
 
-        <input type="text" 
-        className="border p-4  rounded-lg "
-            value= {query} 
-            placeholder='Search..'
-            onChange={(e) => setQuery(e.target.value)}
+            <input
+              type="text"
+              className="border p-4  rounded-lg "
+              value={query}
+              placeholder="Search.."
+              onChange={(e) => setQuery(e.target.value)}
             />
-
-   </div>
+          </div>
         </div>
-        
+
         <div className="divider mt-2"></div>
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
@@ -281,14 +395,14 @@ console.log(query);
                 <th>Previous Balance</th>
                 <th>Garbage</th>
                 <th>Phone Number</th>
-                <th>Next_of_king_number </th>
+                <th>Next_of_kin </th>
                 <th>balance C/F</th>
                 <th>Total</th>
                 <th> water readings</th>
               </tr>
             </thead>
             <tbody>
-            { filteredProducts?.map((tenants) => (
+              {filteredProducts?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}
@@ -327,25 +441,36 @@ console.log(query);
                                 (matchingObject, innerIndex) => (
                                   <tr
                                     key={`${index}-${innerIndex}`}
-                                    className="flex flex-row justify-around items-center "
+                                    className="flex flex-row justify-center items-center   "
                                   >
-                                    <td className="border text-black border-slate-700 p-2">
-                                      Payment {innerIndex + 1}:{" "}
-                                      {matchingObject.amount}
+                                    <td className="flex flex-row gap-2 text-black border-slate-700 p-2">
+                                      <p className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-rose-200 text-sm text-rose-700">
+                                        {" "}
+                                        {
+                                          monthsShort[
+                                            new Date(
+                                              matchingObject.createdAt
+                                            ).getMonth()
+                                          ]
+                                        }
+                                        -{innerIndex + 1}{" "}
+                                      </p>
+                                      <p className="text-green-400">
+                                        {matchingObject.amount}
+                                      </p>
                                     </td>
-                                    <td className="border text-black border-slate-700">
+                                    <td className=" text-black border-slate-700">
                                       {matchingObject.dateTime}
                                     </td>
-                                    <td className="border text-black border-slate-700">
+                                    <td className=" text-black border-slate-700">
                                       {matchingObject.paymentType}
                                     </td>
                                   </tr>
                                 )
                               )}
-                              <tr key={`total-${index}`}>
-                                <td className="border  border-slate-700  text-green-600">
-                                  Total Rent:{" "}
-                                  {totalAmount + Number(tenants.rent)}
+                              <tr className="flex flex-row justify-around  items-center">
+                                <td className="  border-slate-700  text-green-600">
+                                  New Rent: {totalAmount + Number(tenants.rent)}
                                 </td>
                               </tr>
                             </React.Fragment>
@@ -448,6 +573,7 @@ console.log(query);
                           })
                           .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
+
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
                   </td>
@@ -468,7 +594,6 @@ console.log(query);
           </table>
         </div>
       </div>
-
       <ToastContainer
         position="top-left"
         autoClose={3000}
@@ -545,7 +670,6 @@ console.log(query);
           </div>
         </Dialog>
       </Transition>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -575,7 +699,7 @@ console.log(query);
                   <RegisterTenant
                     setIsOpen={setIsOpen}
                     closeModal={closeModal}
-                    houseId={houseId}
+                    visitedHouseId={visitedHouseId}
                     tenant={tenant}
                   />
                 </Dialog.Panel>

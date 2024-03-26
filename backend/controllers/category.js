@@ -1,3 +1,4 @@
+const Details = require("../models/UploadModals.js");
 const Category = require("../models/category.js");
 
 const getAllCategory = async (req, res) => {
@@ -50,9 +51,12 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   getAllCategory,
   createCategory,
   updateCategory,
   deleteCategory,
+
 };

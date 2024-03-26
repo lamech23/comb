@@ -7,15 +7,13 @@ export function useIsAdmin() {
 
   useEffect(() => {
     if (user) {
-      setRole(user.role === "Admin" && user);
+      setRole(user.role === "admin" && user);
+    }else{
+      setRole(null);
+
     }
   }, [user]);
 
-  useEffect(() => {
-    if (!user || user === null) {
-      setRole(null);
-    }
-  }, [user]);
 
   return role;
 }

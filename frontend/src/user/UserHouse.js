@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 function UserHouse() {
   const [userInfomation, setUserInformation] = useState([]);
+  console.log(userInfomation);
 
   try {
     useEffect(() => {
@@ -14,7 +15,7 @@ function UserHouse() {
       let id = user.id;
 
       const response = await axios.get(
-        `http://localhost:4000/Details?user_id=` + id
+        `http://localhost:4000/Details/byUserId?user_id=` + id
       );
       setUserInformation(response.data);
     };
@@ -35,6 +36,7 @@ function UserHouse() {
                     <th>image</th>
                       <th>title</th>
                       <th>Category</th>
+                      <th>property Type</th>
                       <th>location</th>
                       <th>Description</th>
                       <th>contact</th>
@@ -45,14 +47,19 @@ function UserHouse() {
                   {userInfomation.map((details) => (
                     <tr  key={details.id}>
                       <td>
+                      {details?.images?.map(
+                  (img, imgIndex) =>
+                    imgIndex === 0 && (
                         <img
-                          src={`http://localhost:4000/${details.image}`}
+                          src={img.image}
                           width="100px"
                           height="100px"
                           style={{ borderRadius: "20px" }}
                           alt=""
                           id="imgAd"
                         />
+                        )
+                        )}
                       </td>
                       <td>
                         {" "}
@@ -62,6 +69,11 @@ function UserHouse() {
                         {" "}
                         <strong>{details.category}</strong>
                       </td>
+                      <td>
+                        
+                        <strong>{details.type}</strong>
+                      </td>
+
 
                       <td>
                         {" "}

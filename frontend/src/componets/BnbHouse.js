@@ -32,7 +32,7 @@ function BnbHouse() {
       {category.map((specific) => (
         <div
           key={specific.id}
-          className=" card col-lg-4 col-md-6 ms-4 card mt-5"
+          className=" card col-lg-4 col-md-6 ms-4  mt-5"
           style={{ width: "400px" }}
         >
           <Link to={`/MoreDetails/${specific.id}`}>

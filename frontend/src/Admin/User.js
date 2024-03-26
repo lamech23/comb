@@ -7,15 +7,15 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 import { ToastContainer, toast } from "react-toastify";
+import {api} from "../utils/Api"
 
 function User() {
+
   const [socket, setSocket] = useState(null);
   const newSocket = io(ServerUrl);
   const [users, setUsers] = useState([]);
   const [house, setHouse] = useState([]);
   const [agent, setAgent] = useState("");
-  console.log(agent);
-
   useEffect(() => {
     setSocket(newSocket);
     return () => {
@@ -56,9 +56,12 @@ function User() {
   };
 
   const fetchUsers = async () => {
-    const response = await axios.get("http://localhost:4000/Users/all");
+    const response = await api("/Users/all", "GET", {}, {});
     setUsers(response.data);
+    
   };
+  console.log("this users",users);
+  
 
   useEffect(() => {
     fetchUsers();
@@ -69,7 +72,6 @@ function User() {
     socket.emit("allUsers", users);
 
     socket.on("getAllUsers", (res) => {
-      console.log(res);
       setUsers(res);
     });
 
@@ -118,7 +120,6 @@ function User() {
   };
 
   const handelDelete = async (id) => {
-    console.log(id);
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
   };
@@ -131,7 +132,7 @@ function User() {
   return (
     <>
       <div className="card w-full p-6 bg-base-100 shadow-xl ">
-        <p>Help Center</p>
+        <p>Manage Users </p>
         <div className="divider mt-2"></div>
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
@@ -146,7 +147,7 @@ function User() {
                 <th>Actions</th>
               </tr>
             </thead>
-            {users.map((allUsers) => (
+            {users && users?.map((allUsers) => (
               <tbody key={allUsers.id}>
                 <tr>
                   <td>{allUsers.id}</td>

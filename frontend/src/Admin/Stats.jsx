@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Graph from "../utils/Graph";
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon'
+import { api } from '../utils/Api';
 
 function Stats() {
     const [newsLetter, setNewsLetter] = useState([]);
@@ -27,8 +28,8 @@ function Stats() {
       }, [setCount, setCounts]);
 
       const fetchUsers = async () => {
-        const response = await axios.get("http://localhost:4000/Users/all");
-        setAllUsers(response.data);
+        const response = await api("/Users/all", "GET", {}, {});
+        setAllUsers(response.user);
       };
 
       //house

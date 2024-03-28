@@ -3,7 +3,7 @@ const tenantRegistration = require("../../models/RentingModels/RegisterTenantMod
 const users = require("../../models/UserModels");
 const waterStore = require("../../models/RentingModels/waterBackupModel");
 const payments = require("../../models/RentingModels/additionalPaymentsModel");
-const {lease} = require("./tenantIncoince");
+const { lease } = require("./tenantIncoince");
 
 const tenatRegistration = async (req, res) => {
   const {
@@ -35,7 +35,9 @@ const tenatRegistration = async (req, res) => {
     });
 
     if (checkUser) {
-      return res.status(409).send({ error: `${checkUser.email} is already a Tenant!` });
+      return res
+        .status(409)
+        .send({ error: `${checkUser.email} is already a Tenant!` });
     } else {
       // Create a new tenant registration entry
       const newTenantData = {
@@ -61,10 +63,8 @@ const tenatRegistration = async (req, res) => {
 
       const createdTenant = await tenantRegistration.create(newTenantData);
       res.status(200).json(createdTenant);
-        let leaseInfo =  await lease(newTenantData);
-        console.log("this lease ->",leaseInfo);
-      
-
+      let leaseInfo = await lease(newTenantData);
+      console.log("this lease ->", leaseInfo);
     }
   } catch (error) {
     console.error(error.message);
@@ -260,10 +260,31 @@ const updateWaterBill = async (req, res) => {
   }
 };
 
+const deleteTenant = async (req, res) => {
+  try {
+    const id = req.query.id;
+
+    await tenantRegistration.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).json({
+      message: "tenant deleted  successfully ",
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: "Failed to Delete Tenant" + error,
+  })
+};
+};
+
 module.exports = {
   tenatRegistration,
   tentantUpdating,
   paymentsCreations,
   updateWaterBill,
   getPayments,
+  deleteTenant,
 };

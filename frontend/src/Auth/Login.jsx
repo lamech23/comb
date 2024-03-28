@@ -59,10 +59,10 @@ function Login() {
             }
 
            
-            if (userRoles.includes("admin")) {
+            if (userRoles.includes("admin") || userRoles.includes("agent")) {
                 navigate("/admin/analytics");
             } else if (userRoles.includes("user")) {
-                navigate("/account");
+                navigate("/");
             } else if (userRoles.includes("landowner")) {
                 navigate(`/LandownerDashbard`);
             } else if (userRoles.includes("tenant")) {

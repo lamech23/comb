@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 import { ToastContainer, toast } from "react-toastify";
 import {api} from "../utils/Api"
+import { isAdmin } from "../utils/Decoded";
 
 function User() {
 
@@ -16,6 +17,7 @@ function User() {
   const [users, setUsers] = useState([]);
   const [house, setHouse] = useState([]);
   const [agent, setAgent] = useState("");
+  const admin = isAdmin()
   useEffect(() => {
     setSocket(newSocket);
     return () => {

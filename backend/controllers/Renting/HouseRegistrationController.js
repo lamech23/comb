@@ -189,6 +189,8 @@ const getHouseByHouseName = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   RegisteringHouse,
   getTenants,

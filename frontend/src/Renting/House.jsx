@@ -269,6 +269,23 @@ function House() {
 
   useEffect(() => {}, [finalReport]);
 
+  //tenanant deleting 
+
+  const handleDeleteTenant= async(id)=>{
+
+    
+    const isConfirmed = window.confirm('Are you sure you want to delete this tenant?');
+ console.log("this id =>",id);
+    if(isConfirmed){
+      await axios.delete(`http://localhost:4000/Tenant/removeTenant/?id=${id}`)
+      getTenantinfo()
+    }else{
+      alert("Action Cancelled")
+    }
+
+
+  }
+
   return (
     <>
       <div className=" text-sm mt-14 px-5  ">
@@ -404,7 +421,7 @@ function House() {
                 <th>Next_of_kin </th>
                 <th>balance C/F</th>
                 <th>Total</th>
-                <th> water readings</th>
+                <th> Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -594,6 +611,14 @@ function House() {
                     {" "}
                     update{" "}
                   </Link>
+
+                  <button
+                   onClick={()=> handleDeleteTenant(tenants.id)}
+                  type="button "
+                  class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                Delete
+                </button>{" "}
                 </tr>
               ))}
             </tbody>

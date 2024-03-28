@@ -6,7 +6,8 @@ const{
     tentantUpdating,
     paymentsCreations,
     updateWaterBill,
-    getPayments
+    getPayments,
+    deleteTenant
 } =require('../../controllers/Renting/TenantRegistrationController')
 const {requireAuth} =require('../../middlleware/requireAuth')
 
@@ -19,6 +20,7 @@ router.patch('/change/:id',requireAuth, tentantUpdating)
 router.put('/updateWaterBill',  updateWaterBill)
 router.get('/fetchPayment/',  getPayments)
 router.get('/fetchPayment/',  getPayments)
+router.delete('/removeTenant/',  deleteTenant)
 
 
 module.exports= router ;

@@ -22,7 +22,7 @@ const { hasAdmin } = require("../middlleware/checkRoles");
 
 router.post('/login',loginUser)
 router.post('/logout',logout)
-router.get('/all',verifyToken,hasAdmin, getAllUsers)
+router.get('/all',verifyToken, getAllUsers)
 router.post('/signup', signupUser)
 router.post('/forgotPassword', forgotPassword)
 router.put('/reset/:id', reset)

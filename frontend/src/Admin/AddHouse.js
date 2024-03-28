@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-function AddHouse() {
+function AddingHouse() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
@@ -20,6 +20,9 @@ function AddHouse() {
   const [propertyType, setPropertyType] = useState([]);
   const [houseName, setHouseName] = useState("");
   const [type, setType] = useState("");
+  const [units, setUnits] = useState("");
+
+  // console.log(user);
 
   const handleCancle = () => {
     setStatus(false);
@@ -46,6 +49,7 @@ function AddHouse() {
       formData.append("title", title);
       formData.append("houseName", houseName);
       formData.append("type", type);
+      formData.append("units", units);
 
       for (let i = 0; i < image.length; i++) {
         formData.append("image", image[i]);
@@ -76,16 +80,15 @@ function AddHouse() {
 
         setStatus(false);
         toast.success("Added succesfuly ");
-
-
-        // const json = await response.json()
+        {
+          navigate("/");
+        }
 
         if (!response) {
           setError(error);
         }
 
         if (response) {
-          //here am reseting the form
           setImage("");
           setTitle("");
           setLocation("");
@@ -102,10 +105,14 @@ function AddHouse() {
       }
 
       if (error.response?.status === 403) {
-        return toast.error(" you are  not authorized to perform this action  ");
+        navigate(error.response?.data?.redirect);
+        const errorMessage = error.response.data.error;
+
+        toast.error(`${errorMessage}`);
       }
     }
   };
+
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.get("http://localhost:4000/cat/fetch");
@@ -119,6 +126,7 @@ function AddHouse() {
     const response = await axios.get("http://localhost:4000/type/fetch");
     setPropertyType(response.data);
   };
+
   return (
     <>
       <form onSubmit={handelSubmit}>
@@ -128,7 +136,8 @@ function AddHouse() {
               Add Image and it's details{" "}
             </h2>
             <p class="mt-1 text-sm leading-6 text-gray-600">
-              This information will be displayed publicly 
+              This information will be displayed publicly so be careful what you
+              share.
             </p>
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -137,7 +146,7 @@ function AddHouse() {
                   for="cover-photo"
                   class="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Images
+                  Photos
                 </label>
                 <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                   <div class="text-center">
@@ -218,6 +227,30 @@ function AddHouse() {
                   />
                 </div>
               </div>
+              <div class="sm:col-span-3">
+                <label
+                  for="price"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Property For{" "}
+                </label>
+                <div class="mt-2">
+                  <select
+                    class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    {" "}
+                    <option selected> select type </option>
+                    {propertyType &&
+                      propertyType?.map((type, index) => (
+                        <option value={type.type} key={index}>
+                          {type.type}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
 
               <div class="sm:col-span-3">
                 <label
@@ -239,25 +272,27 @@ function AddHouse() {
                 </div>
               </div>
 
-              <div class="sm:col-span-3">
-                <label
-                  for="price"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Price{" "}
-                </label>
-                <div class="mt-2">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    autocomplete="family-name"
-                    class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                    onChange={(e) => setPrice(e.target.value)}
-                    value={price}
-                  />
+              {type === "renting" ? null : (
+                <div class="sm:col-span-3">
+                  <label
+                    for="price"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Price{" "}
+                  </label>
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      name="last-name"
+                      id="last-name"
+                      autocomplete="family-name"
+                      class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div class="sm:col-span-3">
                 <label
@@ -268,50 +303,22 @@ function AddHouse() {
                 </label>
                 <div class="mt-2">
                   <select
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                    class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <option selected> select category </option>
                     {cat &&
-                      cat?.map((cat, index) =>
-                        
-                          <option value={cat.name} key={index}>
-                            {cat.name}
-                          </option>
-                      )}
-                  </select>
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label
-                  for="price"
-                  class="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Property For{" "}
-                </label>
-                <div class="mt-2">
-                  <select
-                   class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    {" "}
-                    <option selected> select type </option>
-                    {propertyType &&
-                      propertyType?.map((type, index) => (
-                       
-                        <option value={type.type} key={index}>
-                          {type.type}
+                      cat?.map((cat, index) => (
+                        <option value={cat.name} key={index}>
+                          {cat.name}
                         </option>
-
                       ))}
                   </select>
                 </div>
               </div>
 
-              {type === "renting" &&
+              {type == "renting" ? (
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="house-name"
@@ -326,13 +333,36 @@ function AddHouse() {
                       id="house-name"
                       placeholder="e.g. k-1, k2, k3, etc."
                       autoComplete="given-name"
-                      className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       value={houseName}
                       onChange={(e) => setHouseName(e.target.value)}
                     />
                   </div>
                 </div>
-              }
+              ) : null}
+
+              {type == "renting" ? (
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="house-name"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    house Units
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="units"
+                      id="units"
+                      placeholder="e.g. k-1, k2, k3, etc."
+                      autoComplete="given-units"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={units}
+                      onChange={(e) => setUnits(e.target.value)}
+                    />
+                  </div>
+                </div>
+              ) : null}
               <div class="sm:col-span-6 ">
                 <label
                   for="email"
@@ -394,4 +424,4 @@ function AddHouse() {
   );
 }
 
-export default AddHouse;
+export default AddingHouse;

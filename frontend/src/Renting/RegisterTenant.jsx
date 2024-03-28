@@ -56,7 +56,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   useEffect(() => {
     const getHouse = async () => {
       const response = await axios.get(
-        `http://localhost:4000/Details/fetchHousesByName/`
+        `http://localhost:4000/Details/housesLinkedToTenants/`
       );
       setHouse(response.data);
     };

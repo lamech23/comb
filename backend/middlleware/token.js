@@ -43,7 +43,6 @@ const verifyToken = (req, res, next) => {
 
         // Attach the decoded user data to the req object
         req.user = user;
-
         // Check if the token has expired
         const nowInSeconds = Date.now() / 1000;
         if (user.exp < nowInSeconds) {
@@ -52,7 +51,7 @@ const verifyToken = (req, res, next) => {
             if (!refreshToken) {
                 return res
                     .status(401)
-                    .json({ error: "Token has expired. Please reauthenticate." });
+                    .json({ error: "Token has expired. Please re-authenticate." });
             }
 
             // Attempt to refresh the access token using the refresh token

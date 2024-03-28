@@ -17,6 +17,7 @@ const getAllHouses = async (req, res) => {
       houseId:  req.params.houseId
     },
   });
+  console.log("THIS HOUSE =>",details);
 
   try {
     // Calculating the total expenses for each user
@@ -47,7 +48,6 @@ const getAllHouses = async (req, res) => {
     });
 
    
-
     res.status(200).json({ detailsWithTotal });
   } catch (error) {
     res.status(400).json(error.message);
@@ -108,6 +108,8 @@ const getTenants = async (req, res) => {
     }
 
     res.status(200).json(tenatsHouse);
+
+    console.log(tenatsHouse);
   } catch (error) {
     // res.status(400).json({ error: error.message });
   }
@@ -165,7 +167,7 @@ const getAllHousesByName = async (req, res) => {
         as: "houses",
       },
     });
-    res.status(200).send(details);
+    res.status(200).json({details});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -173,7 +175,7 @@ const getAllHousesByName = async (req, res) => {
 
 const getHouseByHouseName = async (req, res) => {
   try {
-    const { houseName } = req.query; // accecing the houseName from the req
+    const { houseName } = req.query;
 
     const specificHouses = await tenantRegistration.findAll({
       where: {

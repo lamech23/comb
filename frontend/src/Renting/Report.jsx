@@ -18,7 +18,7 @@ function Report() {
   const getHouse = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/Details/fetchHousesByName/`
+        `http://localhost:4000/Details/housesLinkedToTenants/`
       );
       setHouse(response.data);
     } catch (error) {

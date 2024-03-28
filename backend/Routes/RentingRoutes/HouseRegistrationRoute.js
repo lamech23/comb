@@ -21,7 +21,7 @@ router.get('/specific/', requireAuth,getTenants)
 router.get('/houseNames/', getTenantForTenantRegistration)
 router.get('/total/:id',  subtotal)
 router.get('/:houseId', getAllHouses)
-router.get('/houseByHouseName', getHouseByHouseName)
+router.get('/houseByHouseName',requireAuth,  getHouseByHouseName)
 router.get('/houseNames', getAllHousesByName)
 router.post('/houseName', creatHouseCategory)
 

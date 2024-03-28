@@ -27,6 +27,8 @@ function House() {
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
 
+  console.log(house)
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -51,7 +53,9 @@ function House() {
     .slice(-1)[0];
   //houseId
 
+  // let houseIdArray = house?.map((house) => house.id);
   let houseIdArray = house?.map((house) => house.id);
+
   let houseId = houseIdArray ? houseIdArray[0] : null;
 
   const visitedHouseId = house?.find(
@@ -60,11 +64,13 @@ function House() {
 
   const getHouse = async () => {
     const response = await axios.get(
-      `http://localhost:4000/Details/fetchHousesByName/`
+      `http://localhost:4000/Details/housesLinkedToTenants/`
     );
     setHouse(response.data);
     // console.log(response.data);
   };
+
+
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -79,6 +85,7 @@ function House() {
     getTenantinfo();
     getHouse();
   }, [houseName, houseId]);
+
   // guard clause
   if (isNaN(price) || price < 0) {
     toast.error("Number must be a positive value");

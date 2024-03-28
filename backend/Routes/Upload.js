@@ -13,12 +13,14 @@ const {
     getAllHouses,
     getAllTours ,
     getAllHousesByName,
-    getProductsInCategory
-    
+    getProductsInCategory,
+    fetchHousesByNames
     
 }=require('../controllers/Details')
 const {imageUpload} =require('../middlleware/upload')
 const {requireAuth, isAdmin, checkIfOwner} =require('../middlleware/requireAuth')
+const {hasAdmin} =require('../middlleware/checkRoles')
+const {verifyToken} =require('../middlleware/token')
 
 
 
@@ -32,7 +34,8 @@ router.post('/',requireAuth, imageUpload, createDetails)
 
  // GET all uploads 
  router.get('/allHouses', getAllHouses)
- router.get('/fetchHousesByName', getAllHousesByName)
+ router.get('/fetchHousesByName',requireAuth, getAllHousesByName)
+ router.get('/housesLinkedToTenants', fetchHousesByNames)
  router.get('/byUserId', getAllDetails)
  router.get('/Bungalow',  ownCompound)
  router.get('/Maisonette',  RentalHouse)

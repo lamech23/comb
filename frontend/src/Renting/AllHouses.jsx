@@ -1,23 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../utils/Api";
 
 function AllHouses() {
   const [house, setHouse] = useState([]);
 
   const getHouse = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Details/fetchHousesByName/`
-    );
-    setHouse(response.data);
+    const response = await api("/Details/fetchHousesByName", "GET", {}, {});
+    console.log(response);
+    setHouse(response);
   };
   useEffect(() => {
-    // getSpecificHouse();
     getHouse();
   }, []);
 
+  // console.log(house);
+
   return (
     <>
+
 
     <div className="card w-full p-6 bg-base-100 shadow-xl ">
                     <p>List Of All Houses</p>
@@ -32,11 +34,11 @@ function AllHouses() {
                     </tr>
                     </thead>
                     <tbody >
-                    {house.map((item, index) => (
+                    {house?.map((item, index) => (
 
                          item?.type== "renting"?
                         <tr key={index} value={item}>
-                        <td>{item.id}</td>
+                        <td>{index +1}</td>
                         <td>
                           <Link
                             className="no-underline text-gray-700"
@@ -49,7 +51,11 @@ function AllHouses() {
                         </tr>
                         : null
                    ))}
+
+
+
                    </tbody>
+                   
                 </table>
             </div>
        </div>

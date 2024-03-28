@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
+import { isAdmin } from '../utils/Decoded'
 
 
 function Header(){
     let navigate = useNavigate();
     const dispatch = useDispatch()
    
-    const user = JSON.parse(localStorage.getItem("credentials"));
-    let id = user.id;
+    const user = isAdmin?.userId
 
     const handelClick = () => {
         {

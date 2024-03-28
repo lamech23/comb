@@ -1,12 +1,11 @@
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
+import { isAdmin } from "../utils/Decoded";
 
 function UserProfile() {
-  const { user } = useAuthContext();
+  const user = isAdmin?.userId
 
-  const users = JSON.parse(localStorage.getItem("credentials"));
-  let email = user?.email;
   return (
     <>
       <section class="py-40 bg-gray-100  bg-opacity-50 h-screen">
@@ -40,7 +39,7 @@ function UserProfile() {
                   class="w-11/12 focus:outline-none focus:text-gray-600 p-2"
                   placeholder="email@example.com"
                   disable
-                  value={email}
+                  value={user?.email}
                 />
               </div>
             </div>            

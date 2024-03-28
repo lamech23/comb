@@ -3,14 +3,15 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { isAdmin } from "../utils/Decoded";
 const localizer = momentLocalizer(moment);
 
 function Appointment() {
   const [appointment, setAppointment] = useState([]);
   const [date, setDate] = useState(new Date());
 
-  const user = JSON.parse(localStorage.getItem("credentials"));
-  let id = user.id;
+  const user = isAdmin?.userId
+  let id = user?.id;
 
   try {
     useEffect(() => {

@@ -45,3 +45,30 @@ export function isAdmin() {
     }
     return false;
 }
+
+export function isUser() {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith("user=")) {
+            const userCookie = decodeURIComponent(cookie.substring("user=".length, cookie.length));
+            try {
+                const user = JSON.parse(userCookie);
+
+                const accessToken = user.token.accessToken;
+                const decodedToken = jwt_decode(accessToken);
+
+                // Check if user has admin role
+                if (decodedToken) {
+                    return decodedToken // User is an admin
+                } else {
+                    return null; // User is not an admin
+                }
+            } catch (error) {
+                console.error("Error parsing user cookie:", error);
+                return false; // Unable to parse user cookie
+            }
+        }
+    }
+    return false;
+}

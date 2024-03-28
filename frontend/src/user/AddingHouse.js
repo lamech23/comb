@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-
 function AddingHouse() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -36,7 +35,6 @@ function AddingHouse() {
     setCategory("");
   };
 
- 
   const handelSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending ...");
@@ -67,7 +65,6 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
-
         const response = await axios.post(
           "http://localhost:4000/Details",
           formData,
@@ -81,14 +78,11 @@ function AddingHouse() {
           }
         );
 
-      
         setStatus(false);
         toast.success("Added succesfuly ");
         {
           navigate("/");
         }
-
-
 
         if (!response) {
           setError(error);
@@ -111,12 +105,11 @@ function AddingHouse() {
       }
 
       if (error.response?.status === 403) {
-        
-        navigate(error.response?.data?.redirect)
+        navigate(error.response?.data?.redirect);
         const errorMessage = error.response.data.error;
-        
 
-        toast.error(`${errorMessage}`)      }
+        toast.error(`${errorMessage}`);
+      }
     }
   };
 

@@ -27,7 +27,6 @@ function House() {
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
 
-  console.log(house)
 
   function closeModal() {
     setIsOpen(false);

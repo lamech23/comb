@@ -10,39 +10,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Search from "./Search";
+import { isUser } from "../utils/Decoded";
+
 
 
 
 function Navbar() {
   const { dispatch } = useAuthContext();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const role = useIsAdmin();
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
-
-  // const [activeNavLink, setActiveNavLink] = useState("/");
-
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   window.addEventListener("scroll", function () {
-  //     if (window.scrollY) {
-  //       document.querySelector("#mainNavbar").classList.add("fixed-top");
-  //       const navbar_height = document.querySelector(".navbar").offSetHeight;
-  //       document.body.style.paddingTop = navbar_height + "px";
-  //     } else {
-  //       document.querySelector("#mainNavbar").classList.remove("fixed-top");
-  //       document.body.style.paddingTop = "0";
-  //     }
-  //   });
-  // });
-
-  // let Links =[
-  //   {name:"HOME",link:"/"},
-  //   {name:"SERVICE",link:"/"},
-  //   {name:"ABOUT",link:"/"},
-  //   {name:"BLOG'S",link:"/"},
-  //   {name:"CONTACT",link:"/"},
-  // ];
+  const  user = isUser()?.userId
 
   const handleLogout = async () => {
     await axios.post(`http://localhost:4000/users/logout`);

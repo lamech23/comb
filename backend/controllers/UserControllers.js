@@ -1,14 +1,11 @@
-// const { json } = require('sequelize/types/sequelize.js')
+
 const users = require("../models/UserModels.js");
 const Details = require("../models/UploadModals.js");
 const agentManagements = require("../models/agentManagment.js");
-const sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const agentManagmentTable = require("../models/agentManagment.js");
 const { issueAccessToken} = require("../middlleware/token");
-
 
 
 const loginUser = async (req, res) => {
@@ -65,8 +62,7 @@ const loginUser = async (req, res) => {
 
 
 const signupUser = async (req, res) => {
-  const { email, password, location, phoneNumber, idNumber, userName } =
-    req.body;
+  const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const checkEmail = await users.findOne({ where: { email: email } });
@@ -78,30 +74,12 @@ const signupUser = async (req, res) => {
 
     const User = await users.create({
       email,
-      userName,
-      location,
-      phoneNumber,
-      idNumber,
       password: hash,
       role: "user",
     });
 
-    const token = createToken([
-      User.id,
-      User.email,
-      User.role,
-      User.isAdmin,
-      User.Active,
-    ]);
-
-    // pass the token as a response instead of the user
     res.status(200).json({
-      id: User.id,
-      email: User.email,
-      role: User.role,
-      isAdmin: User.isAdmin,
-      Active: User.Active,
-      token,
+      success: true,
     });
   } catch (error) {
     // res.status(400).json({ error: error.message });

@@ -21,19 +21,21 @@ const hasAdmin = (req, res, next) => {
     }
 };
 
-const isVerified = (req, res, next) => {
+const hasAgent = (req, res, next) => {
     try {
         // Retrieve the user's access token from the request
         const accessToken = req.user;
-        // Extract the user ID from the access token
-        const roles = accessToken.userId.roles;
 
-        // Check if the user is verified
-        if (roles.includes("verified")) {
+        console.log(accessToken)
+        // Extract the user ID from the access token
+        const roles = accessToken.userId.role;
+
+        // Check if the user has the "admin" role
+        if (roles.includes("agent")) {
             next();
         } else {
             res.status(403).send({
-                message: "User is not verified!",
+                message: "Require Agent Role!",
             });
         }
     } catch (error) {
@@ -43,4 +45,5 @@ const isVerified = (req, res, next) => {
 };
 
 
-module.exports = { hasAdmin, isVerified };
+
+module.exports = { hasAdmin,hasAgent};

@@ -23,10 +23,9 @@ const {hasAdmin} =require('../middlleware/checkRoles')
 const {verifyToken} =require('../middlleware/token')
 
 
-
 const router =express.Router()
 //this basically means that the middleware fires first before the other routes so as to protect them
-// router.use(requireAuth)
+ router.use(requireAuth)
 // router.use(isAdmin)
 //POST all uploads
 //Post a details

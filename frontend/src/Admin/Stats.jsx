@@ -10,7 +10,7 @@ import { api } from '../utils/Api';
 
 function Stats() {
     const [newsLetter, setNewsLetter] = useState([]);
-    const [count, setCount] = useState();
+    const [houses, setHousesCount] = useState();
     const [counts, setCounts] = useState(0);
     const [users, setUsers] = useState(0);
     const [activeUser, setActiveUser] = useState(0);
@@ -21,41 +21,43 @@ function Stats() {
   
     try {
       useEffect(() => {
-        fetchAllDEtails();
         fetchNewsLetters();
         fetchTotalNews();
         fetchUsers()
-      }, [setCount, setCounts]);
+      }, [ setCounts]);
 
       const fetchUsers = async () => {
         const response = await api("/Users/all", "GET", {}, {});
         setAllUsers(response.user);
       };
 
-      //house
 
-      const fetchAllDEtails = async () => {
-        const response = await axios.get("http://localhost:4000/Total");
-        setCount(response.data);
-      };
-  
       //newsLetter
       const fetchNewsLetters = async () => {
-        const response = await axios.get(
-          "http://localhost:4000/news/newsLetter/Sub"
-        );
+          const response = await api(
+              "/news/newsLetter/Sub", "GET",
+              {}, {});
+
         setNewsLetter(response.data);
       };
-      const fetchTotalNews = async () => {
-        const response = await axios.get(
-          "http://localhost:4000/Total/newsLetters"
-        );
-        setCounts(response.data.count);
-        setUsers(response.data.count2);
-        setActiveUser(response.data.activeUser);
-        setTenant(response.data.Tenant);
-        setLandOwner(response.data.Landlord);
-      };
+        const fetchTotalNews = async () => {
+            try {
+                const response = await api("/Total/get-stats", "GET", {}, {});
+                console.log(response);
+
+                const { count3 ,count, count2, activeUser, Tenant, Landlord } = response;
+
+                setHousesCount(count3)
+                setCounts(count);
+                setUsers(count2);
+                setActiveUser(activeUser);
+                setTenant(Tenant);
+                setLandOwner(Landlord);
+            } catch (error) {
+                console.error("Error fetching total news:", error);
+            }
+        };
+
     }catch(error){
         console.log(error);
 
@@ -65,14 +67,14 @@ function Stats() {
         
 
 
-        <div class="container-fluid px-4 mt-5">
+        <div className="container-fluid px-4 mt-5">
         <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
 
             <div className="stats shadow">
               <div className="stat">
                   <div className='stat-figure  dark:text-slate-700'><HomeIcon className='w-8 h-8'/></div>
                   <div className="stat-title dark:text-slate-300">Houses</div>
-                  <div className='stat-value dark:text-slate-300'>{count}</div>
+                  <div className='stat-value dark:text-slate-300'>{houses}</div>
               </div>
              </div>
 
@@ -129,9 +131,6 @@ function Stats() {
         </div>
         </div>
 
-
-
-  
         <ToastContainer
           position="top-left"
           autoClose={3000}

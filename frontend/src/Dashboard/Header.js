@@ -7,15 +7,11 @@ import MoonIcon from '@heroicons/react/24/outline/MoonIcon'
 import SunIcon from '@heroicons/react/24/outline/SunIcon'
 
 
-
 import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
-
 
 function Header(){
 
     const dispatch = useDispatch()
-   
-
 
     function logoutUser(){
         localStorage.clear();

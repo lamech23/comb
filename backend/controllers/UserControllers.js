@@ -7,9 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const agentManagmentTable = require("../models/agentManagment.js");
-const { issueAccessToken} = require("../middlleware/token");
-
-
+const { issueAccessToken } = require("../middlleware/token");
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -63,7 +61,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const signupUser = async (req, res) => {
   const { email, password, location, phoneNumber, idNumber, userName } =
     req.body;
@@ -109,18 +106,17 @@ const signupUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-
   const user = await users.findAll({
-    include:{
+    include: {
       model: agentManagmentTable,
-      as: 'agent',
-      include:{
+      as: "agent",
+      include: {
         model: Details,
-        as: 'house'
-      }
-    }
+        as: "house",
+      },
+    },
   });
-  res.status(200).json({user});
+  res.status(200).json({ user });
 };
 
 //activating and deactivating auser
@@ -144,7 +140,7 @@ const verifyUser = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const userStatus = { isAdmin: req.query.isAdmin };
+    const userStatus = { isAdmin: req.query.verified };
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
     if (userEmail === 0) {
@@ -297,32 +293,27 @@ const logout = async (req, res) => {
     .json({ error: "successfully  logged out" });
 };
 
-
-
-
-
 const managment = async (req, res) => {
-  const { agentId, houseId } = req.body; 
-  
+  const { agentId, houseId } = req.body;
 
   try {
     // Check if the user and house exist
-    const user = await users.findByPk(agentId,{
-      where:{
-        role: 'agent'
-      }
+    const user = await users.findByPk(agentId, {
+      where: {
+        role: "agent",
+      },
     });
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message:"User not found!",
-        error:error.message
-       });
+        message: "User not found!",
+        error: error.message,
+      });
     }
 
     const house = await Details.findByPk(houseId);
     if (!house) {
-      return res.status(404).json({ error: 'House not found' });
+      return res.status(404).json({ error: "House not found" });
     }
 
     const association = await agentManagements.create({
@@ -332,11 +323,10 @@ const managment = async (req, res) => {
 
     res.status(201).json(association);
   } catch (error) {
-    console.error(error); 
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 const getManagemts = async (req, res) => {
   try {
@@ -347,18 +337,15 @@ const getManagemts = async (req, res) => {
       ],
     });
 
-    res.status(200).json({getAgent});
+    res.status(200).json({ getAgent });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message
-
-    })
+      error: error.message,
+    });
     console.log(error.message);
   }
 };
-
-
 
 module.exports = {
   loginUser,
@@ -374,5 +361,5 @@ module.exports = {
   logout,
   managment,
   getManagemts,
-  verifyUser
+  verifyUser,
 };

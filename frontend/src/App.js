@@ -51,16 +51,22 @@ import FinalReport from "./Renting/finalReport";
 import Team from "./componets/Team";
 import HouseCategory from "./componets/HouseCategory";
 import WaterBill from "./Renting/WaterBill";
+import { isAdmin, isUser } from "./utils/Decoded";
+
 
 const DashLayout = lazy(() => import('./Dashboard/Layout'))
 const ProfileLayout = lazy(() => import('./Profile/Layout'))
 
 function App() {
   // const { user } = useAuthContext();
+  const admin = isAdmin()
+  const user = isUser().userId
+  console.log(user);
 
   const [openModalSignUp, setOpenModalSignUp] = useState(false);
-  const user = document.cookie;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 
+
 
   return (
     <>
@@ -78,7 +84,10 @@ function App() {
             <Route path="/BuyHouse" element={<BuyHouse />} />
             <Route path="/BnbHouse" element={<BnbHouse />} />
 
-            <Route path="/Login" element={<Login />} />
+            <Route
+             path="/Login" element={user ? <Home />
+              :<Login /> }
+             />
             <Route path="/Cards" element={<Cards />} />
             <Route path="/UpdateDetails/:id" element={<UpdateDetails />} />
             <Route path="/Settings" element={<Settings />} />
@@ -109,9 +118,7 @@ function App() {
             <Route path="/our-team" element={<Team/>} />
             <Route path="/HouseCategory/:category" element={<HouseCategory/>} />
             <Route path="/waterBill" element={<WaterBill/>} />
-
-            <Route path="/admin/*" element={<DashLayout />} />
-
+            <Route path="/admin/*" element={admin ? <DashLayout />: <Home/>}  />
             <Route path="/account/*" element={<ProfileLayout />} />
 
             <Route path="*" element={<PageNotFound />} />

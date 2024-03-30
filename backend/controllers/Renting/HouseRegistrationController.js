@@ -17,7 +17,6 @@ const getAllHouses = async (req, res) => {
       houseId:  req.params.houseId
     },
   });
-  console.log("THIS HOUSE =>",details);
 
   try {
     // Calculating the total expenses for each user
@@ -109,7 +108,6 @@ const getTenants = async (req, res) => {
 
     res.status(200).json(tenatsHouse);
 
-    console.log(tenatsHouse);
   } catch (error) {
     // res.status(400).json({ error: error.message });
   }

@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Search from "./Search";
-import { isUser } from "../utils/Decoded";
+import { isUser, isAdmin } from "../utils/Decoded";
 
 
 
@@ -19,6 +19,9 @@ function Navbar() {
   const { dispatch } = useAuthContext();
   // const { user } = useAuthContext();
   const role = useIsAdmin();
+  const admin  = isAdmin();
+   console.log("me",admin);
+
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
 
@@ -94,9 +97,9 @@ function Navbar() {
                 <Link to="/About" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'>About</Link>
               </li>
              
-                {role && user ? (
+                {admin ? (
                 <li class='max-lg:border-b max-lg:py-2 px-5'>
-                  <Link to="/admin" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>
+                  <Link to="/admin/analytics" class='hover:text-[#007bff] text-gray-600 font-bold text-[15px] block'> Dashboard</Link>
                 </li>
                 ) : null}
             </ul>

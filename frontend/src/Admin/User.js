@@ -100,9 +100,9 @@ function User() {
   };
 
 
-  const verifyingUser = async (id, isAdmin) => {
+  const verifyingUser = async (id, verified) => {
     const response = await axios.patch(
-      `http://localhost:4000/Users/verifyUser/${id}?isAdmin=` + isAdmin
+      `http://localhost:4000/Users/verifyUser/${id}?verified=` + verified
     );
   };
 
@@ -117,8 +117,8 @@ function User() {
   };
 
   const Verify = (id) => {
-    let isAdmin = 1
-    verifyingUser(id, isAdmin);
+    let verified = 1
+    verifyingUser(id, verified);
   };
 
   const handelDelete = async (id) => {

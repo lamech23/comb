@@ -5,6 +5,7 @@ import moment from "moment";
 function NewsLetter() {
   const [NewsLetter, setNewsLetter] = useState([]);
   const [date, setDate] = useState(new Date());
+  
 
   useEffect(() => {
     getNewssletter();

@@ -27,7 +27,6 @@ function House() {
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
 
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -68,7 +67,6 @@ function House() {
     setHouse(response.data);
     // console.log(response.data);
   };
-
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -187,15 +185,19 @@ function House() {
     const matchesMonth = month.some((key) => {
       const value =
         key == "createdAt" ? months[new Date(item[key]).getMonth()] : item;
+        console.log(value);
       return (
         value &&
         typeof value === "string" &&
         value.toLowerCase().includes(months)
       );
     });
+    
     return matchesQuery || matchesMonth;
   });
 
+
+  
   // console.log(months);
   // console.log(query);
   const monthsShort = [
@@ -231,7 +233,7 @@ function House() {
             0
           );
 
-          // Map amount values from
+          // Map amount values frommonth
           const amountValues = matchingObjects.map(
             (matchObj) => matchObj.amount
           );
@@ -261,46 +263,38 @@ function House() {
     };
   });
 
-//   const TotalsForReports = finalReport?.map((data) => {
-//     const TotalRentCollected = data.totalAmount
-// console.log(TotalRentCollected);
 
-//   });
 
   useEffect(() => {}, [finalReport]);
-
-  //tenanant deleting 
-
-  const handleDeleteTenant= async(id)=>{
-
-    
-    const isConfirmed = window.confirm('Are you sure you want to delete this tenant?');
- console.log("this id =>",id);
-    if(isConfirmed){
-      await axios.delete(`http://localhost:4000/Tenant/removeTenant/?id=${id}`)
-      getTenantinfo()
-    }else{
-      alert("Action Cancelled")
+  //tenanant deleting
+  const handleDeleteTenant = async (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this tenant?"
+    );
+    console.log("this id =>", id);
+    if (isConfirmed) {
+      await axios.delete(`http://localhost:4000/Tenant/removeTenant/?id=${id}`);
+      getTenantinfo();
+    } else {
+      alert("Action Cancelled");
     }
-
-
-  }
+  };
 
   return (
     <>
-      <div className=" text-sm mt-14 px-5  ">
-        <div className=" flex gap-4 text-teal-500 text-xl ">
-          {" "}
-          HOUSE: <p className="text-red-400">{houseName}</p>
+      <div className="text-sm mt-14 px-5">
+        <div className="flex gap-4 items-center monthtext-teal-500 text-xl">
+          <span className="font-bold">HOUSE:</span>
+          <p className="text-red-400">{houseName}</p>
         </div>
-        <div className=" flex gap-4 text-teal-500 text-xl ">
-          {" "}
-          LANDOWNER:{" "}
+        <div className="flex gap-4 items-center text-teal-500 text-xl">
+          <span className="font-bold">LANDOWNER:</span>
           <p className="text-red-400">
-            {house && house.length > 0 && <p>{house[0].houses.email}</p>}
+            {house && house.length > 0 && house[0].houses.email}
           </p>
         </div>
       </div>
+
       <header className=" mt-10 mb-20">
         <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
           <div className="sm:flex sm:gap-4 space-y-5 lg:space-y-0">
@@ -370,7 +364,7 @@ function House() {
       </header>
       <div className="card w-full p-6 bg-base-100  ">
         <div className="flex flex-row justify-between items-center ">
-          <p>Tenants</p>
+        <p className="text-3xl font-bold text-teal-600">Tenants</p>
 
           <div className="flex flex-row gap-4">
             <input
@@ -395,7 +389,7 @@ function House() {
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
           <table ref={targetRef} className="table w-full">
-            <thead>
+          <thead>
               <tr>
                 <th>id </th>
                 <th>House Number</th>
@@ -421,30 +415,28 @@ function House() {
                 <th>Next_of_kin </th>
                 <th>balance C/F</th>
                 <th>Total</th>
-                <th> Actions</th>
+                <th>createdAt</th>
+                <th> water readings</th>
               </tr>
             </thead>
             <tbody>
-              {filteredProducts?.map((tenants) => (
+              {filteredProducts?.map((tenants, index) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
-                    {tenants.id}
+                    {index +1}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.tenantsName}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {tenants.payableRent}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.rent}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {payments &&
                       Object.values(payments).map((paymentData, index) => {
@@ -503,7 +495,6 @@ function House() {
                         return null; // Return null if userId doesn't match
                       })}{" "}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {tenants.rentDeposit}
                   </td>
@@ -513,13 +504,11 @@ function House() {
                   <td className="border text-black border-slate-700">
                     {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {tenants.totalWaterReadings <= 0
                       ? 0
                       : tenants?.totalWaterReadings}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {getWater &&
                       getWater?.map((house) => house.price).slice(-1)[0]}
@@ -596,29 +585,29 @@ function House() {
                           })
                           .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
-
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
-                  </td>
 
+
+                  </td>
+                  <td>{tenants.createdAt}</td>
                   <Link
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.detailsWithTotal?.find(
                       (meteData) => meteData.id === tenants.id
                     )}
-                    className="text-green-600 no-underline"
-                  >
+                    class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
                     {" "}
                     update{" "}
                   </Link>
-
                   <button
-                   onClick={()=> handleDeleteTenant(tenants.id)}
-                  type="button "
-                  class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                >
-                Delete
-                </button>{" "}
+                    onClick={() => handleDeleteTenant(tenants.id)}
+                    type="button "
+                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  >
+                    Delete
+                  </button>{" "}
                 </tr>
               ))}
             </tbody>

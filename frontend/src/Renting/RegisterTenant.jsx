@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Calendar } from "primereact/calendar";
+import { api } from "../utils/Api";
 
 function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   const state = useLocation().state; // am  using one for to create and update
@@ -63,8 +64,10 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
     getHouse();
 
     const fetchUsers = async () => {
-      const response = await axios.get("http://localhost:4000/Users/all");
-      setUsers(response.data);
+          //getting all  users  with the role tenant for registration  purpose
+
+      const response = await api("/Users/all", "GET", {}, {});
+      setUsers(response.user);
     };
 
     fetchUsers();
@@ -155,9 +158,9 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
         toast.error(`${errorMessage}`)
       }
 
-      console.log("Error occurred:", error);
     }
   };
+
 
   return (
     <>
@@ -269,7 +272,8 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                     paid Date
                   </label>
                   <div className="border">
-                    <Calendar
+                    <input
+                    type="date"
                       value={rentPaymentDate}
                       
                       onChange={(e) => setRentPaymentDate(e.target.value)}

@@ -29,7 +29,7 @@ const users = db.define(
     role: {
       type: DataTypes.STRING,
     },
-    isAdmin: {
+    verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },

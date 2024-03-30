@@ -1,8 +1,5 @@
-import React, { useContext, useState } from 'react'
-import a from '../componets/images/a.jpg'
-import b from '../componets/images/b.jpg'
-import c from '../componets/images/c.jpg'
-import {Link} from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+
 import Cards from './Cards'
 // import Upload from '../page/Upload'
  import GetInTouch from '../componets/GetInTouch';
@@ -10,17 +7,24 @@ import Footer from './Footer'
 import Services from './Services'
 import header from "./images/header.png";
 import Navbar from './Navbar'
+import {ToastContainer, toast } from 'react-toastify'
 
-function Home() {
+function Home({user,admin}) {
 
-  const [search ,setSearch]=useState('')
-//   const [searchResult ,setSearchResult]=useState([])
-// const [details , setDetails]=useState([])
+console.log("this  user =>",user);
 
-// const filterSearch = details.filter((house=>{
-//   return house.category.toLowerCase().include(search.toLocaleLowerCase())
-// }))
-// setSearchResult(filterSearch)
+useEffect(() => {
+  if (admin === false) {
+    toast.error("You don't have access to the admin panel.");
+  }
+}, []);
+
+useEffect(() => {
+  if (user) {
+    toast.error("You don't have access to the admin panel.");
+  }
+}, []);
+
 
   return (
     <>
@@ -56,6 +60,18 @@ function Home() {
      
       <Footer/>
 
+      <ToastContainer
+            position="top-left"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
     </>
   )
 }

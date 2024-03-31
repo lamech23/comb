@@ -18,7 +18,7 @@ let routes = [
     name: 'Account',
   },
   {
-    path: `/account/profile/${id}`,
+    path: `/account/profile/`,
     icon: <UsersIcon className={iconClasses}/>, 
     name: 'Profile',
   },

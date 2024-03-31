@@ -53,6 +53,7 @@
   import HouseCategory from "./componets/HouseCategory";
   import WaterBill from "./Renting/WaterBill";
   import { getAccessTokenFromCookie ,getUserRoles } from "./utils/AccesToken";
+import ChangeProfile from "./user/ChangeProfile";
 
   const DashLayout = lazy(() => import('./Dashboard/Layout'))
   const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -69,7 +70,6 @@
 
     const adminAuthenticate = () => isAdmin;
     const agentAuthenticate = () => isAgent;
-    console.log(agentAuthenticate);
 
     return (
         <div>
@@ -92,7 +92,7 @@
                 <Route path="/ForgotPassword" element={isAuthenticated() ? <ForgotPassword /> : <Navigate to="/" />} />
                 <Route path="/Reset/:id" element={isAuthenticated() ? <Reset /> : <Navigate to="/" />} />
                 <Route path="/Pagination" element={isAuthenticated() ? <Pagination /> : <Navigate to="/" />} />
-                <Route path="/profile/:id" element={isAuthenticated() ? <Profile /> : <Navigate to="/" />} />
+                {/* <Route path="/profile/" element={isAuthenticated() ? <Profile /> : <Navigate to="/" />} /> */}
                 <Route path="/Search" element={isAuthenticated() ? <Search /> : <Navigate to="/" />} />
                 <Route path="/Calender" element={isAuthenticated() ? <Calendar /> : <Navigate to="/" />} />
                 <Route path="/ClientMessageForm" element={isAuthenticated() ? <ClientMessageForm /> : <Navigate to="/" />} />

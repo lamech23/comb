@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { isUser } from "../utils/Decoded";
+import { api } from "../utils/Api";
 
 function ChangeProfile() {
   const { id } = useParams();
@@ -14,8 +15,7 @@ function ChangeProfile() {
 
   // const [user, setUser] = useState("");
 
-  const user = isUser().userId;
-  console.log("this user =>",user);
+  const user = isUser()?.userId;
   //reset password
   const resetPassword = async (e) => {
     e.preventDefault();
@@ -58,11 +58,13 @@ function ChangeProfile() {
   };
 
   const fetchUserById = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Users/specificUser/${id}`
-    );
-    setEmail(response.data.email);
+    const response = await api(`/users/specificUser/${id}`,"GET", {},{});
+    // const response = await axios.get(
+    //   `http://localhost:4000/Users/specificUser/${id}`
+    // );
+    setEmail(response.User.email);
   };
+  console.log("this email => ", email);
   useEffect(() => {
     fetchUserById();
   }, []);

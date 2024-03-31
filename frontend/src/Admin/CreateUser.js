@@ -4,7 +4,6 @@ import "../css/signup.css";
 import "../css/error.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {api} from "../utils/Api";
 
 function CreateUser(e) {
@@ -16,17 +15,23 @@ function CreateUser(e) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api("/users/signup", "POST", {}, { email: email, password: password });
-            if (response.success) {
+            const response = await api("/Users/signup", "POST", {}, { email: email, password: password });
+            if (response) {
                 setEmail('');
                 setPassword('');
                 toast.success("User created successfully");
-            } else {
-                toast.error("Failed to create user");
-            }
+            } 
         } catch (error) {
             console.error("Error creating user:", error);
-            toast.error("An error occurred while creating user");
+            if (error.response?.status === 409) {
+              const errorMessage = error.response.data.error;
+              toast.error(`${errorMessage}`)
+            }
+
+            if (error.response?.status === 400) {
+              const errorMessage = error.response.data.error;
+              toast.error(`${errorMessage}`)
+            }
         }
     };
 

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 import "../css/DetailsAdmin.css";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import { api } from "../utils/Api";
 
 function GetAllDetails() {
   const { user } = useAuthContext();
@@ -34,8 +33,9 @@ function GetAllDetails() {
   }, []);
 
   const fetchAllDEtails = async () => {
-    const response = await axios.get("http://localhost:4000/Details/allHouses");
-    setGetDetails(response.data);
+    const response = await api(`/Details/allHouses/`, "GET", {}, {});
+
+    setGetDetails(response);
   };
 
   

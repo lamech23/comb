@@ -1,31 +1,29 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import MainNav from "./MainNav";
-import SideNavigation from "./SideNavigation";
 import "../css/admin.css";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {api} from "../utils/Api";
 function AddAdmin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState("");
   const [role, setRole] = useState("");
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await axios.post("http://localhost:4000/users/signup", {
-      email: email,
-      password: password,
-    });
-    toast.success("Added");
+    const response = await api("/users/signup", "POST", {}, { email: email, password: password });
+    if (response.success) {
+      setEmail('');
+      setPassword('');
+      toast.success("User created successfully");
+    } else {
+      // Handle error if necessary
+      toast.error("Failed to create user");
+    }
   };
+
   return (
     <>
-      <MainNav />
       <div className="split">
-        <SideNavigation />
         <div className="adminForm  align-center justify-content center">
           <form className="col" id="adminForm" onSubmit={handelSubmit}>
             <label htmlFor="Email" className="form-Label fw-bold">
@@ -64,6 +62,7 @@ function AddAdmin() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+
             <label className="label-control">select</label>
             <select
               className="form-control mt-2"
@@ -84,6 +83,19 @@ function AddAdmin() {
           </form>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 }

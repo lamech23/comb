@@ -2,30 +2,23 @@ const Details = require("../models/UploadModals.js");
 const NewsLetter = require("../models/NewsLetterModel");
 const users = require("../models/UserModels.js");
 
-const getDetails = async (req, res) => {
-  let count = 0;
 
-  try {
-    const details = await Details.findAll({});
-
-    count = details.length;
-
-    res.status(200).json(count);
-  } catch (error) {
-    res.status(500);
-  }
-};
-
-const getNewsLetter = async (req, res) => {
+const getStats = async (req, res) => {
   let count = 0;
   let count2 = 0;
+  let count3 =0
 
   try {
     const details = await NewsLetter.findAll({});
     const user = await users.findAll({});
+    const houses = await Details.findAll({});
+
+    console.log(houses)
 
     count = details.length;
     count2 = user.length;
+    count3 = houses.length
+
     //active users
     const activeUsers = user.filter((user) => user.Active === "active");
     const activeUser = activeUsers.length;
@@ -39,13 +32,12 @@ const getNewsLetter = async (req, res) => {
     const landowner = user.filter((user) => user.role === "landowner");
     const Landlord = landowner.length;
 
-    res.status(200).json({ count, count2, activeUser, Tenant, Landlord });
+    res.status(200).json({ count, count2, activeUser, Tenant, Landlord ,count3 });
   } catch (error) {
     res.status(500);
   }
 };
 
 module.exports = {
-  getDetails,
-  getNewsLetter,
+  getStats,
 };

@@ -37,76 +37,49 @@ if(response){
 
   return (
     <div>
-        <div className="container-lg border-top">
-            <div className=" card text-center mt-5 bg-light">
-                <h2>Get in Touch</h2>
-                <p>For us to answer to  your Question please fill out the form to contact us directly</p>
-                <div className=" row justify-content-center">
-                <div className="col-lg-6 ">
-                    <form onSubmit={handelSubmit}>
-
-                    <label className='form-label'> Email Address</label>
-                        {/* icons */}
-
-                    <div className="input-group mb-4">
-                        <span className="input-group-text">
-                        <i className="bi bi-envelope-fill"></i>
-                        </span>
-                    <input type="text " className='form-control' id='email' placeholder='e.g brian@example.com'
-                    value={email}
-                    onChange={ (e) => setEmail(e.target.value)}
-                    />
-
-                        <span className="input-group-text">
-                            
-                        <i className="bi bi-question-circle"></i>
-
-                        </span>
-
+        <section class="">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+                <div class="mb-4">
+                    <div class="mb-6 max-w-3xl text-center sm:text-center md:mx-auto md:mb-12">
+                        <h2
+                            class="font-heading mb-4 font-bold tracking-tight text-gray-900 text-3xl sm:text-5xl">
+                            Get in Touch
+                        </h2>
                     </div>
-
-                    <label  className='text-start'>Name</label>
-                        {/* icons */}
-
-                   
-                    <label  className="form-lable">What is your question about</label>
-                    {/* icons */}
-                    <div className="input-group">
-                        <span className="input-group-text">
-                        <i className="bi bi-question-circle"></i>
-
-                        </span>
-                        <input type="query" className="form-control" id='query' placeholder='' 
-                        value={subject}
-                        onChange={ (e) => setSubject(e.target.value)}
-                        
-                        />
-                    </div>
-                    <div className="form-floating mt-5 mb-4">
-                        
-                        <textarea className="form-control text" id='query'style={{height:'140px'}} placeholder="query"
-                        value={description}
-                        onChange={ (e) => setDescription(e.target.value)}
-                        />
-                        <lable for="query"  >Your comment...</lable>
-                        
-                    </div>
-                    <div className="text-center mb-4">
-                        <button className="btn btn-info">Submit</button>
-                    </div>
-
-                    </form>
+                </div>
+                <div class="flex items-stretch justify-center">
+                    <div class="grid ">
                     
+                    <p>For us to answer to  your Question please fill out the form to contact us directly</p>
+                    
+                        <div class="card h-fit max-w-6xl p-5 md:p-12">
+                            <h2 class="mb-4 text-2xl font-bold">Ready to Get Started?</h2>
+                            <form onSubmit={handelSubmit}>
+                                <div class="mb-6">
+                                    <div class="mx-0 mb-1 sm:mb-4">
+                                        <div class="mx-0 mb-1 sm:mb-4">
+                                            <label for="email" class="pb-1 text-xs uppercase tracking-wider"></label>
+                                            <input type="email" id="email" autocomplete="email"  placeholder='e.g brian@example.com'
+                                                value={email}
+                                                onChange={ (e) => setEmail(e.target.value)}
+                                                class="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="email"/>
+                                        </div>
+                                    </div>
+                                    <div class="mx-0 mb-1 sm:mb-4">
+                                        <label for="textarea" class="pb-1 text-xs uppercase tracking-wider"></label
+                                        ><textarea id="textarea" name="textarea" cols="30" rows="5"     value={description}
+                                          onChange={ (e) => setDescription(e.target.value)} placeholder="Write your message..." class="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0"></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="w-full bg-blue-800 text-white px-6 py-3 font-xl rounded-md sm:mb-0">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                
-                </div>
-
             </div>
-        </div>
-
-    
-
-
+        </section>
     </div>
   )
 }

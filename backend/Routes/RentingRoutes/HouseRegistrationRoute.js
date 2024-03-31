@@ -7,21 +7,23 @@ const{
     getAllHouses,
     subtotal, 
     creatHouseCategory,
-    getAll,
+    getAllHousesByName,
     getTenantForTenantRegistration,
     getHouseByHouseName
 
 } =require('../../controllers/Renting/HouseRegistrationController')
 
-const {requireAuth, isAdmin, checkIfOwner} =require('../../middlleware/requireAuth')
+const { hasAdmin ,hasAgent } = require("../../middlleware/checkRoles");
 
-router.post('/', RegisteringHouse)
-router.get('/specific/', requireAuth,getTenants)
-router.get('/houseNames/', getTenantForTenantRegistration)
-router.get('/total/:id',  subtotal)
-router.get('/:houseName', getAllHouses)
-router.get('/houseByHouseName', getHouseByHouseName)
-router.get('/houseNames', getAll)
-router.post('/houseName', creatHouseCategory)
+
+
+router.post('/', hasAdmin ,hasAgent ,RegisteringHouse)
+router.get('/specific/', hasAdmin ,hasAgent ,getTenants)
+router.get('/houseNames/',hasAdmin ,hasAgent , getTenantForTenantRegistration)
+router.get('/total/:id',hasAdmin ,hasAgent ,  subtotal)
+router.get('/:houseId', hasAdmin ,hasAgent , getAllHouses)
+router.get('/houseByHouseName' ,hasAdmin ,hasAgent ,  getHouseByHouseName)
+router.get('/houseNames', hasAdmin ,hasAgent ,getAllHousesByName)
+router.post('/houseName', hasAdmin ,hasAgent ,creatHouseCategory)
 
 module.exports=router

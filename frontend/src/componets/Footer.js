@@ -34,88 +34,67 @@ function Footer() {
 
   return (
     <div className="container-fixed border-top mt-5 mb-0 text-muted ">
-      <footer className="  bg   ">
-        <div className="row justify-content-center  ">
-          <div
-            className="  col-md-3 col-lg-4 mt-5 "
-            id="footer"
-            style={{ width: "300px" }}
-          >
-            <h4 className="mt-3 text-decoration-underline mb-2 text-mute">
-              Social links
-            </h4>
-            <div className="input-group  ms-4 ">
-              <span className="input-group-text border rounded-pill dispaly-1">
-                <a href="https://www.facebook.com" target="_blank">
-                  {" "}
-                  <i className="bi bi-facebook"></i>
-                </a>
-              </span>
+    <footer class="bg-gray-100">
+        <div class="container px-6 py-12 mx-auto">
+            <div class="mx-auto ">
+                <div class="sm:col-span-2">
+                    <h1 class="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl">Subscribe our newsletter to get update.</h1>
+                    <p>
+                    By entering your email address below, you consent to
+                    <br /> receiving our newsletter with access to our latest
+                    collections, events and initiatives. More details on this are
+                    provided in our
+                    </p>
+                    <form  onSubmit={handelSubmit} class="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row">
+                        <input id="email"          value={email}
+                            onChange={(e) => setEmail(e.target.value)} 
+                            type="text" class="px-4 py-2 text-gray-700 bg-white border rounded-md dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300" placeholder="Email Address"/>
+                
+                        <button class="w-full px-6 py-2.5 text-sm font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div className="input-group mt-3 ms-4">
-              <span className="input-group-text border rounded-pill">
-                <a href="https://www.instagram.com" target="_blank">
-                  {" "}
-                  <i className="bi bi-instagram"></i>
-                </a>
-              </span>
+            
+            <hr class="my-6 border-gray-200 md:my-8 dark:border-gray-700"/>
+            
+            <div class="flex items-center justify-between">
+              <a
+                href="/HelpCenter"
+                className="text-decoration-none text-center mb-5"
+              >
+                Help center
+              </a>
+                
+                <div class="flex -mx-2">
+                    <div>
+                  <span className="input-group-text border rounded-pill dispaly-1">
+                    <a href="https://www.facebook.com" target="_blank">
+                      {" "}
+                      <i className="bi bi-facebook"></i>
+                    </a>
+                  </span>
+                </div>
+                <div>
+                  <span className="input-group-text border rounded-pill">
+                    <a href="https://www.instagram.com" target="_blank">
+                      {" "}
+                      <i className="bi bi-instagram"></i>
+                    </a>
+                  </span>
+                </div>
+
+                </div>
             </div>
-          </div>
 
-          <div className="  col-lg-4 col-md-4  col-sm-2`  ms-3 mt-5 text-mute  justify-content-center ">
-            <h5 className="mt-3 text-decoration-underline ">
-              Sign Up For Kausi Agency Updates
-            </h5>
-            <p className="small">
-              By entering your email address below, you consent to
-              <br /> receiving our newsletter with access to our latest
-              collections, events and initiatives. More details on this are
-              provided in our{" "}
-            </p>
-
-            <form onSubmit={handelSubmit}>
-              <div className="input-group">
-                <span className="input-group-text mt-2">
-                  <i class="bi bi-envelope-fill"></i>
-                </span>
-
-                <input
-                  type="email"
-                  className="form-control mt-2"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <span className="input-group-text mt-2">
-                  <button type="submit" className="btn ">
-                    {" "}
-                    <i className="bi bi-box-arrow-in-right"></i>
-                  </button>
-                </span>
-              </div>
-            </form>
-          </div>
-          <div className="row mt-5 ms-5 ">
-            <a
-              href="/HelpCenter"
-              className="text-decoration-none text-center mb-5"
-            >
-              Help center
-            </a>
-
-            <p className="text-center">
-              {" "}
-              <i>&copy;{new Date().getFullYear()} kausi Housing Agency </i>
-            </p>
-            <p className="text-center">
-              <i>
-                Crafted by <Link to="">lamech</Link>
-              </i>
-            </p>
-          </div>
+                <p className="text-center">
+                  {" "}
+                  <i>&copy;{new Date().getFullYear()} kausi Housing Agency </i>
+                </p>
         </div>
-      </footer>
+    </footer>
+
     </div>
   );
 }

@@ -14,6 +14,8 @@ import HelpCenterAdmin from "./HelpCenterAdmin";
 import Stats from "./Stats";
 import AllHouses from "../Renting/AllHouses";
 import Category from "./Category";
+import PropertType from "./PropertType";
+import CreateUser from "./CreateUser";
 
 function SideNavigation() {
   // const{user}=useAuthContext()
@@ -93,6 +95,27 @@ function SideNavigation() {
           </button>
         </div>
 
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            add
+          </i>
+          <button
+            type="button"
+            className={` py-2 px-4 my-2   w-full text-gray-200
+          ${
+            activeSection === "registerUser"
+              ? "bg-teal-500  justify-center items-center border-r-4"
+              : ""
+          }
+          `}
+            id="link"
+            onClick={() => setActiveSection("registerUser")}
+          >
+            Register User
+          </button>
+        </div>
+
         <div className="flex gap-0 ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
@@ -113,44 +136,7 @@ function SideNavigation() {
           </button>
         </div>
 
-        <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-gray-900">
-            {" "}
-            other_houses
-          </i>
-          <button
-            className={` py-2 px-4 my-2   w-full text-gray-200
-              ${
-                activeSection === "GetAllDetails"
-                  ? "bg-teal-500  justify-center items-center border-r-4"
-                  : ""
-              }
-              `}
-            onClick={() => setActiveSection("GetAllDetails")}
-            id="link"
-          >
-            Houses
-          </button>
-        </div>
-        <div className="flex ">
-          <i className="material-symbols-outlined text-5xl text-gray-900">
-            {" "}
-            apartment
-          </i>
-          <button
-            className={` py-2 px-4 my-2   w-full text-gray-200
-         ${
-           activeSection === "HouseRegistration"
-             ? "bg-teal-500  justify-center items-center border-r-4"
-             : ""
-         }
-         `}
-            onClick={() => setActiveSection("HouseRegistration")}
-            id="link"
-          >
-            Register House
-          </button>
-        </div>
+       
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
             {" "}
@@ -190,6 +176,28 @@ function SideNavigation() {
             category
           </button>
         </div>
+
+
+        <div className="flex ">
+          <i className="material-symbols-outlined text-5xl text-gray-900">
+            {" "}
+            category
+          </i>
+          <button
+            className={` py-2 px-4 my-2   w-full text-gray-200
+               ${
+                 activeSection === "propertyType"
+                   ? "bg-teal-500  justify-center items-center border-r-4"
+                   : ""
+               }
+               `}
+            onClick={() => setActiveSection("propertyType")}
+            id="link"
+          >
+            propter Type
+          </button>
+        </div>
+
 
         <div className="flex ">
           <i className="material-symbols-outlined text-5xl text-gray-900">
@@ -272,21 +280,21 @@ function SideNavigation() {
 
       </div>
 
-      <div className="p-5 w-full max-h-screen overflow-y-scroll hide-scrollbar ">
+      <div className="p-5 w-full h-fit overflow-y-scroll hide-scrollbar ">
         <div className="p-5 w-full">
           <div className=" bg-gray-100 p-4  rounded-lg max-w-full">
             {activeSection === "stats" && <Stats />}
             {activeSection === "User" && <User />}
             {activeSection === "AddHouse" && <AddHouse />}
             {activeSection === "GetAllDetails" && <GetAllDetails />}
-            {activeSection === "HouseRegistration" && <HouseRegistration />}
             {activeSection === "RegisterTenant" && <RegisterTenant />}
             {activeSection === "NewsLetter" && <NewsLetter />}
             {activeSection === "ClientContactUs" && <ClientContactUs />}
             {activeSection === "HelpCenterAdmin" && <HelpCenterAdmin />}
-            {activeSection === "House" && <House />}
             {activeSection === "allHouses" && <AllHouses />}
             {activeSection === "category" && <Category />}
+            {activeSection === "propertyType" && <PropertType />}
+            {activeSection === "registerUser" && <CreateUser />}
           </div>
         </div>
       </div>

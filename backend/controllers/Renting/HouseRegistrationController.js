@@ -1,25 +1,24 @@
 const HouseRegistration = require("../../models/RentingModels/HouseRegisteringModel");
 const tenantRegistration = require("../../models/RentingModels/RegisterTenantModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
 const users = require("../../models/UserModels");
 const houseName = require("../../models/RentingModels/houseNameModel");
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const water = require("../../models/RentingModels/waterModel");
+const Details = require("../../models/UploadModals");
 
 // const users = require("../../models/UserModels.js");
 
 const getAllHouses = async (req, res) => {
+
   const details = await tenantRegistration.findAll({
     where: {
-      houseName: req.params.houseName,
+      houseId:  req.params.houseId
     },
   });
 
-  
   try {
-
     // Calculating the total expenses for each user
     const detailsWithTotal = details?.map((detail) => {
       const totalExpenses = [
@@ -28,39 +27,32 @@ const getAllHouses = async (req, res) => {
         Number(detail.rentDeposit) || 0,
         Number(detail.garbage) || 0,
       ].reduce((acc, currentValue) => acc + currentValue, 0);
-
+      // water readings
       const totalWaterReadings = [
         Number(detail.prevReadings) || 0,
         Number(detail.currentReadings) || 0,
-       ].reduce((acc, current) => current - acc , 0);
+      ].reduce((acc, current) => current - acc, 0);
+      const balance =   Number(detail.rent)  - Number(detail.payableRent);
 
-  
+        // [
+          // Number(detail.rent) || 0,
+        // ].reduce((acc, currentValue) => acc + currentValue, 0) -
+
       return {
         ...detail.dataValues,
         totalExpenses,
-        totalWaterReadings // Adding the total expenses to the user details
+        totalWaterReadings,
+        balance,
       };
     });
 
-
-
-    const landownerName = await houseName.findOne({
-      include: {
-        model: users,
-        as: "houseName",
-      },
-    });
-    // console.log(detailsWithTotal);
-
-    const landownerEmail = landownerName
-      ? landownerName.houseName.email
-      : "Not Found";
-
-    res.status(200).json({ detailsWithTotal, landownerEmail });
+   
+    res.status(200).json({ detailsWithTotal });
   } catch (error) {
     res.status(400).json(error.message);
   }
 };
+
 
 const subtotal = async (req, res) => {
   const { id } = req.params;
@@ -92,7 +84,7 @@ const getTenants = async (req, res) => {
   const user_id = token.id;
 
   try {
-    const tenats = await houseName.findAll({
+    const tenats = await Details.findAll({
       where: {
         user_id: user_id,
       },
@@ -115,6 +107,7 @@ const getTenants = async (req, res) => {
     }
 
     res.status(200).json(tenatsHouse);
+
   } catch (error) {
     // res.status(400).json({ error: error.message });
   }
@@ -164,16 +157,15 @@ const creatHouseCategory = async (req, res) => {
   }
 };
 
-const getAll = async (req, res) => {
+const getAllHousesByName = async (req, res) => {
   try {
-    const details = await houseName.findAll({
+    const details = await Details.findAll({
       include: {
         model: users,
-        as: "houseName",
+        as: "houses",
       },
     });
-    res.status(200).send(details);
-    console.log("this is the house", details);
+    res.status(200).json({details});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -181,7 +173,7 @@ const getAll = async (req, res) => {
 
 const getHouseByHouseName = async (req, res) => {
   try {
-    const { houseName } = req.query; // accecing the houseName from the req
+    const { houseName } = req.query;
 
     const specificHouses = await tenantRegistration.findAll({
       where: {
@@ -195,13 +187,15 @@ const getHouseByHouseName = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   RegisteringHouse,
   getTenants,
   getAllHouses,
   subtotal,
   creatHouseCategory,
-  getAll,
+  getAllHousesByName,
   getTenantForTenantRegistration,
   getHouseByHouseName,
 };

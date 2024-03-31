@@ -1,34 +1,65 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../utils/Api";
 
 function AllHouses() {
   const [house, setHouse] = useState([]);
 
   const getHouse = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/houseRegister/houseNames/`
-    );
-    setHouse(response.data);
+    const response = await api("/Details/fetchHousesByName", "GET", {}, {});
+    setHouse(response);
   };
   useEffect(() => {
-    // getSpecificHouse();
     getHouse();
   }, []);
 
-  return (
-    <div className=" flex flex-col gap-4  text-3xl  justify-start">
-      {house.map((item, index) => {
-        return (
-          <div key={index} value={item}>
-            <Link className="no-underline text-gray-700" to={`/House/${item.house_name}`}>{item.house_name}</Link>
-            {/* <Link to={"/House"}>
+  // console.log(house);
 
-                </Link> */}
-          </div>
-        );
-      })}
-    </div>
+  return (
+    <>
+
+
+    <div className="card w-full p-6 bg-base-100 shadow-xl ">
+                    <p>List Of All Houses</p>
+            <div className="divider mt-2"></div>
+                {/* Team Member list in table format loaded constant */}
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Houses</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {house?.map((item, index) => (
+
+                         item?.type== "renting"?
+                        <tr key={index} value={item}>
+                        <td>{index +1}</td>
+                        <td>
+                          <Link
+                            className="no-underline text-gray-700"
+                            to={`/House/${item.houseName}`}
+                          >
+                            {item.houseName}
+                          </Link>
+
+                        </td>
+                        </tr>
+                        : null
+                   ))}
+
+
+
+                   </tbody>
+                   
+                </table>
+            </div>
+       </div>
+
+    </>
   );
 }
 

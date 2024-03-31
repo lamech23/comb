@@ -1,5 +1,6 @@
 const houseName = require("../../models/RentingModels/houseNameModel");
 const water = require("../../models/RentingModels/waterModel");
+const Details = require("../../models/UploadModals");
 
 const createWater = async (req, res) => {
   const token = req.user;
@@ -10,8 +11,6 @@ const createWater = async (req, res) => {
     user_id: user_id,
     house_id: req.body.house_id,
   };
-
-
   try {
     const createdWater = await water.create(waterDetails);
     res.status(200).send({
@@ -19,11 +18,11 @@ const createWater = async (req, res) => {
       success: true,
       message: " water readings created successfuly ",
     });
-    console.log("this water " ,createdWater);
+    // console.log("this water " ,createdWater);
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "please provide data ",
+      message: error.message,
     });
   }
 };
@@ -38,7 +37,7 @@ const getWater = async (req, res) => {
         house_id: house_id,
       },
       include:{
-        model: houseName,
+        model: Details,
         as: "house"
       }
     });

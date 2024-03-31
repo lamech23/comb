@@ -142,4 +142,23 @@ font-style: italic;
       transform: rotate(360deg);
     }
   }
+
+@keyframes moveUpDown {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.animated-button {
+    animation: moveUpDown 2s infinite;
+}
+
+
+
   

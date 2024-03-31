@@ -10,28 +10,27 @@ const houseName = db.define(
       allowNull: false,
       unique: true,
     },
+    
     user_id: {
-        type: DataTypes.INTEGER,
-       
-      }
-  
+      type: DataTypes.INTEGER,
+    },
+
   },
   {
     freezeTablesName: true,
     timestamps: true,
   }
 );
-houseName.belongsTo(users,
-     { foreignKey: "user_id" ,
-     as: "houseName",
-     onDelete: "cascade",
-     onUpdate: "cascade",
-  });
-
+houseName.belongsTo(users, {
+  foreignKey: "user_id",
+  as: "houseName",
+  onDelete: "cascade",
+  onUpdate: "cascade",
+});
 
 db.sync()
   .then(() => {
-    console.log("Housename table created successfully!");
+    console.log("HouseName table created successfully!");
   })
   .catch((error) => {
     console.log("Unable to create houseName table", error);

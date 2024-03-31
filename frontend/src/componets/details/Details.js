@@ -20,7 +20,8 @@ const Details = () => {
   const [postsPerPage] = useState(4);
   const [details, setDetails] = useState([]);
   const [query, setQuery] = useState("");
-  console.log(details);
+  const [pagination, setPagination] = useState({});
+  const [pageNum, setPageNum] = useState(1)
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));
@@ -53,110 +54,116 @@ const Details = () => {
   // }, [query]);
 
   const fetchDetails = async () => {
-    const response = await axios.get("http://localhost:4000/Details/allHouses");
-    setDetails(response.data);
+    const response = await axios.get(
+      `http://localhost:4000/Details/allHouses/`
+    );
+    setDetails(response.data.allHousesWithImage);
+    setPagination(response.data?.pagination);
+
     setIsLoading(false);
   };
 
-  // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = details.slice(indexOfFirstPost, indexOfLastPost);
 
-  console.log(currentPosts);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Get current posts
+  const handleNext = async () => {
+    const nextPage = pagination.currentPage + 1;
+    setPageNum(nextPage);
+  
+    try {
+      // Fetch data for the next page
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${nextPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error as needed
+    }
+  };
+  
+  const handleprev = async () => {
+    const prevPage = pagination.currentPage - 1;
+    setPageNum(prevPage);
+  
+    try {
+      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${prevPage}`);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
 
   return (
     <>
-      <div className="container-fixed mb-5">
-        <div className=" d-flex align-items-center justify-content-center ">
-          {isLoading ? (
-            <div className="flex justify-center">
-              <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
-            </div>
-          ) : (
-            currentPosts?.map((detail) => (
-              <div
-                key={detail.id}
-                className="  col-lg-8 col-md-4  ms-2 mb-2  justify-content-between    "
-                style={{ width: "350px" }}
-              >
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
-                  <a href="#">
-                    <img
-                      id="detsImg"
-                      className="w-fit mt-2 mb-3"
-                      src={detail.image}
-                      width="250px"
-                      height="250px"
-                      style={{ borderRadius: "2px" }}
-                      alt=""
-                    />{" "}
-                  </a>
-                  <div class="p-5 ">
-                    <a href="#">
-                      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white visible">
-                        {detail?.title}
-                      </h5>
-                    </a>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail.description}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {detail.contact}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
-                      {detail?.details.locaton}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {detail.price}
-                    </p>
+      <div className="max-w-7xl mx-auto py-6 pt-10">
+        <h3 className="text-center font-bold text-3xl pb-5">Houses</h3>
 
-                    <p className="mb-3 font-normal text-red-700 dark:text-red-400">
-                      <strong>
-                        {formatDistanceToNow(new Date(detail.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </strong>
-                    </p>
-                    <Link
-                      to={`/MoreDetails/${detail.id}`}
-                      className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Read more
-                      <svg
-                        className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 14 10"
-                      >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M1 5h12m0 0L9 1m4 4L9 9"
-                        />
-                      </svg>
-                    </Link>
+        {isLoading ? (
+          <div className="flex justify-center mx-auto">
+            <div className="animate-spin rounded-full h-40 w-40 border-t-2 border-teal-600 border-opacity-50"></div>
+          </div>
+        ) : (
+          pagination?.currentPage && (
+            <div className="grid grid-cols-1 p-20 sm:p-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {pagination?.currentPosts?.map((detail, index) => (
+                <div
+                  key={index}
+                  className="col-span-1 border rounded-lg shadow-lg overflow-hidden"
+                >
+                  {detail?.images?.map(
+                    (img, imgIndex) =>
+                      imgIndex === 0 && (
+                        <Link key={imgIndex} to={`/MoreDetails/${detail.id}`}>
+                          <img
+                            className="w-full h-48 object-cover"
+                            src={img.image}
+                            alt="Daily Apartment"
+                          />
+                        </Link>
+                      )
+                  )}
+                  <div className="p-4">
+                    <h3 className="text-md font-semibold  text-center">{detail?.title}</h3>
+                    <h3 className="text-md">{detail.description}</h3>
+                    <p className="text-gray-600 pb-2">{detail?.details?.locaton}</p>
+                    <div className="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2">
+                      <div>
+                       <span className="text-gray-600 font-bold text-sm">Units :</span>
+                        <span className="font-bold">{detail.units}</span>
+                      </div>
+                      <div>
+                      <p>
+                       <span className="text-gray-600 font-bold text-sm"> Price :</span> 
+                       <span className="text-gray-500 text-sm"> Ksh{detail.price}</span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
+              ))}
+            </div>
+          )
+        )}
       </div>
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={details.length}
-        paginate={paginate}
-        details={currentPosts}
-      />
+
+      <div className="flex flex-row justify-center items-center  gap-4">
+        <button className="border p-2 " onClick={handleprev}>
+          prev
+        </button>
+
+      <div className="flex flex-row justify-center items-center">
+        {pagination?.totalPages?.map((number) => (
+          <div key={number} className="">
+            <a  className="page-link ">
+            <p className={`flex flex-row gap-4 border p-2 cursor-pointer ${pageNum == number ? 'bg-teal-600' : 'bg-white'}
+              `}> {number}</p>
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <button className="border p-2 " onClick={handleNext}>
+          next
+        </button>
+      </div>
 
       <ToastContainer
         position="bottom-center"

@@ -5,20 +5,23 @@ const houseName = require("./houseNameModel");
 const tenantRegistration = require("./RegisterTenantModel");
 
 const waterStore = db.define(
-  "waterBackup",
+  "waterBackups",
   {
     currentReadings: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     house_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     user_id: {
       type: DataTypes.INTEGER,
     },
     tenant_id: {
       type: DataTypes.INTEGER,
+    },
+    EntryDate : {
+      type: DataTypes.STRING,
     },
   },
   {

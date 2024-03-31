@@ -36,8 +36,7 @@ function SignUp() {
       } else if (!poorPassword) {
         return toast.error(" Weak password special Character required ");
       } else if(!validEmail){
-        return toast.error("invalid email please check your format");
-      }
+        return toast.error("invalid email please check your format");      }
       else {
        
         const response = await axios.post(
@@ -81,60 +80,49 @@ function SignUp() {
     <>
       <div className="bodys row">
         {/* {signedUp && <div className='text-center alert alert-danger'>Succesfully Signed up </div>} */}
-        <div className="container-lg" style={{ marginBottom: "200px" }}>
-          <div className="app justify-center items-center  lg:w-fit">
-            <h5 className="text-center mb-3 text-info fw-bold">Sign up</h5>
-            <form onSubmit={handleSubmit} className=" col lg:w-fit">
-              <label htmlFor="InputEmail" className="form-label">
-                Email address
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i class="bi bi-envelope"></i>
-                </span>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  id="InputEmail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+
+
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+          <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Sign in to your account</h2>
+          </div>
+
+          <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+           <form onSubmit={handleSubmit} class="space-y-6">
+              <div>
+                <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
+                <div class="mt-2">
+                  <input   value={email} onChange={(e) => setEmail(e.target.value)} type="email"  class="block w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"/>
+                </div>
               </div>
 
-              <label htmlFor="InputPassword" className="form-label">
-                Password
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i class="bi bi-lock"></i>
-                </span>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  id="inputPassword"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+              <div>
+                <div class="flex items-center justify-between">
+                  <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
+                </div>
+                <div class="mt-2">
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}  class="block w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"/>
+                </div>
               </div>
 
-              <button
-                type="submit"
-                className="btn btn-primary mt-4"
-                style={{ width: "100%" }}
-              >
-                Submit
-              </button>
+              <div>
+                <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+              </div>
               {error && (
                 <div className=" alert alert-danger mt-5 text-center">
                   {error}
                 </div>
               )}
+              
             </form>
+
           </div>
         </div>
+
       </div>
+
+
+
       <ToastContainer
         position="top-left"
         autoClose={3000}

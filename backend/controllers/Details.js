@@ -3,38 +3,138 @@ const Tours = require("../models/TourRequestModel.js");
 const nodemailer = require("nodemailer");
 const users = require("../models/UserModels.js");
 const fs = require("fs");
-const { log } = require("console");
 const imageUrl = require("../models/imageModel.js");
+const agentManagmentTable = require("../models/agentManagment.js");
 // for landing page
 
 const getAllHouses = async (req, res) => {
-  const page_size = 100;
+  const page_size = 4;
   try {
-    const details = await imageUrl.findAll({
-      offset: 0,
+    const page = parseInt(req.query.page) || 1;
+    const offset = (page - 1) * page_size;
+    const pageNumbers = [];
+
+    const allHousesWithImage = await Details.findAndCountAll({
+      offset: offset,
       limit: page_size,
       order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
-      include:{
-        model:Details, 
-        as:"details"
-      }
-   
+      include: [
+        {
+          model: imageUrl,
+          as: "images",
+        },
+        {
+          model: users,
+          as: "houses",
+        },
+      ],
     });
 
-    res.status(200).json(details);
+    const totalPages = Math.ceil(allHousesWithImage.count / page_size);
+
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    res.status(200).json({
+      allHousesWithImage,
+      pagination: {
+        totalItems: allHousesWithImage.count,
+        totalPages: pageNumbers,
+        currentPage: page,
+        currentPosts: allHousesWithImage.rows,
+      },
+    });
   } catch (error) {
-    res.status(500);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+const getAllHousesByName = async (req, res) => {
+  const user = req.user;
+  const userRole = user.userId.role;
+  const id = user.userId.id;
+
+  switch (userRole) {
+    case "admin":
+      try {
+        let details = await Details.findAll({
+          include: {
+            model: users,
+            as: "houses",
+          },
+        });
+        res.status(200).send(details);
+      } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+
+      break;
+
+    case "agent":
+      try {
+        let house = await agentManagmentTable.findAll({
+          where: {
+            agentId: id,
+          },
+          include: [
+            {
+              model: Details,
+              as: "house",
+              attributes: ["type", "houseName"],
+            },
+          ],
+        });
+        let details = house.map((detail) => {
+          return {
+            type: detail.house.type,
+            houseName: detail.house.houseName,
+          };
+        });
+
+        console.log("Agent details:", details); // Log agent details to the console
+        res.status(200).send(details);
+      } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+      break;
+
+    default:
+      res.status(403).json({ error: "Forbidden" });
+  }
+};
+
+const fetchHousesByNames = async (req, res) => {
+  try {
+    const details = await Details.findAll({
+      include: {
+        model: users,
+        as: "houses",
+      },
+    });
+    res.status(200).json({details});
+
+  } catch (error) {
+    res.status(403).json({
+      message: "no house found ",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
   try {
     const user_id = req.query.user_id;
-
     const details = await Details.findAll({
       where: {
         user_id: user_id,
+      },
+      include: {
+        model: imageUrl,
+        as: "images",
       },
     });
     res.status(200).json(details);
@@ -53,6 +153,7 @@ const ownCompound = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const RentalHouse = async (req, res) => {
   try {
     let Maisonette = await Details.findAll({
@@ -63,6 +164,7 @@ const RentalHouse = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const BnBHouse = async (req, res) => {
   try {
     let Apartments = await Details.findAll({
@@ -76,27 +178,23 @@ const BnBHouse = async (req, res) => {
 
 //Get a single upload
 const getSingelDetails = async (req, res) => {
-  const id = 1
-  const details = await imageUrl.findAll({
+  try {
+    const id = req.params.id;
+    const details = await Details.findOne({
+      where: { id: id },
+      include: {
+        model: imageUrl,
+        as: "images",
+      },
+    });
 
-    where: { details_id: id },
-    include:{
-      model:Details,
-      as: "details",
-
-    }
-  });
-
-  const images = details.map((img)=> img.image)
-  if(images){
-      res.status(200).json({
-        ...details,
-        images
-      });
-  } else{
-    return res.status(404).json({ error: "Details does not exist" }); // the  reason why am returning is because it will carry on and fire the code
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Cant get the single details for " });
   }
 };
+
 //CREATE an upload
 const createDetails = async (req, res) => {
   const id = req.params;
@@ -112,54 +210,67 @@ const createDetails = async (req, res) => {
     contact: req.body.contact,
     category: req.body.category,
     price: req.body.price,
+    houseName: req.body.houseName,
+    type: req.body.type,
+    units: req.body.units,
     user_id: user_id,
     details_id: imageUrl.id,
   };
 
   try {
-    const imageInfo = await Details.create(info);
+    const userInfo = await users.findOne({ where: { id: user_id } });
 
-    for (let i = 0; i < req.files.length; i++) {
-      const imagePath = await imageUrl.create({
-        image: `${baseUrl}/${req.files[i].path}`,
-        user_id: user_id,
-        details_id: imageInfo.id,
+    if (userInfo.verified == false) {
+      return res.status(403).json({
+        error: "Your Account is not verified ",
+        redirect: "/account/userVerification",
+      });
+    } else {
+      const details = await Details.create(info);
+
+      for (let i = 0; i < req.files.length; i++) {
+        const imagePath = await imageUrl.create({
+          image: `${baseUrl}/${req.files[i].path}`,
+          user_id: user_id,
+          details_id: details.id,
+        });
+
+        imageUrls.push(imagePath);
+      }
+
+      res.status(200).json({
+        success: true,
+        data: imageUrls,
+        data: details,
       });
 
-      imageUrls.push(imagePath);
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "lamechcruze@gmail.com",
+          pass: "fdbmegjxghvigklv",
+        },
+      });
+
+      //email option
+      const mailOption = {
+        to: `lamechcruze@gmail.com`,
+        subject: "Post Alert ",
+        html:
+          " Hello Admin\n\n" +
+          `<p>You are reciving this email because ${userInfo?.email}  who's role is ${userInfo?.role}  has posted a house at kausi property.</p> :\n`,
+      };
+      // end of else
+
+      transporter.sendMail(mailOption, (err, response) => {
+        if (err) {
+          console.log("There was an error", err);
+        } else {
+          console.log("There was a response ", response);
+          res.status(200).json(" email sent ");
+        }
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: imageUrls,
-    });
-
-    await users.findOne({ where: { id: id } });
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "lamechcruze@gmail.com",
-        pass: "fdbmegjxghvigklv",
-      },
-    });
-    //email option
-
-    const mailOption = {
-      to: `lamechcruze@gmail.com`,
-      subject: "Post Alert ",
-      html:
-        " Hello Admin\n\n" +
-        `<p>You are reciving this email because ${users?.email}  who's role is ${users?.role}  has posted a house at kausi property.</p> :\n`,
-    };
-    // end of else
-
-    transporter.sendMail(mailOption, (err, response) => {
-      if (err) {
-        console.log("There was an error", err);
-      } else {
-        console.log("There was a response ", response);
-        res.status(200).json(" email sent ");
-      }
-    });
   } catch (error) {
     res.status(400).json({ mssg: error.message });
     console.log("something went wrong", error);
@@ -278,6 +389,25 @@ const updateDetails = async (req, res) => {
   res.status(200).json(details);
 };
 
+const getProductsInCategory = async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    const getCategory = await Details.findAll({
+      where: { category },
+      include: [{ model: imageUrl, as: "images" }],
+    });
+    if (getCategory) {
+      res.status(200).json(getCategory);
+    }
+  } catch (error) {
+    res.status(403).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createDetails,
   getSingelDetails,
@@ -291,4 +421,7 @@ module.exports = {
   getAllHouses,
   RequstingAtour,
   getAllTours,
+  getAllHousesByName,
+  getProductsInCategory,
+  fetchHousesByNames,
 };

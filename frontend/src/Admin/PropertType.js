@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { api } from "../utils/Api";
 
 function PropertType() {
   const [type, setType] = useState([]);
@@ -8,7 +9,7 @@ function PropertType() {
   const handleSbubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post("http://localhost:4000/type/", {
+    const response = await api("/type/","POST", {}, {
       type: type,
     });
     if (response) {
@@ -18,9 +19,12 @@ function PropertType() {
   };
 
   const fetchPropertyType = async () => {
-    const response = await axios.get("http://localhost:4000/type/fetch");
-    setCategory(response.data);
+
+    const response = await api("/type/fetch","GET", {},{});
+    setCategory(response.allPropertyType);
   };
+
+  console.log(category);
   useEffect(() => {
     fetchPropertyType();
   }, []);

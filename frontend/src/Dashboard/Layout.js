@@ -8,9 +8,6 @@ import 'react-notifications/lib/notifications.css';
 function Layout(){
   const dispatch = useDispatch()
 
-
-
-
     return(
       <>
         { /* Left drawer - containing page content and side bar (always open) */ }

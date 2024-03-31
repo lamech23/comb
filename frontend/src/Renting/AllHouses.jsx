@@ -8,7 +8,6 @@ function AllHouses() {
 
   const getHouse = async () => {
     const response = await api("/Details/fetchHousesByName", "GET", {}, {});
-    console.log(response);
     setHouse(response);
   };
   useEffect(() => {

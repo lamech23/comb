@@ -6,10 +6,9 @@ const{
     getWater
 } =require('../../controllers/Renting/waterController')
 const {requireAuth} =require('../../middlleware/requireAuth')
+const {hasAdmin, hasAgent} = require("../../middlleware/checkRoles");
 
-
-
-router.post('/', requireAuth, createWater)
-router.get('/fetchWater/:id', getWater)
+router.post('/',hasAdmin ,hasAgent , requireAuth, createWater)
+router.get('/fetchWater/:id',hasAdmin ,hasAgent , getWater)
 
 module.exports=router

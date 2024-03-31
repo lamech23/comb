@@ -2,11 +2,9 @@ import ChevronDownIcon from  '@heroicons/react/24/outline/ChevronDownIcon'
 import {useEffect, useState} from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-
 function SidebarSubmenu({submenu, name, icon}){
     const location = useLocation()
     const [isExpanded, setIsExpanded] = useState(false)
-
 
     /** Open Submenu list if path found in routes, this is for directly loading submenu routes  first time */
     useEffect(() => {

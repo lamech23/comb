@@ -11,7 +11,6 @@ import {ToastContainer, toast } from 'react-toastify'
 
 function Home({user,admin}) {
 
-console.log("this  user =>",user);
 
 useEffect(() => {
   if (admin === false) {

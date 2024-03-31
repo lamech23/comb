@@ -4,12 +4,8 @@ import routes from '../dashboardRoutes'
 import { Suspense, lazy } from 'react'
 import { useEffect, useRef } from "react"
 
-
-
 function PageContent(){
     const mainContentRef = useRef(null);
-
-
 
     // Scroll back to top on new page load
     useEffect(() => {

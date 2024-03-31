@@ -111,9 +111,8 @@ const fetchHousesByNames = async (req, res) => {
         as: "houses",
       },
     });
-    res.status(200).json(details);
+    res.status(200).json({details});
 
-    console.log("backend house details ",details);
   } catch (error) {
     res.status(403).json({
       message: "no house found ",

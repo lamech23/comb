@@ -6,9 +6,12 @@ const {
     deleteNewsletter
 }=require('../controllers/NewsLetterController')
 
-router.post('/', createNewsLetter)
-router.get('/newsLetter',getNewsLetter)
-router.delete('/deleteNewsLetter/:id',deleteNewsletter)
+const { hasAdmin } = require("../middlleware/checkRoles");
+
+
+router.post('/', hasAdmin ,createNewsLetter)
+router.get('/newsLetter',hasAdmin ,getNewsLetter)
+router.delete('/deleteNewsLetter/:id',hasAdmin,deleteNewsletter)
 
 
 

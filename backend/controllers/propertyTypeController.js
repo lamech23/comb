@@ -4,7 +4,7 @@ const getAllPropertyType = async (req, res) => {
   try {
     const allPropertyType = await propertyType.findAll();
 
-    res.json(allPropertyType);
+    res.json({ allPropertyType });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -54,5 +54,5 @@ module.exports = {
   getAllPropertyType,
   createPropertyType,
   updatePropertyType,
-  deletePropertyType
+  deletePropertyType,
 };

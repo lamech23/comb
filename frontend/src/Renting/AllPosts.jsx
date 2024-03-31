@@ -1,20 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { api } from "../utils/Api";
 
 function AllPosts() {
     const [details, setDetails] = useState([]);
 
 
     const fetchDetails = async () => {
-        const response = await axios.get(`http://localhost:4000/Details/allHouses/`);
-        setDetails(response.data.allHousesWithImage?.rows);
+        const response = await api(`/Details/allHouses/`, "GET", {}, {});
+        setDetails(response?.allHousesWithImage?.rows);
     
       };
       useEffect(()=>{
         fetchDetails()
 
       },[])
-      console.log(details);
     
   return <>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

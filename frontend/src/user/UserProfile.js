@@ -1,10 +1,10 @@
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
-import { isAdmin } from "../utils/Decoded";
+import {  isUser } from "../utils/Decoded";
 
 function UserProfile() {
-  const user = isAdmin?.userId
+  const user = isUser()?.userId
 
   return (
     <>

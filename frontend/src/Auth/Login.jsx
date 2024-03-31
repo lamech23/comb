@@ -18,7 +18,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const userRoles = getUserRoles();
-  console.log(userRoles);
 
   const showPassword = async () => {
     const input = document.querySelector("#inputPassword");

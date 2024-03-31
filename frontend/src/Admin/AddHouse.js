@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { api } from "../utils/Api";
 
 function AddingHouse() {
   const [image, setImage] = useState("");
@@ -123,8 +124,10 @@ function AddingHouse() {
   }, []);
 
   const fetchPopertyType = async () => {
-    const response = await axios.get("http://localhost:4000/type/fetch");
-    setPropertyType(response.data);
+    // const response = await axios.get("http://localhost:4000/type/fetch");
+    const response = await api("/type/fetch", "GET", {}, {});
+
+    setPropertyType(response.allPropertyType);
   };
 
   return (

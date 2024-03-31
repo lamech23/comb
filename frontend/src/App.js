@@ -69,6 +69,7 @@
 
     const adminAuthenticate = () => isAdmin;
     const agentAuthenticate = () => isAgent;
+    console.log(agentAuthenticate);
 
     return (
         <div>
@@ -118,7 +119,7 @@
                 <Route
                     path="/admin/*"
                     element={
-                      isAuthenticated && adminAuthenticate()  ? (
+                      isAuthenticated && adminAuthenticate() || agentAuthenticate()  ? (
                           <DashLayout />
                       ) : (
                           <Navigate to="/" />

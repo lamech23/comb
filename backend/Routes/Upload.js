@@ -27,11 +27,9 @@ const { verifyToken } = require("../middlleware/token");
 
 const router = express.Router();
 //this basically means that the middleware fires first before the other routes so as to protect them
-router.use(requireAuth);
-// router.use(isAdmin)
-//POST all uploads
+// router.use(requireAuth);
 //Post a details
-router.post("/", requireAuth, imageUpload, createDetails);
+router.post("/", verifyToken, imageUpload, createDetails);
 
 // GET all uploads
 router.get("/allHouses", verifyToken, getAllHouses);

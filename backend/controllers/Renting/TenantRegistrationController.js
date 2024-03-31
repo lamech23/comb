@@ -21,16 +21,8 @@ const tenatRegistration = async (req, res) => {
     houseName,
     nextOfKingNumber,
     prevReadings,
-<<<<<<< HEAD
-<<<<<<< HEAD
-    currentReadings,
-    // house_id,
-=======
->>>>>>> origin
-=======
     payableRent,
     rentPaymentDate,
->>>>>>> 6aac2ff5c978f517d6edf2e826ed9d5b6026bbea
   } = req.body;
 
   try {

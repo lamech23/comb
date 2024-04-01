@@ -69,21 +69,21 @@ socketConfiguration(server, CLIENT_URL);
 app.use('/Details', uploadRoute);
 app.use('/Users' , userRoute);
 app.use('/contacts', contact);
-app.use('/client', verifyToken, moreAboutClient);
-app.use('/news', verifyToken, NewsLetters);
+app.use('/client',  moreAboutClient);
+app.use('/news',  NewsLetters);
 app.use('/Total', TotalHouses);
 app.use('/RelatedHouses', relatedHouses);
 app.use('/paginatedHouses', Houses);
-app.use('/AdminMail', verifyToken, Mail);
+app.use('/AdminMail',  Mail);
 app.use('/searching', search);
-app.use('/ClientTour', verifyToken, tours);
+app.use('/ClientTour',  tours);
 app.use('/help', helpCenter);
-app.use('/houseRegister', verifyToken, houseRegisration);
-app.use('/water', verifyToken, waters);
-app.use('/Tenant', verifyToken, TenantRegistering);
-app.use('/images', verifyToken, image);
+app.use('/houseRegister',  houseRegisration);
+app.use('/water',  waters);
+app.use('/Tenant',  TenantRegistering);
+app.use('/images',  image);
 app.use('/cat', createCategory);
-app.use('/type', verifyToken, propertyType);
+app.use('/type',  propertyType);
 
 
 

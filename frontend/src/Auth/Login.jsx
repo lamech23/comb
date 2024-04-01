@@ -18,6 +18,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const userRoles = getUserRoles();
+  const [showPasscode, setShowPasscode] = useState(false);
+
 
   const showPassword = async () => {
     const input = document.querySelector("#inputPassword");
@@ -37,11 +39,11 @@ function Login() {
     setIsLoading(true);
 
     try {
-      if (email.length === 0 || password.length === 0) {
-        toast.error("Fields cannot be empty");
-      } else if (password.length < 8) {
-        toast.error("Password must be 8 or more characters");
-      } else {
+      // if (email.length === 0 || password.length === 0) {
+      //   toast.error("Fields cannot be empty");
+      // } else if (password.length < 8) {
+      //   toast.error("Password must be 8 or more characters");
+      // } else {
         const response = await axios.post("http://localhost:4000/Users/login", {
           email: email,
           password: password,
@@ -51,27 +53,47 @@ function Login() {
         document.cookie = `user=${JSON.stringify(user)}`;
         dispatch({ type: "LOGIN", payload: user });
 
-        toast.success(`Successfully logged in`);
-      }
+        // toast.success(`Successfully logged in`);
+      // }
+      if (response?.data?.success) {
+        console.log("Response success!");
+        console.log("User roles:", userRoles);
+    
+        if (userRoles.includes("admin") || user.role.includes("agent")) {
+            console.log("Redirecting to /admin/analytics");
+            navigate("/admin/analytics");
+        } else if (userRoles.includes("userRoles")) {
+            console.log("Redirecting to /");
+            navigate("/");
+        } else if (userRoles.includes("landowner")) {
+            console.log("Redirecting to /LandownerDashboard");
+            navigate("/LandownerDashboard");
+        } else if (userRoles.includes("tenant")) {
+            console.log("Redirecting to /TenantDashboard");
+            navigate("/TenantDashboard");
+        } else {
+            console.log("No matching role, redirecting to /");
+            navigate("/");
+        }
+    }
+    
 
-      if (userRoles.includes("admin") || userRoles.includes("agent")) {
-        navigate("/admin/analytics");
-      } else if (userRoles.includes("user")) {
-        navigate("/");
-      } else if (userRoles.includes("landowner")) {
-        navigate(`/LandownerDashbard`);
-      } else if (userRoles.includes("tenant")) {
-        navigate("/LandownerDashbard");
-      } else {
-        navigate("/");
-      }
     } catch (error) {
       if (error.response?.status === 403) {
-        toast.error("Your account is not activated");
+        const errorMessage = error.response.data.error
+        toast.error(errorMessage);
       }
-      if (error.response?.status === 400) {
-        toast.error("Incorrect email or password. Please try again.");
-      }
+    
+      if (error.response?.status === 404) {
+        const errorMessage = error.response.data.error
+        toast.error(errorMessage);   
+         }
+         if (error.response?.status === 400) {
+          const errorMessage = error.response.data.error
+          toast.success(errorMessage);   
+          setShowPasscode(true)
+           }
+       
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +133,7 @@ function Login() {
               </div>
             </div>
 
-            <div className="mb-10 mt-5">
+            <div className={`input-group mb-5  ${showPasscode ? "visible" : "hidden"}`}>
               <label htmlFor="Email" className="form-label fw-bold">
                 {" "}
                 Password
@@ -188,7 +210,7 @@ function Login() {
 
         <div />
       </div>
-      {/* <ToastContainer
+      <ToastContainer
         position="top-left"
         autoClose={3000}
         hideProgressBar
@@ -199,7 +221,7 @@ function Login() {
         draggable
         pauseOnHover
         theme="colored"
-      /> */}
+      />
     </div>
   );
 }

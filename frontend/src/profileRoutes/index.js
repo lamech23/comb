@@ -19,7 +19,7 @@ const routes = [
     path: '/',
     component: Account,
   },
-  {
+{
     path: '/profile/',
     component: ChangeProfile,
   },

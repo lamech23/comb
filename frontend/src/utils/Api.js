@@ -22,8 +22,9 @@ export const api = async (url, method, headers = {}, data = {}) => {
             data,
             headers: requestHeaders,
         };
-
+console.log(config);
         const response = await axios(config);
+        // console.log(config);
 
         if (response.data && response.data.tokenExpired) {
             const refreshedToken = await refreshToken();

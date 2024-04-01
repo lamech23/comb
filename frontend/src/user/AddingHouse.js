@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { api } from "../utils/Api";
 
 function AddingHouse() {
   const [image, setImage] = useState("");
@@ -55,6 +56,7 @@ function AddingHouse() {
         formData.append("image", image[i]);
       }
 
+      console.log(formData);
       if (
         (description === "",
         contact === "",
@@ -65,23 +67,13 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
-        const response = await axios.post(
-          "http://localhost:4000/Details",
-          formData,
+        const response = await api("/Details/", "POST", {}, formData);
 
-          {
-            headers: {
-              authorization: ` Bearer ${user?.token}`,
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
 
         setStatus(false);
         toast.success("Added succesfuly ");
         {
-          navigate("/");
+          // navigate("/");
         }
 
         if (!response) {
@@ -123,8 +115,8 @@ function AddingHouse() {
   }, []);
 
   const fetchPopertyType = async () => {
-    const response = await axios.get("http://localhost:4000/type/fetch");
-    setPropertyType(response.data);
+    const response = await api("/type/fetch", "GET", {}, {});
+    setPropertyType(response.allPropertyType);
   };
 
   return (

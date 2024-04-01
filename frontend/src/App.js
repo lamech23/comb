@@ -92,7 +92,7 @@ import ChangeProfile from "./user/ChangeProfile";
                 <Route path="/ForgotPassword" element={isAuthenticated() ? <ForgotPassword /> : <Navigate to="/" />} />
                 <Route path="/Reset/:id" element={isAuthenticated() ? <Reset /> : <Navigate to="/" />} />
                 <Route path="/Pagination" element={isAuthenticated() ? <Pagination /> : <Navigate to="/" />} />
-                {/* <Route path="/profile/" element={isAuthenticated() ? <Profile /> : <Navigate to="/" />} /> */}
+                {/* <Route path="/profile/:id" element={isAuthenticated() ? <Profile /> : <Navigate to="/" />} /> */}
                 <Route path="/Search" element={isAuthenticated() ? <Search /> : <Navigate to="/" />} />
                 <Route path="/Calender" element={isAuthenticated() ? <Calendar /> : <Navigate to="/" />} />
                 <Route path="/ClientMessageForm" element={isAuthenticated() ? <ClientMessageForm /> : <Navigate to="/" />} />
@@ -127,7 +127,7 @@ import ChangeProfile from "./user/ChangeProfile";
                     }
                 />
 
-                <Route path="/account" element={isAuthenticated() ? <ProfileLayout /> : <Navigate to="/" />} />
+                <Route path="/account/*" element={isAuthenticated() ? <ProfileLayout /> : <Navigate to="/" />} />
 
                 <Route path="*" element={<PageNotFound />} />
               </Routes>

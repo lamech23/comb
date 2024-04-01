@@ -56,23 +56,16 @@ function Login() {
         // toast.success(`Successfully logged in`);
       // }
       if (response?.data?.success) {
-        console.log("Response success!");
-        console.log("User roles:", userRoles);
     
-        if (userRoles.includes("admin") || user.role.includes("agent")) {
-            console.log("Redirecting to /admin/analytics");
+        if (userRoles.includes("admin") || userRoles.includes("agent")) {
             navigate("/admin/analytics");
-        } else if (userRoles.includes("userRoles")) {
-            console.log("Redirecting to /");
+        } else if (userRoles.includes("user")) {
             navigate("/");
         } else if (userRoles.includes("landowner")) {
-            console.log("Redirecting to /LandownerDashboard");
             navigate("/LandownerDashboard");
         } else if (userRoles.includes("tenant")) {
-            console.log("Redirecting to /TenantDashboard");
             navigate("/TenantDashboard");
         } else {
-            console.log("No matching role, redirecting to /");
             navigate("/");
         }
     }

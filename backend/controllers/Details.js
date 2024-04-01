@@ -217,13 +217,15 @@ const createDetails = async (req, res) => {
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    if (userInfo.verified == true) {
+    if (userInfo.verified == false) {
       return res.status(403).json({
         error: "Your Account is not verified ",
         redirect: "/account/userVerification",
       });
     } else {
       const details = await Details.create(info);
+
+      console.log(req.files.lenght);
 
       for (let i = 0; i < req.files.length; i++) {
         const imagePath = await imageUrl.create({

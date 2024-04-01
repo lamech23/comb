@@ -11,27 +11,24 @@ const loginUser = async (req, res) => {
   try {
     const user = await users.findOne({ where: { email: email } });
 
-    if (!user) { 
-       return res.status(404).json({ success: false, error: " It seems  you do not have an account to access this  appllication, arequest has been sent to managment please wait" });
+    if (!user) {
+      return res
+        .status(404)
+        .json({
+          success: false,
+          error:
+            " It seems  you do not have an account to access this  appllication, arequest has been sent to managment please wait",
+        });
     }
-  
 
-    if (user.active === "inactive") {
-      // Check if the user's account is inactive
-      return res.status(403).json({ error: "Your account is not activated" });
-    }
-
-    // Compare the provided password with the hashed password stored in the database
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      // Return an error response if the passwords do not match
       return res.status(400).json({
         success: false,
         error: "Invalid password",
       });
     }
 
-    // Create data object containing user information
     const data = {
       id: user.id,
       email: user.email,
@@ -50,19 +47,23 @@ const loginUser = async (req, res) => {
       sameSite: "none",
     });
 
-    // Return success response with the token
     if (!match) {
-      return res.status(400).json({ success: false, error: "Please input your password" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Please input your password" });
     } else {
-      
       if (match) {
-        return res.status(201).json({ token , success: true, message: "Login successful" });
+        return res
+          .status(201)
+          .json({ token, success: true, message: "Login successful" });
       } else {
         // Handle invalid password
-          // return res.status(400).json({ success: false, error: "Invalid password" });
+        return res
+          .status(400)
+          .json({ success: false, error: "Invalid password" });
       }
     }
-      } catch (error) {
+  } catch (error) {
     // Return an error response if an exception occurs
     res.status(500).json({ success: false, error: error.message });
   }
@@ -73,7 +74,6 @@ const signupUser = async (req, res) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-
 
   if (!emailRegex.test(email)) {
     return res.status(400).send({ error: "Invalid email format" });
@@ -89,8 +89,7 @@ const signupUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   try {
-  const checkEmail = await users.findOne({ where: { email: email } });
-
+    const checkEmail = await users.findOne({ where: { email: email } });
 
     if (checkEmail) {
       return res
@@ -179,8 +178,8 @@ const deleteUser = async (req, res) => {
 // get  single user
 const getUserById = async (req, res) => {
   // const { id } = req.params;
-   const  user = req?.user?.userId
-    const id =  user?.id
+  const user = req?.user?.userId;
+  const id = user?.id;
   const User = await users.findOne({
     where: {
       id: id,
@@ -277,14 +276,14 @@ const reset = async (req, res) => {
       { where: { id: id } }
     );
     res.status(200).json(updatedPassword);
-} catch (error) {
+  } catch (error) {
     // return res.status(400).json({mssg:'no',error})
   }
 };
 const updateUserEmail = async (req, res) => {
   // const { id } = req.params;
-  const user = req?.user?.userId
-  const id = user?.id 
+  const user = req?.user?.userId;
+  const id = user?.id;
   const info = {
     role: req.body.role,
     email: req.body.email,
@@ -292,10 +291,9 @@ const updateUserEmail = async (req, res) => {
   const userEmail = await users.update(info, { where: { id: id } });
 
   if (userEmail) {
-   return  res.status(200).json({userEmail});
-  }else{
+    return res.status(200).json({ userEmail });
+  } else {
     return res.status(400).send({ error: "unable to update  the email" });
-
   }
 };
 

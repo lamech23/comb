@@ -63,8 +63,7 @@ const tenatRegistration = async (req, res) => {
 
       const createdTenant = await tenantRegistration.create(newTenantData);
       res.status(200).json(createdTenant);
-      let leaseInfo = await lease(newTenantData);
-      console.log("this lease ->", leaseInfo);
+       await lease(newTenantData);
     }
   } catch (error) {
     console.error(error.message);

@@ -1,4 +1,3 @@
-
 const users = require("../models/UserModels.js");
 const Details = require("../models/UploadModals.js");
 const agentManagements = require("../models/agentManagment.js");
@@ -61,25 +60,46 @@ const loginUser = async (req, res) => {
 
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).send({ error: "Invalid email format" });
+  }
+
+  if (!passwordRegex.test(password)) {
+    return res.status(400).send({
+      error:
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit",
+    });
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
+  try {
   const checkEmail = await users.findOne({ where: { email: email } });
 
-  try {
+
     if (checkEmail) {
-      res.status(400).json({ error: "email already exists " });
+      return res
+        .status(409)
+        .send({ error: `${checkEmail.email} is already a user  in freyton !` });
+    } else {
+      await users.create({
+        email,
+        password: hash,
+        role: "user",
+      });
+
+      res.status(200).json({
+        success: true,
+      });
     }
-
-    const User = await users.create({
-      email,
-      password: hash,
-      role: "user",
-    });
-
-    res.status(200).json({
-      success: true,
-    });
   } catch (error) {
+    console.error(error.message);
+
     // res.status(400).json({ error: error.message });
   }
 };
@@ -157,7 +177,7 @@ const getUserById = async (req, res) => {
   if (!User) {
     return res.status(400);
   } else {
-    res.status(200).json(User);
+    res.status(200).json({ User });
   }
 };
 //elevating user

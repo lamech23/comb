@@ -10,18 +10,18 @@ const users = db.define(
       unique: true,
     },
 
-    userName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    idNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // userName: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
+    // location: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
+    // idNumber: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

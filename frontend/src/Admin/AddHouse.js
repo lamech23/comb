@@ -66,18 +66,20 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
-        const response = await axios.post(
-          "http://localhost:4000/Details",
-          formData,
+        const response = await api("/Details", "POST", {}, formData);
 
-          {
-            headers: {
-              authorization: ` Bearer ${user?.token}`,
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        // const response = await axios.post(
+        //   "http://localhost:4000/Details",
+        //   formData,
+
+        //   {
+        //     headers: {
+        //       authorization: ` Bearer ${user?.token}`,
+        //       Accept: "application/json",
+        //       "Content-Type": "multipart/form-data",
+        //     },
+        //   }
+        // );
 
         setStatus(false);
         toast.success("Added succesfuly ");
@@ -124,7 +126,6 @@ function AddingHouse() {
   }, []);
 
   const fetchPopertyType = async () => {
-    // const response = await axios.get("http://localhost:4000/type/fetch");
     const response = await api("/type/fetch", "GET", {}, {});
 
     setPropertyType(response.allPropertyType);

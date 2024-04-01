@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useIsAdmin } from "../../hooks/UseAdmin";
 import Pagination from "./Pagination";
+import { api } from "../../utils/Api";
 
 const Details = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,7 @@ const Details = () => {
   const [details, setDetails] = useState([]);
   const [query, setQuery] = useState("");
   const [pagination, setPagination] = useState({});
-  const [pageNum, setPageNum] = useState(1)
+  const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("credentials"));
@@ -54,42 +55,42 @@ const Details = () => {
   // }, [query]);
 
   const fetchDetails = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Details/allHouses/`
-    );
-    setDetails(response.data.allHousesWithImage);
-    setPagination(response.data?.pagination);
+    const response = await api("/Details/allHouses", "GET", {}, {});
 
+    setDetails(response?.allHousesWithImage);
+    setPagination(response?.pagination);
     setIsLoading(false);
   };
-
 
   const handleNext = async () => {
     const nextPage = pagination.currentPage + 1;
     setPageNum(nextPage);
-  
+
     try {
       // Fetch data for the next page
-      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${nextPage}`);
+      const response = await axios.get(
+        `http://localhost:4000/Details/allHouses/?page=${nextPage}`
+      );
       setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error fetching data:", error);
       // Handle error as needed
     }
   };
-  
+
   const handleprev = async () => {
     const prevPage = pagination.currentPage - 1;
     setPageNum(prevPage);
-  
+
     try {
-      const response = await axios.get(`http://localhost:4000/Details/allHouses/?page=${prevPage}`);
+      const response = await axios.get(
+        `http://localhost:4000/Details/allHouses/?page=${prevPage}`
+      );
       setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
 
   return (
     <>
@@ -121,18 +122,30 @@ const Details = () => {
                       )
                   )}
                   <div className="p-4">
-                    <h3 className="text-md font-semibold  text-center">{detail?.title}</h3>
+                    <h3 className="text-md font-semibold  text-center">
+                      {detail?.title}
+                    </h3>
                     <h3 className="text-md">{detail.description}</h3>
-                    <p className="text-gray-600 pb-2">{detail?.details?.locaton}</p>
+                    <p className="text-gray-600 pb-2">
+                      {detail?.details?.locaton}
+                    </p>
                     <div className="flex flex-wrap justify-around items-center text-gray-600 text-sm mt-2">
                       <div>
-                       <span className="text-gray-600 font-bold text-sm">Units :</span>
+                        <span className="text-gray-600 font-bold text-sm">
+                          Units :
+                        </span>
                         <span className="font-bold">{detail.units}</span>
                       </div>
                       <div>
-                      <p>
-                       <span className="text-gray-600 font-bold text-sm"> Price :</span> 
-                       <span className="text-gray-500 text-sm"> Ksh{detail.price}</span>
+                        <p>
+                          <span className="text-gray-600 font-bold text-sm">
+                            {" "}
+                            Price :
+                          </span>
+                          <span className="text-gray-500 text-sm">
+                            {" "}
+                            Ksh{detail.price}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -149,18 +162,25 @@ const Details = () => {
           prev
         </button>
 
-      <div className="flex flex-row justify-center items-center">
-        {pagination?.totalPages?.map((number) => (
-          <div key={number} className="">
-            <a  className="page-link ">
-            <p className={`flex flex-row gap-4 border p-2 cursor-pointer ${pageNum == number ? 'bg-teal-600' : 'bg-white'}
-              `}> {number}</p>
-            </a>
-          </div>
-        ))}
-      </div>
+        <div className="flex flex-row justify-center items-center">
+          {pagination?.totalPages?.map((number) => (
+            <div key={number} className="">
+              <a className="page-link ">
+                <p
+                  className={`flex flex-row gap-4 border p-2 cursor-pointer ${
+                    pageNum == number ? "bg-teal-600" : "bg-white"
+                  }
+              `}
+                >
+                  {" "}
+                  {number}
+                </p>
+              </a>
+            </div>
+          ))}
+        </div>
 
-      <button className="border p-2 " onClick={handleNext}>
+        <button className="border p-2 " onClick={handleNext}>
           next
         </button>
       </div>

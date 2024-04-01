@@ -33,7 +33,7 @@ router.post("/", verifyToken, imageUpload, createDetails);
 
 // GET all uploads
 router.get("/allHouses", verifyToken, getAllHouses);
-router.get("/fetchHousesByName", getAllHousesByName);
+router.get("/fetchHousesByName",verifyToken, getAllHousesByName);
 router.get("/housesLinkedToTenants",verifyToken,fetchHousesByNames);
 router.get("/byUserId", getAllDetails);
 router.get("/Bungalow", ownCompound);
@@ -47,7 +47,7 @@ router.get("/:id", getSingelDetails);
 router.get("/byId", getSingelDetails);
 
 //DELETE an upload
-router.delete("/:id", isAdmin, deleteDetails);
+router.delete("/:id",verifyToken, hasAdmin, deleteDetails);
 // get images by id
 router.get("/:id", grtDetailsById);
 //UPDATE a workout

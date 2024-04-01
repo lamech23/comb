@@ -111,8 +111,7 @@ const fetchHousesByNames = async (req, res) => {
         as: "houses",
       },
     });
-    res.status(200).json({details});
-
+    res.status(200).json({ details });
   } catch (error) {
     res.status(403).json({
       message: "no house found ",
@@ -121,8 +120,6 @@ const fetchHousesByNames = async (req, res) => {
     });
   }
 };
-
-
 
 // GET all uploads
 const getAllDetails = async (req, res) => {
@@ -407,6 +404,23 @@ const getProductsInCategory = async (req, res) => {
     });
   }
 };
+
+// const deletingHouseAdminSide = async(req, res )=>{
+//   try {
+//     const { id } = req.params;
+//     const details = await Details.destroy({
+//       where: {
+//         id: id,
+//       },
+//     });
+//     if (!details) {
+//       return res.status(400).json({ error: "Details doesn't exist " });
+//     }
+//     res.status(200).json(details);
+//   } catch (error) {
+
+//   }
+// }
 
 module.exports = {
   createDetails,

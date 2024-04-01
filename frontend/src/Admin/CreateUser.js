@@ -13,27 +13,27 @@ function CreateUser(e) {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await api("/Users/signup", "POST", {}, { email: email, password: password });
-            if (response) {
-                setEmail('');
-                setPassword('');
-                toast.success("User created successfully");
+      e.preventDefault();
+      try {
+          const response = await api("/Users/signup", "POST", {}, { email: email, password: password });
+          if (response) {
+              setEmail('');
+              setPassword('');
+              toast.success("User created successfully");
+          } 
+      } catch (error) {
+          // console.error("Error creating user:", error);
+          if (error.response) {
+              const status = error.response?.status;
+              const errorMessage = error.response?.data?.error ;
+  
+              if (status === 409 || status === 400) {
+                  toast.error(errorMessage);
+              } 
             } 
-        } catch (error) {
-            console.error("Error creating user:", error);
-            if (error.response?.status === 409) {
-              const errorMessage = error.response.data.error;
-              toast.error(`${errorMessage}`)
-            }
-
-            if (error.response?.status === 400) {
-              const errorMessage = error.response.data.error;
-              toast.error(`${errorMessage}`)
-            }
-        }
-    };
+      }
+  };
+  
 
   return (
     <>

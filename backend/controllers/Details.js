@@ -194,8 +194,8 @@ const getSingelDetails = async (req, res) => {
 
 //CREATE an upload
 const createDetails = async (req, res) => {
-  const id = req.params;
-  const token = req.user;
+  // const id = req.params;
+  const token = req.user?.userId;
   const user_id = token.id;
   const imageUrls = [];
   const baseUrl = process.env.BASE_URL;
@@ -217,7 +217,7 @@ const createDetails = async (req, res) => {
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    if (userInfo.verified == false) {
+    if (userInfo.verified == true) {
       return res.status(403).json({
         error: "Your Account is not verified ",
         redirect: "/account/userVerification",

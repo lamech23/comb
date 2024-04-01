@@ -13,7 +13,6 @@ function ChangeProfile() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const [user, setUser] = useState("");
 
   const user = isUser()?.userId;
   //reset password
@@ -42,29 +41,20 @@ function ChangeProfile() {
   //updating user
   const updatingUser = async (e) => {
     e.preventDefault();
-    const response = await axios.put(
-      `http://localhost:4000/Users/userUpdate/${id}`,
-      {
-        email: email,
-      }
-    );
-    if (response)
+    const  response = await api("/Users/userUpdate/","PATCH", {}, {email:email})
       if (response) {
-        let user = JSON.parse(localStorage.getItem("credentials"));
-        user.email = email;
-        localStorage.setItem("credentials", JSON.stringify(user));
+     
         toast.success("updated successfully");
       }
   };
 
   const fetchUserById = async () => {
-    const response = await api(`/users/specificUser/${id}`,"GET", {},{});
-    // const response = await axios.get(
-    //   `http://localhost:4000/Users/specificUser/${id}`
-    // );
-    setEmail(response.User.email);
+    const response = await api(`/users/specificUser/`,"GET", {},{});
+   
+    setEmail(response.User);
   };
-  console.log("this email => ", email);
+
+  const userEmail =  email?.email
   useEffect(() => {
     fetchUserById();
   }, []);
@@ -99,7 +89,7 @@ function ChangeProfile() {
                     class="w-11/12 focus:outline-none focus:text-gray-600 p-2"
                     placeholder="email@example.com"
                     onChange={(e) => setEmail(e.target.value)}
-                    value={email}
+                    value={userEmail}
                   />
                 </div>
                 <button

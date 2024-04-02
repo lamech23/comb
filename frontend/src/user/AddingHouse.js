@@ -56,7 +56,6 @@ function AddingHouse() {
         formData.append("image", image[i]);
       }
 
-      console.log(formData);
       if (
         (description === "",
         contact === "",
@@ -68,7 +67,6 @@ function AddingHouse() {
         toast.error("All fields must field");
       } else {
         const response = await api("/Details/", "POST", {}, formData);
-
 
         setStatus(false);
         toast.success("Added succesfuly ");
@@ -97,8 +95,8 @@ function AddingHouse() {
       }
 
       if (error.response?.status === 403) {
-        navigate(error.response?.data?.redirect);
-        const errorMessage = error.response.data.error;
+        navigate(error.response.redirect);
+        const errorMessage = error.response.error;
 
         toast.error(`${errorMessage}`);
       }

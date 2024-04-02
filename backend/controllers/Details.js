@@ -217,8 +217,9 @@ const createDetails = async (req, res) => {
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    if (userInfo.verified == false) {
+    if (userInfo.verified === false) {
       return res.status(403).json({
+        success:false,
         error: "Your Account is not verified ",
         redirect: "/account/userVerification",
       });

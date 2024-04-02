@@ -20,7 +20,6 @@ function Login() {
   const userRoles = getUserRoles();
   const [showPasscode, setShowPasscode] = useState(false);
 
-
   const showPassword = async () => {
     const input = document.querySelector("#inputPassword");
     const button = document.querySelector(".material-symbols-outlined");
@@ -44,49 +43,49 @@ function Login() {
       // } else if (password.length < 8) {
       //   toast.error("Password must be 8 or more characters");
       // } else {
-        const response = await axios.post("http://localhost:4000/Users/login", {
-          email: email,
-          password: password,
-        });
+      const response = await axios.post("http://localhost:4000/Users/login", {
+        email: email,
+        password: password,
+      });
 
-        const user = response.data;
-        document.cookie = `user=${JSON.stringify(user)}`;
-        dispatch({ type: "LOGIN", payload: user });
+      const user = response.data;
+      document.cookie = `user=${JSON.stringify(user)}`;
+      dispatch({ type: "LOGIN", payload: user });
 
-        // toast.success(`Successfully logged in`);
       // }
       if (response?.data?.success) {
-    
         if (userRoles.includes("admin") || userRoles.includes("agent")) {
-            navigate("/admin/analytics");
+          navigate("/admin/analytics");
+          toast.success(`Welcom back`);
         } else if (userRoles.includes("user")) {
-            navigate("/");
+          navigate("/");
+          toast.success(`Welcom back`);
         } else if (userRoles.includes("landowner")) {
-            navigate("/LandownerDashboard");
+          navigate("/LandownerDashboard");
+          toast.success(`Welcom back`);
         } else if (userRoles.includes("tenant")) {
-            navigate("/TenantDashboard");
+          navigate("/TenantDashboard");
+          toast.success(`Welcom back`);
         } else {
-            navigate("/");
+          navigate("/");
+          toast.success(`Welcom back`);
         }
-    }
-    
-
+      }
     } catch (error) {
       if (error.response?.status === 403) {
-        const errorMessage = error.response.data.error
+        const errorMessage = error.response.data.error;
         toast.error(errorMessage);
       }
-    
+
       if (error.response?.status === 404) {
-        const errorMessage = error.response.data.error
-        toast.error(errorMessage);   
-         }
-         if (error.response?.status === 400) {
-          const errorMessage = error.response.data.error
-          toast.success(errorMessage);   
-          setShowPasscode(true)
-           }
-       
+        const errorMessage = error.response.data.error;
+        toast.error(errorMessage);
+      }
+      if (error.response?.status === 400) {
+        const errorMessage = error.response.data.error;
+        toast.success(errorMessage);
+        setShowPasscode(true);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +125,11 @@ function Login() {
               </div>
             </div>
 
-            <div className={`input-group mb-5  ${showPasscode ? "visible" : "hidden"}`}>
+            <div
+              className={`input-group mb-5  ${
+                showPasscode ? "visible" : "hidden"
+              }`}
+            >
               <label htmlFor="Email" className="form-label fw-bold">
                 {" "}
                 Password

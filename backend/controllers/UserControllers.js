@@ -12,22 +12,14 @@ const loginUser = async (req, res) => {
     const user = await users.findOne({ where: { email: email } });
 
     if (!user) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          error:
-            " It seems  you do not have an account to access this  appllication, arequest has been sent to managment please wait",
-        });
+      return res.status(404).json({
+        success: false,
+        error:
+          " It seems  you do not have an account to access this  appllication, arequest has been sent to managment please wait",
+      });
     }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid password",
-      });
-    }
 
     const data = {
       id: user.id,
@@ -55,7 +47,7 @@ const loginUser = async (req, res) => {
       if (match) {
         return res
           .status(201)
-          .json({ token, success: true, message: "Login successful" });
+          .json({ token, success: true, error: "Welcome  back" });
       } else {
         // Handle invalid password
         return res
@@ -148,7 +140,7 @@ const verifyUser = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const userStatus = { isAdmin: req.query.verified };
+    const userStatus = { verified: req.query.verified };
 
     const userEmail = await users.update(userStatus, { where: { id: id } });
     if (userEmail === 0) {
@@ -269,7 +261,7 @@ const reset = async (req, res) => {
     // res.status(200).json({mssg:'okay'})
   } else {
     res.status(400).json({ error: "Password don't match" });
-  }
+  }Unverified
   try {
     const updatedPassword = await users.update(
       { password: hashedPassword },

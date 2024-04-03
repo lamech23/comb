@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 import { ToastContainer, toast } from "react-toastify";
 import { api } from "../utils/Api";
-import { isAdmin } from "../utils/Decoded";
+import { isAdmin, isUser } from "../utils/Decoded";
 
 function User() {
   const [socket, setSocket] = useState(null);
@@ -17,6 +17,8 @@ function User() {
   const [house, setHouse] = useState([]);
   const [agent, setAgent] = useState("");
   const admin = isAdmin();
+
+  const  user =isUser()?.userId
   useEffect(() => {
     setSocket(newSocket);
     return () => {
@@ -114,9 +116,17 @@ function User() {
     verifyingUser(id, verified);
   };
 
+
   const handelDelete = async (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (isConfirmed) {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
+    } else {
+      alert("Action Cancelled");
+    }
   };
 
   useEffect(() => {
@@ -145,9 +155,12 @@ function User() {
             </thead>
             {users &&
               users?.map((allUsers) => (
+               ! allUsers?.email.includes(user.email) && (
+
                 <tbody key={allUsers.id}>
                   <tr>
                     <td>{allUsers.id}</td>
+
                     <td>{allUsers.email}</td>
                     <td>{allUsers.role}</td>
                     <td>{allUsers?.agent[0]?.house?.houseName}</td>
@@ -239,7 +252,11 @@ function User() {
                     </td>
                   </tr>
                 </tbody>
+                  )
+
               ))}
+
+
           </table>
         </div>
       </div>

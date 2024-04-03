@@ -3,6 +3,7 @@ import logo from "../componets/images/logo.jpg";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { api } from "../utils/Api";
 
 function Report() {
   const [house, setHouse] = useState([]);
@@ -17,10 +18,13 @@ function Report() {
 
   const getHouse = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:4000/Details/housesLinkedToTenants/`
+      const response = await api(
+        `/Details/housesLinkedToTenants/`,
+        "GET",
+        {},
+        {}
       );
-      setHouse(response.data);
+      setHouse(response.details);
     } catch (error) {
       console.log(error);
     }
@@ -28,10 +32,13 @@ function Report() {
 
   const getTenantinfo = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:4000/houseRegister/${visitedHouseId}`
+      const response = await api(
+        `/houseRegister/${visitedHouseId}`,
+        "GET",
+        {},
+        {}
       );
-      setTenant(response.data);
+      setTenant(response.detailsWithTotal);
     } catch (error) {
       console.log(error);
     }
@@ -39,15 +46,14 @@ function Report() {
 
   const getPayments = async (id) => {
     try {
-      const response = await axios.get(
-        `http://localhost:4000/Tenant/fetchPayment/?userId=${visitedHouseId}`
+      const response = await api(
+        `/Tenant/fetchPayment/?userId=${visitedHouseId}`,"GET", {},{}
       );
-      setPayments(response.data?.totalAdditionalPayments);
+      setPayments(response?.totalAdditionalPayments);
     } catch (error) {
       console.log(error);
     }
   };
-
 
   useEffect(() => {
     getTenantinfo();
@@ -78,20 +84,19 @@ function Report() {
 
   const totalRentPaid = totalRent + allRent;
 
-  useEffect(()=>{
+  useEffect(() => {
     const getWaterRates = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        const res = await api(
+          `/water/fetchWater/${visitedHouseId}`, {},{}
         );
-        setGetWater(res.data?.getWater);
+        setGetWater(res?.getWater);
       } catch (error) {
-        toast.error("water rates not found " || error.massage);
+        // toast.error("water rates not found " || error.massage);
       }
     };
     getWaterRates();
-  
-  },[])
+  }, []);
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;
@@ -290,10 +295,12 @@ function Report() {
 
                         <td
                           className={`pt-4 pl-3 pr-4 text-sm text-right  sm:pr-6 md:pr-0 ${
-                            balance < 0 ? "font-medium text-red-500" :  "text-green-600"
+                            balance < 0
+                              ? "font-medium text-red-500"
+                              : "text-green-600"
                           }`}
                         >
-                          KSH  {balance}
+                          KSH {balance}
                         </td>
                       </tr>
                       <tr>

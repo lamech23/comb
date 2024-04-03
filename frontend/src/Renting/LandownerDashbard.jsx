@@ -4,6 +4,7 @@ import LandOwnerNav from "./LandOwnerNav";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 import setHeader from "../componets/Api";
+import { api } from "../utils/Api";
 
 function LandownerDashbard() {
   const [tenant, setTenant] = useState([]);
@@ -14,18 +15,8 @@ function LandownerDashbard() {
       getTenantInfo();
     }, []);
     const getTenantInfo = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/houseRegister/specific/`,
-        {
-          headers: {
-            authorization: ` Bearer ${user?.token}`,
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setTenant(response.data);
-      console.log(response.data);
+      const response = await api(`/houseRegister/specific/`,"GET", {}, {});
+      setTenant(response.tenatsHouse);
     };
   } catch (error) {
     console.log("Error", error);

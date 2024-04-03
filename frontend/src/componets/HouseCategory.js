@@ -2,16 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
+import { api } from "../utils/Api";
 
 function HouseCategory() {
   const [category, setCategory] = useState([]);
 
   const cat = useLocation().pathname.split("/")[2];
   const fetchCategories = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Details/fetchDetailsCategory/${cat}`
+    const response = await api(
+      `/Details/fetchDetailsCategory/${cat}`, "GET", {}, {}
     );
-    setCategory(response.data);
+    setCategory(response.getCategory);
   };
 
   useEffect(() => {

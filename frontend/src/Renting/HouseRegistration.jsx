@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { api } from "../utils/Api";
 
 function HouseRegistration() {
   const [house_name, setHouse_name] = useState("");
@@ -20,10 +21,10 @@ function HouseRegistration() {
 
   useEffect(() => {
     const getAlluser = async () => {
-      const response = await axios.get(
-        "http://localhost:4000/houseRegister/houseNames"
+      const response = await api(
+        "/houseRegister/houseNames", "GET", {}, {}
       );
-      setAllusers(response.data);
+      setAllusers(response.details);
     };
     getAlluser();
   }, []);
@@ -34,7 +35,7 @@ function HouseRegistration() {
       setUser_id(user.id);
     }
 
-    const response = await axios.post("http://localhost:4000/houseRegister/", {
+    const response = await api("/houseRegister/", "POST", {}, {
       house_name: house_name,
       full_name: full_name,
       user_name: user_name,

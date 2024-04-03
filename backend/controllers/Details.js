@@ -134,7 +134,7 @@ const getAllDetails = async (req, res) => {
         as: "images",
       },
     });
-    res.status(200).json(details);
+    res.status(200).json({details});
   } catch (error) {
     res.status(400).json("nop");
   }
@@ -398,7 +398,7 @@ const getProductsInCategory = async (req, res) => {
       include: [{ model: imageUrl, as: "images" }],
     });
     if (getCategory) {
-      res.status(200).json(getCategory);
+      res.status(200).json({getCategory});
     }
   } catch (error) {
     res.status(403).json({

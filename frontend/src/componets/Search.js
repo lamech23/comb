@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../utils/Api";
 
 function Search() {
   const [results, setResults] = useState({});
@@ -32,12 +33,12 @@ function Search() {
     try {
       // Simulate a delay of 1 second (you can replace this with an actual API request).
       // Make an API request to fetch search results based on the user's query.
-      const response = await axios.get(
-        `http://localhost:4000/searching/search/${search}`
+      const response = await api(
+        `/searching/search/${search}`, "GET", {}, {}
       );
 
       // Set the search results in the state.
-      setResults(response.data);
+      setResults(response.products);
     } catch (error) {
       console.error(error);
     } finally {

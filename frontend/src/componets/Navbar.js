@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Search from "./Search";
 import { isUser, isAdmin } from "../utils/Decoded";
+import { api } from "../utils/Api";
 
 function Navbar() {
   const { dispatch } = useAuthContext();
@@ -24,8 +25,8 @@ function Navbar() {
   const user = isUser()?.userId;
 
   const handleLogout = async () => {
-    await axios.post(`http://localhost:4000/users/logout`);
-    localStorage.removeItem("credentials");
+    await api(`/users/logout`, "POST", {}, {});
+    // localStorage.removeItem("credentials");
     dispatch({ type: "LOGOUT" });
 
     document.cookie = "user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/";

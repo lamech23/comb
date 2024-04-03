@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Calendar } from "primereact/calendar";
 import { toast, ToastContainer } from "react-toastify";
 import WaterBill from "./WaterBill";
+import { api } from "../utils/Api";
 
 function BillWater() {
   let houseId = useLocation().pathname.split("/")[2];
@@ -23,10 +24,8 @@ function BillWater() {
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
-        const response = await axios.get(
-          ` http://localhost:4000/houseRegister/${houseId}`
-        );
-        setTenant(response.data);
+        const response = await api(`houseRegister/${houseId}`, "GET", {}, {});
+        setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
       }
@@ -48,8 +47,9 @@ function BillWater() {
         })
       );
       // Send a batch update request to the server
-      const response = await axios.put(
-        `http://localhost:4000/Tenant/updateWaterBill`,
+      const response = await api(
+        `/Tenant/updateWaterBill`,
+        "PUT", {},
         { updatedTenants }
       );
       toast.success("Added successfully");
@@ -83,7 +83,7 @@ function BillWater() {
                     <th>Water Bill</th>
                   </tr>
                 </thead>
-                {tenant?.detailsWithTotal?.map((tenants) => (
+                {tenant?.map((tenants) => (
                   <tr key={tenants.id}>
                     <td>{tenants.id}</td>
 
@@ -152,8 +152,8 @@ function BillWater() {
 
               <form
                 onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdate();
+                  e.preventDefault();
+                  handleUpdate();
                 }}
               >
                 <button
@@ -181,12 +181,7 @@ function BillWater() {
         </div>
 
         {/* water reportsection  */}
-        <WaterBill
-        tenant={tenant}
-        waterUnits={waterUnits}
-        state={state}
-        />
- 
+        <WaterBill tenant={tenant} waterUnits={waterUnits} state={state} />
       </div>
     </>
   );

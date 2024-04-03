@@ -23,7 +23,7 @@ function AddingHouse() {
   const [type, setType] = useState("");
   const [units, setUnits] = useState("");
 
-  // console.log(user);
+  console.log("this image =>",image);
 
   const handleCancle = () => {
     setStatus(false);

@@ -56,15 +56,18 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   );
   useEffect(() => {
     const getHouse = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/Details/housesLinkedToTenants/`
+      const response = await api(
+        `/Details/housesLinkedToTenants/`,
+        "GET",
+        {},
+        {}
       );
-      setHouse(response.data);
+      setHouse(response.details);
     };
     getHouse();
 
     const fetchUsers = async () => {
-          //getting all  users  with the role tenant for registration  purpose
+      //getting all  users  with the role tenant for registration  purpose
 
       const response = await api("/Users/all", "GET", {}, {});
       setUsers(response.user);
@@ -78,8 +81,10 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
     e.preventDefault();
     try {
       if (state) {
-        await axios.patch(
-          `http://localhost:4000/Tenant/change/${id}`,
+        await api(
+          `/Tenant/change/${id}`,
+          "PATCH",
+          {},
           {
             tenantsName: tenantsName,
             houseNumber: houseNumber,
@@ -111,8 +116,8 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
         toast.success("Succesfully upadated");
       } else {
       }
-      const response = await axios.post(
-        "http://localhost:4000/Tenant/registerTenant",
+      const response = await api(
+        "/Tenant/registerTenant","POST", {},
         {
           tenantsName: tenantsName,
           houseNumber: houseNumber,
@@ -155,12 +160,10 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
       // Handle errors here
       if (error.response?.status === 409) {
         const errorMessage = error.response.data.error;
-        toast.error(`${errorMessage}`)
+        toast.error(`${errorMessage}`);
       }
-
     }
   };
-
 
   return (
     <>
@@ -273,9 +276,8 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                   </label>
                   <div className="border">
                     <input
-                    type="date"
+                      type="date"
                       value={rentPaymentDate}
-                      
                       onChange={(e) => setRentPaymentDate(e.target.value)}
                     />
                   </div>

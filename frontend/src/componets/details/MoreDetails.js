@@ -11,6 +11,7 @@ import { Carousel } from "react-responsive-carousel";
 import { Dialog, Transition } from "@headlessui/react";
 import { Calendar } from "primereact/calendar";
 import Navbar from "../Navbar";
+import { api } from "../../utils/Api";
 
 function MoreDetails() {
   const { user } = useAuthContext();
@@ -40,7 +41,7 @@ function MoreDetails() {
   const [type, setType] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
-  
+
   console.log(isOpen);
 
   const setDate = (date) => {
@@ -125,7 +126,7 @@ function MoreDetails() {
   };
 
   const getMore = async () => {
-    const response = await axios.get(`http://localhost:4000/Details/` + id);
+    const response = await api(`/Details/${id}`, "GET", {}, {});
     setImage(response.data.images);
     setTitle(response.data.title);
     setLocation(response.data.location);
@@ -153,10 +154,8 @@ function MoreDetails() {
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/houseRegister/${id}`
-        );
-        setTenant(response.data?.detailsWithTotal);
+        const response = await api(`/houseRegister/${id}`, "GET", {}, {});
+        setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
       }
@@ -175,8 +174,8 @@ function MoreDetails() {
 
   return (
     <>
-    <Navbar/>
-    
+      <Navbar />
+
       <div className="container mx-auto mb-10">
         <div className="flex flex-wrap lg:flex-row justify-between items-center mt-4">
           <div className="w-full lg:w-7/12">
@@ -231,7 +230,7 @@ function MoreDetails() {
                 <div class="pt-8">
                   <div class="flex flex-col items-center gap-4">
                     <button
-                    type="submit"
+                      type="submit"
                       onClick={openModal}
                       class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out"
                     >
@@ -315,10 +314,9 @@ function MoreDetails() {
                 <button className="btn btn-outline-secondary">See more</button>
               </Link>
               {type === "selling" && (
-
-              <Link to={`/DetailsInfo/${detail.id}`}>
-                <button className="btn btn-primary">Buy Now</button>
-              </Link>
+                <Link to={`/DetailsInfo/${detail.id}`}>
+                  <button className="btn btn-primary">Buy Now</button>
+                </Link>
               )}
             </div>
           </div>
@@ -546,10 +544,10 @@ function MoreDetails() {
                               Pick A Date
                             </label>
                             <input
-                                  name="push-notifications"
-                                  type="date"
-                                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                                  />
+                              name="push-notifications"
+                              type="date"
+                              class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                            />
                           </div>
                         </div>
 

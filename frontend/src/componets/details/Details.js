@@ -68,10 +68,13 @@ const Details = () => {
 
     try {
       // Fetch data for the next page
-      const response = await axios.get(
-        `http://localhost:4000/Details/allHouses/?page=${nextPage}`
+      const response = await api(
+        `/Details/allHouses/?page=${nextPage}`,
+        "GET",
+        {},
+        {}
       );
-      setPagination(response.data.pagination);
+      setPagination(response.pagination);
     } catch (error) {
       console.error("Error fetching data:", error);
       // Handle error as needed
@@ -83,10 +86,13 @@ const Details = () => {
     setPageNum(prevPage);
 
     try {
-      const response = await axios.get(
-        `http://localhost:4000/Details/allHouses/?page=${prevPage}`
+      const response = await api(
+        `/Details/allHouses/?page=${prevPage}`,
+        "GET",
+        {},
+        {}
       );
-      setPagination(response.data.pagination);
+      setPagination(response.pagination);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

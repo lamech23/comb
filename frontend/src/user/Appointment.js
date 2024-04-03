@@ -10,7 +10,7 @@ function Appointment() {
   const [appointment, setAppointment] = useState([]);
   const [date, setDate] = useState(new Date());
 
-  const user = isUser()?.userId
+  const user = isUser()?.userId;
   let id = user?.id;
   console.log(id);
 
@@ -21,10 +21,9 @@ function Appointment() {
 
     const appointments = [];
     const getAppointments = async () => {
-      const response = await axios.get(
-        `http://localhost:4000/ClientTour/specificTourRequest?tour_id=` + id
-      );
-      appointments.push(response.data);
+      const response = await api(
+        `/ClientTour/specificTourRequest?tour_id=` + id, "GET", {}, {} );
+      appointments.push(response.client);
       setAppointment(appointments);
     };
   } catch (error) {}

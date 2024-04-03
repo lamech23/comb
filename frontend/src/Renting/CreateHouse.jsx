@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LandOwnerNav from "./LandOwnerNav";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { api } from "../utils/Api";
 
 function CreateHouse() {
   const [house_name, setHouse_name] = useState("");
@@ -20,8 +21,8 @@ function CreateHouse() {
       if (house_name.length === 0) {
         setErrors("Please fill all the fields");
       } else {
-        const response = await axios.post(
-          "http://localhost:4000/houseRegister/houseName",
+        const response = await api(
+          "/houseRegister/houseName","POST", {},
           { house_name: house_name, user_id: user_id }
         );
         if (response) {

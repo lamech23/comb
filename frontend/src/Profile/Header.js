@@ -1,34 +1,31 @@
 import { themeChange } from 'theme-change'
 import React, {  useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import BellIcon  from '@heroicons/react/24/outline/BellIcon'
 import Bars3Icon  from '@heroicons/react/24/outline/Bars3Icon'
-import MoonIcon from '@heroicons/react/24/outline/MoonIcon'
-import SunIcon from '@heroicons/react/24/outline/SunIcon'
+
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
-import { isAdmin } from '../utils/Decoded'
+import { isAdmin, isUser } from '../utils/Decoded'
+import axios from 'axios'
+import { api } from '../utils/Api';
 
 
 function Header(){
     let navigate = useNavigate();
     const dispatch = useDispatch()
    
-    const user = isAdmin?.userId
-
-    const handelClick = () => {
-        {
-          localStorage.removeItem("credentials");
-        }
-    
-        dispatch({ type: "LOGOUT" });
-    
-        navigate("/");
-    
-        return toast.success(`Successfully logged out ${user?.email}`);
-      };
+    const user = isUser()?.userId
+  
+    const handleLogout = async () => {
+      await api(`/users/logout`, "POST", {}, {} );
+      dispatch({ type: "LOGOUT" });
+  
+      document.cookie = "user=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/";
+      navigate("/");
+  
+      return toast.success(`Successfully logged out ${user?.email}`);
+    };
 
     return(
         // navbar fixed  flex-none justify-between bg-base-300  z-10 shadow-md
@@ -51,7 +48,7 @@ function Header(){
                         </div>
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a onClick={handelClick}>Logout</a></li>
+                        <li><a onClick={handleLogout}>Logout</a></li>
                     </ul>
                 </div>
             </div>

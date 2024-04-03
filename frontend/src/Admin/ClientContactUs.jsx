@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 function ClientContactUs() {
   const [contact, setContact] = useState([]);
@@ -65,14 +66,15 @@ function ClientContactUs() {
                        </span>
                        </td>
                       < td>  
-                        <a
-                        href="/ClientMessageForm"
+                        <Link
+                        to={"/ClientMessageForm"}
+                         state={information.email}
                         type="button"
                         className="material-symbols-outlined"
                         style={{ color: "blue" }}
                     >
                       email
-                    </a>
+                    </Link>
                         </td>
                       </tr>        
               

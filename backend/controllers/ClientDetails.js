@@ -29,7 +29,7 @@ const gettingClientInfo = async (req, res) => {
       },
     });
 
-    res.status(200).json(client);
+    res.status(200).json({client});
   } catch (error) {
     return res.status(400);
   }

@@ -6,8 +6,9 @@ const {
 }=require('../controllers/imageController');
 const {requireAuth } =require('../middlleware/requireAuth');
 const {imageUpload } =require('../middlleware/upload');
+const { verifyToken } = require('../middlleware/token');
 
-router.post('/', requireAuth, imageUpload, createImages);
-router.get('/fetchImages',requireAuth, getImages);
+router.post('/', verifyToken, imageUpload, createImages);
+router.get('/fetchImages',verifyToken, getImages);
 
 module.exports = router

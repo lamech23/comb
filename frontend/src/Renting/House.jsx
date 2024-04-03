@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { usePDF } from "react-to-pdf";
 import RegisterTenant from "./RegisterTenant";
 import { Dialog, Transition } from "@headlessui/react";
+import { api } from "../utils/Api";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -61,20 +62,25 @@ function House() {
   )?.id;
 
   const getHouse = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/Details/housesLinkedToTenants/`
+    const response = await api(
+      `/Details/housesLinkedToTenants/`,
+      "GET",
+      {},
+      {}
     );
-    setHouse(response.data);
-    // console.log(response.data);
+    setHouse(response.details);
   };
 
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/houseRegister/${visitedHouseId}`
+          `/houseRegister/${visitedHouseId}`,
+          "GET",
+          {},
+          {}
         );
-        setTenant(response.data);
+        setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
       }
@@ -97,16 +103,7 @@ function House() {
       house_id: visitedHouseId,
     };
     try {
-      const res = await axios.post(
-        "http://localhost:4000/water/",
-        waterDetails,
-        {
-          headers: {
-            authorization: ` Bearer ${user?.token}`,
-            Accept: "application/json",
-          },
-        }
-      );
+      const res = await api("/water/", "POST", {}, waterDetails);
       if (res) {
         setPrice("");
         toast.success("added succesfuly");
@@ -118,13 +115,17 @@ function House() {
   };
 
   // getting water retes
+
   useEffect(() => {
     const getWaterRates = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
+        const res = await api(
+          `/water/fetchWater/${visitedHouseId}`,
+          "GET",
+          {},
+          {}
         );
-        setGetWater(res.data?.getWater);
+        setGetWater(res?.getWater);
       } catch (error) {
         toast.error("water rates not found " || error.massage);
       }
@@ -133,36 +134,13 @@ function House() {
 
     const getPayments = async (id) => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
+        const response = await api(
+          `/Tenant/fetchPayment/?userId= ${id}`,
+          "GET",
+          {},
+          {}
         );
-        setPayments(response.data?.totalAdditionalPayments);
-      } catch (error) {}
-    };
-    if (visitedHouseId) {
-      getPayments(visitedHouseId);
-    }
-  }, []);
-
-  useEffect(() => {
-    const getWaterRates = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:4000/water/fetchWater/${visitedHouseId}`
-        );
-        setGetWater(res.data?.getWater);
-      } catch (error) {
-        toast.error("water rates not found " || error.massage);
-      }
-    };
-    getWaterRates();
-
-    const getPayments = async (id) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/Tenant/fetchPayment/?userId= ${id}`
-        );
-        setPayments(response.data?.totalAdditionalPayments);
+        setPayments(response.totalAdditionalPayments);
       } catch (error) {}
     };
     if (visitedHouseId) {
@@ -170,7 +148,7 @@ function House() {
     }
   }, [visitedHouseId]);
 
-  const filteredProducts = tenant?.detailsWithTotal?.filter((item) => {
+  const filteredProducts = tenant?.filter((item) => {
     // Check if the item matches the search query
     const matchesQuery = keys.some((key) => {
       const value = item[key];
@@ -185,19 +163,17 @@ function House() {
     const matchesMonth = month.some((key) => {
       const value =
         key == "createdAt" ? months[new Date(item[key]).getMonth()] : item;
-        console.log(value);
+      console.log(value);
       return (
         value &&
         typeof value === "string" &&
         value.toLowerCase().includes(months)
       );
     });
-    
+
     return matchesQuery || matchesMonth;
   });
 
-
-  
   // console.log(months);
   // console.log(query);
   const monthsShort = [
@@ -262,8 +238,6 @@ function House() {
       water_bill: water_bill,
     };
   });
-
-
 
   useEffect(() => {}, [finalReport]);
   //tenanant deleting
@@ -364,7 +338,7 @@ function House() {
       </header>
       <div className="card w-full p-6 bg-base-100  ">
         <div className="flex flex-row justify-between items-center ">
-        <p className="text-3xl font-bold text-teal-600">Tenants</p>
+          <p className="text-3xl font-bold text-teal-600">Tenants</p>
 
           <div className="flex flex-row gap-4">
             <input
@@ -389,7 +363,7 @@ function House() {
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
           <table ref={targetRef} className="table w-full">
-          <thead>
+            <thead>
               <tr>
                 <th>id </th>
                 <th>House Number</th>
@@ -423,7 +397,7 @@ function House() {
               {filteredProducts?.map((tenants, index) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
-                    {index +1}
+                    {index + 1}
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.houseNumber}
@@ -587,17 +561,15 @@ function House() {
                   </td>
                   <td className="border text-black border-slate-700">
                     {tenants.totalExpenses}
-
-
                   </td>
                   <td>{tenants.createdAt}</td>
                   <Link
                     to={`/RegisterTenant/?edit=${tenants.id}`}
-                    state={tenant?.detailsWithTotal?.find(
+                    state={tenant?.find(
                       (meteData) => meteData.id === tenants.id
                     )}
                     class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                    >
+                  >
                     {" "}
                     update{" "}
                   </Link>

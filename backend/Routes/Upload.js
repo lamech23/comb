@@ -42,7 +42,7 @@ router.get("/Apartments", BnBHouse);
 router.get("/TourRequest", getAllTours);
 router.get("/fetchDetailsCategory/:category", getProductsInCategory);
 //Get a single upload
-router.get("/:id", getSingelDetails);
+router.get("/:id", verifyToken, getSingelDetails);
 //Testing Route
 router.get("/byId", getSingelDetails);
 

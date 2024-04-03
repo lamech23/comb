@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import { ServerUrl } from "../utils/ServerUrl";
 import { ToastContainer, toast } from "react-toastify";
 import { api } from "../utils/Api";
-import { isAdmin } from "../utils/Decoded";
+import { isAdmin, isUser } from "../utils/Decoded";
 
 function User() {
   const [socket, setSocket] = useState(null);
@@ -17,6 +17,8 @@ function User() {
   const [house, setHouse] = useState([]);
   const [agent, setAgent] = useState("");
   const admin = isAdmin();
+
+  const  user =isUser()?.userId
   useEffect(() => {
     setSocket(newSocket);
     return () => {
@@ -114,9 +116,17 @@ function User() {
     verifyingUser(id, verified);
   };
 
+
   const handelDelete = async (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (isConfirmed) {
     const res = await axios.delete(`http://localhost:4000/Users/${id} `);
     fetchUsers();
+    } else {
+      alert("Action Cancelled");
+    }
   };
 
   useEffect(() => {
@@ -138,48 +148,64 @@ function User() {
                 <th>Email</th>
                 <th>Role</th>
                 <th>House Managing </th>
+                <th>Approval Status </th>
                 <th>Assign House</th>
                 <th>Actions</th>
               </tr>
             </thead>
             {users &&
               users?.map((allUsers) => (
+               ! allUsers?.email.includes(user.email) && (
+
                 <tbody key={allUsers.id}>
                   <tr>
                     <td>{allUsers.id}</td>
+
                     <td>{allUsers.email}</td>
                     <td>{allUsers.role}</td>
                     <td>{allUsers?.agent[0]?.house?.houseName}</td>
-                    <td>
-                      <select
-                        className="p-2 rounded-md"
-                        onChange={(e) =>
-                          handleHouseSelection(allUsers.id, e.target.value)
-                        }
-                      >
-                        <option value="">Select house ...</option>
-                        {house &&
-                          house?.map(
-                            (h, index) =>
-                              !allUsers?.agent[0]?.house?.houseName.includes(
-                                h.houseName
-                              ) && (
-                                <option key={index} value={h.id}>
-                                  {h.houseName}
-                                </option>
-                              )
-                          )}
-                      </select>
+                    <td style={{ color: allUsers.verified ? "green" : "red" }}>
+                      {allUsers.verified ? "Verified" : "Unverified"}
                     </td>
 
-                    <td className="flex gap-2">
-                      <button
-                        onClick={handleSave}
-                        type="submit"
-                        className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
-                      >
-                        Assign
-                      </button>
+                    <td>
+                      {allUsers.role == "agent" ? (
+                        <select
+                          className="p-2 rounded-md"
+                          onChange={(e) =>
+                            handleHouseSelection(allUsers.id, e.target.value)
+                          }
+                        >
+                          <option value="">Select house ...</option>
+                          {house &&
+                            house?.map(
+                              (h, index) =>
+                                !allUsers?.agent[0]?.house?.houseName.includes(
+                                  h.houseName
+                                ) && (
+                                  <option key={index} value={h.id}>
+                                    {h.houseName}
+                                  </option>
+                                )
+                            )}
+                        </select>
+                      ) : (
+                        <p>N/A</p>
+                      )}
+                    </td>
+
+                    <td className="flex flex-row justify-center items-start  gap-2">
+                      <div>
+                        {allUsers.role == "agent" ? (
+                          <button
+                            onClick={handleSave}
+                            type="submit"
+                            className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
+                          >
+                            Assign
+                          </button>
+                        ) : null}
+                      </div>
                       <Link
                         to={`/UpdateUser/${allUsers.id}`}
                         type="button"
@@ -226,7 +252,11 @@ function User() {
                     </td>
                   </tr>
                 </tbody>
+                  )
+
               ))}
+
+
           </table>
         </div>
       </div>

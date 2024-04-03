@@ -3,11 +3,15 @@ import emailjs from "emailjs-com";
 import "../css/DetailsAdmin.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
 
 function ClientMessageForm() {
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("idle");
+  const  userEmail = useLocation().state
+  const [email, setEmail] = useState(userEmail);
+  // console.log(state);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,18 +33,18 @@ function ClientMessageForm() {
   };
   return (
     <>
-      <div className="split">
+      <div className=" flex flex-col mt-10 justifiy-center items-center w-full">
         <form onSubmit={handleSubmit} className="client card shadow-lg mt-5">
           <input
-            className="form-control mt-4"
+            className=" border p-2 rounded-lg mt-4"
             type="email"
             placeholder="Email"
             value={email}
             name="email"
-            onChange={(e) => setEmail(e.target.value)}
+            // onChange={(e) => setEmail(e.target.value)}
           />
           <textarea
-            className=" form-control mt-5"
+            className=" border  mt-5"
             id="textarea"
             placeholder="Message"
             value={message}

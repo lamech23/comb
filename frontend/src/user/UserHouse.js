@@ -1,23 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { isUser } from "../utils/Decoded";
+import { api } from "../utils/Api";
 
 
 function UserHouse() {
   const [userInfomation, setUserInformation] = useState([]);
-  console.log(userInfomation);
 
   try {
     useEffect(() => {
       fettchUserInfo();
     }, []);
     const fettchUserInfo = async () => {
-      const user = JSON.parse(localStorage.getItem("credentials"));
+      // const user = JSON.parse(localStorage.getItem("credentials"));
+      const user = isUser()?.userId
       let id = user.id;
 
-      const response = await axios.get(
-        `http://localhost:4000/Details/byUserId?user_id=` + id
+      const response = await api(
+        `/Details/byUserId?user_id=` + id, "GET", {}, {}
       );
-      setUserInformation(response.data);
+      setUserInformation(response.details);
     };
   } catch (error) {}
   return (

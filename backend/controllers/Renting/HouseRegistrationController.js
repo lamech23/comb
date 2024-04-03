@@ -106,7 +106,7 @@ const getTenants = async (req, res) => {
       });
     }
 
-    res.status(200).json(tenatsHouse);
+  res.status(200).json({tenatsHouse});
 
   } catch (error) {
     // res.status(400).json({ error: error.message });

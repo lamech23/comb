@@ -6,6 +6,16 @@ const fs = require("fs");
 const imageUrl = require("../models/imageModel.js");
 const agentManagmentTable = require("../models/agentManagment.js");
 // for landing page
+const cloudinary = require("cloudinary").v2;
+const dotenv = require('dotenv');
+dotenv.config();
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const getAllHouses = async (req, res) => {
   const page_size = 4;
@@ -226,17 +236,33 @@ const createDetails = async (req, res) => {
     } else {
       const details = await Details.create(info);
 
-      console.log(req.files.lenght);
-
-      for (let i = 0; i < req.files.length; i++) {
-        const imagePath = await imageUrl.create({
-          image: `${baseUrl}/${req.files[i].path}`,
-          user_id: user_id,
-          details_id: details.id,
-        });
-
-        imageUrls.push(imagePath);
+      for (const file of req.files) {
+        try {
+          const result = await cloudinary.uploader.upload(file.path, { folder: "Blogs" });
+          console.log('Upload successful:', result);
+          const imagePath = await imageUrl.create({
+            image: result.secure_url,
+            user_id: user_id,
+            details_id: details.id,
+          });
+          imageUrls.push(imagePath);
+     
+        } catch (error) {
+          console.error('Upload failed:', error);
+        }
       }
+
+      console.log(req.files.length);
+
+      // for (let i = 0; i < req.files.length; i++) {
+      //   const imagePath = await imageUrl.create({
+      //     image: `${baseUrl}/${req.files[i].path}`,
+      //     user_id: user_id,
+      //     details_id: details.id,
+      //   });
+
+      //   imageUrls.push(imagePath);
+      // }
 
       res.status(200).json({
         success: true,

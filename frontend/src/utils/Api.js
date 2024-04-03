@@ -22,7 +22,6 @@ export const api = async (url, method, headers = {}, data = {}) => {
             data,
             headers: requestHeaders,
         };
-console.log(config);
         const response = await axios(config);
         // console.log(config);
 

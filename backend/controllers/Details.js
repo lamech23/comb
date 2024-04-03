@@ -226,7 +226,7 @@ const createDetails = async (req, res) => {
     } else {
       const details = await Details.create(info);
 
-      console.log(req.files.lenght);
+      console.log(req.files.length);
 
       for (let i = 0; i < req.files.length; i++) {
         const imagePath = await imageUrl.create({

@@ -18,7 +18,7 @@ function Category() {
   const handleSbubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post("http://localhost:4000/cat/", {
+    const response = await api("/cat/","POST",{} ,{
       name: name,
     });
 

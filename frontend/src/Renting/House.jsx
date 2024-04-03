@@ -248,7 +248,7 @@ function House() {
     console.log("this id =>", id);
     if (isConfirmed) {
       await axios.delete(`http://localhost:4000/Tenant/removeTenant/?id=${id}`);
-      getTenantinfo();
+      // getTenantinfo();
     } else {
       alert("Action Cancelled");
     }

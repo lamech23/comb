@@ -4,6 +4,7 @@ import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { isAdmin, isUser } from "../utils/Decoded";
+import { api } from "../utils/Api";
 const localizer = momentLocalizer(moment);
 
 function Appointment() {
@@ -26,7 +27,9 @@ function Appointment() {
       appointments.push(response.client);
       setAppointment(appointments);
     };
-  } catch (error) {}
+  } catch (error) {
+    
+  }
 
   const events = appointment.map((appointments) => ({
     start: moment(appointments?.createdAt).toDate(),

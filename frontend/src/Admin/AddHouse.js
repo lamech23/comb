@@ -23,7 +23,7 @@ function AddingHouse() {
   const [type, setType] = useState("");
   const [units, setUnits] = useState("");
 
-  // console.log(user);
+  console.log("this image =>",image.length);
 
   const handleCancle = () => {
     setStatus(false);
@@ -66,25 +66,12 @@ function AddingHouse() {
       ) {
         toast.error("All fields must field");
       } else {
-        const response = await api("/Details", "POST", {}, formData);
-
-        // const response = await axios.post(
-        //   "http://localhost:4000/Details",
-        //   formData,
-
-        //   {
-        //     headers: {
-        //       authorization: ` Bearer ${user?.token}`,
-        //       Accept: "application/json",
-        //       "Content-Type": "multipart/form-data",
-        //     },
-        //   }
-        // );
+        const response = await api("/Details/", "POST", {}, formData);
 
         setStatus(false);
         toast.success("Added succesfuly ");
         {
-          navigate("/");
+          // navigate("/");
         }
 
         if (!response) {
@@ -108,8 +95,8 @@ function AddingHouse() {
       }
 
       if (error.response?.status === 403) {
-        navigate(error.response?.data?.redirect);
-        const errorMessage = error.response.data.error;
+        navigate(error.response.redirect);
+        const errorMessage = error.response.error;
 
         toast.error(`${errorMessage}`);
       }
@@ -127,7 +114,6 @@ function AddingHouse() {
 
   const fetchPopertyType = async () => {
     const response = await api("/type/fetch", "GET", {}, {});
-
     setPropertyType(response.allPropertyType);
   };
 

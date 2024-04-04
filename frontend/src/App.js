@@ -54,6 +54,7 @@
   import WaterBill from "./Renting/WaterBill";
   import { getAccessTokenFromCookie ,getUserRoles } from "./utils/AccesToken";
 import ChangeProfile from "./user/ChangeProfile";
+import SignUpProcess from "./componets/SignUpProcess";
 
   const DashLayout = lazy(() => import('./Dashboard/Layout'))
   const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -115,6 +116,7 @@ import ChangeProfile from "./user/ChangeProfile";
                 <Route path="/our-team" element={isAuthenticated() ? <Team /> : <Navigate to="/" />} />
                 <Route path="/HouseCategory/:category" element={isAuthenticated() ? <HouseCategory /> : <Navigate to="/" />} />
                 <Route path="/waterBill" element={isAuthenticated() ? <WaterBill /> : <Navigate to="/" />} />
+                <Route path="/signup-process" element={<SignUpProcess />} />
 
                 <Route
                     path="/admin/*"
@@ -131,6 +133,8 @@ import ChangeProfile from "./user/ChangeProfile";
 
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
+
+
             </div>
           </BrowserRouter>
         </div>

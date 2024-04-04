@@ -1,13 +1,15 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import "../css/Login.css";
 import "../css/error.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserRoles } from "../utils/AccesToken";
+import SignUpProcess from "../componets/SignUpProcess";
+import { Dialog, Transition } from "@headlessui/react";
 
 function Login() {
   const [error, setError] = useState("");
@@ -19,6 +21,8 @@ function Login() {
   const navigate = useNavigate();
   const userRoles = getUserRoles();
   const [showPasscode, setShowPasscode] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenRate, setIsOpenRate] = useState(false);
 
   const showPassword = async () => {
     const input = document.querySelector("#inputPassword");
@@ -80,6 +84,22 @@ function Login() {
       if (error.response?.status === 404) {
         const errorMessage = error.response.data.error;
         toast.error(errorMessage);
+        const loginButton = document.querySelector("#login-btn");
+        loginButton.style.display = "none";
+
+        const requestButton = document.createElement("button");
+        requestButton.id = "request-btn";
+
+        requestButton.textContent = "Request";
+        requestButton.className =
+          "w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2";
+
+        requestButton.onclick = () => {
+          openModal();
+          requestButton.onclick = null;
+        };
+
+        loginButton.parentNode.replaceChild(requestButton, loginButton);
       }
       if (error.response?.status === 400) {
         const errorMessage = error.response.data.error;
@@ -90,6 +110,21 @@ function Login() {
       setIsLoading(false);
     }
   };
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModalRate() {
+    setIsOpenRate(false);
+  }
+
+  function openModalRate() {
+    setIsOpenRate(true);
+  }
 
   return (
     <div className="log row ">
@@ -165,8 +200,10 @@ function Login() {
 
             <button
               type="submit"
+              id="login-btn"
               className="btn btn-success"
               style={{ width: "100%" }}
+              state={email}
             >
               Submit
             </button>
@@ -218,6 +255,33 @@ function Login() {
         pauseOnHover
         theme="colored"
       />
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={closeModal}
+        >
+          <div className="flex items-center justify-center min-h-screen">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="bg-white rounded-2xl p-6 text-left shadow-xl transition-all">
+                <SignUpProcess
+                  setIsOpen={setIsOpen}
+                  closeModal={closeModal}
+                  email={email}
+                />
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 }

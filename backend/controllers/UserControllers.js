@@ -71,29 +71,60 @@ const signupUser = async (req, res) => {
     return res.status(400).send({ error: "Invalid email format" });
   }
 
-  if (!passwordRegex.test(password)) {
-    return res.status(400).send({
-      error:
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit",
-    });
-  }
+  // if (!passwordRegex.test(password)) {
+  //   return res.status(400).send({
+  //     error:
+  //       "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit",
+  //   });
+  // }
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   try {
     const checkEmail = await users.findOne({ where: { email: email } });
-
+    
+    
+    
     if (checkEmail) {
       return res
         .status(409)
         .send({ error: `${checkEmail.email} is already a user  in freyton !` });
     } else {
-      await users.create({
+      const user = await users.create({
         email,
         password: hash,
         role: "user",
       });
 
+
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "lamechcruze@gmail.com",
+          pass: "fdbmegjxghvigklv",
+        },
+      });
+    
+      //email option
+      const mailOption = {
+        to: user.email,
+        subject: "Confirmation email  for your account.",
+        html:
+          " Hello there sir/ madam " +
+          `<p>You are reciving this email because  you request to be  part  of our application. Using your email and this  password ${password} you can login and  reset your password .</p> :\n`,
+      };
+      // end of else
+    
+      transporter.sendMail(mailOption, (err, response) => {
+        if (err) {
+          console.log("There was an error", err);
+        } else {
+          console.log("There was a response ", response);
+          res.status(200).json(" email sent ");
+        }
+      });
+    
       res.status(200).json({
         success: true,
       });
@@ -103,6 +134,10 @@ const signupUser = async (req, res) => {
 
     // res.status(400).json({ error: error.message });
   }
+
+
+
+  
 };
 
 const getAllUsers = async (req, res) => {
@@ -352,6 +387,8 @@ const getManagemts = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
 
 module.exports = {
   loginUser,

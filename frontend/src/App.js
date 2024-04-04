@@ -55,6 +55,7 @@
   import { getAccessTokenFromCookie ,getUserRoles } from "./utils/AccesToken";
 import ChangeProfile from "./user/ChangeProfile";
 import SignUpProcess from "./componets/SignUpProcess";
+import AllRequest from "./componets/AllRequest";
 
   const DashLayout = lazy(() => import('./Dashboard/Layout'))
   const ProfileLayout = lazy(() => import('./Profile/Layout'))
@@ -117,6 +118,7 @@ import SignUpProcess from "./componets/SignUpProcess";
                 <Route path="/HouseCategory/:category" element={isAuthenticated() ? <HouseCategory /> : <Navigate to="/" />} />
                 <Route path="/waterBill" element={isAuthenticated() ? <WaterBill /> : <Navigate to="/" />} />
                 <Route path="/signup-process" element={<SignUpProcess />} />
+                <Route path="/requests" element={<AllRequest />} />
 
                 <Route
                     path="/admin/*"

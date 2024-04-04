@@ -2,14 +2,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import "../css/signup.css";
 import "../css/error.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {api} from "../utils/Api";
 
 function CreateUser(e) {
-    const [email, setEmail] = useState("");
+  const locationState = useLocation().state
+    // const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [email, setEmail] = useState(locationState  ? locationState : "");
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {

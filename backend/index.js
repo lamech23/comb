@@ -18,6 +18,7 @@ const image=require('./Routes/imageRoute.js')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
 const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
+const loginProccess=require('./Routes/loginProccessRoutes.js')
 const createCategory=require('./Routes/category.js')
 const propertyType=require('./Routes/propertyType.js')
 const bodyParser = require('body-parser');
@@ -84,6 +85,7 @@ app.use('/Tenant',  TenantRegistering);
 app.use('/images',  image);
 app.use('/cat', createCategory);
 app.use('/type',  propertyType);
+app.use('/proccess',  loginProccess);
 
 
 

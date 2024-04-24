@@ -21,7 +21,7 @@ import { api } from "../utils/Api";
 function Header() {
   const dispatch = useDispatch();
   const user = isUser?.userId;
-  const [request, setRequest]=useState([])
+  const [request, setRequest] = useState([]);
 
   const navigate = useNavigate();
 
@@ -36,20 +36,19 @@ function Header() {
     return toast.success(`Successfully logged out ${user?.email}`);
   };
 
-    const fetchRequests = async ()=>{
-  
-      const response = await axios.get('http://localhost:4000/proccess/fetchRequests')
-      setRequest(response.data.requests)
-  
-    }
-    useEffect(()=>{
-      fetchRequests()
-    },[])
+  const fetchRequests = async () => {
+    const response = await axios.get(
+      "http://localhost:4000/proccess/fetchRequests"
+    );
+    setRequest(response.data.requests);
+  };
+  useEffect(() => {
+    fetchRequests();
+  }, []);
 
-    const requestLenght= request.length
+  const requestLenght = request.length;
 
   return (
-
     <>
       <div className="navbar sticky top-0 bg-base-100  z-10 shadow-md mt-5 ">
         {/* Menu toogle for mobile view or small screen */}
@@ -63,9 +62,12 @@ function Header() {
         </div>
 
         <div>
-          <Link  to={'/requests'} className=" relative material-symbols-outlined">
+          <Link
+            to={"/requests"}
+            className=" relative material-symbols-outlined"
+          >
             notifications
-          </Link >
+          </Link>
           <button className="absolute -top-3 right-14 text-center bg-red-200 cursor-pointer  text-red-600 text-2xl w-8 border rounded-full">
             {requestLenght}
           </button>
@@ -78,17 +80,17 @@ function Header() {
                 <img src="https://placeimg.com/80/80/people" alt="profile" />
               </div>
             </label>
-              <div
-                tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <span>
-                  <a onClick={handleLogout}>Logout</a>
-                </span>
-              </div>
+            <div
+              tabIndex={0}
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <span>
+                <a onClick={handleLogout}>Logout</a>
+              </span>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 }

@@ -14,6 +14,11 @@ const loginProccess = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    read: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    }
+   
    
   },
   {

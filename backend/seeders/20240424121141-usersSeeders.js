@@ -1,10 +1,8 @@
-const { users } = require("./models/UserModels");
- const {Sequelize} = require( 'sequelize' );
- const bcrypt = require("bcrypt");
+'use strict';
 
-
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async(queryInterface, Sequelize) => {
+  async up (queryInterface, Sequelize) {
     const hashedPassword = await bcrypt.hash('katindi1@', 10);
 
     return queryInterface.bulkInsert('Users', [
@@ -19,7 +17,9 @@ module.exports = {
       },
     ]);
   },
-  down: (queryInterface, Sequelize) => {
+
+  async down (queryInterface, Sequelize) {
     return queryInterface.bulkDelete('Users', null, {});
-  },
+
+  }
 };

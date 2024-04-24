@@ -26,6 +26,7 @@ const getRequest = async (req, res) => {
 
     const requests = await loginProccess.findAll({
       where: {
+        read: false,
         createdAt: {
           [Op.gte]: startOfToday,
         },
@@ -40,7 +41,22 @@ const getRequest = async (req, res) => {
   }
 };
 
+// updating the status for the request
+const updateStatus = async (req, res) => {
+  const id = req.params.id;
+
+  const requestStatus = { read: req.query.read };
+
+  try {
+    const requests = await loginProccess.update(requestStatus, {where: {id: id}});
+    res.status(200).json(requests);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   userLoginProccess,
   getRequest,
+  updateStatus
 };

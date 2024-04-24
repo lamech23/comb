@@ -78,6 +78,7 @@ const signupUser = async (req, res) => {
   //   });
   // }
 
+
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   try {
@@ -218,6 +219,23 @@ const getUserById = async (req, res) => {
     res.status(200).json({ User });
   }
 };
+
+
+
+const getUserForUpdating = async (req, res) => {
+  const { id } = req.params;
+
+  const User = await users.findOne({
+    where: {
+      id: id
+    },
+  });
+  if (!User) {
+    return res.status(400);
+  } else {
+    res.status(200).json({User});
+  }
+};
 //elevating user
 const getUserInfo = async (req, res) => {
   const { id } = req.params;
@@ -308,9 +326,11 @@ const reset = async (req, res) => {
   }
 };
 const updateUserEmail = async (req, res) => {
-  // const { id } = req.params;
-  const user = req?.user?.userId;
-  const id = user?.id;
+  const { id } = req.params;
+  // const user = req?.user?.userId;
+  // const id = user?.id;
+  console.log(id ,"testing id ");
+
   const info = {
     role: req.body.role,
     email: req.body.email,
@@ -405,4 +425,5 @@ module.exports = {
   managment,
   getManagemts,
   verifyUser,
+  getUserForUpdating
 };

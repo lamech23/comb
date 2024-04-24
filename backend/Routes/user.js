@@ -13,7 +13,8 @@ const {
     logout,
     managment,
     getManagemts,
-    verifyUser
+    verifyUser,
+    getUserForUpdating
 }=require('../controllers/UserControllers')
 
 const { verifyToken } = require("../middlleware/token");
@@ -25,9 +26,10 @@ router.get('/all',verifyToken,hasAdmin,getAllUsers)
 router.post('/signup',verifyToken, signupUser)
 router.post('/forgotPassword', forgotPassword)
 router.put('/reset/:id', reset)
-router.patch('/userUpdate',verifyToken, updateUserEmail)
+router.patch('/userUpdate/:id',verifyToken, updateUserEmail)
 router.delete('/:id', deleteUser)
 router.get('/specificUser/',verifyToken, getUserById,)
+router.get('/single-user/:id',verifyToken, getUserForUpdating,)
 router.patch('/userStatus/:id', deactivate)
 router.patch('/verifyUser/:id', verifyUser)
 router.post('/assing', managment)

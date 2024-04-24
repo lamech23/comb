@@ -80,7 +80,7 @@ function House() {
           {},
           {}
         );
-        setTenant(response.detailsWithTotal);
+        setTenant(response);
       } catch (error) {
         console.log(error);
       }

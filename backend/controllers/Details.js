@@ -101,8 +101,8 @@ const getAllHousesByName = async (req, res) => {
           };
         });
 
-        console.log("Agent details:", details); // Log agent details to the console
-        res.status(200).send(details);
+        console.log("Agent details:", details); 
+        res.status(200).json({details});
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }

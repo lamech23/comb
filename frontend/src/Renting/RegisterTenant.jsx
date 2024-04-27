@@ -18,8 +18,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   const [rent, setRent] = useState(state?.rent || "");
   const [rentDeposit, setRentDeposit] = useState(state?.rentDeposit || "");
   const [waterReading, setWaterReadiing] = useState(state?.waterReading || "");
-  const [waterBill, setWaterBill] = useState(state?.waterBill || "");
-  const [garbage, setGarbage] = useState(state?.garbage || "");
   const [userName, setUserName] = useState(state?.phoneNumber || "");
   const [phoneNumber, setPhoneNumber] = useState(state?.phoneNumber || "");
 
@@ -54,6 +52,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   const registeredTenants = tenant?.detailsWithTotal?.map(
     (tenant) => tenant.email
   );
+
   useEffect(() => {
     const getHouse = async () => {
       const response = await api(
@@ -81,7 +80,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
     e.preventDefault();
     try {
       if (state) {
-        await api(
+      const  updatedTenant =   await api(
           `/Tenant/change/${id}`,
           "PATCH",
           {},
@@ -93,8 +92,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
             rentDeposit: rentDeposit,
             password: password,
             waterReading: waterReading,
-            waterBill: waterBill,
-            garbage: garbage,
             userName: userName,
             phoneNumber: phoneNumber,
             nextOfKingNumber: nextOfKingNumber,
@@ -105,17 +102,15 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
             houseId: visitedHouseId,
             tenant_id: id,
           },
-          {
-            headers: {
-              authorization: ` Bearer ${user?.token}`,
-              Accept: "application/json",
-            },
-          }
         );
         // navigate(`House/${houseName}`)
-        toast.success("Succesfully upadated");
+        if(updatedTenant){
+
+          toast.success("Succesfully upadated");
+        }
       } else {
       }
+
       const response = await api(
         "/Tenant/registerTenant","POST", {},
         {
@@ -126,8 +121,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
           rentDeposit: rentDeposit,
           password: password,
           waterReading: waterReading,
-          waterBill: waterBill,
-          garbage: garbage,
           userName: userName,
           phoneNumber: phoneNumber,
           nextOfKingNumber: nextOfKingNumber,
@@ -146,8 +139,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
         setEmail("");
         setRentDeposit("");
         setWaterReadiing("");
-        setWaterBill("");
-        setGarbage("");
         setUserName("");
         setNextOfKingNumber("");
         setHouse("");
@@ -167,16 +158,30 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
 
   return (
     <>
-      <div className=" mt-40">
-        <div className="space-y-12">
-          <h3 className=" flex flex-row justify-center   text-center mt-4 ">
-            {" "}
-            Tenants Details for{" "}
+      <div className=" mt-40 px-40  ">
+        <div className="space-y-12 border  p-10 rounded-lg  shadow-md shadow-indigo-200" >
+        {state ? (
+
+          <h3 className=" flex flex-row justify-center   text-center mt-4 text-lg  ">
+            Update Tenants Details for :
             <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
               {" "}
               {email}
             </p>
           </h3>
+          ):
+          (
+
+            <h3 className=" flex flex-row justify-center   text-center mt-4 ">
+              {" "}
+            Create   Tenants Details for{" "}
+              <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
+                {" "}
+                {email}
+              </p>
+            </h3>
+            )
+        }
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
@@ -312,21 +317,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                   onChange={(e) => setWaterReadiing(e.target.value)}
                 />
               </div>
-              <div class="sm:col-span-3">
-                <label for="" className="form-label">
-                  Water Bill
-                </label>
-
-                <input
-                  type="number"
-                  name="waterBill"
-                  id=""
-                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                  placeholder=""
-                  value={waterBill}
-                  onChange={(e) => setWaterBill(e.target.value)}
-                />
-              </div>
+           
 
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
@@ -343,20 +334,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                 />
               </div>
 
-              <div class="sm:col-span-3">
-                <label for="" className="form-label">
-                  Garbage
-                </label>
-                <input
-                  type="number"
-                  name="garbage"
-                  id=""
-                  class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
-                  placeholder=""
-                  value={garbage}
-                  onChange={(e) => setGarbage(e.target.value)}
-                />
-              </div>
+            
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   User name

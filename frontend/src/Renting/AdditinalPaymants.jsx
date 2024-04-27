@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Calendar } from "primereact/calendar";
+
 import { api } from "../utils/Api";
 
 function AdditinalPaymants() {
@@ -17,16 +18,16 @@ function AdditinalPaymants() {
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/houseRegister/${houseId}`
-        );
-        setTenant(response.data);
+        const response = await api(`/houseRegister/${houseId}`, "GET", {}, {});
+        setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
       }
     };
     getTenantinfo();
   }, []);
+
+
 
   const creatingPayment = async (e) => {
     e.preventDefault();
@@ -63,7 +64,7 @@ function AdditinalPaymants() {
               </tr>
             </thead>
             <tbody>
-              {tenant?.detailsWithTotal?.map((tenants) => (
+              {tenant?.map((tenants) => (
                 <tr key={tenants.id}>
                   <td className="border text-black border-slate-700">
                     {tenants.id}
@@ -78,6 +79,7 @@ function AdditinalPaymants() {
                   <td className="border text-black border-slate-700">
                     <input
                       type="text"
+                      className="border w-full p-2 ronded"
                       value={amount}
                       onChange={(e) =>
                         setUpdatedUsers({
@@ -91,7 +93,9 @@ function AdditinalPaymants() {
                     />
                   </td>
                   <td className="border text-black border-slate-700">
-                    <Calendar
+                    <input
+                    type="date"
+                    className="border w-full p-2"
                       value={dateTime}
                       onChange={(e) =>
                         setUpdatedUsers({
@@ -104,11 +108,13 @@ function AdditinalPaymants() {
                       }
                     />
                   </td>
+                  <td className="border text-black border-slate-700">
+
 
                   <select
                     id="paymenyType"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                      focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                      focus:border-blue-500 block w-full p-4 dark:bg-gray-400  dark:placeholder-gray-400 dark:text-white
                         dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value={paymentType}
                     onChange={(e) =>
@@ -126,6 +132,8 @@ function AdditinalPaymants() {
                     <option value="bank">Bank </option>
                     <option value="cash">Cash</option>
                   </select>
+                  </td>
+
                 </tr>
               ))}
             </tbody>

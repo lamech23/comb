@@ -16,12 +16,12 @@ const { verifyToken } = require('../../middlleware/token');
 
 
 
-router.post('/registerTenant', verifyToken,hasAdmin ,hasAgent , tenatRegistration)
-router.post('/registerPayment',verifyToken, hasAdmin ,hasAgent , paymentsCreations)
-router.patch('/change/:id',  verifyToken, hasAdmin ,hasAgent ,requireAuth, tentantUpdating)
-router.put('/updateWaterBill',verifyToken,hasAdmin ,hasAgent ,  updateWaterBill)
-router.get('/fetchPayment/',verifyToken, hasAdmin ,hasAgent , getPayments)
-router.delete('/removeTenant/',verifyToken, hasAdmin ,hasAgent , deleteTenant)
+router.post('/registerTenant', verifyToken,hasAdmin , tenatRegistration)
+router.post('/registerPayment',verifyToken, hasAdmin, paymentsCreations)
+router.patch('/change/:id',  verifyToken, hasAdmin, tentantUpdating)
+router.put('/updateWaterBill',verifyToken,hasAdmin  ,  updateWaterBill)
+router.get('/fetchPayment/',verifyToken, hasAdmin  , getPayments)
+router.delete('/removeTenant/',verifyToken, hasAdmin  , deleteTenant)
 
 
 module.exports= router ;

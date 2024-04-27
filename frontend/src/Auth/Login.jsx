@@ -42,11 +42,7 @@ function Login() {
     setIsLoading(true);
 
     try {
-      // if (email.length === 0 || password.length === 0) {
-      //   toast.error("Fields cannot be empty");
-      // } else if (password.length < 8) {
-      //   toast.error("Password must be 8 or more characters");
-      // } else {
+  
       const response = await axios.post("http://localhost:4000/Users/login", {
         email: email,
         password: password,
@@ -68,7 +64,7 @@ function Login() {
           navigate("/landowner");
           toast.success(`Welcom back`);
         } else if (userRoles.includes("tenant")) {
-          navigate("/TenantDashboard");
+          navigate("/landowner");
           toast.success(`Welcom back`);
         } else {
           navigate("/");
@@ -127,18 +123,12 @@ function Login() {
   }
 
   return (
-    <div className="log row ">
-      {loggedIn && (
-        <div className="text-center  mb-5 alert alert-danger">
-          {" "}
-          succesfully logged in{" "}
-        </div>
-      )}
-      <div className="container-fluid ">
-        <div className=" login_page   justify-content-center items-center lg:w-fit  ">
+    <div class="log h-screen flex justify-center items-center">
+    <div class="container-fluid">
+      <div class="login_page justify-content-center items-center   p-10 lg:w-fit">
           <h5 className="text-center text-info">Login </h5>
 
-          <form onSubmit={handelSubmit} className="col lg:w-fit ">
+          <form onSubmit={handelSubmit} className=" lg:w-full ">
             <div className="mb-5">
               <label htmlFor="Email" className="form-Label fw-bold">
                 {" "}
@@ -147,13 +137,12 @@ function Login() {
                   <i className="bi bi-envelope"></i>
                 </span>
               </label>
-              <div className="input-group">
+              <div className="">
                 <input
                   type="text"
                   name="email"
-                  class="block w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                  class=" w-full rounded-md border-0 px-3 py-1.5 text-black  bg-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
                   id="inputEmail"
-                  aria-describedby="emailHelp"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -208,19 +197,7 @@ function Login() {
               Submit
             </button>
 
-            {/* <div>
-              <p className="text-end mt-3 text-white ">
-                Don't have an account please click here to
-                <Link
-                  className="text-decoration-none fs-5 text-info"
-                  to="/SignUp"
-                  id="reg"
-                >
-                  {" "}
-                  Register
-                </Link>
-              </p>
-            </div> */}
+       
             <div className=" mt-2">
               <Link
                 className="text-decoration-none fs-5 text-info"
@@ -235,12 +212,7 @@ function Login() {
           </form>
           {/* message modal if user is in active */}
         </div>
-        {error && (
-          <div className="alert alert-danger mt-5 text-center w-5" id="errors">
-            {error}
-          </div>
-        )}
-
+   
         <div />
       </div>
       <ToastContainer

@@ -8,7 +8,7 @@ function AllHouses() {
 
   const getHouse = async () => {
     const response = await api("/Details/fetchHousesByName", "GET", {}, {});
-    setHouse(response);
+    setHouse(response.details);
   };
   useEffect(() => {
     getHouse();
@@ -28,7 +28,6 @@ function AllHouses() {
               <tr>
                 <th>Id</th>
                 <th>Houses</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -38,20 +37,13 @@ function AllHouses() {
                     <td>{index + 1}</td>
                     <td>
                       <Link
-                        className="no-underline text-gray-700"
+                        class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                         to={`/House/${item.houseName}`}
                       >
                         {item.houseName}
                       </Link>
                     </td>
-                    <td>
-                      <button
-                        type="button "
-                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                      >
-                        Delete
-                      </button>{" "}
-                    </td>
+                 
                   </tr>
                 ) : null
               )}

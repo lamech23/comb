@@ -195,7 +195,7 @@ const getSingelDetails = async (req, res) => {
       },
     });
 
-    res.status(200).json(details);
+    res.status(200).json({details});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Cant get the single details for " });

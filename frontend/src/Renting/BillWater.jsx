@@ -24,7 +24,7 @@ function BillWater() {
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
-        const response = await api(`houseRegister/${houseId}`, "GET", {}, {});
+        const response = await api(`/houseRegister/${houseId}`, "GET", {}, {});
         setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
@@ -32,8 +32,7 @@ function BillWater() {
     };
     getTenantinfo();
   }, []);
-
-  console.log(tenant);
+console.log(tenant);
 
   const handleUpdate = async () => {
     try {
@@ -63,7 +62,7 @@ function BillWater() {
       <div className=" px-20 shadow-xl shadow-indigo-100 rounded-lg mt-16">
         <div className="flex flex-col justify-center items-center mt-10">
           <div className="card w-full p-6 bg-base-100  ">
-            <p>Bill Water</p>
+          <span className='mb-10 font-bold text-3xl capitalize text-green-500 '> bill water </span>
             <div className="divider mt-2"></div>
             {/* Team Member list in table format loaded constant */}
             <div className="overflow-x-auto w-full">
@@ -124,6 +123,7 @@ function BillWater() {
                         }
                       />
                     </td>
+                    
 
                     <td>
                       {tenants.totalWaterReadings <= 0
@@ -158,7 +158,7 @@ function BillWater() {
               >
                 <button
                   type="submit "
-                  class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  class="text-white bg-gradient-to-r mt-6 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                 >
                   Bill water
                 </button>

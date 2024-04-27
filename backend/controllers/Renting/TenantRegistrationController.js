@@ -48,8 +48,6 @@ const tenatRegistration = async (req, res) => {
         email,
         rentDeposit,
         waterReading,
-        waterBill,
-        garbage,
         userName,
         houseName,
         rentPaymentDate,
@@ -82,14 +80,12 @@ const tentantUpdating = async (req, res) => {
     rent: req.body.rent,
     email: req.body.email,
     waterReading: req.body.waterReading,
-    waterBill: req.body.waterBill,
-    garbage: req.body.garbage,
     userName: req.body.userName,
     previousBalance: req.body.previousBalance,
     phoneNumber: req.body.phoneNumber,
     nextOfKingNumber: req.body.nextOfKingNumber,
     prevReadings: req.body.prevReadings,
-    currentReadings: currentReadings,
+    currentReadings: req.body.currentReadings,
   };
 
   try {
@@ -97,11 +93,7 @@ const tentantUpdating = async (req, res) => {
       where: { id: id },
     });
 
-    //  res.status(404).json({
-    //   success: false,
-    //   error: "Tenant not found",
-    // });
-
+    
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
       user_id: user_id,

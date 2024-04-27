@@ -18,6 +18,7 @@ function Navbar() {
   // const { user } = useAuthContext();
   const role = useIsAdmin();
   const admin = isAdmin();
+  console.log(admin);
 
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();

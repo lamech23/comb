@@ -77,7 +77,9 @@ function Header() {
           <div className="dropdown dropdown-end ml-4">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src="https://placeimg.com/80/80/people" alt="profile" />
+                <img  className=" object-center"
+                src="https://media.geeksforgeeks.org/wp-content/uploads/20240226132217/w2.png" 
+                 alt="profile" />
               </div>
             </label>
             <div

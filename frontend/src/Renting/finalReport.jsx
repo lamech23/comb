@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 function FinalReport() {
   const reportData = useLocation().state;
+  console.log(reportData);
 
   // total calculation for rent
   const finalRentSum = reportData
@@ -16,8 +17,9 @@ function FinalReport() {
 
   // total calculation for  balance
   const finalBalanceSum = reportData
-    ?.map((data) => data.balance)
+    ?.map((data) => data.totalBalance)
     .reduce((prev, next) => prev + next, 0);
+
 
   let totalSum = finalRentSum + finalWaterBillSum + finalBalanceSum;
   let totalSumWithCommision = Math.floor((10 / 100) * totalSum);
@@ -70,10 +72,10 @@ function FinalReport() {
                       </td>
                       <td
                         className={`
-                ${metaDeta.balance < 0 ? "text-red-600" : "text-green-600"}
+                ${metaDeta.totalBalance < 0 ? "text-red-600" : "text-green-600"}
                 px-6 py-4`}
                       >
-                        Ksh {metaDeta.balance}
+                        Ksh {metaDeta.totalBalance}
                       </td>
                     </tr>
                   </tbody>
@@ -106,11 +108,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3  text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3  text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3  text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                        {finalRentSum}
                     </td>
                     </tr>
@@ -121,11 +122,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                        {finalWaterBillSum}
                     </td>
                     </tr>
@@ -136,7 +136,6 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
                     <td class={`text-lg font-semibold border-b-0 p-3 border-t  ${
@@ -154,11 +153,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                        {finalWaterBillSum}
                     </td>
                     </tr>
@@ -169,11 +167,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                       {totalSum}
                     </td>
                     </tr>
@@ -185,11 +182,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                       {totalSumWithCommision}
                     </td>
                     </tr>
@@ -200,11 +196,10 @@ function FinalReport() {
                       </td>
 
                       <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                         =
                       </td>
 
-                    <td class="border-b-0 p-3 border-t text-black text-lg font-semibold  pt-2">
-                      {" "}
+                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
+                      {" "} 
                       {netTotal}
                     </td>
                     </tr>

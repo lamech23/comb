@@ -8,7 +8,7 @@ const hasAdmin = (req, res, next) => {
         const roles = accessToken.userId.role;
 
         // Check if the user has the "admin" role
-        if (roles.includes("admin")) {
+        if (roles.includes("admin") || roles.includes("agent") ) {
             next();
         } else {
             res.status(403).send({
@@ -16,7 +16,6 @@ const hasAdmin = (req, res, next) => {
             });
         }
     } catch (error) {
-        // Handle token verification errors
         res.status(401).json({ error: "Invalid token" });
     }
 };

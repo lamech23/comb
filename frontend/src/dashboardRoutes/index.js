@@ -13,6 +13,7 @@ const Status = lazy(() => import('../Admin/Stats'))
 const User = lazy(() => import('../Admin/User'))
 const CreateUser = lazy(() => import('../Admin/CreateUser'))
 const allPosts = lazy(() => import('../Renting/AllPosts'))
+const request = lazy(() => import('../componets/AllRequest'))
 
 
 
@@ -60,6 +61,11 @@ const routes = [
   {
     path: '/allPosts',
     component: allPosts,
+  },
+
+  {
+    path: '/request',
+    component: request,
   },
 
 

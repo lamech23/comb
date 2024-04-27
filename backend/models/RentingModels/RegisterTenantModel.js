@@ -26,12 +26,7 @@ const tenantRegistration = db.define(
     waterReading: {
       type: DataTypes.STRING,
     },
-    waterBill: {
-      type: DataTypes.INTEGER,
-    },
-    garbage: {
-      type: DataTypes.STRING,
-    },
+   
 
     userName: {
       type: DataTypes.STRING,

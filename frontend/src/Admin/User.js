@@ -26,6 +26,13 @@ function User() {
     };
   }, []);
 
+   // testing purposes  only 
+
+   house?.map((item) => {
+    console.log("this item ",item);
+
+   })
+
   // get the instance  of the two  userId and  houseId
   const handleHouseSelection = (agentId, houseId) => {
     setAgent({
@@ -178,7 +185,9 @@ function User() {
                         >
                           <option value="">Select house ...</option>
                           {house &&
-                            house?.map(
+                            house
+                            .filter((h) => h.type === "renting")
+                            .map(
                               (h, index) =>
                                 !allUsers?.agent[0]?.house?.houseName.includes(
                                   h.houseName
@@ -200,8 +209,8 @@ function User() {
                           <button
                             onClick={handleSave}
                             type="submit"
-                            className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
-                          >
+                            class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            >
                             Assign
                           </button>
                         ) : null}

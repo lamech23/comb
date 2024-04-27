@@ -9,6 +9,7 @@ import { usePDF } from "react-to-pdf";
 import RegisterTenant from "./RegisterTenant";
 import { Dialog, Transition } from "@headlessui/react";
 import { api } from "../utils/Api";
+import moment from "moment";
 
 function House() {
   const [tenant, setTenant] = useState([]);
@@ -17,16 +18,31 @@ function House() {
   const [price, setPrice] = useState("");
   const { user } = useAuthContext();
   const [getWater, setGetWater] = useState([]);
+  const [getGarbage, setGetGarbage] = useState([]);
   const [display, setDisplay] = useState(false);
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [payments, setPayments] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
+  const [isGarbage, setIsGarbage ] = useState(false);
   const [query, setQuery] = useState("");
   const [months, setMonths] = useState("");
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
+
+  const [currentMonth, setCurrentMonth] = useState(moment().format("MMM"));
+
+  // Function to handle starting a new month
+  const startNewMonth = () => {
+    const nextMonth = moment().add(1, "months").format("MMM");
+
+    setCurrentMonth(nextMonth);
+
+  };
+
+  console.log(getGarbage);
+
 
   function closeModal() {
     setIsOpen(false);
@@ -44,13 +60,20 @@ function House() {
     setIsOpenRate(true);
   }
 
+  function openGarbage(){
+    setIsGarbage(true)
+
+  }
+  function closeGarbage(){
+    setIsGarbage(false)
+
+  }
   // water bill total
   const waterUnits = getWater
     ?.map((house) => {
       return house.price;
     })
     .slice(-1)[0];
-  //houseId
 
   // let houseIdArray = house?.map((house) => house.id);
   let houseIdArray = house?.map((house) => house.id);
@@ -74,13 +97,13 @@ function House() {
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
-        const response = await axios.get(
+        const response = await api(
           `/houseRegister/${visitedHouseId}`,
           "GET",
           {},
           {}
         );
-        setTenant(response);
+        setTenant(response.detailsWithTotal);
       } catch (error) {
         console.log(error);
       }
@@ -114,6 +137,27 @@ function House() {
     }
   };
 
+
+    // creating garbage reading
+    const createGarbage = async (e) => {
+      e.preventDefault();
+      const garbageDetails = {
+        price: price,
+        house_id: visitedHouseId,
+      };
+      try {
+        const res = await api("/garbage/", "POST", {}, garbageDetails);
+        if (res) {
+          setPrice("");
+          toast.success("added succesfuly");
+          setIsOpen(false);
+        }
+      } catch (error) {
+        toast.error(JSON.stringify(error.message) || "field cannot be empty");
+      }
+    };
+  
+
   // getting water retes
 
   useEffect(() => {
@@ -132,10 +176,26 @@ function House() {
     };
     getWaterRates();
 
+
+    const getGarbagePrice = async () => {
+      try {
+        const res = await api(
+          `/garbage/fetch-garbage/${visitedHouseId}`,
+          "GET",
+          {},
+          {}
+        );
+        setGetGarbage(res?.getGarbage);
+      } catch (error) {
+        toast.error("garbage price not found " || error.massage);
+      }
+    };
+    getGarbagePrice();
+
     const getPayments = async (id) => {
       try {
         const response = await api(
-          `/Tenant/fetchPayment/?userId= ${id}`,
+          `/Tenant/fetchPayment/?userId=${id}`,
           "GET",
           {},
           {}
@@ -159,22 +219,20 @@ function House() {
       );
     });
 
-    // Check if the item matches the selected month
-    const matchesMonth = month.some((key) => {
-      const value =
-        key == "createdAt" ? months[new Date(item[key]).getMonth()] : item;
-      console.log(value);
-      return (
-        value &&
-        typeof value === "string" &&
-        value.toLowerCase().includes(months)
-      );
-    });
+   
+    //   const value = item.createdAt.includes(months)
+         
+     
 
-    return matchesQuery || matchesMonth;
+    // return matchesQuery  
+
+
+  const value = month.some(month => item.createdAt.includes(months));
+
+  // Return value if it's true, otherwise return matchesQuery
+  return matchesQuery;
   });
 
-  // console.log(months);
   // console.log(query);
   const monthsShort = [
     "Jan",
@@ -199,7 +257,7 @@ function House() {
 
     payments &&
       Object.values(payments).map((paymentData, index) => {
-        const matchingObjects = Object.values(paymentData).filter(
+        const matchingObjects = Object.values(paymentData)?.filter(
           (obj) => obj.userId === tenants.id
         );
 
@@ -246,8 +304,9 @@ function House() {
       "Are you sure you want to delete this tenant?"
     );
     if (isConfirmed) {
-      await axios.delete(`http://localhost:4000/Tenant/removeTenant/?id=${id}`);
-      // getTenantinfo();
+      await api(`/Tenant/removeTenant/?id=${id}`, "DELETE",{}, {} );
+      getTenantinfo();
+
     } else {
       alert("Action Cancelled");
     }
@@ -286,6 +345,13 @@ function House() {
             >
               Add Water Rate
             </button>
+            <button
+              type="button"
+              onClick={openGarbage}
+              className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            >
+              Garbage 
+            </button>
 
             <Link
               to={`/payments/${visitedHouseId}`}
@@ -311,7 +377,7 @@ function House() {
               Generate House Report
             </Link>
 
-            <Link
+          <Link
               to={`/addtionalPayments/${houseId}`}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
@@ -355,7 +421,14 @@ function House() {
               placeholder="Search.."
               onChange={(e) => setQuery(e.target.value)}
             />
+                <button
+            onClick={startNewMonth}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Start New Month
+          </button>
           </div>
+      
         </div>
 
         <div className="divider mt-2"></div>
@@ -380,37 +453,36 @@ function House() {
                 <th>current water reading</th>
                 <th>Water units</th>
 
-                <th>Water per unit</th>
+                <th>Water per unit (Ksh)</th>
                 <th>Water Bill</th>
                 <th>Previous Balance</th>
-                <th>Garbage</th>
+                <th>Garbage price (Ksh)</th>
                 <th>Phone Number</th>
                 <th>Next_of_kin </th>
                 <th>balance C/F</th>
                 <th>Total</th>
-                <th>createdAt</th>
-                <th> water readings</th>
+                <th> Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts?.map((tenants, index) => (
                 <tr key={tenants.id}>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {index + 1}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.houseNumber}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.tenantsName}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.payableRent}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.rent}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {payments &&
                       Object.values(payments).map((paymentData, index) => {
                         const matchingObjects = Object.values(
@@ -431,7 +503,7 @@ function House() {
                                     key={`${index}-${innerIndex}`}
                                     className="flex flex-row justify-center items-center   "
                                   >
-                                    <td className="flex flex-row gap-2 text-black border-slate-700 p-2">
+                                    <td className="flex flex-row gap-2 text-gray-600 text-sm   p-2">
                                       <p className="whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-rose-200 text-sm text-rose-700">
                                         {" "}
                                         {
@@ -447,17 +519,19 @@ function House() {
                                         {matchingObject.amount}
                                       </p>
                                     </td>
-                                    <td className=" text-black border-slate-700">
-                                      {matchingObject.dateTime}
+                                    <td className=" text-gray-600 text-sm  ">
+                                      {moment(matchingObject.dateTime).format(
+                                        "MMM Do YY"
+                                      )}
                                     </td>
-                                    <td className=" text-black border-slate-700">
+                                    <td className=" text-gray-600 text-sm  ">
                                       {matchingObject.paymentType}
                                     </td>
                                   </tr>
                                 )
                               )}
                               <tr className="flex flex-row justify-around  items-center">
-                                <td className="  border-slate-700  text-green-600">
+                                <td className="    text-green-600">
                                   New Rent: {totalAmount + Number(tenants.rent)}
                                 </td>
                               </tr>
@@ -465,29 +539,30 @@ function House() {
                           );
                         }
 
-                        return null; // Return null if userId doesn't match
+                        return null;
                       })}{" "}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.rentDeposit}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.prevReadings}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.totalWaterReadings <= 0
                       ? 0
                       : tenants?.totalWaterReadings}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {getWater &&
                       getWater?.map((house) => house.price).slice(-1)[0]}
                   </td>
+           
                   <td
-                    className={`border border-slate-700 ${
+                    className={`border  ${
                       tenants?.totalWaterReadings * waterUnits < 0
                         ? "text-red-600"
                         : "text-green-600"
@@ -497,20 +572,21 @@ function House() {
                       ? 0
                       : tenants?.totalWaterReadings * waterUnits}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.previousBalance}
                   </td>
-                  <td className="border text-black border-slate-700">
-                    {tenants.garbage}
+                  <td className="border text-gray-600 text-sm  ">
+                    {getGarbage &&
+                      getGarbage?.map((house) => house.price).slice(-1)[0]}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.phoneNumber}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.nextOfKingNumber}
                   </td>
                   <td
-                    className={`border border-slate-700 ${
+                    className={`border  ${
                       tenants?.balance +
                         (payments &&
                           Object.values(payments)
@@ -558,10 +634,12 @@ function House() {
                           })
                           .reduce((sum, totalAmount) => sum + totalAmount, 0))}
                   </td>
-                  <td className="border text-black border-slate-700">
+                  <td className="border text-gray-600 text-sm  ">
                     {tenants.totalExpenses}
-                  </td>
-                  <td>{tenants.createdAt}</td>
+                  </td> 
+               
+                  <td className=" lg:flex lg:flex-row lg:gap-2  flex flex-col h-fit text-gray-600 text-sm  ">
+
                   <Link
                     to={`/RegisterTenant/?edit=${tenants.id}`}
                     state={tenant?.find(
@@ -572,6 +650,7 @@ function House() {
                     {" "}
                     update{" "}
                   </Link>
+
                   <button
                     onClick={() => handleDeleteTenant(tenants.id)}
                     type="button "
@@ -579,6 +658,9 @@ function House() {
                   >
                     Delete
                   </button>{" "}
+
+                  </td> 
+
                 </tr>
               ))}
             </tbody>
@@ -625,7 +707,7 @@ function House() {
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <form onSubmit={createWater}>
                     <div>
-                      <label className="  text-black text-2xl gap-4 mb-4">
+                      <label className="  text-gray-600 text-sm   gap-4 mb-4">
                         Water Rates{" "}
                       </label>
                       <input
@@ -656,10 +738,75 @@ function House() {
                     </div>
                   </form>
                 </Dialog.Panel>
+
+         
               </Transition.Child>
             </div>
           </div>
+
         </Dialog>
+      </Transition>
+
+
+      <Transition appear show={isGarbage} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+
+      <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex  items-center justify-center min-h-full  p-4 text-center">
+            <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+
+                {/* garbage creation  */}
+
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <form onSubmit={createGarbage}>
+                    <div>
+                      <label className="  text-gray-600 text-sm   gap-4 mb-4">
+                        Gabage Rate {" "}
+                      </label>
+                      <input
+                        type="text"
+                        class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+                        placeholder="Enter garbage  rate (ksh/month)"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+
+                      <div className="mt-4 space-x-3">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          {" "}
+                          Add
+                        </button>
+
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={closeGarbage}
+                        >
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+
+          </Dialog>
+
+
+          
       </Transition>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>

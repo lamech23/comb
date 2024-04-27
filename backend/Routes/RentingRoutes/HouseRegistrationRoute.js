@@ -17,13 +17,13 @@ const { hasAdmin, hasAgent } = require('../../middlleware/checkRoles')
 
 
 
-router.post('/',verifyToken, hasAdmin ,hasAgent ,RegisteringHouse)
-router.get('/specific/', verifyToken,hasAdmin ,hasAgent ,getTenants)
-router.get('/houseNames/',verifyToken,hasAdmin ,hasAgent , getTenantForTenantRegistration)
-router.get('/total/:id',verifyToken,hasAdmin ,hasAgent ,  subtotal)
-router.get('/:houseId', verifyToken, hasAdmin  , getAllHouses)
-router.get('/houseByHouseName' ,verifyToken, hasAdmin ,hasAgent ,  getHouseByHouseName)
-router.get('/houseNames', verifyToken, hasAdmin ,hasAgent ,getAllHousesByName)
-router.post('/houseName',verifyToken,  hasAdmin ,hasAgent ,creatHouseCategory)
+router.post('/',verifyToken, hasAdmin  ,RegisteringHouse)
+router.get('/specific/', verifyToken,hasAdmin ,getTenants)
+router.get('/houseNames/',verifyToken,hasAdmin , getTenantForTenantRegistration)
+router.get('/total/:id',verifyToken,hasAdmin ,  subtotal)
+router.get('/:houseId', verifyToken, hasAdmin, getAllHouses)
+router.get('/houseByHouseName' ,verifyToken, hasAdmin,getHouseByHouseName)
+router.get('/houseNames', verifyToken, hasAdmin ,getAllHousesByName)
+router.post('/houseName',verifyToken,  hasAdmin ,creatHouseCategory)
 
 module.exports=router

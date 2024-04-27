@@ -126,30 +126,22 @@ function MoreDetails() {
   };
 
   const getMore = async () => {
-    const response = await api(`/Details/${id}`, "GET", {}, {});
-    setImage(response.data.images);
-    setTitle(response.data.title);
-    setLocation(response.data.location);
-    setDescription(response.data.description);
-    setContact(response.data.contact);
-    setPrice(response.data.price);
-    setCategory(response.data.category);
-    setUnits(response.data.units);
-    setType(response.data.type);
+    const response = await api(`/Details/single-house/${id}`, "GET", {}, {});
+    setImage(response.details.images);
+    setTitle(response.details.title);
+    setLocation(response.details.location);
+    setDescription(response.details.description);
+    setContact(response.details.contact);
+    setPrice(response.details.price);
+    setCategory(response.details.category);
+    setUnits(response.details.units);
+    setType(response.details.type);
   };
   useEffect(() => {
     getMore();
     fetchDetails(id);
   }, [category]);
 
-  const prevent = () => {
-    if (user === null) {
-      toast.error("please login first ");
-    }
-  };
-  function handleCategoryChange(event) {
-    setCategory(event.target.getAttribute("data-category"));
-  }
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -272,7 +264,7 @@ function MoreDetails() {
         {details.map((detail) => (
           <div
             key={detail.id}
-            className=" mb-5 p-5 bg-white rounded-lg shadow-xl shadow-indigo-100 "
+            className=" mb-5 p-5 bg-white rounded-lg border w-1/2  shadow-xl shadow-indigo-100 "
           >
             {detail?.images?.map(
               (img, imgIndex) =>
@@ -289,7 +281,7 @@ function MoreDetails() {
                 )
             )}
 
-            <div className="truncate">
+            <div className="">
               <p className="text-center font-semibold">{detail.title}</p>
               <p className="text-center text-sm text-gray-600 mb-2">
                 {detail.location}

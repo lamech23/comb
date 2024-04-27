@@ -34,6 +34,12 @@ const routes = [
     name: 'Users',
   },
   {
+    
+    path: '/admin/',
+    icon: <UsersIcon className={iconClasses}/>, 
+    name: 'Roles & permisions ',
+  },
+  {
     path: '/admin/category',
     icon: <Squares2X2Icon className={iconClasses}/>, 
     name: 'category',

@@ -33,7 +33,7 @@ router.post("/", verifyToken, imageUpload, createDetails);
 
 // GET all uploads
 router.get("/allHouses", verifyToken, getAllHouses);
-router.get("/fetchHousesByName",verifyToken, getAllHousesByName);
+router.get("/fetchHousesByName",verifyToken,hasAdmin,  getAllHousesByName);
 router.get("/housesLinkedToTenants",verifyToken,fetchHousesByNames);
 router.get("/byUserId", getAllDetails);
 router.get("/Bungalow", ownCompound);
@@ -42,7 +42,7 @@ router.get("/Apartments", BnBHouse);
 router.get("/TourRequest", getAllTours);
 router.get("/fetchDetailsCategory/:category", getProductsInCategory);
 //Get a single upload
-router.get("/:id", verifyToken, getSingelDetails);
+router.get("/single-house/:id", verifyToken, getSingelDetails);
 //Testing Route
 router.get("/byId", getSingelDetails);
 

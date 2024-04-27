@@ -3,11 +3,14 @@ import React from 'react'
 function WaterBill({tenant, waterUnits, state}) {
   return (
     <div>
+
             <div className="flex flex-col mt-20">
+      <span className='mb-10 font-bold text-3xl capitalize text-green-500 '> Water report </span>
+
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline- align-middle">
               <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-200">
                   <thead>
                     <tr>
                       <th
@@ -40,15 +43,10 @@ function WaterBill({tenant, waterUnits, state}) {
                       >
                         Bill
                       </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase"
-                      >
-                        Action
-                      </th>
+                     
                     </tr>
                   </thead>
-                  {tenant?.detailsWithTotal?.map((tenants) => (
+                  {tenant?.map((tenants) => (
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                       <tr>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-600">
@@ -78,14 +76,7 @@ function WaterBill({tenant, waterUnits, state}) {
                             ? 0
                             : tenants?.totalWaterReadings * waterUnits}{" "}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                          <button
-                            type="button"
-                            className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-rose-600 hover:text-rose-800 disabled:opacity-50 disabled:pointer-events-none dark:text-rose-500 dark:hover:text-rose-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                          >
-                            Delete
-                          </button>
-                        </td>
+                     
                       </tr>
                     </tbody>
                   ))}

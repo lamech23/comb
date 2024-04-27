@@ -1,4 +1,3 @@
-const houseName = require("../../models/RentingModels/houseNameModel");
 const water = require("../../models/RentingModels/waterModel");
 const Details = require("../../models/UploadModals");
 

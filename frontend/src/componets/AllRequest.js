@@ -25,6 +25,16 @@ function AllRequest() {
 
   return (
     <>
+    <div>
+{
+    request.length ==0 ?
+    <div class="h-screen flex justify-center items-center">
+    <div class="text-gray-500 text-3xl text-center">
+      No notifications available.
+    </div>
+  </div>
+   :
+
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg py-20 px-40">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-100 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -84,6 +94,10 @@ function AllRequest() {
             ))}
         </table>
       </div>
+}
+    </div>
+
+
     </>
   );
 }

@@ -72,29 +72,29 @@ function User() {
     fetchUsers();
     fetchHouse();
 
-    if (socket === null) return;
+    // if (socket === null) return;
 
-    socket.emit("allUsers", users);
+    // socket.emit("allUsers", users);
 
-    socket.on("getAllUsers", (res) => {
-      setUsers(res);
-    });
+    // socket.on("getAllUsers", (res) => {
+    //   setUsers(res);
+    // });
 
-    fetchUsers();
+    // fetchUsers();
 
-    return () => {
-      // component is being unmounted
-      socket.off("disconnect");
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (socket === null) return;
-    // socket.emit("updating", id, state);
-    socket.on("updatingUser", (res) => {
-      updateStatus(res);
-    });
+    // return () => {
+    //   // component is being unmounted
+    //   socket.off("disconnect");
+    // };
   }, []);
+
+  // useEffect(() => {
+  //   if (socket === null) return;
+  //   // socket.emit("updating", id, state);
+  //   socket.on("updatingUser", (res) => {
+  //     updateStatus(res);
+  //   });
+  // }, []);
 
   const updateStatus = async (id, state) => {
     const response = await axios.patch(

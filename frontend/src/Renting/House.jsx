@@ -14,6 +14,7 @@ import moment from "moment";
 function House() {
   const [tenant, setTenant] = useState([]);
   const [house, setHouse] = useState([]);
+  const [agent, setAgent] = useState([]);
   let houseName = useLocation().pathname.split("/")[2];
   const [price, setPrice] = useState("");
   const { user } = useAuthContext();
@@ -25,11 +26,11 @@ function House() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRate, setIsOpenRate] = useState(false);
-  const [isGarbage, setIsGarbage ] = useState(false);
+  const [isGarbage, setIsGarbage] = useState(false);
   const [query, setQuery] = useState("");
   const [months, setMonths] = useState("");
-  const keys = ["tenantsName", "phoneNumber", "houseNumber"];
   const month = ["createdAt"];
+  const keys = ["tenantsName", "phoneNumber", "houseNumber"];
 
   const [currentMonth, setCurrentMonth] = useState(moment().format("MMM"));
 
@@ -38,11 +39,7 @@ function House() {
     const nextMonth = moment().add(1, "months").format("MMM");
 
     setCurrentMonth(nextMonth);
-
   };
-
-  console.log(getGarbage);
-
 
   function closeModal() {
     setIsOpen(false);
@@ -60,13 +57,11 @@ function House() {
     setIsOpenRate(true);
   }
 
-  function openGarbage(){
-    setIsGarbage(true)
-
+  function openGarbage() {
+    setIsGarbage(true);
   }
-  function closeGarbage(){
-    setIsGarbage(false)
-
+  function closeGarbage() {
+    setIsGarbage(false);
   }
   // water bill total
   const waterUnits = getWater
@@ -94,6 +89,15 @@ function House() {
     setHouse(response.details);
   };
 
+  const getAgent = async () => {
+    const response = await api(`/Details/relevant-agent/`, "GET", {}, {});
+    setAgent(response.relevantAgent);
+  };
+
+  const assignedAgent = agent?.find((house) => house.houseId == visitedHouseId);
+
+  console.log(assignedAgent.agent.email);
+
   useEffect(() => {
     const getTenantinfo = async () => {
       try {
@@ -110,6 +114,7 @@ function House() {
     };
     getTenantinfo();
     getHouse();
+    getAgent();
   }, [houseName, houseId]);
 
   // guard clause
@@ -137,26 +142,24 @@ function House() {
     }
   };
 
-
-    // creating garbage reading
-    const createGarbage = async (e) => {
-      e.preventDefault();
-      const garbageDetails = {
-        price: price,
-        house_id: visitedHouseId,
-      };
-      try {
-        const res = await api("/garbage/", "POST", {}, garbageDetails);
-        if (res) {
-          setPrice("");
-          toast.success("added succesfuly");
-          setIsOpen(false);
-        }
-      } catch (error) {
-        toast.error(JSON.stringify(error.message) || "field cannot be empty");
-      }
+  // creating garbage reading
+  const createGarbage = async (e) => {
+    e.preventDefault();
+    const garbageDetails = {
+      price: price,
+      house_id: visitedHouseId,
     };
-  
+    try {
+      const res = await api("/garbage/", "POST", {}, garbageDetails);
+      if (res) {
+        setPrice("");
+        toast.success("added succesfuly");
+        setIsOpen(false);
+      }
+    } catch (error) {
+      toast.error(JSON.stringify(error.message) || "field cannot be empty");
+    }
+  };
 
   // getting water retes
 
@@ -175,7 +178,6 @@ function House() {
       }
     };
     getWaterRates();
-
 
     const getGarbagePrice = async () => {
       try {
@@ -219,18 +221,35 @@ function House() {
       );
     });
 
-   
-    //   const value = item.createdAt.includes(months)
-         
-     
+    // const matchMonth = month.some((data) => {
+    //   let value = months[new Date(item[data]).getMonth(0)] ;
+    //   console.log(value);
 
-    // return matchesQuery  
+    //   item.createdAt.includes(months)
+    // })
 
+    // // Return value if it's true, otherwise return matchesQuery
+    // return matchesQuery;
 
-  const value = month.some(month => item.createdAt.includes(months));
+    const matchesMonth = month.some((key) => {
+      const value = item[key];
+      const date = new Date(value);
+      console.log(date);
 
-  // Return value if it's true, otherwise return matchesQuery
-  return matchesQuery;
+      const current_month = date.getMonth();
+      console.log(currentMonth);
+
+      // const monthNames = [
+      //   "January", "February", "March", "April", "May", "June",
+      //   "July", "August", "September", "October", "November", "December"
+      // ];
+
+      const monthName = months[current_month];
+      console.log(monthName);
+      return monthName && monthName.toLowerCase().includes(months);
+    });
+
+    return matchesMonth.length > 0 ? matchesMonth : matchesQuery;
   });
 
   // console.log(query);
@@ -304,9 +323,8 @@ function House() {
       "Are you sure you want to delete this tenant?"
     );
     if (isConfirmed) {
-      await api(`/Tenant/removeTenant/?id=${id}`, "DELETE",{}, {} );
+      await api(`/Tenant/removeTenant/?id=${id}`, "DELETE", {}, {});
       getTenantinfo();
-
     } else {
       alert("Action Cancelled");
     }
@@ -314,18 +332,102 @@ function House() {
 
   return (
     <>
-      <div className="text-sm mt-14 px-5">
-        <div className="flex gap-4 items-center monthtext-teal-500 text-xl">
-          <span className="font-bold">HOUSE:</span>
-          <p className="text-red-400">{houseName}</p>
+      
+
+      <article class=" bg-white p-4  sm:p-6 lg:p-8 mt-4  ">
+        <div class="flex items-start sm:gap-8 ">
+        
+
+          <div className="border p-10 rounded-lg shadow-md shadow-indigo-200 ">
+          <div className="flex flex-row gap-10 flex-wrap ">
+          <div
+            class=" sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-indigo-500 "
+            aria-hidden="true"
+          >
+            <div class="flex items-center gap-1">
+              <span class="h-8 w-0.5 rounded-full bg-indigo-500"></span>
+              <span class="h-6 w-0.5 rounded-full bg-indigo-500"></span>
+              <span class="h-4 w-0.5 rounded-full bg-indigo-500"></span>
+              <span class="h-6 w-0.5 rounded-full bg-indigo-500"></span>
+              <span class="h-8 w-0.5 rounded-full bg-indigo-500"></span>
+            </div>
+          </div>
+            <div>
+              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+              Landlord /Owner
+              </strong>
+
+              <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                <span class="hover:underline">
+                  {house && house.length > 0 && house[0].houses.email}
+                </span>
+              </h3>
+            </div>
+
+            <div>
+              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+                Landlord-since
+              </strong>
+
+              <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                <span class="hover:underline">
+                  {moment(
+                    house && house.length > 0 && house[0].houses.createdAt
+                  ).format("MMM Do YY")
+                  }
+                </span>
+              </h3>
+            </div>
+
+            <div>
+              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+                House Agent 
+              </strong>
+
+              <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                <span class="hover:underline">
+                  {assignedAgent.agent.email}
+                </span>
+              </h3>
+            </div>
+            </div>
+
+            <div class="mt-4 sm:flex sm:items-center sm:gap-2">
+              <div class="flex items-center gap-1 text-gray-500">
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+
+                <p class="text-xs font-medium">
+                {moment(
+                    house && house.length > 0 && house[0].houses.createdAt,
+                    "YYYYMMDD").fromNow()
+                  }
+                </p>
+              </div>
+
+
+              
+
+
+            
+            </div>
+
+            
+          </div>
         </div>
-        <div className="flex gap-4 items-center text-teal-500 text-xl">
-          <span className="font-bold">LANDOWNER:</span>
-          <p className="text-red-400">
-            {house && house.length > 0 && house[0].houses.email}
-          </p>
-        </div>
-      </div>
+      </article>
 
       <header className=" mt-10 mb-20">
         <div className="px-10 flex  gap-4 flex-1 items-center justify-start md:justify-between">
@@ -350,7 +452,7 @@ function House() {
               onClick={openGarbage}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             >
-              Garbage 
+              Garbage
             </button>
 
             <Link
@@ -377,7 +479,7 @@ function House() {
               Generate House Report
             </Link>
 
-          <Link
+            <Link
               to={`/addtionalPayments/${houseId}`}
               className="block no-underline rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
               href="/"
@@ -421,14 +523,13 @@ function House() {
               placeholder="Search.."
               onChange={(e) => setQuery(e.target.value)}
             />
-                <button
-            onClick={startNewMonth}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Start New Month
-          </button>
+            <button
+              onClick={startNewMonth}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Start New Month
+            </button>
           </div>
-      
         </div>
 
         <div className="divider mt-2"></div>
@@ -560,7 +661,7 @@ function House() {
                     {getWater &&
                       getWater?.map((house) => house.price).slice(-1)[0]}
                   </td>
-           
+
                   <td
                     className={`border  ${
                       tenants?.totalWaterReadings * waterUnits < 0
@@ -636,31 +737,27 @@ function House() {
                   </td>
                   <td className="border text-gray-600 text-sm  ">
                     {tenants.totalExpenses}
-                  </td> 
-               
+                  </td>
+
                   <td className=" lg:flex lg:flex-row lg:gap-2  flex flex-col h-fit text-gray-600 text-sm  ">
-
-                  <Link
-                    to={`/RegisterTenant/?edit=${tenants.id}`}
-                    state={tenant?.find(
-                      (meteData) => meteData.id === tenants.id
-                    )}
-                    class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                  >
-                    {" "}
-                    update{" "}
-                  </Link>
-
-                  <button
-                    onClick={() => handleDeleteTenant(tenants.id)}
-                    type="button "
-                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                  >
-                    Delete
-                  </button>{" "}
-
-                  </td> 
-
+                    <Link
+                      to={`/RegisterTenant/?edit=${tenants.id}`}
+                      state={tenant?.find(
+                        (meteData) => meteData.id === tenants.id
+                      )}
+                      class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                      {" "}
+                      update{" "}
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteTenant(tenants.id)}
+                      type="button "
+                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                      Delete
+                    </button>{" "}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -738,22 +835,17 @@ function House() {
                     </div>
                   </form>
                 </Dialog.Panel>
-
-         
               </Transition.Child>
             </div>
           </div>
-
         </Dialog>
       </Transition>
 
-
       <Transition appear show={isGarbage} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
-
-      <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 overflow-y-auto">
             <div className="flex  items-center justify-center min-h-full  p-4 text-center">
-            <Transition.Child
+              <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 scale-95"
@@ -762,14 +854,13 @@ function House() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-
                 {/* garbage creation  */}
 
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <form onSubmit={createGarbage}>
                     <div>
                       <label className="  text-gray-600 text-sm   gap-4 mb-4">
-                        Gabage Rate {" "}
+                        Gabage Rate{" "}
                       </label>
                       <input
                         type="text"
@@ -802,11 +893,7 @@ function House() {
               </Transition.Child>
             </div>
           </div>
-
-          </Dialog>
-
-
-          
+        </Dialog>
       </Transition>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>

@@ -5,10 +5,11 @@ import { api } from "../utils/Api";
 
 function AllHouses() {
   const [house, setHouse] = useState([]);
+  console.log(house);
 
   const getHouse = async () => {
     const response = await api("/Details/fetchHousesByName", "GET", {}, {});
-    setHouse(response.details);
+    setHouse(response?.details);
   };
   useEffect(() => {
     getHouse();

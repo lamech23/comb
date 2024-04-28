@@ -73,7 +73,7 @@ const getAllHousesByName = async (req, res) => {
             as: "houses",
           },
         });
-        res.status(200).send(details);
+        res.status(200).send({details});
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }
@@ -101,7 +101,6 @@ const getAllHousesByName = async (req, res) => {
           };
         });
 
-        console.log("Agent details:", details); 
         res.status(200).json({details});
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
@@ -432,6 +431,32 @@ const getProductsInCategory = async (req, res) => {
   }
 };
 
+const getRelevantAgentToAhouse = async(req, res) =>{
+  try {
+
+    const user = req.user 
+    const agentId = user.id
+
+    const relevantAgent = await agentManagmentTable.findAll({
+      include: [
+        {
+          model: users, as: "agent"
+        }
+      ]
+    })
+
+    if(relevantAgent){
+      res.status(200).json({relevantAgent})
+    }
+    else{
+      res.status(404)
+    }
+  }catch (error) {
+
+
+}
+}
+
 // const deletingHouseAdminSide = async(req, res )=>{
 //   try {
 //     const { id } = req.params;
@@ -465,4 +490,5 @@ module.exports = {
   getAllHousesByName,
   getProductsInCategory,
   fetchHousesByNames,
-};
+  getRelevantAgentToAhouse
+}

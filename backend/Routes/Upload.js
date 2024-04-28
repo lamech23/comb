@@ -15,6 +15,7 @@ const {
   getAllHousesByName,
   getProductsInCategory,
   fetchHousesByNames,
+  getRelevantAgentToAhouse
 } = require("../controllers/Details");
 const { imageUpload } = require("../middlleware/upload");
 const {
@@ -33,7 +34,8 @@ router.post("/", verifyToken, imageUpload, createDetails);
 
 // GET all uploads
 router.get("/allHouses", verifyToken, getAllHouses);
-router.get("/fetchHousesByName",verifyToken,hasAdmin,  getAllHousesByName);
+router.get("/relevant-agent", verifyToken, hasAdmin,  getRelevantAgentToAhouse);
+router.get("/fetchHousesByName/",verifyToken, hasAdmin,  getAllHousesByName);
 router.get("/housesLinkedToTenants",verifyToken,fetchHousesByNames);
 router.get("/byUserId", getAllDetails);
 router.get("/Bungalow", ownCompound);
@@ -41,16 +43,10 @@ router.get("/Maisonette", RentalHouse);
 router.get("/Apartments", BnBHouse);
 router.get("/TourRequest", getAllTours);
 router.get("/fetchDetailsCategory/:category", getProductsInCategory);
-//Get a single upload
 router.get("/single-house/:id", verifyToken, getSingelDetails);
-//Testing Route
 router.get("/byId", getSingelDetails);
-
-//DELETE an upload
 router.delete("/:id",verifyToken, hasAdmin, deleteDetails);
-// get images by id
 router.get("/:id", grtDetailsById);
-//UPDATE a workout
 router.patch("/:id", checkIfOwner, imageUpload, updateDetails);
 
 module.exports = router;

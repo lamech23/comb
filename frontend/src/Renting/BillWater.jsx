@@ -32,7 +32,6 @@ function BillWater() {
     };
     getTenantinfo();
   }, []);
-console.log(tenant);
 
   const handleUpdate = async () => {
     try {

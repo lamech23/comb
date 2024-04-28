@@ -91,12 +91,12 @@ function House() {
 
   const getAgent = async () => {
     const response = await api(`/Details/relevant-agent/`, "GET", {}, {});
-    setAgent(response.relevantAgent);
+    setAgent(response?.relevantAgent);
   };
 
-  const assignedAgent = agent?.find((house) => house.houseId == visitedHouseId);
+  const assignedAgent =  agent?.find((house) => house.houseId == visitedHouseId);
+  console.log(agent);
 
-  console.log(assignedAgent.agent.email);
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -338,22 +338,22 @@ function House() {
         <div class="flex items-start sm:gap-8 ">
         
 
-          <div className="border p-10 rounded-lg shadow-md shadow-indigo-200 ">
+          <div className="border p-10 rounded-lg shadow-md shadow-green-200 ">
           <div className="flex flex-row gap-10 flex-wrap ">
           <div
-            class=" sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-indigo-500 "
+            class=" sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-green-500 "
             aria-hidden="true"
           >
             <div class="flex items-center gap-1">
-              <span class="h-8 w-0.5 rounded-full bg-indigo-500"></span>
-              <span class="h-6 w-0.5 rounded-full bg-indigo-500"></span>
-              <span class="h-4 w-0.5 rounded-full bg-indigo-500"></span>
-              <span class="h-6 w-0.5 rounded-full bg-indigo-500"></span>
-              <span class="h-8 w-0.5 rounded-full bg-indigo-500"></span>
+              <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
+              <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
+              <span class="h-4 w-0.5 rounded-full bg-green-500"></span>
+              <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
+              <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
             </div>
           </div>
             <div>
-              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
               Landlord /Owner
               </strong>
 
@@ -365,7 +365,7 @@ function House() {
             </div>
 
             <div>
-              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
                 Landlord-since
               </strong>
 
@@ -380,13 +380,13 @@ function House() {
             </div>
 
             <div>
-              <strong class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">
+              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
                 House Agent 
               </strong>
 
               <h3 class="mt-4 text-lg font-medium sm:text-xl">
                 <span class="hover:underline">
-                  {assignedAgent.agent.email}
+                  {assignedAgent?.agent?.email}
                 </span>
               </h3>
             </div>
@@ -709,13 +709,13 @@ function House() {
                             .reduce(
                               (sum, totalAmount) => sum + totalAmount,
                               0
-                            )) >=
+                            ))-tenants?.totalWaterReadings*waterUnits >=
                       0
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {tenants?.balance +
+                    {  tenants?.balance +
                       (payments &&
                         Object.values(payments)
                           .map((paymentData, index) => {
@@ -733,7 +733,10 @@ function House() {
 
                             return 0; // Return 0 if userId doesn't match
                           })
-                          .reduce((sum, totalAmount) => sum + totalAmount, 0))}
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0))
+                          + -tenants?.totalWaterReadings*waterUnits
+                          
+                          } 
                   </td>
                   <td className="border text-gray-600 text-sm  ">
                     {tenants.totalExpenses}

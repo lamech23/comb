@@ -444,6 +444,7 @@ const getRelevantAgentToAhouse = async(req, res) =>{
         }
       ]
     })
+    console.log(relevantAgent);
 
     if(relevantAgent){
       res.status(200).json({relevantAgent})

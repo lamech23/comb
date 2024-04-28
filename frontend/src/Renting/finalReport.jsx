@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 
 function FinalReport() {
   const reportData = useLocation().state;
-  console.log(reportData);
 
   // total calculation for rent
   const finalRentSum = reportData
@@ -147,19 +146,7 @@ function FinalReport() {
                     </td>
                     </tr>
 
-                    <tr className=" ">
-                    <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">
-                      Total Water Bill Collected{" "}
-                      </td>
-
-                      <td class="border-b-0 p-3 border-t text-lg font-semibold pt-2">
-                      </td>
-
-                    <td class="border-b-0 p-3 border-t text-green-500 text-lg font-semibold  pt-2">
-                      {" "} 
-                       {finalWaterBillSum}
-                    </td>
-                    </tr>
+               
 
                     <tr className=" ">
                      <td class="border-b-0 p-3 text-center border-t text-lg font-semibold pt-2">

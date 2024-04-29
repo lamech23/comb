@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../utils/Api";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 function PaymentView() {
@@ -67,11 +68,14 @@ function PaymentView() {
             <tbody>
               <tr class="bg-white border-b  hover:bg-gray-50 dark:hover:bg-gray-100">
                 <td class="p-4">
+
+                  <Link to={`/admin/single-payment/${item.id}`}>
                   <img
                     src={item.image}
                     class="w-16 md:w-32 max-w-full max-h-full"
                     alt="Apple Watch"
-                  />
+                    />
+                    </Link>
                 </td>
                 <td class="px-6 py-4 font-semibold text-gray-900 ">
                   {item.tenant.email}

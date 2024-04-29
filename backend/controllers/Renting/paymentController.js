@@ -80,6 +80,7 @@ const getAllPaymentsForAdminSide = async (req, res) => {
 
         const houseDetails = houseMap[tenantsHouse.houseId];
         const tenantDetails = tenantMap[userId];
+        console.log(houseDetails, "this general log");
 
         return {
           ...payment.toJSON(),
@@ -96,7 +97,75 @@ const getAllPaymentsForAdminSide = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+const singlePaymentsForAdminSide = async (req, res) => {
+  try {
+    // Find a single open payment with its associated user
+    const payment = await paymentRequest.findOne({
+      where: {
+        status: "open",
+      },
+      include: [
+        {
+          model: users,
+          as: "user",
+        },
+      ],
+    });
 
+    if (!payment) {
+      return res.status(404).json({ error: "No open payment found" });
+    }
+
+    const userId = payment.userId;
+
+    // Find the tenant details for the user associated with the payment
+    const tenant = await tenantRegistration.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (!tenant) {
+      return res.status(404).json({ error: "No tenant found for user" });
+    }
+
+    // Find the house details based on the tenant's houseId
+    const house = await Details.findOne({
+      where: {
+        id: tenant.houseId,
+      },
+    });
+
+    if (!house) {
+      return res
+        .status(404)
+        .json({ error: "No house details found for tenant" });
+    }
+
+    // Prepare the response with payment, tenant, and house details
+    const paymentWithDetails = {
+      id: payment.id,
+      image: payment.image,
+
+      tenant: {
+        id: tenant.id,
+        email: tenant.email,
+        houseNumber: tenant.houseNumber,
+      },
+      house: {
+        id: house.id,
+        houseName: house.houseName,
+      },
+    };
+
+    console.log(paymentWithDetails);
+
+    res.status(200).json({ payment: paymentWithDetails });
+  } catch (error) {
+    console.error("Error fetching payment details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 const updatePaymentStatus = async (req, res) => {
   const id = req.params.id;
@@ -104,8 +173,29 @@ const updatePaymentStatus = async (req, res) => {
   const paymentStatus = { status: req.query.status };
 
   try {
-    const payment = await paymentRequest.update(paymentStatus, {where: {id: id}});
+    const payment = await paymentRequest.update(paymentStatus, {
+      where: { id: id },
+    });
     res.status(200).json(payment);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+const paymentsRequestForSpecifcUser = async (req, res) => {
+  const token = req.user
+  const id = token.userId.id
+  console.log(id);
+
+  try {
+    const payments = await paymentRequest.findAll({
+      where: {
+        userId: id,
+      },
+    });
+    if (payments) {
+      res.status(200).json({ payments });
+    }
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -113,5 +203,7 @@ const updatePaymentStatus = async (req, res) => {
 module.exports = {
   addPayment,
   getAllPaymentsForAdminSide,
-  updatePaymentStatus
+  updatePaymentStatus,
+  singlePaymentsForAdminSide,
+  paymentsRequestForSpecifcUser,
 };

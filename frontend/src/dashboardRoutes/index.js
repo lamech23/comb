@@ -15,6 +15,7 @@ const CreateUser = lazy(() => import('../Admin/CreateUser'))
 const allPosts = lazy(() => import('../Renting/AllPosts'))
 const request = lazy(() => import('../componets/AllRequest'))
 const paymentView = lazy(() => import('../Renting/PaymentView'))
+const singlePayment = lazy(() => import('../Renting/SinglePayment'))
 
 
 
@@ -73,8 +74,13 @@ const routes = [
     path: '/payment-view',
     component: paymentView,
   },
+  {
+    path: '/single-payment/:id',
+    component: singlePayment,
+  },
 
 
+  
 ]
 
 export default routes

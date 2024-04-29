@@ -5,43 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2045605-3230-4491-b9c3-1fac97ab2ff8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/Routes/NewsLetterRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/NewsLetterRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/PaginationRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/PaginationRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/HouseRegistrationRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/HouseRegistrationRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/TenantRegistrationRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/TenantRegistrationRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/RentingRoutes/waterRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/RentingRoutes/waterRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/TotalDetailsRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/TotalDetailsRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/Upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/category.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/propertyType.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/propertyType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Routes/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/Details.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/Details.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/TotalDetailsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/TotalDetailsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/UserControllers.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/UserControllers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/propertyTypeController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/propertyTypeController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlleware/checkRoles.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlleware/checkRoles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlleware/requireAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlleware/requireAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlleware/token.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlleware/token.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/AddAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/AddAdmin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/Category.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/Category.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/CreateUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/CreateUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/GetAllDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/GetAllDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/PropertType.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/PropertType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/Stats.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/Stats.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Admin/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Admin/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Dashboard/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Dashboard/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Dashboard/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Dashboard/Layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Dashboard/PageContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Dashboard/PageContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Dashboard/SidebarSubmenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Dashboard/SidebarSubmenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/Renting/paymentController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/Renting/paymentController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Renting/AllHouses.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Renting/AllHouses.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Renting/AllPosts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Renting/AllPosts.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/profileRoutes/sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/profileRoutes/sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/user/Appointment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/user/Appointment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/user/ChangeProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/user/ChangeProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/user/UserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/user/UserProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Renting/PaymentView.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Renting/PaymentView.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/dashboardRoutes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/dashboardRoutes/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,20 +33,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging master",
-    "last_opened_file_path": "/home/lamech/Desktop/comb",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/lamech/Desktop/comb&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PS-241.15989.102" />
+        <option value="bundled-php-predefined-ba97393d7c68-c76157a7178b-com.jetbrains.php.sharedIndexes-PS-241.15989.102" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -90,6 +65,7 @@
       <updated>1711795144841</updated>
       <workItem from="1711795148196" duration="763000" />
       <workItem from="1711886310774" duration="385000" />
+      <workItem from="1714395224694" duration="10000" />
     </task>
     <servers />
   </component>

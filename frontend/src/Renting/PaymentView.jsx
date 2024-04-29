@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../utils/Api";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function PaymentView() {
   const [payments, setpayments] = useState([]);
@@ -9,11 +11,29 @@ function PaymentView() {
     setpayments(response?.payments);
   };
 
+
   useEffect(() => {
     fetchOpenpayments();
   }, []);
 
-  console.log(payments, "this payment ");
+
+  const updateStatus = async (id, status) => {
+    const response = await api(`/payment/confirm-payment/${id}?status=` + status, "PATCH", {}, {});
+    if(response){
+      toast.success("Payment confirmed Successfully!");
+    }
+  };
+
+  const confirmPayment = (id) => {
+    let status = "confirmed";
+    updateStatus(id, status);
+  };
+
+
+  const rejectPayment = (id) => {
+    let status = "reject";
+    updateStatus(id, status);
+  };
 
   return (
     <div>
@@ -22,14 +42,21 @@ function PaymentView() {
           <thead class="text-xs text-gray-700 uppercase  dark:text-gray-400">
             <tr>
               <th scope="col" class="px-16 py-3">
-                <span class="sr-only">Image</span>
+                <span class="col">Image</span>
               </th>
+              <th scope="col" class="px-6 py-3">
+                email 
+              </th>
+
               <th scope="col" class="px-6 py-3">
                 House 
               </th>
 
               <th scope="col" class="px-6 py-3">
                 house Number
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Status
               </th>
               <th scope="col" class="px-6 py-3">
                 Action
@@ -47,6 +74,9 @@ function PaymentView() {
                   />
                 </td>
                 <td class="px-6 py-4 font-semibold text-gray-900 ">
+                  {item.tenant.email}
+                </td>
+                <td class="px-6 py-4 font-semibold text-gray-900 ">
                   {item.house.houseName}
                 </td>
 
@@ -55,26 +85,50 @@ function PaymentView() {
 
                 
                 </td>
+
+                <td class={`px-6 py-4 font-semibold text-gray-900 
+                ${item.status == "open"? 'text-green-400 ' : 'text-teal-700'}
+                `}>
+                {item.status}
+
+                
+                </td>
                 <td class=" flex flex-row gap-4  px-6 py-4">
 
-                <a
-                    href="#"
+                <button
+                type="submit"
                     class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    onClick={() => confirmPayment(item.id)}
+
                     >
                     confirm
-                  </a>
-                  <a
-                    href="#"
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => rejectPayment(item.id)}
+
                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                     reject
-                  </a>
+                  </button>
                 </td>
               </tr>
             </tbody>
           ))}
         </table>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

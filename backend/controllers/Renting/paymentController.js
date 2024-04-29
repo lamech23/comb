@@ -97,7 +97,21 @@ const getAllPaymentsForAdminSide = async (req, res) => {
   }
 };
 
+
+const updatePaymentStatus = async (req, res) => {
+  const id = req.params.id;
+
+  const paymentStatus = { status: req.query.status };
+
+  try {
+    const payment = await paymentRequest.update(paymentStatus, {where: {id: id}});
+    res.status(200).json(payment);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   addPayment,
   getAllPaymentsForAdminSide,
+  updatePaymentStatus
 };

@@ -18,6 +18,7 @@ const image=require('./Routes/imageRoute.js')
 const houseRegisration=require('./Routes/RentingRoutes/HouseRegistrationRoute.js')
 const waters =require('./Routes/RentingRoutes/waterRoute.js')
 const garbagePrice =require('./Routes/RentingRoutes/garbageRoutes.js')
+const paymentRequests =require('./Routes/RentingRoutes/paymentRequestRoutes.js')
 const TenantRegistering=require('./Routes/RentingRoutes/TenantRegistrationRoute.js')
 const loginProccess=require('./Routes/loginProccessRoutes.js')
 const createCategory=require('./Routes/category.js')
@@ -88,6 +89,7 @@ app.use('/cat', createCategory);
 app.use('/type',  propertyType);
 app.use('/proccess',  loginProccess);
 app.use('/garbage',  garbagePrice);
+app.use('/payment',  paymentRequests);
 
 
 

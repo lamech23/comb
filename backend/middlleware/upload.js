@@ -30,4 +30,22 @@ const imageUpload = multer({
     
 }).array('image', 4)
 
-module.exports = {imageUpload}
+
+const singleUpload = multer({
+    storage: fileStorageEngine,
+    // limits: { fileSize: '1000000' },
+    
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|webp/
+        const mimeType = fileTypes.test(file.mimetype)
+        const extname = fileTypes.test(path.extname(file.originalname))
+
+        if (mimeType && extname) {
+            return cb(null, true)
+        }
+        cb('Give proper files formate to upload')
+    }
+    
+}).single('image')
+
+module.exports = {imageUpload, singleUpload}

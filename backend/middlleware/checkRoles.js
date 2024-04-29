@@ -3,7 +3,6 @@ const hasAdmin = (req, res, next) => {
         // Retrieve the user's access token from the request
         const accessToken = req.user;
 
-        console.log(accessToken)
         // Extract the user ID from the access token
         const roles = accessToken.userId.role;
 

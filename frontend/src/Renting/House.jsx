@@ -94,9 +94,7 @@ function House() {
     setAgent(response?.relevantAgent);
   };
 
-  const assignedAgent =  agent?.find((house) => house.houseId == visitedHouseId);
-  console.log(agent);
-
+  const assignedAgent = agent?.find((house) => house.houseId == visitedHouseId);
 
   useEffect(() => {
     const getTenantinfo = async () => {
@@ -332,64 +330,59 @@ function House() {
 
   return (
     <>
-      
-
       <article class=" bg-white p-4  sm:p-6 lg:p-8 mt-4  ">
         <div class="flex items-start sm:gap-8 ">
-        
-
           <div className="border p-10 rounded-lg shadow-md shadow-green-200 ">
-          <div className="flex flex-row gap-10 flex-wrap ">
-          <div
-            class=" sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-green-500 "
-            aria-hidden="true"
-          >
-            <div class="flex items-center gap-1">
-              <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
-              <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
-              <span class="h-4 w-0.5 rounded-full bg-green-500"></span>
-              <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
-              <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
-            </div>
-          </div>
-            <div>
-              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
-              Landlord /Owner
-              </strong>
+            <div className="flex flex-row gap-10 flex-wrap ">
+              <div
+                class=" sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-green-500 "
+                aria-hidden="true"
+              >
+                <div class="flex items-center gap-1">
+                  <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
+                  <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
+                  <span class="h-4 w-0.5 rounded-full bg-green-500"></span>
+                  <span class="h-6 w-0.5 rounded-full bg-green-500"></span>
+                  <span class="h-8 w-0.5 rounded-full bg-green-500"></span>
+                </div>
+              </div>
+              <div>
+                <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
+                  Landlord / Owner
+                </strong>
 
-              <h3 class="mt-4 text-lg font-medium sm:text-xl">
-                <span class="hover:underline">
-                  {house && house.length > 0 && house[0].houses.email}
-                </span>
-              </h3>
-            </div>
+                <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                  <span class="hover:underline">
+                    {house && house.length > 0 && house[0].houses.email}
+                  </span>
+                </h3>
+              </div>
 
-            <div>
-              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
-                Landlord-since
-              </strong>
+              <div>
+                <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
+                  Landlord-since
+                </strong>
 
-              <h3 class="mt-4 text-lg font-medium sm:text-xl">
-                <span class="hover:underline">
-                  {moment(
-                    house && house.length > 0 && house[0].houses.createdAt
-                  ).format("MMM Do YY")
-                  }
-                </span>
-              </h3>
-            </div>
+                <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                  <span class="hover:underline">
+                    {moment(
+                      house && house.length > 0 && house[0].houses.createdAt
+                    ).format("MMM Do YY")}
+                  </span>
+                </h3>
+              </div>
 
-            <div>
-              <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
-                House Agent 
-              </strong>
+              <div>
+                <strong class="rounded border border-green-500 bg-green-500 px-3 py-1.5 text-[10px] font-medium text-white">
+                  House Agent
+                </strong>
 
-              <h3 class="mt-4 text-lg font-medium sm:text-xl">
-                <span class="hover:underline">
-                  {assignedAgent?.agent?.email}
-                </span>
-              </h3>
-            </div>
+                <h3 class="mt-4 text-lg font-medium sm:text-xl">
+                  <span class="hover:underline">
+                    {assignedAgent?.agent?.email}
+                  </span>
+                </h3>
+              </div>
             </div>
 
             <div class="mt-4 sm:flex sm:items-center sm:gap-2">
@@ -410,21 +403,13 @@ function House() {
                 </svg>
 
                 <p class="text-xs font-medium">
-                {moment(
+                  {moment(
                     house && house.length > 0 && house[0].houses.createdAt,
-                    "YYYYMMDD").fromNow()
-                  }
+                    "YYYYMMDD"
+                  ).fromNow()}
                 </p>
               </div>
-
-
-              
-
-
-            
             </div>
-
-            
           </div>
         </div>
       </article>
@@ -664,9 +649,9 @@ function House() {
 
                   <td
                     className={`border  ${
-                      tenants?.totalWaterReadings * waterUnits < 0
-                        ? "text-red-600"
-                        : "text-green-600"
+                      tenants?.totalWaterReadings * waterUnits <= 0
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
                     {tenants?.totalWaterReadings * waterUnits <= 0
@@ -709,13 +694,14 @@ function House() {
                             .reduce(
                               (sum, totalAmount) => sum + totalAmount,
                               0
-                            ))-tenants?.totalWaterReadings*waterUnits >=
+                            )) -
+                        tenants?.totalWaterReadings * waterUnits >=
                       0
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {  tenants?.balance +
+                    {tenants?.balance +
                       (payments &&
                         Object.values(payments)
                           .map((paymentData, index) => {
@@ -733,10 +719,8 @@ function House() {
 
                             return 0; // Return 0 if userId doesn't match
                           })
-                          .reduce((sum, totalAmount) => sum + totalAmount, 0))
-                          + -tenants?.totalWaterReadings*waterUnits
-                          
-                          } 
+                          .reduce((sum, totalAmount) => sum + totalAmount, 0)) +
+                      -tenants?.totalWaterReadings * waterUnits}
                   </td>
                   <td className="border text-gray-600 text-sm  ">
                     {tenants.totalExpenses}

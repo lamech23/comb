@@ -47,7 +47,7 @@ function PaymentView() {
                   />
                 </td>
                 <td class="px-6 py-4 font-semibold text-gray-900 ">
-                  {item.tenant.houseId}
+                  {item.house.houseName}
                 </td>
 
                 <td class="px-6 py-4 font-semibold text-gray-900 ">
@@ -55,12 +55,19 @@ function PaymentView() {
 
                 
                 </td>
-                <td class="px-6 py-4">
+                <td class=" flex flex-row gap-4  px-6 py-4">
+
+                <a
+                    href="#"
+                    class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                    confirm
+                  </a>
                   <a
                     href="#"
-                    class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                  >
-                    Remove
+                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                    reject
                   </a>
                 </td>
               </tr>

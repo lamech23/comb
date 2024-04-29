@@ -4,7 +4,6 @@ const Details = require("../../models/UploadModals");
 const users = require("../../models/UserModels");
 const cloudinary = require("cloudinary").v2;
 
-
 const addPayment = async (req, res) => {
   const token = req.user.userId;
   const user_id = token.id;
@@ -13,18 +12,18 @@ const addPayment = async (req, res) => {
   const file = req.file;
 
   try {
-      
-      const result = await cloudinary.uploader.upload(file.path, { folder: "=Images" });
-      const paymentDetails = {
-        userId: user_id,
-        image: result.secure_url,
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: "=Images",
+    });
+    const paymentDetails = {
+      userId: user_id,
+      image: result.secure_url,
+    };
 
-      };
-      
-      const createPayment = await paymentRequest.create(paymentDetails);
-      console.log(createPayment);
+    const createPayment = await paymentRequest.create(paymentDetails);
+    console.log(createPayment);
     res.status(200).send({
-        createPayment,
+      createPayment,
       success: true,
       message: " payment  created successfuly ",
     });
@@ -36,69 +35,69 @@ const addPayment = async (req, res) => {
   }
 };
 
-const  getAllPaymentsForAdminSide = async (req, res)=>{ 
+const getAllPaymentsForAdminSide = async (req, res) => {
   try {
-    
-    const  payments = await paymentRequest.findAll({
-      where:{
-        status : "open"
+    const payments = await paymentRequest.findAll({
+      where: {
+        status: "open",
       },
-      include:[
+      include: [
         {
-          model:users, 
-          as: "user"
-        }
-      ]
+          model: users,
+          as: "user",
+        },
+      ],
     });
-    if(payments){
+    if (payments) {
+      const userId = payments.map((item) => item.userId);
 
-      const userId = payments.map((item)=> item.userId)
-  
-      const tenant =  await tenantRegistration.findAll({
-        where:{
-          userId: userId
-        }
-  
-      })
+      const tenant = await tenantRegistration.findAll({
+        where: {
+          userId: userId,
+        },
+      });
 
       const tenantMap = {};
-      tenant.forEach(tenant => {
-       return  tenantMap[tenant.userId] = tenant; 
+      tenant.forEach((tenant) => {
+        return (tenantMap[tenant.userId] = tenant);
       });
-  
 
-      const paymentsWithTenants = payments.map(payment => {
+      const houseIds = [...new Set(tenant.map((tenant) => tenant.houseId))];
+
+      const houses = await Details.findAll({
+        where: {
+          id: houseIds,
+        },
+      });
+
+      const houseMap = {};
+      houses.forEach((house) => {
+        return (houseMap[house.id] = house);
+      });
+      const paymentsWithTenants = payments.map((payment) => {
         const userId = payment.userId;
+        const tenantsHouse = tenant.find((tenant) => tenant.userId === userId);
+
+        const houseDetails = houseMap[tenantsHouse.houseId];
         const tenantDetails = tenantMap[userId];
+
         return {
           ...payment.toJSON(),
-          tenant: tenantDetails || {} 
+          tenant: tenantDetails || {},
+          house: houseDetails || {},
         };
       });
 
-      console.log(paymentsWithTenants, "this payment");
-
       res.status(200).json({
-        payments: paymentsWithTenants
-      })
+        payments: paymentsWithTenants,
+      });
     }
-
-
-
-   
   } catch (error) {
-
     res.status(500).json({ error: "Internal server error" });
-
-    
   }
-}
-
-
+};
 
 module.exports = {
-    addPayment,
-    getAllPaymentsForAdminSide
-  };
-
-
+  addPayment,
+  getAllPaymentsForAdminSide,
+};

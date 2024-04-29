@@ -3,7 +3,7 @@ import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Graph from "../utils/Graph";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import { api } from "../utils/Api";
@@ -47,7 +47,6 @@ function Stats() {
       setpayments(response?.payments);
     };
 
-    console.log(payments, "this payments");
 
     const fetchTotalNews = async () => {
       try {
@@ -191,9 +190,9 @@ function Stats() {
                   />
                 </svg>
               </div>
-              <div className="stat-title dark:text-slate-300">
+              <Link to={"/admin/payment-view"} className="stat-title dark:text-slate-300 hover:dark:text-slate-700">
                 Payments Requests{" "}
-              </div>
+              </Link>
               <div className="stat-value dark:text-red-600">
                 {payments.length}
               </div>

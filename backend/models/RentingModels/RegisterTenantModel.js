@@ -79,6 +79,14 @@ tenantRegistration.belongsTo(users,
     onUpdate: "cascade",
     
   });
+
+users.hasMany(tenantRegistration,
+  { 
+   foreignKey: 'userId',
+   onDelete: "cascade",
+   onUpdate: "cascade",
+   
+ });
 tenantRegistration.belongsTo(Details, {
   foreignKey: "houseId",
   as: "tenentHouse",

@@ -1,5 +1,7 @@
+const tenantRegistration = require("../../models/RentingModels/RegisterTenantModel");
 const paymentRequest = require("../../models/RentingModels/paymentRequestModel");
 const Details = require("../../models/UploadModals");
+const users = require("../../models/UserModels");
 const cloudinary = require("cloudinary").v2;
 
 
@@ -40,12 +42,50 @@ const  getAllPaymentsForAdminSide = async (req, res)=>{
     const  payments = await paymentRequest.findAll({
       where:{
         status : "open"
-      }
+      },
+      include:[
+        {
+          model:users, 
+          as: "user"
+        }
+      ]
     });
-
     if(payments){
-      res.status(200).json({payments})
+
+      const userId = payments.map((item)=> item.userId)
+  
+      const tenant =  await tenantRegistration.findAll({
+        where:{
+          userId: userId
+        }
+  
+      })
+
+      const tenantMap = {};
+      tenant.forEach(tenant => {
+       return  tenantMap[tenant.userId] = tenant; 
+      });
+  
+
+      const paymentsWithTenants = payments.map(payment => {
+        const userId = payment.userId;
+        const tenantDetails = tenantMap[userId];
+        return {
+          ...payment.toJSON(),
+          tenant: tenantDetails || {} 
+        };
+      });
+
+      console.log(paymentsWithTenants, "this payment");
+
+      res.status(200).json({
+        payments: paymentsWithTenants
+      })
     }
+
+
+
+   
   } catch (error) {
 
     res.status(500).json({ error: "Internal server error" });
@@ -53,6 +93,7 @@ const  getAllPaymentsForAdminSide = async (req, res)=>{
     
   }
 }
+
 
 
 module.exports = {

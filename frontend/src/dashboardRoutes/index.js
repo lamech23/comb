@@ -14,6 +14,7 @@ const User = lazy(() => import('../Admin/User'))
 const CreateUser = lazy(() => import('../Admin/CreateUser'))
 const allPosts = lazy(() => import('../Renting/AllPosts'))
 const request = lazy(() => import('../componets/AllRequest'))
+const paymentView = lazy(() => import('../Renting/PaymentView'))
 
 
 
@@ -66,6 +67,11 @@ const routes = [
   {
     path: '/request',
     component: request,
+  },
+
+  {
+    path: '/payment-view',
+    component: paymentView,
   },
 
 

@@ -23,9 +23,14 @@ const paymentRequest = db.define(
 );
 paymentRequest.belongsTo(users, {
   foreignKey: "userId",
-  as: "payments",
+  as: "user",
 });
 
+
+users.hasMany(paymentRequest, {
+  foreignKey: "userId",
+  as: "payment",
+});
 
 
 

@@ -154,21 +154,14 @@ function PaymentRequest() {
                 </td>
                 <td class=" flex flex-row gap-4  px-6 py-4">
 
-                <button
-                type="submit"
-                    class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                    // onClick={() => confirmPayment(item.id)}
-
-                    >
-                    confirm
-                  </button>
+            
                   <button
                     type="submit"
                     // onClick={() => rejectPayment(item.id)}
 
                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-900 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
-                    reject
+                    Delete
                   </button>
                 </td>
               </tr>

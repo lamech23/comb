@@ -18,7 +18,6 @@ function Navbar() {
   // const { user } = useAuthContext();
   const role = useIsAdmin();
   const admin = isAdmin();
-  console.log(admin);
 
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
@@ -41,13 +40,14 @@ function Navbar() {
       <header class="border-b bg-white font-sans min-h-[60px] px-10 py-3 relative">
         <div class="flex flex-wrap items-center max-lg:gap-y-6 max-sm:gap-x-4">
           <a href="/">
-            <div className="w-16 h-16 mx-auto">
-              <img className="" src={logo} alt="logo" class="" />
-            </div>
-            <p className="text-md pt-3 text-blue-400 text-2xl font-bold">
-              Freyton Property Agencies
-            </p>
-          </a>
+          <div class="text-center">
+    <div class="inline-block w-20 h-20 rounded-full overflow-hidden">
+        <img src={logo} alt="Logo" class="w-full h-full object-cover" />
+    </div>
+    <p class="text-blue-400 text-2xl font-bold mt-3">Freyton Homes</p>
+</div>
+</a>
+
 
           <div class="flex items-center ml-auto lg:order-1">
             <div className=" sticky top-0 bg-base-100  z-40  ">

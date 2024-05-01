@@ -23,8 +23,6 @@ function AddingHouse() {
   const [type, setType] = useState("");
   const [units, setUnits] = useState("");
 
-  console.log("this image =>",image.length);
-
   const handleCancle = () => {
     setStatus(false);
     setImage("");
@@ -70,9 +68,6 @@ function AddingHouse() {
 
         setStatus(false);
         toast.success("Added succesfuly ");
-        {
-          // navigate("/");
-        }
 
         if (!response) {
           setError(error);
@@ -88,17 +83,24 @@ function AddingHouse() {
           setCategory("");
           setStatus(false);
         }
+
+        
+
+        
       }
     } catch (error) {
-      if (error.response?.status === 500) {
-        return toast.error(" Allowed image format jpeg,jpg,png,webp, ");
-      }
+      console.log("error", error);
+      // if (error.response?.status === 500) {
+      //   return toast.error(" Allowed image format jpeg,jpg,png,webp, ");
+      // }
+      if (error?.response?.status === 403) {
+        const errorMessage = error.response?.message;
 
-      if (error.response?.status === 403) {
-        navigate(error.response.redirect);
-        const errorMessage = error.response.error;
+        if (error.response?.redirect) {
+          navigate(error.response?.redirect);
+        }
 
-        toast.error(`${errorMessage}`);
+        toast.error(errorMessage);
       }
     }
   };

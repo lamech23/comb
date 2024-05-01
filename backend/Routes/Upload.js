@@ -27,12 +27,8 @@ const { hasAdmin } = require("../middlleware/checkRoles");
 const { verifyToken } = require("../middlleware/token");
 
 const router = express.Router();
-//this basically means that the middleware fires first before the other routes so as to protect them
 // router.use(requireAuth);
-//Post a details
-router.post("/", verifyToken, imageUpload, createDetails);
-
-// GET all uploads
+router.post("/",verifyToken, imageUpload, createDetails);
 router.get("/allHouses", verifyToken, getAllHouses);
 router.get("/relevant-agent", verifyToken, hasAdmin,  getRelevantAgentToAhouse);
 router.get("/fetchHousesByName/",verifyToken, hasAdmin,  getAllHousesByName);

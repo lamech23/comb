@@ -7,14 +7,13 @@ const imageUrl = require("../models/imageModel.js");
 const agentManagmentTable = require("../models/agentManagment.js");
 // for landing page
 const cloudinary = require("cloudinary").v2;
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
-
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const getAllHouses = async (req, res) => {
@@ -73,7 +72,7 @@ const getAllHousesByName = async (req, res) => {
             as: "houses",
           },
         });
-        res.status(200).send({details});
+        res.status(200).send({ details });
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }
@@ -101,7 +100,7 @@ const getAllHousesByName = async (req, res) => {
           };
         });
 
-        res.status(200).json({details});
+        res.status(200).json({ details });
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }
@@ -143,7 +142,7 @@ const getAllDetails = async (req, res) => {
         as: "images",
       },
     });
-    res.status(200).json({details});
+    res.status(200).json({ details });
   } catch (error) {
     res.status(400).json("nop");
   }
@@ -194,7 +193,7 @@ const getSingelDetails = async (req, res) => {
       },
     });
 
-    res.status(200).json({details});
+    res.status(200).json({ details });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Cant get the single details for " });
@@ -223,43 +222,37 @@ const createDetails = async (req, res) => {
     details_id: imageUrl.id,
   };
 
+  console.log(info);
+
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    if (userInfo.verified === false) {
-      return res.status(403).json({
-        success:false,
+    const  userVerification = userInfo.verified == false
+
+    if (userVerification) {
+      return res.status(403).send({
+        success: false,
         error: "Your Account is not verified ",
-        redirect: "/account/userVerification",
+        redirect: "/account/userVerification"
       });
     } else {
       const details = await Details.create(info);
 
       for (const file of req.files) {
         try {
-          const result = await cloudinary.uploader.upload(file.path, { folder: "=Images" });
+          const result = await cloudinary.uploader.upload(file.path, {
+            folder: "=Images",
+          });
           const imagePath = await imageUrl.create({
             image: result.secure_url,
             user_id: user_id,
             details_id: details.id,
           });
           imageUrls.push(imagePath);
-     
         } catch (error) {
-          console.error('Upload failed:', error);
+          console.error("Upload failed:", error);
         }
       }
-
-
-      // for (let i = 0; i < req.files.length; i++) {
-      //   const imagePath = await imageUrl.create({
-      //     image: `${baseUrl}/${req.files[i].path}`,
-      //     user_id: user_id,
-      //     details_id: details.id,
-      //   });
-
-      //   imageUrls.push(imagePath);
-      // }
 
       res.status(200).json({
         success: true,
@@ -421,7 +414,7 @@ const getProductsInCategory = async (req, res) => {
       include: [{ model: imageUrl, as: "images" }],
     });
     if (getCategory) {
-      res.status(200).json({getCategory});
+      res.status(200).json({ getCategory });
     }
   } catch (error) {
     res.status(403).json({
@@ -431,32 +424,28 @@ const getProductsInCategory = async (req, res) => {
   }
 };
 
-const getRelevantAgentToAhouse = async(req, res) =>{
+const getRelevantAgentToAhouse = async (req, res) => {
   try {
-
-    const user = req.user 
-    const agentId = user.id
+    const user = req.user;
+    const agentId = user.id;
 
     const relevantAgent = await agentManagmentTable.findAll({
       include: [
         {
-          model: users, as: "agent"
-        }
-      ]
-    })
+          model: users,
+          as: "agent",
+        },
+      ],
+    });
     console.log(relevantAgent);
 
-    if(relevantAgent){
-      res.status(200).json({relevantAgent})
+    if (relevantAgent) {
+      res.status(200).json({ relevantAgent });
+    } else {
+      res.status(404);
     }
-    else{
-      res.status(404)
-    }
-  }catch (error) {
-
-
-}
-}
+  } catch (error) {}
+};
 
 // const deletingHouseAdminSide = async(req, res )=>{
 //   try {
@@ -491,5 +480,5 @@ module.exports = {
   getAllHousesByName,
   getProductsInCategory,
   fetchHousesByNames,
-  getRelevantAgentToAhouse
-}
+  getRelevantAgentToAhouse,
+};

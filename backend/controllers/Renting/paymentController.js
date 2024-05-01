@@ -185,7 +185,6 @@ const updatePaymentStatus = async (req, res) => {
 const paymentsRequestForSpecifcUser = async (req, res) => {
   const token = req.user
   const id = token.userId.id
-  console.log(id);
 
   try {
     const payments = await paymentRequest.findAll({

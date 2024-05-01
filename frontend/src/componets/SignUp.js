@@ -15,6 +15,8 @@ function SignUp() {
   const [signedUp, setSignUp] = useState(false);
   let navigate = useNavigate();
 
+  console.log(email);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -28,7 +30,7 @@ function SignUp() {
     const validEmail = emailFormart.test(email);
 
     try {
-      if (email.length === 0 || password.length === 0) {
+      if (email.length == 0 || password.length == 0) {
         return toast.error("Fileds cannot be empty");
       } else if (password.length < 8) {
         return toast.error("password must be  8 or more characters");
@@ -132,11 +134,7 @@ function SignUp() {
                   Sign in
                 </button>
               </div>
-              {error && (
-                <div className=" alert alert-danger mt-5 text-center">
-                  {error}
-                </div>
-              )}
+         
             </form>
           </div>
         </div>

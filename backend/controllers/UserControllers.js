@@ -29,10 +29,8 @@ const loginUser = async (req, res) => {
       active: user.active,
     };
 
-    // Issue access token
     const token = issueAccessToken(data);
 
-    // Set access token as a cookie in the response
     res.cookie("access_token", JSON.stringify(token), {
       httpOnly: true,
       secure: true,
@@ -49,14 +47,12 @@ const loginUser = async (req, res) => {
           .status(201)
           .json({ token, success: true, error: "Welcome  back" });
       } else {
-        // Handle invalid password
         return res
           .status(400)
           .json({ success: false, error: "Invalid password" });
       }
     }
   } catch (error) {
-    // Return an error response if an exception occurs
     res.status(500).json({ success: false, error: error.message });
   }
 };
@@ -78,14 +74,11 @@ const signupUser = async (req, res) => {
   //   });
   // }
 
-
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   try {
     const checkEmail = await users.findOne({ where: { email: email } });
-    
-    
-    
+
     if (checkEmail) {
       return res
         .status(409)
@@ -97,8 +90,6 @@ const signupUser = async (req, res) => {
         role: "user",
       });
 
-
-
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -106,7 +97,7 @@ const signupUser = async (req, res) => {
           pass: "fdbmegjxghvigklv",
         },
       });
-    
+
       //email option
       const mailOption = {
         to: user.email,
@@ -116,7 +107,7 @@ const signupUser = async (req, res) => {
           `<p>You are reciving this email because  you request to be  part  of our application. Using your email and this  password ${password} you can login and  reset your password .</p> :\n`,
       };
       // end of else
-    
+
       transporter.sendMail(mailOption, (err, response) => {
         if (err) {
           console.log("There was an error", err);
@@ -125,7 +116,7 @@ const signupUser = async (req, res) => {
           res.status(200).json(" email sent ");
         }
       });
-    
+
       res.status(200).json({
         success: true,
       });
@@ -135,10 +126,6 @@ const signupUser = async (req, res) => {
 
     // res.status(400).json({ error: error.message });
   }
-
-
-
-  
 };
 
 const getAllUsers = async (req, res) => {
@@ -203,9 +190,7 @@ const deleteUser = async (req, res) => {
   }
   res.status(200).json(user);
 };
-// get  single user
 const getUserById = async (req, res) => {
-  // const { id } = req.params;
   const user = req?.user?.userId;
   const id = user?.id;
   const User = await users.findOne({
@@ -220,20 +205,18 @@ const getUserById = async (req, res) => {
   }
 };
 
-
-
 const getUserForUpdating = async (req, res) => {
   const { id } = req.params;
 
   const User = await users.findOne({
     where: {
-      id: id
+      id: id,
     },
   });
   if (!User) {
     return res.status(400);
   } else {
-    res.status(200).json({User});
+    res.status(200).json({ User });
   }
 };
 //elevating user
@@ -314,7 +297,8 @@ const reset = async (req, res) => {
     // res.status(200).json({mssg:'okay'})
   } else {
     res.status(400).json({ error: "Password don't match" });
-  }Unverified
+  }
+  Unverified;
   try {
     const updatedPassword = await users.update(
       { password: hashedPassword },
@@ -329,7 +313,7 @@ const updateUserEmail = async (req, res) => {
   const { id } = req.params;
   // const user = req?.user?.userId;
   // const id = user?.id;
-  console.log(id ,"testing id ");
+  console.log(id, "testing id ");
 
   const info = {
     role: req.body.role,
@@ -408,8 +392,6 @@ const getManagemts = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   loginUser,
   signupUser,
@@ -425,5 +407,5 @@ module.exports = {
   managment,
   getManagemts,
   verifyUser,
-  getUserForUpdating
+  getUserForUpdating,
 };

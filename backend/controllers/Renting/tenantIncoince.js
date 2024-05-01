@@ -28,7 +28,7 @@ const lease = async(tenant) => {
         <p style="text-align: left;">Congratulations! You have been successfully registered as a tenant for:</p>
         <p style="font-weight: bold; text-align: left; color: #1E88E5;">Property: ${tenant.houseName}, ${tenant.houseNumber}</p>
         
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; flex-wrap: wrap;">
             <div style="flex-basis: 50%; padding-right: 1rem; margin-bottom: 1rem; color: #FF5677;">
                 <strong>Monthly Rent:</strong> $${tenant.rent}
             </div>

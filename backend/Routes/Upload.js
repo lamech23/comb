@@ -29,7 +29,7 @@ const { verifyToken } = require("../middlleware/token");
 const router = express.Router();
 // router.use(requireAuth);
 router.post("/",verifyToken, imageUpload, createDetails);
-router.get("/allHouses", verifyToken, getAllHouses);
+router.get("/allHouses", getAllHouses);
 router.get("/relevant-agent", verifyToken, hasAdmin,  getRelevantAgentToAhouse);
 router.get("/fetchHousesByName/",verifyToken, hasAdmin,  getAllHousesByName);
 router.get("/housesLinkedToTenants",verifyToken,fetchHousesByNames);

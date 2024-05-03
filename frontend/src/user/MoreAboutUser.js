@@ -1,52 +1,95 @@
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import { api } from "../utils/Api";
+import { ToastContainer, toast } from "react-toastify";
 
 function MoreAboutUser() {
+  const [image, setImage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [bio, setBio] = useState("");
+  const [gender, setGender] = useState("");
 
-    const [isCameraOn, setIsCameraOn] = useState(false);
-    console.log(isCameraOn);
+  const [isCameraOn, setIsCameraOn] = useState(false);
 
-    const startCamera = () => {
-      setIsCameraOn(true);
-      console.log(Webcam);
+  const startCamera = () => {
+    setIsCameraOn(true);
+    console.log(Webcam);
+  };
+
+  const webcamRef = useRef(null);
+  const [imageSrc, setImageSrc] = useState(null);
+
+  const captureImage = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImageSrc(imageSrc);
+  };
+
+  //creating an account
+
+  // try {
+  const createAcc = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+    console.log(formData);
+
+    const accountDetails = {
+      firstName,
+      lastname,
+      phoneNumber,
+      bio,
+      gender,
+      formData,
     };
+    console.log(image);
 
+    const userData = await api(
+      "/Acc/update-account",
+      "POST",
+      {},
+      accountDetails
+    );
 
-    const webcamRef = useRef(null);
-    const [imageSrc, setImageSrc] = useState(null);
-
-    const captureImage = () => {
-      const imageSrc = webcamRef.current.getScreenshot();
-      setImageSrc(imageSrc);
-
+    if (userData) {
+      setFirstName("");
+      setLastName("");
+      setBio("");
+      setPhoneNumber("");
+      setGender("");
+      toast.success("account verified  successfully!");
     }
+  };
 
+  // } catch (error) {
+  //   console.log(error);
+
+  // }
 
   return (
     <>
       <section className="bg-gray-100">
-      <div>
-      {!isCameraOn && (
-        <button onClick={startCamera}>Start Camera</button>
-      )}
-      {isCameraOn && (
         <div>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={640}
-            height={480}
-          />
-          <button onClick={captureImage}>Capture</button>
-          {imageSrc && <img src={imageSrc} alt="Captured" />}
+          {!isCameraOn && <button onClick={startCamera}>Start Camera</button>}
+          {isCameraOn && (
+            <div>
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                width={640}
+                height={480}
+              />
+              <button onClick={captureImage}>Capture</button>
+              {imageSrc && <img src={imageSrc} alt="Captured" />}
+            </div>
+          )}
         </div>
-      )}
-    </div>
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
             <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-              <form action="#" className="space-y-4">
+              <form onSubmit={createAcc} className="space-y-4">
                 <div class="col-span-full">
                   <label
                     for="cover-photo"
@@ -79,6 +122,7 @@ function MoreAboutUser() {
                             name="file-upload"
                             type="file"
                             class="sr-only"
+                            onChange={(e) => setImage(e.target.files[0])}
                           />
                         </label>
                         <p class="pl-1">or drag and drop</p>
@@ -91,13 +135,15 @@ function MoreAboutUser() {
                 </div>
                 <div>
                   <label className="sr-only" for="name">
-                    Name
+                    first-Name
                   </label>
                   <input
                     className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                    placeholder="Name"
+                    placeholder="first-name"
+                    value={firstName}
                     type="text"
                     id="name"
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
 
@@ -108,9 +154,11 @@ function MoreAboutUser() {
                     </label>
                     <input
                       className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                      placeholder="Email address"
-                      type="email"
+                      placeholder="Last-name"
+                      type="text"
+                      value={lastname}
                       id="email"
+                      onChange={(e) => setLastName(e.target.value)}
                     />
                   </div>
 
@@ -120,9 +168,10 @@ function MoreAboutUser() {
                     </label>
                     <input
                       className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                      placeholder="Phone Number"
+                      placeholder="Phone Number Format: 073-456-7890"
                       type="tel"
-                      id="phone"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                   </div>
                 </div>
@@ -139,10 +188,12 @@ function MoreAboutUser() {
                         id="Option1"
                         type="radio"
                         tabindex="-1"
-                        name="option"
+                        name="male"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                       />
 
-                      <span className="text-sm"> Option 1 </span>
+                      <span className="text-sm"> male </span>
                     </label>
                   </div>
 
@@ -157,10 +208,12 @@ function MoreAboutUser() {
                         id="Option2"
                         type="radio"
                         tabindex="-1"
-                        name="option"
+                        name="female"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                       />
 
-                      <span className="text-sm"> Option 2 </span>
+                      <span className="text-sm"> female </span>
                     </label>
                   </div>
 
@@ -175,10 +228,12 @@ function MoreAboutUser() {
                         id="Option3"
                         type="radio"
                         tabindex="-1"
-                        name="option"
+                        name="others"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                       />
 
-                      <span className="text-sm"> Option 3 </span>
+                      <span className="text-sm"> others </span>
                     </label>
                   </div>
                 </div>
@@ -189,10 +244,12 @@ function MoreAboutUser() {
                   </label>
 
                   <textarea
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Message"
+                    className=" border w-full rounded-lg border-gray-200 p-3 text-sm"
+                    placeholder="Bio"
                     rows="8"
                     id="message"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                   ></textarea>
                 </div>
 
@@ -201,9 +258,21 @@ function MoreAboutUser() {
                     type="submit "
                     class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                   >
-                    Verify
+                    Create
                   </button>{" "}
                 </div>
+                <ToastContainer
+                  position="top-left"
+                  autoClose={3000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="colored"
+                />
               </form>
             </div>
           </div>

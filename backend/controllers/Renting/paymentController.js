@@ -8,7 +8,6 @@ const addPayment = async (req, res) => {
   const token = req.user.userId;
   const user_id = token.id;
 
-  console.log(user_id, "this id ");
   const file = req.file;
 
   try {
@@ -21,7 +20,6 @@ const addPayment = async (req, res) => {
     };
 
     const createPayment = await paymentRequest.create(paymentDetails);
-    console.log(createPayment);
     res.status(200).send({
       createPayment,
       success: true,
@@ -199,10 +197,26 @@ const paymentsRequestForSpecifcUser = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+const allPayments = async (req, res) => {
+
+
+  try {
+    const payments = await paymentRequest.findAll({
+    
+    });
+    if (payments) {
+      res.status(200).json({ payments });
+    }
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   addPayment,
   getAllPaymentsForAdminSide,
   updatePaymentStatus,
   singlePaymentsForAdminSide,
   paymentsRequestForSpecifcUser,
+  allPayments
 };

@@ -12,7 +12,6 @@ function PaymentRequest() {
     setpayments(response?.payments);
   };
 
-  console.log(payments);
 
 
   useEffect(() => {
@@ -22,7 +21,6 @@ function PaymentRequest() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const formData = new FormData();
       formData.append('image', image);
@@ -51,7 +49,7 @@ function PaymentRequest() {
                     for="cover-photo"
                     class="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Cover photo
+                    Payment  Image
                   </label>
                   <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     <div class="text-center">

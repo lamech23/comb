@@ -222,7 +222,6 @@ const createDetails = async (req, res) => {
     details_id: imageUrl.id,
   };
 
-  console.log(info);
 
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });

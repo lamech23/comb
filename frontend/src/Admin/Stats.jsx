@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import Graph from "../utils/Graph";
+import PieGraph from "../utils/PieGraph";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import { api } from "../utils/Api";
 
@@ -19,6 +20,7 @@ function Stats() {
   let navigate = useNavigate();
   const [allUsers, setAllUsers] = useState([]);
   const [payments, setpayments] = useState([]);
+  const [allPayments, setAllPayments] = useState([]);
 
   try {
     useEffect(() => {
@@ -26,6 +28,7 @@ function Stats() {
       fetchTotalNews();
       fetchUsers();
       fetchOpenpayments();
+      fetchAllPayments();
     }, [setCounts]);
 
     const fetchUsers = async () => {
@@ -47,6 +50,11 @@ function Stats() {
       setpayments(response?.payments);
     };
 
+    const fetchAllPayments = async () => {
+      const response = await api("/payment/all-payments/", "GET", {}, {});
+
+      setAllPayments(response?.payments);
+    };
 
     const fetchTotalNews = async () => {
       try {
@@ -190,20 +198,34 @@ function Stats() {
                   />
                 </svg>
               </div>
-              <Link to={"/admin/payment-view"} className="stat-title dark:text-slate-300 hover:dark:text-slate-700">
+              <Link
+                to={"/admin/payment-view"}
+                className="stat-title dark:text-slate-300 hover:dark:text-slate-700"
+              >
                 Payments Requests{" "}
               </Link>
               <div className="stat-value dark:text-red-600">
                 {payments.length}
               </div>
-          
             </div>
-
-          
           </div>
         </div>
-        <div>
-          <Graph users={allUsers} />
+        <div className="grid  lg:grid-cols-4 grid-cols-2 gap-4 mt-10">
+          {/* Graph Component */}
+          <div className="col-span-2 ">
+            <div className="bg-white rounded-lg shadow-md p-4 basis-1/4">
+              <h2 className="text-xl font-bold mb-4">User Statistics</h2>
+              <Graph users={allUsers} />
+            </div>
+          </div>
+
+          {/* PieGraph Component */}
+          <div className="col-span-2">
+            <div className="bg-white rounded-lg shadow-md p-4" >
+              <h2 className="text-xl font-bold mb-4">Payment Breakdown</h2>
+              <PieGraph payments={allPayments} />
+            </div>
+          </div>
         </div>
       </div>
 

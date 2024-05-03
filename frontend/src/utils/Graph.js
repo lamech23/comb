@@ -64,7 +64,7 @@ const UserGraph = ({ users }) => {
               label: "user Data ",
               data: data,
               borderColor: "rgba(340, 0, 0, 2)",
-              backgroundColor: "rgba(0, 140 , 140, 2)",
+              backgroundColor: "rgba(240, 0 , 0, 2)",
               borderWidth: 1,
               fill: true,
             },
@@ -107,7 +107,7 @@ const UserGraph = ({ users }) => {
 const Graph = ({ users }) => {
   return (
     <div className="mt-4">
-      <div className=" border-2 shadow-lg rounded-lg p-4 mt-20 mb-20  lg:w-[100rem]" >
+      <div className="  shadow-xl rounded-lg p-4 mt-20 mb-20   lg:w-[60rem]">
         <UserGraph users={users} />
       </div>
       

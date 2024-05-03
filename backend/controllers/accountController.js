@@ -7,23 +7,21 @@ const createAccount = async (req, res) => {
     const user_id = token.userId.id;
 
     const file = req.file;
-    console.log(file);
 
     const result = await cloudinary.uploader.upload(file.path, {
       folder: "=Images",
     });
     const accountDetails = {
       userId: user_id,
-      photo: result.secure_url,
+      image: result.secure_url,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      phoneNumber: req.body.phoneNumber,
       bio: req.body.bio,
       gender: req.body.gender,
     };
 
-    const newAccount = await userAccount.create(
-      accountDetails,
-    );
+    const newAccount = await userAccount.create(accountDetails);
 
     if (newAccount) {
       return res.status(201).json({
@@ -44,6 +42,36 @@ const createAccount = async (req, res) => {
   }
 };
 
+const fetchAccount = async (req, res) => {
+  try {
+    const token = req.user;
+    const userid = token.userId.id;
+
+    const account = await userAccount.findOne({
+      where: {
+        userId: userid,
+      },
+    });
+
+
+    if(account){
+      console.log(account);
+      return res.status(200).json({
+        success: true,
+        image: account.dataValues
+      })
+    }else{
+      return res.status(404).json({
+        success:false,
+        message:"No Image Found"
+      })
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createAccount,
+  fetchAccount
 };

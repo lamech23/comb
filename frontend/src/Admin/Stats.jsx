@@ -53,13 +53,12 @@ function Stats() {
     const fetchAllPayments = async () => {
       const response = await api("/payment/all-payments/", "GET", {}, {});
 
-      setAllPayments(response?.payments);
+      setAllPayments(response?.payment);
     };
 
     const fetchTotalNews = async () => {
       try {
         const response = await api("/Total/get-stats", "GET", {}, {});
-        console.log(response);
 
         const { count3, count, count2, activeUser, Tenant, Landlord } =
           response;
@@ -71,7 +70,7 @@ function Stats() {
         setTenant(Tenant);
         setLandOwner(Landlord);
       } catch (error) {
-        console.error("Error fetching total news:", error);
+        console.log("Error fetching total news:", error);
       }
     };
   } catch (error) {
@@ -213,7 +212,7 @@ function Stats() {
         <div className="grid  lg:grid-cols-4 grid-cols-2 gap-4 mt-10">
           {/* Graph Component */}
           <div className="col-span-2 ">
-            <div className="bg-white rounded-lg shadow-md p-4 basis-1/4">
+            <div className=" rounded-lg  p-4 basis-1/4">
               <h2 className="text-xl font-bold mb-4">User Statistics</h2>
               <Graph users={allUsers} />
             </div>
@@ -221,7 +220,7 @@ function Stats() {
 
           {/* PieGraph Component */}
           <div className="col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-4" >
+            <div className=" rounded-lg  p-4">
               <h2 className="text-xl font-bold mb-4">Payment Breakdown</h2>
               <PieGraph payments={allPayments} />
             </div>

@@ -1,7 +1,7 @@
 const tenantRegistration = require("../../models/RentingModels/RegisterTenantModel");
+const payments = require("../../models/RentingModels/additionalPaymentsModel");
 const paymentRequest = require("../../models/RentingModels/paymentRequestModel");
 const Details = require("../../models/UploadModals");
-const users = require("../../models/UserModels");
 const cloudinary = require("cloudinary").v2;
 
 const addPayment = async (req, res) => {
@@ -181,8 +181,8 @@ const updatePaymentStatus = async (req, res) => {
 };
 
 const paymentsRequestForSpecifcUser = async (req, res) => {
-  const token = req.user
-  const id = token.userId.id
+  const token = req.user;
+  const id = token.userId.id;
 
   try {
     const payments = await paymentRequest.findAll({
@@ -199,14 +199,14 @@ const paymentsRequestForSpecifcUser = async (req, res) => {
 };
 
 const allPayments = async (req, res) => {
-
-
   try {
-    const payments = await paymentRequest.findAll({
-    
-    });
-    if (payments) {
-      res.status(200).json({ payments });
+    const payment = await paymentRequest.findAll({});
+
+    const transactions = await  payments.findAll({
+      attributes: ['amount']
+    })
+    if (payment && transactions)  {
+      res.status(200).json({ payment, transactions });
     }
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -218,5 +218,5 @@ module.exports = {
   updatePaymentStatus,
   singlePaymentsForAdminSide,
   paymentsRequestForSpecifcUser,
-  allPayments
+  allPayments,
 };

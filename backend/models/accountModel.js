@@ -19,7 +19,7 @@ const userAccount = db.define(
       allowNull: false,
 
     },
-    lastname: {
+    lastName: {
       type: DataTypes.STRING,
       allowNull: false,
 

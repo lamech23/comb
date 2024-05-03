@@ -74,52 +74,50 @@ const PieChart = ({ payments }) => {
               label: "payments ",
               data: data,
               borderColor: "border-blue-400",
-              borderWidth: 0.5, 
+              borderWidth: 0.5,
               fill: true,
-              tension: 0.4
-
+              tension: 0.4,
             },
-            
+
             {
               label: "confirmed payment ",
               data: data2,
               borderColor: "rgba(0, 255, 0, 1)",
-              borderWidth: 0.5, 
+              borderWidth: 0.5,
               fill: true,
-              tension: 0.4
+              tension: 0.4,
             },
             {
               label: "rejected payment ",
               data: data3,
               borderColor: "border-red-600",
               backgroundColor: "rgba(255, 0, 0, 0.2)",
-              borderWidth: 0.5, 
+              borderWidth: 0.5,
               fill: true,
-              tension: 0.4
+              tension: 0.4,
             },
           ],
         },
-        
+
         options: {
           responsive: true,
           maintainAspectRatio: false,
+         
           scales: {
             x: {
-              display: true,
+              display: false,
               title: {
                 display: true,
                 text: "Months",
               },
-              
             },
+           
             y: {
               display: true,
               title: {
                 display: true,
                 text: "users",
-              }
-              
-         
+              },
             },
           },
         },

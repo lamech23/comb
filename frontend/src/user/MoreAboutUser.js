@@ -6,10 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 function MoreAboutUser() {
   const [image, setImage] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
   const [bio, setBio] = useState("");
   const [gender, setGender] = useState("");
+
+  const [photo, setPhoto] = useState({})
 
   const [isCameraOn, setIsCameraOn] = useState(false);
 
@@ -28,29 +30,22 @@ function MoreAboutUser() {
 
   //creating an account
 
-  // try {
   const createAcc = async (e) => {
     e.preventDefault();
+    try {
+
     const formData = new FormData();
     formData.append("image", image);
-    console.log(formData);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("bio", bio);
+    formData.append("gender", gender);
+    // console.log(formData);
 
-    const accountDetails = {
-      firstName,
-      lastname,
-      phoneNumber,
-      bio,
-      gender,
-      formData,
-    };
-    console.log(image);
+    // return;
 
-    const userData = await api(
-      "/Acc/update-account",
-      "POST",
-      {},
-      accountDetails
-    );
+    const userData = await api("/Acc/update-account", "POST", {}, formData);
 
     if (userData) {
       setFirstName("");
@@ -60,12 +55,16 @@ function MoreAboutUser() {
       setGender("");
       toast.success("account verified  successfully!");
     }
+    
+      } catch (error) {
+        console.log(error);
+    
+      }
   };
 
-  // } catch (error) {
-  //   console.log(error);
+  // getting image 
 
-  // }
+
 
   return (
     <>
@@ -156,7 +155,7 @@ function MoreAboutUser() {
                       className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
                       placeholder="Last-name"
                       type="text"
-                      value={lastname}
+                      value={lastName}
                       id="email"
                       onChange={(e) => setLastName(e.target.value)}
                     />
@@ -180,61 +179,64 @@ function MoreAboutUser() {
                   <div>
                     <label
                       for="Option1"
-                      className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
+                      className={`block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black ${gender === "male" ? "bg-black text-white": "bg-white"}`}
                       tabindex="0"
                     >
-                      <input
-                        className="sr-only"
-                        id="Option1"
-                        type="radio"
-                        tabindex="-1"
-                        name="male"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-
-                      <span className="text-sm"> male </span>
+                      male
                     </label>
+
+                    <input
+                      className="sr-only"
+                      id="Option1"
+                      type="radio"
+                      checked={gender === "male"}
+                      tabindex="-1"
+                      name="male"
+                      value="male"
+                      onChange={(e) => setGender(e.target.value)}
+                    />
                   </div>
 
                   <div>
                     <label
                       for="Option2"
-                      className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
+                      className={`block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black ${gender === "female" ? "bg-black text-white": "bg-white"}`}
                       tabindex="0"
                     >
-                      <input
-                        className="sr-only"
-                        id="Option2"
-                        type="radio"
-                        tabindex="-1"
-                        name="female"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-
-                      <span className="text-sm"> female </span>
+                      female
                     </label>
+
+                    <input
+                      className="sr-only"
+                      id="Option2"
+                      type="radio"
+                      checked={gender === "female"}
+                      tabindex="-1"
+                      name="female"
+                      value="female"
+                      onChange={(e) => setGender(e.target.value)}
+                    />
                   </div>
 
                   <div>
                     <label
                       for="Option3"
-                      className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
+                      className={`block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black ${gender === "others" ? "bg-black text-white": "bg-white"}`}
                       tabindex="0"
                     >
-                      <input
-                        className="sr-only"
-                        id="Option3"
-                        type="radio"
-                        tabindex="-1"
-                        name="others"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                      />
-
-                      <span className="text-sm"> others </span>
+                      others
                     </label>
+
+                    <input
+                      className="sr-only"
+                      id="Option3"
+                      type="radio"
+                      checked={gender === "others"}
+                      tabindex="-1"
+                      name="others"
+                      value="others"
+                      onChange={(e) => setGender(e.target.value)}
+                    />
                   </div>
                 </div>
 

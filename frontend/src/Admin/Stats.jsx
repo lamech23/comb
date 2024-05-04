@@ -24,7 +24,6 @@ function Stats() {
   const [allPayments, setAllPayments] = useState([]);
   const [payment, setPayment] = useState([]);
 
-
   try {
     useEffect(() => {
       fetchNewsLetters();
@@ -42,16 +41,16 @@ function Stats() {
     //newsLetter
     const fetchNewsLetters = async () => {
       const response = await api("/news/newsLetter/Sub", "GET", {}, {});
-
       setNewsLetter(response.data);
     };
 
     // get all payments  with status open
     const fetchOpenpayments = async () => {
-      const response = await api("/payment/open-payments/", "GET", {}, {});
+      const response = await api("/payment/open-payments", "GET", {}, {});
 
-      setpayments(response?.payments);
-    };
+      setpayments(response?.paymentsWithTenants);
+    }
+    console.log(payments);
 
     const fetchAllPayments = async () => {
       const response = await api("/payment/all-payments/", "GET", {}, {});
@@ -79,23 +78,15 @@ function Stats() {
   } catch (error) {
     console.log(error);
   }
-useEffect(()=>{
-
-  
-  const getPayments = async () => {
-    try {
-      const response = await api(
-        `/Tenant/payments-analytics`,
-        "GET",
-        {},
-        {}
-      );
-      setPayment(response?.mergedData?.paymentData);
-    } catch (error) {}
-  };
-  getPayments()
-},[])
-console.log(payment);
+  useEffect(() => {
+    const getPayments = async () => {
+      try {
+        const response = await api(`/Tenant/payments-analytics`, "GET", {}, {});
+        setPayment(response?.mergedData?.paymentData);
+      } catch (error) {}
+    };
+    getPayments();
+  }, []);
   return (
     <div>
       <div className="container-fluid px-4 mt-5">
@@ -241,7 +232,9 @@ console.log(payment);
           {/* PieGraph Component */}
           <div className="col-span-2">
             <div className=" rounded-lg  p-4">
-              <h2 className="text-xl font-bold mb-4">Payment Request Breakdown</h2>
+              <h2 className="text-xl font-bold mb-4">
+                Payment Request Breakdown
+              </h2>
               <PieGraph payments={allPayments} />
             </div>
           </div>
@@ -249,7 +242,9 @@ console.log(payment);
           {/* PieGraph Component */}
           <div className="col-span-2">
             <div className=" rounded-lg  p-4">
-              <h2 className="text-xl font-bold mb-4">Monthly Payments Transaction </h2>
+              <h2 className="text-xl font-bold mb-4">
+                Monthly Payments Transaction{" "}
+              </h2>
               <TransactionGraph payments={payment} />
             </div>
           </div>

@@ -313,7 +313,6 @@ const updateUserEmail = async (req, res) => {
   const { id } = req.params;
   // const user = req?.user?.userId;
   // const id = user?.id;
-  console.log(id, "testing id ");
 
   const info = {
     role: req.body.role,

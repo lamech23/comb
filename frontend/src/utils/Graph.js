@@ -63,9 +63,11 @@ const UserGraph = ({ users }) => {
             {
               label: "users ",
               data: data,
-              borderColor: "rgba(340, 0, 0, 2)",
-              backgroundColor: "rgba(240, 0 , 0, 2)",
+              borderColor: "rgba(0, 210, 0, 2)",
+              backgroundColor: "rgba(0, 100, 0, 10)",
               borderWidth: 1,
+              borderRadius: 6,
+              barThickness:20,
               fill: true,
             },
           ],
@@ -73,13 +75,16 @@ const UserGraph = ({ users }) => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+
+
           scales: {
             x: {
-              display: false,
+              display: true,
               title: {
                 display: true,
                 text: "Months",
               },
+              
             },
             y: {
               display: true,

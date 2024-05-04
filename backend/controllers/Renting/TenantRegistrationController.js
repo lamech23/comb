@@ -100,7 +100,6 @@ const tentantUpdating = async (req, res) => {
       tenant_id: req.body.tenant_id,
       house_id: req.body.house_id,
     };
-    // console.log(waterBackupDetails);
 
     const waterBackup = await waterStore.create(waterBackupDetails);
 
@@ -119,7 +118,6 @@ const tentantUpdating = async (req, res) => {
 
 const paymentsCreations = async (req, res) => {
   const { updatedPayment } = req.body;
-  console.log(updatedPayment);
   try {
     const updatedPaymentArray = Object.values(updatedPayment);
 
@@ -167,7 +165,6 @@ const getPayments = async (req, res) => {
           return acc + Number(detail.amount);
         }, 0);
 
-        console.log(totalAmount);
         return {
           ...paymentData,
           totalAmount,
@@ -209,7 +206,6 @@ const fetchAllAdditinalPaymentsForDashboard = async (req, res) => {
           paymentData: paymentData, 
           totalAmount: totalAmount
         };
-        console.log("this one",mergedData);
 
     if (mergedData) {
       return res.status(200).json({

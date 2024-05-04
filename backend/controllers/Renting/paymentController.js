@@ -46,9 +46,11 @@ const getAllPaymentsForAdminSide = async (req, res) => {
         },
       ],
     });
-    if (payments) {
-      const userId = payments.map((item) => item.userId);
 
+    if (payments) {
+      //get the is userId from the returned payments
+      const userId = payments.map((item) => item.userId);
+      // find  all tenant with the above  userId
       const tenant = await tenantRegistration.findAll({
         where: {
           userId: userId,
@@ -56,6 +58,7 @@ const getAllPaymentsForAdminSide = async (req, res) => {
       });
 
       const tenantMap = {};
+      //matching the  tenant.userId in tenantMap is similar hence retriving the recorde
       tenant.forEach((tenant) => {
         return (tenantMap[tenant.userId] = tenant);
       });
@@ -67,6 +70,7 @@ const getAllPaymentsForAdminSide = async (req, res) => {
           id: houseIds,
         },
       });
+      console.log(houses, "THIS IS WHAT  AM LOOKING FOR ");
 
       const houseMap = {};
       houses.forEach((house) => {
@@ -78,7 +82,6 @@ const getAllPaymentsForAdminSide = async (req, res) => {
 
         const houseDetails = houseMap[tenantsHouse.houseId];
         const tenantDetails = tenantMap[userId];
-        console.log(houseDetails, "this general log");
 
         return {
           ...payment.toJSON(),
@@ -86,15 +89,17 @@ const getAllPaymentsForAdminSide = async (req, res) => {
           house: houseDetails || {},
         };
       });
+      console.log(paymentsWithTenants, "THIS ONE MY G");
 
       res.status(200).json({
-        payments: paymentsWithTenants,
+        paymentsWithTenants,
       });
     }
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 const singlePaymentsForAdminSide = async (req, res) => {
   try {
     // Find a single open payment with its associated user
@@ -156,8 +161,6 @@ const singlePaymentsForAdminSide = async (req, res) => {
       },
     };
 
-    console.log(paymentWithDetails);
-
     res.status(200).json({ payment: paymentWithDetails });
   } catch (error) {
     console.error("Error fetching payment details:", error);
@@ -202,10 +205,10 @@ const allPayments = async (req, res) => {
   try {
     const payment = await paymentRequest.findAll({});
 
-    const transactions = await  payments.findAll({
-      attributes: ['amount']
-    })
-    if (payment && transactions)  {
+    const transactions = await payments.findAll({
+      attributes: ["amount"],
+    });
+    if (payment && transactions) {
       res.status(200).json({ payment, transactions });
     }
   } catch (error) {

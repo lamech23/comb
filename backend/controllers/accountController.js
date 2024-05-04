@@ -53,18 +53,16 @@ const fetchAccount = async (req, res) => {
       },
     });
 
-
-    if(account){
-      console.log(account.dataValues.image);
+    if (account) {
       return res.status(200).json({
         success: true,
-        image: account.dataValues.image
-      })
-    }else{
+        image: account.dataValues.image,
+      });
+    } else {
       return res.status(404).json({
-        success:false,
-        message:"No Image Found"
-      })
+        success: false,
+        message: "No Image Found",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -73,5 +71,5 @@ const fetchAccount = async (req, res) => {
 
 module.exports = {
   createAccount,
-  fetchAccount
+  fetchAccount,
 };

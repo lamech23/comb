@@ -121,10 +121,10 @@ const PieChart = ({ payments }) => {
            
             y: {
               display: true,
-              title: {
-                display: true,
-                text: "users",
-              },
+              // title: {
+              //   display: true,
+              //   text: "users",
+              // },
             },
           },
         },

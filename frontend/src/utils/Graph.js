@@ -61,7 +61,7 @@ const UserGraph = ({ users }) => {
           labels: labels,
           datasets: [
             {
-              label: "user Data ",
+              label: "users ",
               data: data,
               borderColor: "rgba(340, 0, 0, 2)",
               backgroundColor: "rgba(240, 0 , 0, 2)",

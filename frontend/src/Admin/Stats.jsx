@@ -8,6 +8,7 @@ import Graph from "../utils/Graph";
 import PieGraph from "../utils/PieGraph";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import { api } from "../utils/Api";
+import TransactionGraph from "../utils/TransactionGraph";
 
 function Stats() {
   const [newsLetter, setNewsLetter] = useState([]);
@@ -21,6 +22,8 @@ function Stats() {
   const [allUsers, setAllUsers] = useState([]);
   const [payments, setpayments] = useState([]);
   const [allPayments, setAllPayments] = useState([]);
+  const [payment, setPayment] = useState([]);
+
 
   try {
     useEffect(() => {
@@ -76,6 +79,23 @@ function Stats() {
   } catch (error) {
     console.log(error);
   }
+useEffect(()=>{
+
+  
+  const getPayments = async () => {
+    try {
+      const response = await api(
+        `/Tenant/payments-analytics`,
+        "GET",
+        {},
+        {}
+      );
+      setPayment(response?.mergedData?.paymentData);
+    } catch (error) {}
+  };
+  getPayments()
+},[])
+console.log(payment);
   return (
     <div>
       <div className="container-fluid px-4 mt-5">
@@ -209,7 +229,7 @@ function Stats() {
             </div>
           </div>
         </div>
-        <div className="grid  lg:grid-cols-4 grid-cols-2 gap-4 mt-10">
+        <div className="grid  lg:grid-cols-4 xl:grid-cols-6  grid-cols-2 gap-4 mt-10">
           {/* Graph Component */}
           <div className="col-span-2 ">
             <div className=" rounded-lg  p-4 basis-1/4">
@@ -221,8 +241,16 @@ function Stats() {
           {/* PieGraph Component */}
           <div className="col-span-2">
             <div className=" rounded-lg  p-4">
-              <h2 className="text-xl font-bold mb-4">Payment Breakdown</h2>
+              <h2 className="text-xl font-bold mb-4">Payment Request Breakdown</h2>
               <PieGraph payments={allPayments} />
+            </div>
+          </div>
+
+          {/* PieGraph Component */}
+          <div className="col-span-2">
+            <div className=" rounded-lg  p-4">
+              <h2 className="text-xl font-bold mb-4">Monthly Payments Transaction </h2>
+              <TransactionGraph payments={payment} />
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { isAdmin, isUser } from "../utils/Decoded";
@@ -15,7 +15,7 @@ function Header() {
 
   const user = isUser()?.userId;
 
-  const [photo, setPhoto] = useState({});
+  const [photo, setPhoto] = useState(null);
 
   const handleLogout = async () => {
     await api(`/users/logout`, "POST", {}, {});
@@ -30,21 +30,23 @@ function Header() {
   const fetchImage = async () => {
     try {
       const response = api("/Acc/user-image", "GET", {}, {});
-      if (response) {
+      if (response.ok) {
         setPhoto(response?.image);
       } else {
         setPhoto(
           "https://media.geeksforgeeks.org/wp-content/uploads/20240226132217/w2.png"
         );
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error in Fetching Image ", error);
+    }
   };
 
   useEffect(() => {
     fetchImage();
-  }, []);
+  }, [photo]);
 
-  console.log(photo?.image);
+  console.log(photo);
   return (
     // navbar fixed  flex-none justify-between bg-base-300  z-10 shadow-md
 
@@ -65,7 +67,7 @@ function Header() {
           <div className="dropdown dropdown-end ml-4">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={photo} alt="profile" />
+                  <img src={photo} alt="profile" />
               </div>
             </label>
             <ul

@@ -55,10 +55,10 @@ const fetchAccount = async (req, res) => {
 
 
     if(account){
-      console.log(account);
+      console.log(account.dataValues.image);
       return res.status(200).json({
         success: true,
-        image: account.dataValues
+        image: account.dataValues.image
       })
     }else{
       return res.status(404).json({

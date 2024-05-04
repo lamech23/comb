@@ -7,7 +7,8 @@ const{
     paymentsCreations,
     updateWaterBill,
     getPayments,
-    deleteTenant
+    deleteTenant,
+    fetchAllAdditinalPaymentsForDashboard
 } =require('../../controllers/Renting/TenantRegistrationController')
 const {requireAuth} =require('../../middlleware/requireAuth')
 
@@ -21,6 +22,7 @@ router.post('/registerPayment',verifyToken, hasAdmin, paymentsCreations)
 router.patch('/change/:id',  verifyToken, hasAdmin, tentantUpdating)
 router.put('/updateWaterBill',verifyToken,hasAdmin  ,  updateWaterBill)
 router.get('/fetchPayment/',verifyToken, hasAdmin  , getPayments)
+router.get('/payments-analytics/',verifyToken, hasAdmin  , fetchAllAdditinalPaymentsForDashboard)
 router.delete('/removeTenant/',verifyToken, hasAdmin  , deleteTenant)
 
 

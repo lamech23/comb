@@ -196,6 +196,42 @@ const getPayments = async (req, res) => {
   }
 };
 
+const fetchAllAdditinalPaymentsForDashboard = async (req, res) => {
+  try {
+
+        const paymentData = await payments.findAll();
+
+        const totalAmount = paymentData.reduce((acc, detail) => {
+          return acc + Number(detail.amount);
+        }, 0);
+
+        const mergedData = {
+          paymentData: paymentData, 
+          totalAmount: totalAmount
+        };
+        console.log("this one",mergedData);
+
+    if (mergedData) {
+      return res.status(200).json({
+        mergedData,
+        success: true,
+        
+      });
+    } else {
+     return res.status(404).json({
+        success: false,
+        message: "Payment data not found for the user",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+};
+
 const updateWaterBill = async (req, res) => {
   const { updatedTenants } = req.body;
 
@@ -278,4 +314,5 @@ module.exports = {
   updateWaterBill,
   getPayments,
   deleteTenant,
+  fetchAllAdditinalPaymentsForDashboard
 };

@@ -1,15 +1,10 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const PieChart = ({ payments }) => {
+const Transaction = ({ payments }) => {
   // Create a ref to hold the chart element.
 
-  const confirmedPayment = payments?.filter(
-    (item) => item.status == "confirmed"
-  );
-
-  const rejectedPayment = payments?.filter((item) => item.status == "reject");
-
+  console.log(payments);
   const chartRef = useRef(null);
 
   function generateMonthLabels(monthCount) {
@@ -45,20 +40,19 @@ const PieChart = ({ payments }) => {
       const month = new Date(item.createdAt).toLocaleString("default", {
         month: "short",
       });
+    
       Math.floor((userCountByMonth[month] += 1));
+
     });
     return Object.values(userCountByMonth);
   }
   const paymentCounts = countPayment(payments);
-  const confirmed = countPayment(confirmedPayment);
-  const rejected = countPayment(rejectedPayment);
 
   useEffect(() => {
     // Define data for the chart.
     const labels = generateMonthLabels(12);
     const data = paymentCounts;
-    const data2 = confirmed;
-    const data3 = rejected;
+
     if (chartRef.current) {
       if (chartRef.current.chart) {
         chartRef.current.chart.destroy();
@@ -66,50 +60,39 @@ const PieChart = ({ payments }) => {
 
       // Create a new line chart using Chart.js.
       chartRef.current.chart = new Chart(chartRef.current, {
-        type: "line",
+        type: "doughnut",
         data: {
           labels: labels,
           datasets: [
             {
-              label: "payments ",
+              label: "Payments 1",
               data: data,
-              borderColor: "border-blue-400",
-              borderWidth: 0.5,
-              fill: true,
-              tension: 0.4,
+               backgroundColor : [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(153, 102, 255)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 0, 255)",
+                "rgb(0, 255, 255)",
+                "rgb(128, 128, 128)",
+                "rgb(255, 0, 0)",
+                "rgb(0, 128, 0)",
+                "rgb(0, 0, 255)",
+              ],
+              borderWidth: [0, 4, 8],
+              hoverOffset: 4,
             },
-
-            {
-              label: "confirmed payment ",
-              data: data2,
-              borderColor: "rgba(0, 255, 0, 1)",
-              borderWidth: 0.5,
-              fill: true,
-              tension: 0.4,
-            },
-            {
-              label: "rejected payment ",
-              data: data3,
-              borderColor: "border-red-600",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
-              borderWidth: 0.5,
-              fill: true,
-              tension: 0.4,
-            },
+            
           ],
         },
 
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: ' Payments  '
-            }
+          cutoutpercentage: 60,
 
-          },
-         
           scales: {
             x: {
               display: false,
@@ -118,9 +101,9 @@ const PieChart = ({ payments }) => {
                 text: "Months",
               },
             },
-           
+
             y: {
-              display: true,
+              display: false,
               title: {
                 display: true,
                 text: "users",
@@ -139,14 +122,14 @@ const PieChart = ({ payments }) => {
   );
 };
 
-const PieGraph = ({ payments }) => {
+const TransactionGraph = ({ payments }) => {
   return (
     <div className="mt-4">
       <div className="  shadow-xl rounded-lg p-4 mt-20 mb-20   lg:w-[60rem]">
-        <PieChart payments={payments} />
+        <Transaction payments={payments} />
       </div>
     </div>
   );
 };
 
-export default PieGraph;
+export default TransactionGraph;

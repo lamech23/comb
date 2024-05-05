@@ -129,7 +129,16 @@ const signupUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const user = await users.findAll({
+  const page_size = 10;
+
+  const page = parseInt(req.query.page) || 1;
+  const offset = (page - 1) * page_size;
+  const pageNumbers = [];
+
+  const user = await users.findAndCountAll({
+    offset: offset,
+    limit: page_size,
+    // order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
     include: {
       model: agentManagmentTable,
       as: "agent",
@@ -139,7 +148,21 @@ const getAllUsers = async (req, res) => {
       },
     },
   });
-  res.status(200).json({ user });
+
+  const totalPages = Math.ceil(user.count / page_size);
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+  res.status(200).json({
+     user,
+     pagination: {
+      totalItems: user.count,
+      totalPages: pageNumbers,
+      currentPage: page,
+      currentPosts: user.rows,
+    },
+   });
 };
 
 //activating and deactivating auser

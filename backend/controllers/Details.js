@@ -226,7 +226,7 @@ const createDetails = async (req, res) => {
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    const  userVerification = userInfo.verified == false
+    const  userVerification = userInfo.verified === false
 
     if (userVerification) {
       return res.status(403).send({

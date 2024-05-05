@@ -9,7 +9,7 @@ function PaymentView() {
   const fetchOpenpayments = async () => {
     const response = await api("/payment/open-payments/", "GET", {}, {});
 
-    setpayments(response?.payments);
+    setpayments(response?.paymentsWithTenants);
   };
 
 
@@ -64,8 +64,8 @@ function PaymentView() {
               </th>
             </tr>
           </thead>
-          {payments.map((item) => (
-            <tbody>
+          {payments.map((item, index) => (
+            <tbody key={index}>
               <tr class="bg-white border-b  hover:bg-gray-50 dark:hover:bg-gray-100">
                 <td class="p-4">
 

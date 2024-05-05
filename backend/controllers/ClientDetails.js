@@ -11,7 +11,6 @@ const CreateClientInfo = async (req, res) => {
     gender: req.body.gender,
     client_id: req.body.client_id,
   };
-  console.log(req.body.client_id);
   try {
     const client = await moreAboutClient.create(clientInfo);
     res.status(200).json(client);

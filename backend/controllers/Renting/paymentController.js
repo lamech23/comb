@@ -34,17 +34,13 @@ const addPayment = async (req, res) => {
 };
 
 const getAllPaymentsForAdminSide = async (req, res) => {
+
   try {
     const payments = await paymentRequest.findAll({
       where: {
         status: "open",
-      },
-      include: [
-        {
-          model: users,
-          as: "user",
-        },
-      ],
+      }
+   
     });
 
     if (payments) {
@@ -70,7 +66,6 @@ const getAllPaymentsForAdminSide = async (req, res) => {
           id: houseIds,
         },
       });
-      console.log(houses, "THIS IS WHAT  AM LOOKING FOR ");
 
       const houseMap = {};
       houses.forEach((house) => {
@@ -89,7 +84,6 @@ const getAllPaymentsForAdminSide = async (req, res) => {
           house: houseDetails || {},
         };
       });
-      console.log(paymentsWithTenants, "THIS ONE MY G");
 
       res.status(200).json({
         paymentsWithTenants,

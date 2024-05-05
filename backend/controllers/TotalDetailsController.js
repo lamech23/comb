@@ -13,7 +13,6 @@ const getStats = async (req, res) => {
     const user = await users.findAll({});
     const houses = await Details.findAll({});
 
-    console.log(houses)
 
     count = details.length;
     count2 = user.length;

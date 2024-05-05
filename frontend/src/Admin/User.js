@@ -16,9 +16,12 @@ function User() {
   const [users, setUsers] = useState([]);
   const [house, setHouse] = useState([]);
   const [agent, setAgent] = useState("");
+  const [pagination, setPagination] = useState({});
+  const [pageNum, setPageNum] = useState(1);
   const admin = isAdmin();
+  console.log(pagination);
 
-  const  user =isUser()?.userId
+  const user = isUser()?.userId;
   useEffect(() => {
     setSocket(newSocket);
     return () => {
@@ -26,12 +29,7 @@ function User() {
     };
   }, []);
 
-   // testing purposes  only 
-
-   house?.map((item) => {
-    console.log("this item ",item);
-
-   })
+  // testing purposes  only
 
   // get the instance  of the two  userId and  houseId
   const handleHouseSelection = (agentId, houseId) => {
@@ -66,6 +64,7 @@ function User() {
   const fetchUsers = async () => {
     const response = await api("/Users/all", "GET", {}, {});
     setUsers(response.user);
+    setPagination(response?.pagination);
   };
 
   useEffect(() => {
@@ -96,6 +95,28 @@ function User() {
   //   });
   // }, []);
 
+  const handleNext = async () => {
+    const nextPage = pagination.currentPage + 1;
+    setPageNum(nextPage);
+    try {
+      const response = await api(`/Users/all/?page=${nextPage}`, "GET", {}, {});
+      setPagination(response.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleprev = async () => {
+    const prevPage = pagination.currentPage - 1;
+    setPageNum(prevPage);
+    try {
+      const response = await api(`/Users/all/?page=${prevPage}`, "GET", {}, {});
+      setPagination(response.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const updateStatus = async (id, state) => {
     const response = await axios.patch(
       `http://localhost:4000/Users/userStatus/${id}?Active=` + state
@@ -123,14 +144,13 @@ function User() {
     verifyingUser(id, verified);
   };
 
-
   const handelDelete = async (id) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this user?"
     );
     if (isConfirmed) {
-    const res = await axios.delete(`http://localhost:4000/Users/${id} `);
-    fetchUsers();
+      const res = await axios.delete(`http://localhost:4000/Users/${id} `);
+      fetchUsers();
     } else {
       alert("Action Cancelled");
     }
@@ -160,113 +180,142 @@ function User() {
                 <th>Actions</th>
               </tr>
             </thead>
-            {users &&
-              users?.map((allUsers) => (
-               ! allUsers?.email.includes(user.email) && (
+            {pagination &&
+              pagination?.currentPosts?.map(
+                (allUsers) =>
+                  !allUsers?.email.includes(user.email) && (
+                    <tbody key={allUsers.id}>
+                      <tr>
+                        <td>{allUsers.id}</td>
 
-                <tbody key={allUsers.id}>
-                  <tr>
-                    <td>{allUsers.id}</td>
-
-                    <td>{allUsers.email}</td>
-                    <td>{allUsers.role}</td>
-                    <td>{allUsers?.agent[0]?.house?.houseName}</td>
-                    <td style={{ color: allUsers.verified ? "green" : "red" }}>
-                      {allUsers.verified ? "Verified" : "Unverified"}
-                    </td>
-
-                    <td>
-                      {allUsers.role == "agent" ? (
-                        <select
-                          className="p-2 rounded-md"
-                          onChange={(e) =>
-                            handleHouseSelection(allUsers.id, e.target.value)
-                          }
+                        <td>{allUsers.email}</td>
+                        <td>{allUsers.role}</td>
+                        <td>{allUsers?.agent[0]?.house?.houseName}</td>
+                        <td
+                          style={{ color: allUsers.verified ? "green" : "red" }}
                         >
-                          <option value="">Select house ...</option>
-                          {house &&
-                            house
-                            .filter((h) => h.type === "renting")
-                            .map(
-                              (h, index) =>
-                                !allUsers?.agent[0]?.house?.houseName.includes(
-                                  h.houseName
-                                ) && (
-                                  <option key={index} value={h.id}>
-                                    {h.houseName}
-                                  </option>
+                          {allUsers.verified ? "Verified" : "Unverified"}
+                        </td>
+
+                        <td>
+                          {allUsers.role == "agent" ? (
+                            <select
+                              className="p-2 rounded-md"
+                              onChange={(e) =>
+                                handleHouseSelection(
+                                  allUsers.id,
+                                  e.target.value
                                 )
-                            )}
-                        </select>
-                      ) : (
-                        <p>N/A</p>
-                      )}
-                    </td>
-
-                    <td className="flex flex-row justify-center items-start  gap-2">
-                      <div>
-                        {allUsers.role == "agent" ? (
-                          <button
-                            onClick={handleSave}
-                            type="submit"
-                            class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                              }
                             >
-                            Assign
-                          </button>
-                        ) : null}
-                      </div>
-                      <Link
-                        to={`/UpdateUser/${allUsers.id}`}
-                        type="button"
-                        className="material-symbols-outlined text-decoration-none text-green-700"
-                      >
-                        edit
-                      </Link>
-                      <span
-                        onClick={() => handelDelete(allUsers.id)}
-                        type="button"
-                        className="material-symbols-outlined cursor-pointer"
-                        style={{ color: "red" }}
-                      >
-                        delete
-                      </span>{" "}
-                      <span>
-                        {allUsers.Active === "active" ? (
-                          <button
+                              <option value="">Select house ...</option>
+                              {house &&
+                                house
+                                  .filter((h) => h.type === "renting")
+                                  .map(
+                                    (h, index) =>
+                                      !allUsers?.agent[0]?.house?.houseName.includes(
+                                        h.houseName
+                                      ) && (
+                                        <option key={index} value={h.id}>
+                                          {h.houseName}
+                                        </option>
+                                      )
+                                  )}
+                            </select>
+                          ) : (
+                            <p>N/A</p>
+                          )}
+                        </td>
+
+                        <td className="flex flex-row justify-center items-start  gap-2">
+                          <div>
+                            {allUsers.role == "agent" ? (
+                              <button
+                                onClick={handleSave}
+                                type="submit"
+                                class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                              >
+                                Assign
+                              </button>
+                            ) : null}
+                          </div>
+                          <Link
+                            to={`/UpdateUser/${allUsers.id}`}
                             type="button"
-                            className={
-                              "whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
-                            }
-                            onClick={() => deactivate(allUsers.id)}
+                            className="material-symbols-outlined text-decoration-none text-green-700"
                           >
-                            active
-                          </button>
-                        ) : allUsers.Active === "inActive" ? (
-                          <button
+                            edit
+                          </Link>
+                          <span
+                            onClick={() => handelDelete(allUsers.id)}
                             type="button"
-                            onClick={() => activate(allUsers.id)}
-                            className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700"
+                            className="material-symbols-outlined cursor-pointer"
+                            style={{ color: "red" }}
                           >
-                            inActive
-                          </button>
-                        ) : null}
-                      </span>
-                      <button
-                        type="button "
-                        onClick={() => Verify(allUsers.id)}
-                        class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                      >
-                        Verify
-                      </button>{" "}
-                    </td>
-                  </tr>
-                </tbody>
+                            delete
+                          </span>{" "}
+                          <span>
+                            {allUsers.Active === "active" ? (
+                              <button
+                                type="button"
+                                className={
+                                  "whitespace-nowrap rounded-full bg-greeen-100 px-2.5 py-0.5 bg-green-200 text-sm text-green-700"
+                                }
+                                onClick={() => deactivate(allUsers.id)}
+                              >
+                                active
+                              </button>
+                            ) : allUsers.Active === "inActive" ? (
+                              <button
+                                type="button"
+                                onClick={() => activate(allUsers.id)}
+                                className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700"
+                              >
+                                inActive
+                              </button>
+                            ) : null}
+                          </span>
+                          <button
+                            type="button "
+                            onClick={() => Verify(allUsers.id)}
+                            class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                          >
+                            Verify
+                          </button>{" "}
+                        </td>
+                      </tr>
+                    </tbody>
                   )
-
-              ))}
-
-
+              )}
           </table>
+          <div className="flex flex-row justify-center items-center  gap-4 mt-10">
+        <button className="border p-2 " onClick={handleprev}>
+          prev
+        </button>
+
+        <div className="flex flex-row justify-center items-center">
+          {pagination?.totalPages?.map((number) => (
+            <div key={number} className="">
+              <a className="page-link ">
+                <p
+                  className={`flex flex-row gap-4 border p-2 cursor-pointer ${
+                    pageNum == number ? "bg-teal-600" : "bg-white"
+                  }
+              `}
+                >
+                  {" "}
+                  {number}
+                </p>
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <button className="border p-2 " onClick={handleNext}>
+          next
+        </button>
+      </div>
         </div>
       </div>
       <ToastContainer

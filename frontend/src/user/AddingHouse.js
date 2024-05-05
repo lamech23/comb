@@ -50,9 +50,9 @@ function AddingHouse() {
       formData.append("type", type);
       formData.append("units", units);
 
-      for (let i = 0; i < image.length; i++) {
-        formData.append("image", image[i]);
-      }
+      // for (let i = 0; i < image.length; i++) {
+      //   formData.append("image", image[i]);
+      // }
 
       if (
         (description === "",
@@ -66,6 +66,7 @@ function AddingHouse() {
       } else {
         const response = await api("/Details/", "POST", {}, formData);
 
+        console.log(response);
         setStatus(false);
         toast.success("Added succesfuly ");
 
@@ -83,21 +84,18 @@ function AddingHouse() {
           setCategory("");
           setStatus(false);
         }
-
-        
-
-        
       }
     } catch (error) {
       console.log("error", error);
       // if (error.response?.status === 500) {
       //   return toast.error(" Allowed image format jpeg,jpg,png,webp, ");
       // }
-      if (error?.response?.status === 403) {
-        const errorMessage = error.response?.message;
+      if (error.response?.status === 403) {
+        console.log("HERE end");
+        const errorMessage = error.response.data.error;
 
-        if (error.response?.redirect) {
-          navigate(error.response?.redirect);
+        if (error.response.data.redirect) {
+          navigate(error.response.data.redirect);
         }
 
         toast.error(errorMessage);

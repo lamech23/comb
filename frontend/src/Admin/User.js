@@ -19,7 +19,6 @@ function User() {
   const [pagination, setPagination] = useState({});
   const [pageNum, setPageNum] = useState(1);
   const admin = isAdmin();
-  console.log(pagination);
 
   const user = isUser()?.userId;
   useEffect(() => {

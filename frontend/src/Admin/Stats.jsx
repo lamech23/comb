@@ -35,8 +35,9 @@ function Stats() {
 
     const fetchUsers = async () => {
       const response = await api("/Users/all", "GET", {}, {});
-      setAllUsers(response.user);
+      setAllUsers(response.user.rows);
     };
+    console.log(allUsers);
 
     //newsLetter
     const fetchNewsLetters = async () => {
@@ -50,7 +51,6 @@ function Stats() {
 
       setpayments(response?.paymentsWithTenants);
     }
-    console.log(payments);
 
     const fetchAllPayments = async () => {
       const response = await api("/payment/all-payments/", "GET", {}, {});

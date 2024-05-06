@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { api } from "../utils/Api";
+import {getUserRoles} from '../utils/AccesToken'
+import { isAdmin } from "../utils/Decoded";
+
 
 function AddingHouse() {
   const [image, setImage] = useState("");
@@ -15,7 +18,6 @@ function AddingHouse() {
   const [category, setCategory] = useState("");
   const [error, setError] = useState(null);
   let navigate = useNavigate();
-  const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
   const [cat, setCat] = useState([]);
   const [propertyType, setPropertyType] = useState([]);
@@ -65,7 +67,6 @@ function AddingHouse() {
         toast.error("All fields must field");
       } else {
         const response = await api("/Details/", "POST", {}, formData);
-
         console.log(response);
         setStatus(false);
         toast.success("Added succesfuly ");
@@ -94,8 +95,8 @@ function AddingHouse() {
         console.log("HERE end");
         const errorMessage = error.response.data.error;
 
-        if (error.response.data.redirect) {
-          navigate(error.response.data.redirect);
+        if (error.response.data.message) {
+          navigate(error.response.data.message);
         }
 
         toast.error(errorMessage);

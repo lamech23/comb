@@ -33,10 +33,21 @@ function House() {
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
 
   const [currentMonth, setCurrentMonth] = useState(moment().format("MMM"));
+  console.log(currentMonth);
 
   // Function to handle starting a new month
-  const startNewMonth = () => {
-    const nextMonth = moment().add(1, "months").format("MMM");
+  const startNewMonth = (direction) => {
+    const currentMoment = moment(currentMonth, "MMM");
+
+    let nextMonth;
+
+    if (direction === "next") {
+      // Navigate to the next month
+      nextMonth = currentMoment.add(1, "months").format("MMM");
+    } else if (direction === "previous") {
+      // Navigate to the previous month
+      nextMonth = currentMoment.subtract(1, "months").format("MMM");
+    }
 
     setCurrentMonth(nextMonth);
   };
@@ -200,7 +211,7 @@ function House() {
           {},
           {}
         );
-        setPayments(response.totalAdditionalPayments);
+        setPayments(response?.totalAdditionalPayments);
       } catch (error) {}
     };
     if (visitedHouseId) {
@@ -232,10 +243,8 @@ function House() {
     const matchesMonth = month.some((key) => {
       const value = item[key];
       const date = new Date(value);
-      console.log(date);
 
       const current_month = date.getMonth();
-      console.log(currentMonth);
 
       // const monthNames = [
       //   "January", "February", "March", "April", "May", "June",
@@ -243,7 +252,6 @@ function House() {
       // ];
 
       const monthName = months[current_month];
-      console.log(monthName);
       return monthName && monthName.toLowerCase().includes(months);
     });
 
@@ -508,11 +516,18 @@ function House() {
               placeholder="Search.."
               onChange={(e) => setQuery(e.target.value)}
             />
+
             <button
-              onClick={startNewMonth}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Start New Month
+              onClick={() => startNewMonth("previous")} 
+              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              >
+              Previous Month
+            </button>
+            <button
+              onClick={() => startNewMonth("next")} 
+              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              >
+              Start Month
             </button>
           </div>
         </div>
@@ -575,15 +590,26 @@ function House() {
                           paymentData
                         ).filter((obj) => obj.userId === tenants.id);
 
-                        if (matchingObjects.length > 0) {
-                          const totalAmount = matchingObjects.reduce(
+                        const paymentsForCurrentMonth = matchingObjects.filter(
+                          (payment) => {
+                            const isCurrentMonth =
+                              moment(payment.dateTime).format("MMM") ===
+                              currentMonth;
+
+                            return isCurrentMonth;
+                          }
+                        );
+
+                        console.log(paymentsForCurrentMonth, "this nigger");
+                        if (paymentsForCurrentMonth.length > 0) {
+                          const totalAmount = paymentsForCurrentMonth.reduce(
                             (sum, obj) => sum + Number(obj.amount),
                             0
                           );
 
                           return (
                             <React.Fragment key={index}>
-                              {matchingObjects.map(
+                              {paymentsForCurrentMonth.map(
                                 (matchingObject, innerIndex) => (
                                   <tr
                                     key={`${index}-${innerIndex}`}

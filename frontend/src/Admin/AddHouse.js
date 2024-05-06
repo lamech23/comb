@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { api } from "../utils/Api";
 
+
 function AddingHouse() {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
@@ -15,7 +16,6 @@ function AddingHouse() {
   const [category, setCategory] = useState("");
   const [error, setError] = useState(null);
   let navigate = useNavigate();
-  const { user } = useAuthContext();
   const [status, setStatus] = useState(false);
   const [cat, setCat] = useState([]);
   const [propertyType, setPropertyType] = useState([]);
@@ -64,14 +64,13 @@ function AddingHouse() {
         title === "")
       ) {
         toast.error("All fields must field");
-      } else {
-        const response = await api("/Details/", "POST", {}, formData);
+      }
+      
+      else {
+        const response = await api("/Details", "POST", {}, formData);
 
         setStatus(false);
         toast.success("Added succesfuly ");
-        {
-          // navigate("/");
-        }
 
         if (!response) {
           setError(error);
@@ -89,14 +88,14 @@ function AddingHouse() {
         }
       }
     } catch (error) {
+      console.log(error, "this error ");
       if (error.response?.status === 500) {
         return toast.error(" Allowed image format jpeg,jpg,png,webp, ");
       }
 
       if (error.response?.status === 403) {
-        navigate(error.response.redirect);
-        const errorMessage = error.response.error;
-
+        navigate(error.response.data.redirect);
+        const errorMessage = error.response.data.message;
         toast.error(`${errorMessage}`);
       }
     }
@@ -105,7 +104,7 @@ function AddingHouse() {
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.get("http://localhost:4000/cat/fetch");
-      setCat(response.data);
+      setCat(response?.data);
     };
     fetchCategories();
     fetchPopertyType();

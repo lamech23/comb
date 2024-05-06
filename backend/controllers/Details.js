@@ -222,17 +222,13 @@ const createDetails = async (req, res) => {
     details_id: imageUrl.id,
   };
 
-
   try {
     const userInfo = await users.findOne({ where: { id: user_id } });
 
-    const  userVerification = userInfo.verified === false
-
-    if (userVerification) {
-      return res.status(403).send({
-        success: false,
-        error: "Your Account is not verified ",
-        redirect: "/account/userVerification"
+    if (userInfo.verified === false) {
+      return res.status(403).json({
+        message:"/account/userVerification",
+        // redirect: "/account/userVerification",
       });
     } else {
       const details = await Details.create(info);

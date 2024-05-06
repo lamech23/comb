@@ -68,7 +68,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
     const fetchUsers = async () => {
       //getting all  users  with the role tenant for registration  purpose
 
-      const response = await api("/Users/all", "GET", {}, {});
+      const response = await api("/Users/all-user", "GET", {}, {});
       setUsers(response.user);
     };
 
@@ -80,7 +80,7 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
     e.preventDefault();
     try {
       if (state) {
-      const  updatedTenant =   await api(
+        const updatedTenant = await api(
           `/Tenant/change/${id}`,
           "PATCH",
           {},
@@ -101,18 +101,19 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
             currentReadings: currentReadings,
             houseId: visitedHouseId,
             tenant_id: id,
-          },
+          }
         );
         // navigate(`House/${houseName}`)
-        if(updatedTenant){
-
+        if (updatedTenant) {
           toast.success("Succesfully upadated");
         }
       } else {
       }
 
       const response = await api(
-        "/Tenant/registerTenant","POST", {},
+        "/Tenant/registerTenant",
+        "POST",
+        {},
         {
           tenantsName: tenantsName,
           houseNumber: houseNumber,
@@ -159,29 +160,28 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   return (
     <>
       <div className=" mt-40 px-40  ">
-        <div className="space-y-12 border  p-10 rounded-lg  shadow-md shadow-indigo-200" >
-        {state ? (
-
-          <h3 className=" flex flex-row justify-center   text-center mt-4 text-lg  ">
-            Update Tenants Details for :
-            <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
-              {" "}
-              {email}
-            </p>
-          </h3>
-          ):
-          (
-
+        <div className="space-y-12 border  p-10 rounded-lg  shadow-md shadow-indigo-200">
+          {state ? (
+            <h3 className=" flex flex-row justify-center  items-center  text-center mt-4 text-lg  ">
+              <h1 class="text-2xl font-bold text-gray-500 sm:text-3xl">
+                {" "}
+                House Details for :
+              </h1>{" "}
+              <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
+                {" "}
+                <h2 className="text-sm font-serif">{email}</h2>
+              </p>
+            </h3>
+          ) : (
             <h3 className=" flex flex-row justify-center   text-center mt-4 ">
               {" "}
-            Create   Tenants Details for{" "}
+              Create Tenants Details for{" "}
               <p className=" px-4  text-md font-medium text-red-700 hover:bg-gray-50 focus:relative">
                 {" "}
                 {email}
               </p>
             </h3>
-            )
-        }
+          )}
 
           <form onSubmit={handleSubmit}>
             <section className=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
@@ -317,7 +317,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                   onChange={(e) => setWaterReadiing(e.target.value)}
                 />
               </div>
-           
 
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
@@ -334,7 +333,6 @@ function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
                 />
               </div>
 
-            
               <div class="sm:col-span-3">
                 <label for="" className="form-label">
                   User name

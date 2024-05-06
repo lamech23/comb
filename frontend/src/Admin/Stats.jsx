@@ -338,7 +338,7 @@ function Stats() {
             </div>
           </div>
         </div>
-        <div className="grid  lg:grid-cols-4  xl:grid-cols-4  grid-cols-4 gap-4 mt-10">
+        <div className="grid  lg:grid-cols-4  xl:grid-cols-6  grid-cols-4 gap-4 mt-10">
           {/* Graph Component */}
           <div className="col-span-2 ">
             <div className=" rounded-lg  p-4 basis-1/4">

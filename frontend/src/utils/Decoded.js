@@ -44,10 +44,10 @@ export function isAgent() {
         ) {
           return decodedToken.userId.role.includes("agent"); // User is an admin
         } else {
-          return null; // User is not an admin
+          return null;
         }
       } catch (error) {
-        return false; // Unable to parse user cookie
+        return false;
       }
     }
   }

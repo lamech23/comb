@@ -42,7 +42,6 @@ function Login() {
     setIsLoading(true);
 
     try {
-  
       const response = await axios.post("http://localhost:4000/Users/login", {
         email: email,
         password: password,
@@ -72,6 +71,7 @@ function Login() {
         }
       }
     } catch (error) {
+      console.log(error, "testing login");
       // if (error.response?.status === 403) {
       //   const errorMessage = error.response.data.error;
       //   toast.error(errorMessage);
@@ -124,8 +124,8 @@ function Login() {
 
   return (
     <div class="log h-screen flex justify-center items-center">
-    <div class="container-fluid">
-      <div class="login_page justify-content-center items-center   p-10 lg:w-fit">
+      <div class="container-fluid">
+        <div class="login_page justify-content-center items-center   p-10 lg:w-fit">
           <h5 className="text-center text-info">Login </h5>
 
           <form onSubmit={handelSubmit} className=" lg:w-full ">
@@ -197,7 +197,6 @@ function Login() {
               Submit
             </button>
 
-       
             <div className=" mt-2">
               <Link
                 className="text-decoration-none fs-5 text-info"
@@ -212,7 +211,7 @@ function Login() {
           </form>
           {/* message modal if user is in active */}
         </div>
-   
+
         <div />
       </div>
       <ToastContainer

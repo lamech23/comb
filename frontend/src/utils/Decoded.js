@@ -67,16 +67,16 @@ export function isAdmin() {
 
         const accessToken = user.token.accessToken;
         const decodedToken = jwt_decode(accessToken);
-        console.log(decodedToken.userId.role.includes("agent"), "this token");
 
         // Check if user has admin role
         if (
           decodedToken &&
           decodedToken.userId &&
-          decodedToken.userId.role.includes("admin")
+          decodedToken.userId.role.includes("admin") ||
+          decodedToken.userId.role.includes("agent")
 
         ) {
-          return decodedToken.userId.role.includes("admin")  // User is an admin
+          return decodedToken.userId.role.includes("admin")  || decodedToken.userId.role.includes("agent") // User is an admin
         } else {
           return null; // User is not an admin
         }

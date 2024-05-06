@@ -149,22 +149,42 @@ const getAllUsers = async (req, res) => {
     },
   });
 
-  const totalPages = Math.ceil(user.count / page_size);
-
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
   res.status(200).json({
-     user,
-     pagination: {
+    user,
+    pagination: {
       totalItems: user.count,
       totalPages: pageNumbers,
       currentPage: page,
       currentPosts: user.rows,
     },
-   });
+  });
 };
 
+const getAllUsersForAdminStats = async (req, res) => {
+  try {
+    const user = await users.findAll({
+      // order: req.query.sort ? sqs.sort(req.query.sort) : [["id", "desc"]],
+      include: {
+        model: agentManagmentTable,
+        as: "agent",
+        include: {
+          model: Details,
+          as: "house",
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      error: "There was an issue retrieving this data ",
+    });
+  }
+};
 //activating and deactivating auser
 const deactivate = async (req, res) => {
   try {
@@ -430,4 +450,5 @@ module.exports = {
   getManagemts,
   verifyUser,
   getUserForUpdating,
+  getAllUsersForAdminStats,
 };

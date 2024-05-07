@@ -223,6 +223,7 @@ function House() {
     // Check if the item matches the search query
     const matchesQuery = keys.some((key) => {
       const value = item[key];
+      console.log(value, "top search");
       return (
         value &&
         typeof value === "string" &&
@@ -230,32 +231,17 @@ function House() {
       );
     });
 
-    // const matchMonth = month.some((data) => {
-    //   let value = months[new Date(item[data]).getMonth(0)] ;
-    //   console.log(value);
-
-    //   item.createdAt.includes(months)
-    // })
-
-    // // Return value if it's true, otherwise return matchesQuery
-    // return matchesQuery;
-
     const matchesMonth = month.some((key) => {
       const value = item[key];
-      const date = new Date(value);
+      const formatedDate = moment(value).format("MMM").toLowerCase();
+      console.log(formatedDate);
 
-      const current_month = date.getMonth();
-
-      // const monthNames = [
-      //   "January", "February", "March", "April", "May", "June",
-      //   "July", "August", "September", "October", "November", "December"
-      // ];
-
-      const monthName = months[current_month];
-      return monthName && monthName.toLowerCase().includes(months);
+      return (
+        value && typeof value === "string" && formatedDate.includes(months) 
+      );
     });
-
-    return matchesMonth.length > 0 ? matchesMonth : matchesQuery;
+console.log(matchesMonth);
+    return matchesMonth ? matchesMonth : matchesQuery;
   });
 
   // console.log(query);
@@ -518,15 +504,15 @@ function House() {
             />
 
             <button
-              onClick={() => startNewMonth("previous")} 
+              onClick={() => startNewMonth("previous")}
               class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
+            >
               Previous Month
             </button>
             <button
-              onClick={() => startNewMonth("next")} 
+              onClick={() => startNewMonth("next")}
               class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
+            >
               Start Month
             </button>
           </div>

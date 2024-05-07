@@ -61,7 +61,7 @@ const tenatRegistration = async (req, res) => {
 
       const createdTenant = await tenantRegistration.create(newTenantData);
       res.status(200).json(createdTenant);
-       await lease(newTenantData);
+      await lease(newTenantData);
     }
   } catch (error) {
     console.error(error.message);
@@ -93,7 +93,6 @@ const tentantUpdating = async (req, res) => {
       where: { id: id },
     });
 
-    
     const waterBackupDetails = {
       currentReadings: req.body.currentReadings,
       user_id: user_id,
@@ -195,26 +194,24 @@ const getPayments = async (req, res) => {
 
 const fetchAllAdditinalPaymentsForDashboard = async (req, res) => {
   try {
+    const paymentData = await payments.findAll();
 
-        const paymentData = await payments.findAll();
+    const totalAmount = paymentData.reduce((acc, detail) => {
+      return acc + Number(detail.amount);
+    }, 0);
 
-        const totalAmount = paymentData.reduce((acc, detail) => {
-          return acc + Number(detail.amount);
-        }, 0);
-
-        const mergedData = {
-          paymentData: paymentData, 
-          totalAmount: totalAmount
-        };
+    const mergedData = {
+      paymentData: paymentData,
+      totalAmount: totalAmount,
+    };
 
     if (mergedData) {
       return res.status(200).json({
         mergedData,
         success: true,
-        
       });
     } else {
-     return res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Payment data not found for the user",
       });
@@ -299,8 +296,8 @@ const deleteTenant = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       error: "Failed to Delete Tenant" + error,
-  })
-};
+    });
+  }
 };
 
 module.exports = {
@@ -310,5 +307,5 @@ module.exports = {
   updateWaterBill,
   getPayments,
   deleteTenant,
-  fetchAllAdditinalPaymentsForDashboard
+  fetchAllAdditinalPaymentsForDashboard,
 };

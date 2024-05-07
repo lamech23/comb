@@ -776,7 +776,7 @@ function House() {
                   <td className=" lg:flex lg:flex-row lg:gap-2  flex flex-col h-fit text-gray-600 text-sm  ">
                     <Link
                       to={`/RegisterTenant/?edit=${tenants.id}`}
-                      state={tenant?.find(
+                      state={pagination?.currentPosts?.find(
                         (meteData) => meteData.id === tenants.id
                       )}
                       class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
@@ -991,7 +991,7 @@ function House() {
                     setIsOpen={setIsOpen}
                     closeModal={closeModal}
                     visitedHouseId={visitedHouseId}
-                    tenant={tenant}
+                    tenant={pagination}
                   />
                 </Dialog.Panel>
               </Transition.Child>

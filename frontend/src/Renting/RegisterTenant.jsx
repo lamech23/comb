@@ -11,7 +11,6 @@ import { api } from "../utils/Api";
 function RegisterTenant({ visitedHouseId, tenant, closeModal, setIsOpen }) {
   const state = useLocation().state; // am  using one for to create and update
   const id = useLocation().state?.id;
-  const { user } = useAuthContext();
 
   const [tenantsName, setTenantsName] = useState(state?.tenantsName || "");
   const [houseNumber, setHouseNumber] = useState(state?.houseNumber || "");

@@ -34,6 +34,8 @@ function House() {
 
   const [currentMonth, setCurrentMonth] = useState(moment().format("MMM"));
 
+  const [pagination, setPagination] = useState({});
+  const [pageNum, setPageNum] = useState(1);
   // Function to handle starting a new month
   const startNewMonth = (direction) => {
     const currentMoment = moment(currentMonth, "MMM");
@@ -113,7 +115,7 @@ function House() {
           {},
           {}
         );
-        setTenant(response.detailsWithTotal);
+        setPagination(response?.pagination);
       } catch (error) {
         console.log(error);
       }
@@ -122,6 +124,47 @@ function House() {
     getHouse();
     getAgent();
   }, [houseName, houseId]);
+
+  console.log(pagination);
+
+  const handleNext = async () => {
+    const nextPage = pagination.currentPage + 1;
+    setPageNum(nextPage);
+
+    try {
+      // Fetch data for the next page
+      const response = await api(
+        `/houseRegister/${visitedHouseId}/?page=${nextPage}`,
+        "GET",
+        {},
+        {}
+      );
+      setPagination(response.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error as needed
+    }
+  };
+
+
+  const handleprev = async () => {
+    const prevPage = pagination.currentPage - 1;
+    setPageNum(prevPage);
+
+    try {
+      const response = await api(
+        `/houseRegister/${visitedHouseId}/?page=${prevPage}`,
+        "GET",
+        {},
+        {}
+      );
+      setPagination(response.pagination);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  
 
   // guard clause
   if (isNaN(price) || price < 0) {
@@ -216,7 +259,7 @@ function House() {
     }
   }, [visitedHouseId]);
 
-  const filteredProducts = tenant?.filter((item) => {
+  const filteredProducts = pagination?.currentPosts?.filter((item) => {
     // Check if the item matches the search query
     const matchesQuery = keys.some((key) => {
       const value = item[key];
@@ -513,57 +556,56 @@ function House() {
 
         <div className="divider mt-2"></div>
         {/* Team Member list in table format loaded constant */}
-        <div className="overflow-x-auto w-full">
-          <table ref={targetRef} className="table w-full">
-            <thead>
-              <tr>
-                <th>id </th>
-                <th>House Number</th>
-                <th>Tenant Name </th>
-                <th>payable Rent</th>
-                <th> Paid Rent</th>
+        <div class="mt-24 m-10 overflow-hidden">     
+             <table ref={targetRef} class="font-inter w-full table-auto border-separate border-spacing-y-1 overflow-scroll text-left md:overflow-auto">
+          <thead class="w-full rounded-lg bg-[#222E3A]/[6%] text-base font-semibold text-gray-800">              <tr>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Number </th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">House Number</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Tenant Name </th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">payable Rent</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]"> Paid Rent</th>
 
                 <th className="flex flex-row">
                   <th> additinalPayments</th>
                   <th> date</th>
                   <th> paymentType</th>
                 </th>
-                <th>Rent Deposit</th>
-                <th>prev water reading</th>
-                <th>current water reading</th>
-                <th>Water units</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Rent Deposit</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">prev water reading</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">current water reading</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Water units</th>
 
-                <th>Water per unit (Ksh)</th>
-                <th>Water Bill</th>
-                <th>Previous Balance</th>
-                <th>Garbage price (Ksh)</th>
-                <th>Phone Number</th>
-                <th>Next_of_kin </th>
-                <th>balance C/F</th>
-                <th>Total</th>
-                <th> Actions</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Water per unit (Ksh)</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Water Bill</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Previous Balance</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Garbage price (Ksh)</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Phone Number</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Next_of_kin </th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">balance C/F</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]">Total</th>
+                <th className="whitespace-nowrap px-2.5 py-3 text-sm font-normal text-[#212B36]"> Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts?.map((tenants, index) => (
-                <tr key={tenants.id}>
-                  <td className="border text-gray-600 text-sm  ">
+                      <tr key={index} class="cursor-pointer bg-[#f6f8fa] drop-shadow-[0_0_10px_rgba(34,46,58,0.02)] hover:shadow-2xl">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {index + 1}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.houseNumber}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.tenantsName}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.payableRent}
                   </td>
 
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                   {moment(tenants.createdAt).format("MMM") !== currentMonth ? 0 : tenants.rent}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {payments &&
                       Object.values(payments).map((paymentData, index) => {
                         const matchingObjects = Object.values(
@@ -633,27 +675,27 @@ function House() {
                         return null;
                       })}{" "}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.rentDeposit}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.prevReadings}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.currentReadings <= 0 ? 0 : tenants.currentReadings}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.totalWaterReadings <= 0
                       ? 0
                       : tenants?.totalWaterReadings}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {getWater &&
                       getWater?.map((house) => house.price).slice(-1)[0]}
                   </td>
 
                   <td
-                    className={`border  ${
+                    className={`  ${
                       tenants?.totalWaterReadings * waterUnits <= 0
                         ? "text-green-600"
                         : "text-red-600"
@@ -663,21 +705,21 @@ function House() {
                       ? 0
                       : tenants?.totalWaterReadings * waterUnits}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.previousBalance}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {getGarbage &&
                       getGarbage?.map((house) => house.price).slice(-1)[0]}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.phoneNumber}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.nextOfKingNumber}
                   </td>
                   <td
-                    className={`border  ${
+                    className={` rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]  ${
                       tenants?.balance +
                         (payments &&
                           Object.values(payments)
@@ -727,7 +769,7 @@ function House() {
                           .reduce((sum, totalAmount) => sum + totalAmount, 0)) +
                       -tenants?.totalWaterReadings * waterUnits}
                   </td>
-                  <td className="border text-gray-600 text-sm  ">
+                  <td  class="rounded-l-lg py-4 pl-3 text-sm font-normal text-[#637381]">
                     {tenants.totalExpenses}
                   </td>
 
@@ -752,8 +794,40 @@ function House() {
                   </td>
                 </tr>
               ))}
+
+
+
             </tbody>
+
+            
           </table>
+          <div className="flex flex-row justify-center items-center  gap-4">
+        <button className="border p-2 " onClick={handleprev}>
+          prev
+        </button>
+
+        <div className="flex flex-row justify-center items-center">
+          {pagination?.totalPages?.map((number) => (
+            <div key={number} className="">
+              <a className="page-link ">
+                <p
+                  className={`flex flex-row gap-4 border p-2 cursor-pointer ${
+                    pageNum == number ? "bg-teal-600" : "bg-white"
+                  }
+              `}
+                >
+                  {" "}
+                  {number}
+                </p>
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <button className="border p-2 " onClick={handleNext}>
+          next
+        </button>
+      </div>
         </div>
       </div>
       <ToastContainer

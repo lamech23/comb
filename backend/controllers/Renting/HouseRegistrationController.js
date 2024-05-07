@@ -12,15 +12,24 @@ const Details = require("../../models/UploadModals");
 
 const getAllHouses = async (req, res) => {
 
-  const details = await tenantRegistration.findAll({
+  const page_size = 4;
+  const page = parseInt(req.query.page) || 1;
+    const offset = (page - 1) * page_size;
+    const pageNumbers = [];
+
+
+  const details = await tenantRegistration.findAndCountAll({
+    offset: offset,
+    limit: page_size,
     where: {
       houseId:  req.params.houseId
     },
   });
 
+
   try {
     // Calculating the total expenses for each user
-    const detailsWithTotal = details?.map((detail) => {
+    const detailsWithTotal = details?.rows?.map((detail) => {
       const totalExpenses = [
         Number(detail.waterBill) || 0,
         Number(detail.rent) || 0,
@@ -42,9 +51,24 @@ const getAllHouses = async (req, res) => {
         balance,
       };
     });
+    const totalPages = Math.ceil(detailsWithTotal.length / page_size);
 
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+
+    res.status(200).json({
+      detailsWithTotal,
+      pagination: {
+        totalItems: detailsWithTotal.length,
+        totalPages: pageNumbers,
+        currentPage: page,
+        currentPosts: detailsWithTotal,
+      }
+    })
    
-    res.status(200).json({ detailsWithTotal });
+    // res.status(200).json({ detailsWithTotal });
   } catch (error) {
     res.status(400).json(error.message);
   }

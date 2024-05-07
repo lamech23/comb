@@ -33,7 +33,6 @@ function House() {
   const keys = ["tenantsName", "phoneNumber", "houseNumber"];
 
   const [currentMonth, setCurrentMonth] = useState(moment().format("MMM"));
-  console.log(currentMonth);
 
   // Function to handle starting a new month
   const startNewMonth = (direction) => {
@@ -42,10 +41,8 @@ function House() {
     let nextMonth;
 
     if (direction === "next") {
-      // Navigate to the next month
       nextMonth = currentMoment.add(1, "months").format("MMM");
     } else if (direction === "previous") {
-      // Navigate to the previous month
       nextMonth = currentMoment.subtract(1, "months").format("MMM");
     }
 
@@ -223,7 +220,6 @@ function House() {
     // Check if the item matches the search query
     const matchesQuery = keys.some((key) => {
       const value = item[key];
-      console.log(value, "top search");
       return (
         value &&
         typeof value === "string" &&
@@ -234,13 +230,10 @@ function House() {
     const matchesMonth = month.some((key) => {
       const value = item[key];
       const formatedDate = moment(value).format("MMM").toLowerCase();
-      console.log(formatedDate);
-
       return (
-        value && typeof value === "string" && formatedDate.includes(months) 
+        value && typeof value === "string" && formatedDate.includes(months)
       );
     });
-console.log(matchesMonth);
     return matchesMonth ? matchesMonth : matchesQuery;
   });
 
@@ -566,8 +559,9 @@ console.log(matchesMonth);
                   <td className="border text-gray-600 text-sm  ">
                     {tenants.payableRent}
                   </td>
+
                   <td className="border text-gray-600 text-sm  ">
-                    {tenants.rent}
+                  {moment(tenants.createdAt).format("MMM") !== currentMonth ? 0 : tenants.rent}
                   </td>
                   <td className="border text-gray-600 text-sm  ">
                     {payments &&
@@ -586,7 +580,6 @@ console.log(matchesMonth);
                           }
                         );
 
-                        console.log(paymentsForCurrentMonth, "this nigger");
                         if (paymentsForCurrentMonth.length > 0) {
                           const totalAmount = paymentsForCurrentMonth.reduce(
                             (sum, obj) => sum + Number(obj.amount),
@@ -630,7 +623,7 @@ console.log(matchesMonth);
                               )}
                               <tr className="flex flex-row justify-around  items-center">
                                 <td className="    text-green-600">
-                                  New Rent: {totalAmount + Number(tenants.rent)}
+                                  New Rent: { moment(tenants.createdAt).format("MMM") !== currentMonth? totalAmount + 0 :totalAmount+ Number(tenants.rent)}
                                 </td>
                               </tr>
                             </React.Fragment>
